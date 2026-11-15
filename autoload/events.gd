@@ -18,6 +18,15 @@ signal camera_shake_requested(trauma: float)
 @warning_ignore("unused_signal")
 signal player_health_changed(current: int, maximum: int)
 
+## The player's healing flasks changed: one was drunk or they were
+## refilled (also sent once when the player spawns). Drives the HUD.
+@warning_ignore("unused_signal")
+signal player_flasks_changed(current: int, maximum: int)
+
+## The player pressed heal with no flasks left. The HUD shakes the flasks.
+@warning_ignore("unused_signal")
+signal player_flasks_empty
+
 ## The player used a rest point. The world makes it the respawn point.
 @warning_ignore("unused_signal")
 signal rested(rest_point: Node2D)

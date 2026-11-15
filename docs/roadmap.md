@@ -35,14 +35,17 @@
 - [x] Room transitions: `World` main scene owns the player and HUD, `RoomExit` doorways at screen edges, fade out and in while the game is paused, health carries over, death respawns at the room's entrance
 - [x] `TileMapLayer` terrain: shared 16×16 tileset with solid and one-way tiles, test room rebuilt on the tile grid with every platform in jump reach
 - [x] Drop through one-way platforms with down + jump
-- [x] Doors you enter by pressing up, `InteractionArea` base, arrival facing for exits
+- [x] Doors you enter by pressing a button, `InteractionArea` base, arrival facing for exits
 - [x] Vertical exits: fall through a floor hole into the room below, jump up through a ceiling opening with a launch (`arrival_rise`); test shaft under the cave
 - [x] Ladders: grab with up or down, climb, jump off, climb through vertical exits into another room
-- [x] Rest points: press up to heal and reset the room's enemies; death respawns at the last one used, loading its room
+- [x] Rest points: press interact to heal and reset the room's enemies; death respawns at the last one used, loading its room
 - [x] Hard landing: falling 10 tiles or more leaves the player stuck in place for a moment, with a camera shake; a dash cancels it halfway
 - [x] Enemy poise: after 3 staggers in a row an enemy stops flinching and strikes back
 - [x] Save system: the last rest point is saved to disk on rest and loaded on start; rooms and global systems can save their own state; safe writes with a backup; F8 deletes the save in debug builds
 - [x] Enemy line of sight: walls block vision, the player is noticed behind an enemy at close range, and a chase ends after losing sight for a moment
+- [x] Enemies don't run at a player they can't reach (another level, wall or ledge in the way): they stop, watch, then turn away and patrol; turning is throttled so they don't flip under the player
+- [x] Healing flasks: a few charges that heal on the ground while standing still, refilled at rest points and on death, shown as pips in the HUD; aura while drinking, HUD flash on use and shake when empty
+- [x] One key and one gamepad button per action; a separate interact button (E / B) for doors and rest points instead of up
 
 ## Next
 
@@ -72,8 +75,9 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Coloured rectangles for the training dummy and its health bar
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
-- Plain rectangles for the HUD health bar
+- Plain rectangles for the HUD health bar and flask pips
+- Translucent rectangle for the healing aura instead of a drinking animation
 - Drawn rails and rungs for ladders
 - Post, crossbar and flame rectangles for rest points
-- Brown rectangle for doors, a triangle for the press-up prompt
+- Brown rectangle for doors, a triangle for the interact prompt
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash

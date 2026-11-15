@@ -24,7 +24,7 @@ The-Last-Sich/
 │   ├── camera/
 │   │   └── camera_shake.gd       Trauma-based shake for a Camera2D
 │   ├── interaction/
-│   │   └── interaction_area.gd   Touch or press-up area, base for exits and doors
+│   │   └── interaction_area.gd   Touch or interact area, base for exits and doors
 │   ├── save/
 │   │   └── save_file.gd          JSON save slot with safe writes and a backup
 │   └── combat/
@@ -38,9 +38,10 @@ The-Last-Sich/
 │   │   ├── player.tscn           Player scene
 │   │   ├── player.gd             Tuning values and shared helpers
 │   │   ├── player_damage.gd      Hit reactions, hurt and death tuning
-│   │   ├── abilities/            Movement pieces with their own tuning
+│   │   ├── abilities/            Movement and healing pieces with their own tuning
 │   │   │   ├── drop_through.gd   Down + jump through one-way platforms
-│   │   │   └── ladder_climb.gd   Finds ladders to grab, climbing tuning
+│   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
+│   │   │   └── flasks.gd         Healing flask charges
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
@@ -50,6 +51,7 @@ The-Last-Sich/
 │   │       ├── dash.gd
 │   │       ├── climb.gd          On a ladder
 │   │       ├── hard_landing.gd   Stuck in place after a long fall
+│   │       ├── heal.gd           Drinking a healing flask
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       └── attacks/          One script per attack direction
@@ -80,7 +82,7 @@ The-Last-Sich/
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
-│   │   ├── door.tscn             Door entered by pressing up
+│   │   ├── door.tscn             Door entered by pressing interact
 │   │   ├── rest_point.gd         Checkpoint: heal, reset enemies, set the respawn
 │   │   ├── rest_point.tscn       Rest point scene
 │   │   └── ladder.gd             Climbable ladder
@@ -97,7 +99,8 @@ The-Last-Sich/
 │   ├── screen_fade.gd            Black fade for room transitions
 │   ├── hud/
 │   │   ├── hud.tscn              Gameplay HUD layer, instanced in the world scene
-│   │   └── health_bar.gd         Player health bar
+│   │   ├── health_bar.gd         Player health bar
+│   │   └── flask_counter.gd      Player healing flask pips
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/

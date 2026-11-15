@@ -11,6 +11,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning, reports health to `Events` |
 | `actors/player/abilities/drop_through.gd` | `PlayerDropThrough`: down + jump through one-way platforms |
 | `actors/player/abilities/ladder_climb.gd` | `PlayerLadderClimb`: finds ladders to grab, climbing tuning |
+| `actors/player/abilities/flasks.gd` | `PlayerFlasks`: healing flask charges, drinking and refilling, reports them to `Events` |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -20,6 +21,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "player"
 ├── CollisionShape2D         12×30 rectangle, origin at the feet
 ├── Visual (Node2D)          flipped with scale.x to face left/right
+│   ├── HealAura (ColorRect) placeholder glow behind the body while drinking a flask
 │   ├── Body (ColorRect)     placeholder
 │   ├── Eye (ColorRect)      placeholder, shows facing direction
 │   └── Attacks (Node2D)     one Hitbox per attack, layer: player_attacks
@@ -31,10 +33,11 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── HurtFeedback             flash, hit-stop 0.1 s, shake 0.6
 ├── DropThrough              PlayerDropThrough: down + jump through one-way platforms
 ├── LadderClimb              PlayerLadderClimb: finds ladders, climbing tuning
+├── Flasks                   PlayerFlasks: healing flask charges
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
-    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── HardLanding
+    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── HardLanding  ├── Heal
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack
     └── Hurt  └── Dead
 ```
@@ -43,13 +46,14 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, an attack, Idle (no move input) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, an attack (attack buffered), Heal (heal pressed), Run (move input) |
+| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, an attack, Heal, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), an attack, Fall (once moving down) |
 | **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Ground only. Fixed horizontal speed, no gravity | Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
+| **Heal** | Drinks a healing flask: the flask is used and the health restored at once, then the player slows to a stop and stands still for `drink_time`. See [Healing flasks](#healing-flasks) | Idle/Run (time is up), Fall (ground gone) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
@@ -116,6 +120,19 @@ A fixed-speed horizontal burst along the ground in the input direction (or facin
 
 Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't start while jumping, falling or climbing a ladder, and if jump and dash are pressed in the same frame, the jump wins. A dash that runs off a ledge ends at once; the player keeps `run_speed` and falls with normal air control.
 
+### Healing flasks
+
+The player carries `max_flasks` healing flasks (the `Flasks` node, `PlayerFlasks`). Pressing `heal` in Idle or Run enters **Heal**, which drinks one: it restores `heal_amount` health right away, then holds the player in place for `drink_time` while a placeholder aura (`Visual/HealAura`, the Heal state's `aura`) glows and fades out.
+
+- Only on the ground, in Idle or Run: not in the air, on a ladder, mid-attack, mid-dash, hurt or during a hard landing.
+- Heal does nothing at full health, so a flask is never wasted. Jump pressed in the same frame wins.
+- With no flasks left, pressing heal (where it would otherwise work) sends `Events.player_flasks_empty`, and the HUD shakes the flask pips.
+- The health is restored when drinking starts, so a hit during the drink interrupts it (Hurt, as from any state) but doesn't take the healing back. The risk is the time spent standing still.
+- A [rest point](/systems/rest-points) refills every flask. So does respawning after death (`respawn(at)`).
+- Every change is sent as `Events.player_flasks_changed(current, maximum)`, plus once on spawn (deferred), which drives the flask pips in the [HUD](/systems/hud).
+
+Flasks aren't saved: loading a save puts the player on a rest point, which refills them anyway.
+
 ### Taking damage
 
 1. A `Hitbox` on `enemy_attacks` or `hazards` touches the player's `Hurtbox`.
@@ -129,7 +146,7 @@ Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't 
 
 **Invincibility** lasts through the whole Hurt state and for `invincibility_time` after it ends, so the player gets control back while still safe for a moment. A stagger that is longer (heavy hit) automatically gets longer protection. A LIGHT hit, which has no stagger, gives `invincibility_time` from the hit. The `InvincibilityBlink` node shows it by blinking `Visual`. While invincible, new hits are ignored completely: no damage, no knockback.
 
-**Respawn** (`respawn(at)`) restores full health, ends invincibility and clears the jump and attack buffers, so presses made while dead don't fire in the new life.
+**Respawn** (`respawn(at)`) restores full health, refills the healing flasks, ends invincibility and clears the jump and attack buffers, so presses made while dead don't fire in the new life.
 
 ## Tuning
 
@@ -185,6 +202,14 @@ The drop-through value is on the **`DropThrough`** child node (`PlayerDropThroug
 |---|---|---|
 | `drop_through_time` | 0.25 | How long the platforms layer stays off after dropping through (s) |
 
+Healing values are on the **`Flasks`** child node (`PlayerFlasks`):
+
+| Value | Default | Effect |
+|---|---|---|
+| `max_flasks` | 2 | Flasks carried when all are full |
+| `heal_amount` | 2 | Health restored by one flask |
+| `drink_time` | 0.5 | Seconds the player stands still while drinking |
+
 Maximum health is set on the `Health` child node (`max_health`, default 5). Flash, hit-stop and shake are on the `HurtFeedback` node, see [Combat](/systems/combat#hurtfeedback).
 
 ## Public helpers
@@ -204,13 +229,16 @@ Used by states and other systems:
 | `drop_through.wants()` / `drop_through.start()` | Down + jump on a one-way platform, drop timer (on `PlayerDropThrough`) |
 | `wants_dash()` / `start_dash()` | Dash press on the ground, cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
-| `can_interact()` | Up just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |
+| `flasks.wants()` / `flasks.drink()` / `flasks.refill()` | Heal pressed with a flask left and health missing; use one and heal; fill them all (on `PlayerFlasks`) |
+| `can_interact()` | Interact just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |
 | `set_camera_limits(bounds)` | Called by the room |
-| `respawn(at)` | Teleports, resets velocity, health, invincibility, input buffers and camera, enters Idle |
+| `respawn(at)` | Teleports, resets velocity, health, flasks, invincibility, input buffers and camera, enters Idle |
 
 ## Known limitations
 
 - Placeholder rectangles instead of sprites and animations.
 - Knockback strength comes from the reaction only; hitbox `knockback_force` is ignored for the player.
 - No death animation yet.
+- No drinking animation or sounds (drinking, empty flask): a placeholder aura stands in for the animation.
+- The number of flasks and how much they heal can't be upgraded yet.
 - No combos or movement attacks yet (planned as upgrades).

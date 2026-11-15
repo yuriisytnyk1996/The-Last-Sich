@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://ui/hud/health_bar.gd" id="1_health_bar"]
+[ext_resource type="Script" path="res://ui/hud/flask_counter.gd" id="2_flasks"]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -11,3 +12,11 @@ offset_right = 70.0
 offset_bottom = 14.0
 mouse_filter = 2
 script = ExtResource("1_health_bar")
+
+[node name="FlaskCounter" type="Control" parent="."]
+offset_left = 8.0
+offset_top = 18.0
+offset_right = 22.0
+offset_bottom = 27.0
+mouse_filter = 2
+script = ExtResource("2_flasks")

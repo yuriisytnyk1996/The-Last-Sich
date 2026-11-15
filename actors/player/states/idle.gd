@@ -19,5 +19,7 @@ func physics_update(delta: float) -> void:
 		finished.emit(DASH)
 	elif player.wants_attack():
 		finished.emit(attack_state())
+	elif player.flasks.wants():
+		finished.emit(HEAL)
 	elif player.get_move_axis() != 0.0:
 		finished.emit(RUN)

@@ -23,6 +23,8 @@
 [ext_resource type="Script" path="res://actors/player/abilities/ladder_climb.gd" id="21_ladder"]
 [ext_resource type="Script" path="res://actors/player/states/climb.gd" id="22_climb"]
 [ext_resource type="Script" path="res://actors/player/states/hard_landing.gd" id="23_hard"]
+[ext_resource type="Script" path="res://actors/player/abilities/flasks.gd" id="24_flasks"]
+[ext_resource type="Script" path="res://actors/player/states/heal.gd" id="25_heal"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -50,6 +52,15 @@ position = Vector2(0, -15)
 shape = SubResource("body_shape")
 
 [node name="Visual" type="Node2D" parent="."]
+
+[node name="HealAura" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -10.0
+offset_top = -34.0
+offset_right = 10.0
+offset_bottom = 2.0
+mouse_filter = 2
+color = Color(1, 0.78, 0.35, 0.45)
 
 [node name="Body" type="ColorRect" parent="Visual"]
 offset_left = -6.0
@@ -163,6 +174,9 @@ script = ExtResource("20_drop")
 [node name="LadderClimb" type="Node" parent="."]
 script = ExtResource("21_ladder")
 
+[node name="Flasks" type="Node" parent="."]
+script = ExtResource("24_flasks")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)
 position_smoothing_enabled = true
@@ -195,6 +209,10 @@ script = ExtResource("22_climb")
 
 [node name="HardLanding" type="Node" parent="StateMachine"]
 script = ExtResource("23_hard")
+
+[node name="Heal" type="Node" parent="StateMachine" node_paths=PackedStringArray("aura")]
+script = ExtResource("25_heal")
+aura = NodePath("../../Visual/HealAura")
 
 [node name="SideAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("8_side_attack")

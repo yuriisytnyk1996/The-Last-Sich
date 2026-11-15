@@ -73,6 +73,7 @@ var _dash_cooldown_timer := 0.0
 @onready var damage: PlayerDamage = $Damage
 @onready var drop_through: PlayerDropThrough = $DropThrough
 @onready var ladder_climb: PlayerLadderClimb = $LadderClimb
+@onready var flasks: PlayerFlasks = $Flasks
 
 
 func _physics_process(delta: float) -> void:
@@ -167,11 +168,11 @@ func consume_attack() -> void:
 	_attack_buffer_timer = 0.0
 
 
-## Up was just pressed while standing or running: use a door or rest point.
+## Interact was just pressed while standing or running: use a door or rest point.
 func can_interact() -> bool:
 	var state := state_machine.state.name
 	return (
-		Input.is_action_just_pressed("move_up")
+		Input.is_action_just_pressed("interact")
 		and is_on_floor()
 		and (state == PlayerState.IDLE or state == PlayerState.RUN)
 	)
@@ -196,3 +197,4 @@ func respawn(at: Vector2) -> void:
 	state_machine.transition_to(PlayerState.IDLE)
 	# After the transition: leaving Hurt would start invincibility again.
 	damage.reset()
+	flasks.refill()

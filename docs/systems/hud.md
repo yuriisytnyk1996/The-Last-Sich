@@ -1,6 +1,6 @@
 # HUD
 
-The on-screen gameplay interface. For now it holds the player's health bar. The HUD never references the player: it only listens to the `Events` bus, so rooms, menus and the player can change without touching it.
+The on-screen gameplay interface: the player's health bar and their healing flasks. The HUD never references the player: it only listens to the `Events` bus, so rooms, menus and the player can change without touching it.
 
 ## How it works
 
@@ -27,12 +27,23 @@ Widths are rounded down to whole pixels so the bar edge stays crisp. The bar onl
 
 During hit-stop the bar freezes with the rest of the game, which holds the loss segment still at the moment of impact.
 
+### Flask counter
+
+`FlaskCounter` (`ui/hud/flask_counter.gd`) sits under the health bar and draws one pip per healing flask: `full_color` while the flask is full, `empty_color` once it's used, each with a `frame_color` outline. It listens to `Events.player_flasks_changed(current, maximum)`, which `PlayerFlasks` sends on every change and once on spawn (deferred). More flasks mean more pips. See [Healing flasks](/systems/player#healing-flasks).
+
+Feedback:
+
+- **Drinking:** the pip that was just used shows `flash_color` for `drink_flash_time` before going dim.
+- **No flasks left:** pressing heal sends `Events.player_flasks_empty`; the pips shake sideways by `empty_shake_distance` for `empty_shake_time`, with `warning_color` frames.
+
 ## Files
 
 | File | Role |
 |---|---|
 | `ui/hud/hud.tscn` | `CanvasLayer` with the HUD widgets. Instance it once per room |
 | `ui/hud/health_bar.gd` | Health bar drawing and animation |
+| `ui/hud/flask_counter.gd` | Healing flask pips |
+| `actors/player/abilities/flasks.gd` | Reports the player's flasks to `Events` |
 | `actors/player/player_damage.gd` | Forwards player health to `Events` |
 
 ## Tuning
@@ -51,6 +62,22 @@ On the `HealthBar` node:
 | `empty_color` | `#3b2730` | Missing health |
 | `loss_color` | `#e8d8b0` | Just-lost / incoming health |
 | `fill_color` | `#b8323a` | Current health |
+
+On the `FlaskCounter` node:
+
+| Value | Default | Effect |
+|---|---|---|
+| `pip_size` | (5, 7) | Inner size of one pip (px) |
+| `spacing` | 2 | Gap between pips (px) |
+| `border` | 1 | Frame thickness around each pip (px) |
+| `drink_flash_time` | 0.25 | Seconds a just-drunk flask flashes |
+| `empty_shake_time` | 0.3 | Seconds the pips shake when heal is pressed with none left |
+| `empty_shake_distance` | 2 | Sideways shake (px) |
+| `frame_color` | `#1a1018` | Outline |
+| `empty_color` | `#3b2730` | Used flask |
+| `full_color` | `#d89a3a` | Full flask |
+| `flash_color` | `#fff2c8` | Flask that was just drunk |
+| `warning_color` | `#b8323a` | Frames while shaking (no flasks left) |
 
 ## Extending
 

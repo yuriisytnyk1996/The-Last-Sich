@@ -13,11 +13,11 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 
 A `RoomExit` (`levels/objects/room_exit.gd`) is an `InteractionArea` (see [Interaction areas](#interaction-areas)) that only detects the `player` layer. Its node name is its id. It points at another room (`target_room`) and at the exit there to arrive through (`target_exit`). Two linked exits point at each other by name. There are two kinds:
 
-- **Edge exits** (`press_up` off): a gap in the wall at the edge of the room. Touching it is enough.
-- **Vertical exits** (`press_up` off): a hole in the floor or an opening in the ceiling. See [Vertical exits](#vertical-exits).
-- **Doors** (`press_up` on): an instance of `levels/objects/door.tscn`, standing on the ground. The player stands in front of it and presses up. See [Doors](#doors).
+- **Edge exits** (`press_interact` off): a gap in the wall at the edge of the room. Touching it is enough.
+- **Vertical exits** (`press_interact` off): a hole in the floor or an opening in the ceiling. See [Vertical exits](#vertical-exits).
+- **Doors** (`press_interact` on): an instance of `levels/objects/door.tscn`, standing on the ground. The player stands in front of it and presses interact. See [Doors](#doors).
 
-1. The player touches an edge exit, or presses up in front of a door. It emits `Events.room_change_requested(target_room, target_exit)`.
+1. The player touches an edge exit, or presses interact in front of a door. It emits `Events.room_change_requested(target_room, target_exit)`.
 2. `World` pauses the game and `ScreenFade` (`ui/screen_fade.gd`) fades to black. Nothing can hit the player while the screen is dark.
 3. `World` frees the old room, loads the new one and calls `Room.enter()`, which calls `RoomExit.receive()` on the target exit: the player is placed at its `Landing` marker and turned to `arrival_facing` (unless it is `Keep`). The camera snaps there without smoothing.
 4. The game unpauses and the screen fades back in. Further requests are ignored until the fade finishes.
@@ -49,20 +49,20 @@ A `Ladder` (`levels/objects/ladder.gd`) is a `Node2D` with a placeholder drawing
 
 ### Doors
 
-`levels/objects/door.tscn` is a `RoomExit` with `press_up` on, a 24×44 placeholder door, a 20×40 area and a `Prompt` arrow above it. Its origin is the bottom centre: place it on the ground. The `Landing` sits on the origin, inside the area. That's safe for doors: entering needs a fresh press of up, so holding up while you arrive doesn't send you back. Set `arrival_facing` so the player arrives facing into the room.
+`levels/objects/door.tscn` is a `RoomExit` with `press_interact` on, a 24×44 placeholder door, a 20×40 area and a `Prompt` arrow above it. Its origin is the bottom centre: place it on the ground. The `Landing` sits on the origin, inside the area. That's safe for doors: entering needs a fresh press of interact, so holding it while you arrive doesn't send you back. Set `arrival_facing` so the player arrives facing into the room.
 
-The player can use a door only from **Idle** or **Run**, on the ground (`Player.can_interact()`). Up while jumping, dashing, attacking or staggered does nothing.
+The player can use a door only from **Idle** or **Run**, on the ground (`Player.can_interact()`). Interact while jumping, dashing, attacking or staggered does nothing.
 
 ## Interaction areas
 
 `InteractionArea` (`components/interaction/interaction_area.gd`) is the base for anything the player sets off: room exits, doors and [rest points](/systems/rest-points). It's an `Area2D` on no layer that masks `player`.
 
-| `press_up` | Sets off when |
+| `press_interact` | Sets off when |
 |---|---|
 | Off | The player touches the area |
-| On | The player is inside and `can_interact()` returns true (up just pressed, on the ground, in Idle or Run) |
+| On | The player is inside and `can_interact()` returns true (interact just pressed, on the ground, in Idle or Run) |
 
-While the player is inside a press-up area, its `Prompt` child (any `CanvasItem`, optional) is shown. Subclasses override `_activate(player)`. The area doesn't import `Player`: it calls `can_interact()` on whatever body enters, so other bodies are ignored.
+While the player is inside an interact area, its `Prompt` child (any `CanvasItem`, optional) is shown. Subclasses override `_activate(player)`. The area doesn't import `Player`: it calls `can_interact()` on whatever body enters, so other bodies are ignored.
 
 ## Files
 
@@ -72,8 +72,8 @@ While the player is inside a press-up area, its `Prompt` child (any `CanvasItem`
 | `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset |
 | `levels/objects/room_exit.gd` | Edge exit or door to another room |
 | `levels/objects/ladder.gd` | Climbable ladder, found by position |
-| `levels/objects/door.tscn` | Door: a `RoomExit` entered by pressing up |
-| `components/interaction/interaction_area.gd` | Touch or press-up area, base of `RoomExit` |
+| `levels/objects/door.tscn` | Door: a `RoomExit` entered by pressing interact |
+| `components/interaction/interaction_area.gd` | Touch or interact area, base of `RoomExit` |
 | `ui/screen_fade.gd` | Black overlay that fades out and in, runs while paused and during hit-stop |
 | `levels/rooms/*.tscn` | The rooms |
 
@@ -102,7 +102,7 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | `height` | `Ladder` | `64.0` | Length of the ladder down from its top (px) |
 | `arrival_rise` | `RoomExit` | `0.0` | Height (px) a player arriving while moving up is launched to. For floor holes the player comes up through. 0 keeps their speed |
 | `respawn_here` | `RoomExit` | `true` | Off when the landing isn't safe ground: a death in the room then respawns at `SpawnPoint` |
-| `press_up` | `InteractionArea` | `false` | Needs up pressed inside the area instead of a touch. On in `door.tscn` |
+| `press_interact` | `InteractionArea` | `false` | Needs interact pressed inside the area instead of a touch. On in `door.tscn` |
 | `duration` | `ScreenFade` | `0.15` | Seconds for one fade, out or in |
 
 ## Terrain

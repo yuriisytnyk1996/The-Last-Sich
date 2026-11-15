@@ -1,6 +1,7 @@
 class_name RestPoint
 extends InteractionArea
-## A checkpoint. Pressing up here heals the player to full, resets the
+## A checkpoint. Pressing interact here heals the player to full, refills their
+## healing flasks, resets the
 ## enemies in the room and makes this the place the player comes back to
 ## after dying, even from another room.
 ##
@@ -23,6 +24,7 @@ func set_lit(lit: bool) -> void:
 func _activate(player: Node2D) -> void:
 	var resting := player as Player
 	resting.health.reset()
+	resting.flasks.refill()
 	resting.velocity.x = 0.0
 	get_tree().call_group(&"enemies", &"reset")
 	Events.rested.emit(self)

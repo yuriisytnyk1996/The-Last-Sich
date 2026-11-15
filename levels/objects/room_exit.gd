@@ -1,8 +1,8 @@
 class_name RoomExit
 extends InteractionArea
 ## A way into another room: a gap at the screen edge, a hole in the floor,
-## an opening in the ceiling, or a door the player enters by pressing up
-## (`press_up` on, see `door.tscn`).
+## an opening in the ceiling, or a door the player enters by pressing
+## interact (`press_interact` on, see `door.tscn`).
 ##
 ## When set off, it asks the world to load `target_room` and place the
 ## player at the exit named `target_exit` there. The node's own name is its

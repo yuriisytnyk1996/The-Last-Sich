@@ -4,16 +4,22 @@ All controls are **actions** defined in `project.godot` (**Project Settings → 
 
 ## Actions
 
+Every action has **one key and one gamepad button**, so each control is easy to learn and to show in prompts. Movement also works on the D-pad.
+
 | Action | Keyboard | Gamepad | Used by |
 |---|---|---|---|
-| `move_left` | A, ← | Left stick left, D-pad left | `Player.get_move_axis()` |
-| `move_right` | D, → | Left stick right, D-pad right | `Player.get_move_axis()` |
-| `move_up` | W, ↑ | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); pressed on the ground, enters doors (`Player.can_interact()`); held, grabs and climbs ladders |
-| `move_down` | S, ↓ | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held on top of a ladder, climbs down it; held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`) |
-| `jump` | Space, Z | A / Cross | Jump buffer, variable jump height |
-| `dash` | K, C, Shift | Right shoulder | `Player.wants_dash()`, on the ground only |
-| `attack` | J, X | X / Square | Attack buffer, `Player.wants_attack()` |
+| `move_left` | A | Left stick left, D-pad left | `Player.get_move_axis()` |
+| `move_right` | D | Left stick right, D-pad right | `Player.get_move_axis()` |
+| `move_up` | W | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); held, grabs and climbs ladders |
+| `move_down` | S | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held on top of a ladder, climbs down it; held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`) |
+| `jump` | Space | A / Cross | Jump buffer, variable jump height |
+| `attack` | J | X / Square | Attack buffer, `Player.wants_attack()` |
+| `dash` | Shift | Right shoulder | `Player.wants_dash()`, on the ground only |
+| `heal` | F | Y / Triangle | `PlayerFlasks.wants()`: drink a healing flask in Idle or Run |
+| `interact` | E | B / Circle | `Player.can_interact()`: use doors and rest points, in Idle or Run |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
+
+The left hand stays on WASD with dash (Shift), interact (E), heal (F) and jump (Space) in reach; the right hand has attack (J).
 
 All actions use a dead zone of 0.3. Debug-only keys are not actions: F3 switches the scaling mode (see [Rendering](/systems/rendering)) and F8 deletes the save and restarts (see [Save system](/systems/save-system)). Keys are bound by **physical** position, so the layout works the same on QWERTY, AZERTY and Cyrillic keyboards.
 

@@ -26,16 +26,18 @@ See [Versioning & releases](/guide/versioning) for what the git hooks check.
 1. Open Godot and import `project.godot` from the repository root.
 2. Press **F5** (Run Project). The main scene is `levels/world.tscn`, which starts in `levels/rooms/test_room.tscn`.
 
-The debug label in the top-left corner shows the player's current state, velocity and whether they are on the floor.
+The debug label in the top-right corner shows the player's current state, velocity, whether they are on the floor and their health.
 
 ## Controls
 
 | Action | Keyboard | Gamepad |
 |---|---|---|
-| Move | A / D, or arrow keys | Left stick or D-pad |
-| Jump | Space or Z | A (bottom face button) |
-| Dash | K, C or Shift | Right shoulder |
-| Attack | J or X | X (left face button). Not implemented yet. |
+| Move, climb, aim attacks | W A S D | Left stick or D-pad |
+| Jump | Space | A (bottom face button) |
+| Attack | J | X (left face button) |
+| Dash | Shift | Right shoulder |
+| Heal (drink a flask) | F | Y (top face button) |
+| Interact (doors, rest points) | E | B (right face button) |
 
 See [Input](/systems/input) for the full input map.
 
