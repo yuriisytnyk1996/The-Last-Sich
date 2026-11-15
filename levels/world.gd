@@ -8,8 +8,14 @@ extends Node2D
 ## carry over between rooms. After a rest point has been used, death
 ## respawns the player there, loading its room if needed. Before that, the
 ## current room respawns them where they entered it.
+##
+## The world is a global save system (see `SaveManager`): it saves the
+## last rest point, and on start it loads the save and wakes the player
+## there. Resting writes the save to disk.
 
 @export_file("*.tscn") var start_room := "res://levels/rooms/test_room.tscn"
+
+var save_id := &"world"
 
 var room: Room
 var _changing := false
@@ -26,7 +32,21 @@ func _ready() -> void:
 	Events.room_change_requested.connect(_on_room_change_requested)
 	Events.rested.connect(_on_rested)
 	Events.player_died.connect(_on_player_died)
-	_load_room(start_room, &"")
+	SaveManager.register(self)
+	if SaveManager.load_game() and ResourceLoader.exists(_rest_room):
+		_respawn_at_rest_point()
+	else:
+		_rest_room = ""
+		_load_room(start_room, &"")
+
+
+func get_save_data() -> Dictionary:
+	return {"rest_room": _rest_room, "rest_path": String(_rest_path)}
+
+
+func apply_save_data(data: Dictionary) -> void:
+	_rest_room = str(data.get("rest_room", ""))
+	_rest_path = NodePath(str(data.get("rest_path", "")))
 
 
 func _on_room_change_requested(room_path: String, exit_name: StringName) -> void:
@@ -36,6 +56,7 @@ func _on_room_change_requested(room_path: String, exit_name: StringName) -> void
 func _on_rested(rest_point: Node2D) -> void:
 	_rest_room = room.scene_file_path
 	_rest_path = room.get_path_to(rest_point)
+	SaveManager.save_game(room)
 
 
 func _on_player_died() -> void:
@@ -62,10 +83,12 @@ func _transition(change: Callable) -> void:
 
 func _load_room(room_path: String, exit_name: StringName) -> void:
 	if room:
+		SaveManager.store_room(room)
 		room_holder.remove_child(room)
 		room.queue_free()
 	room = (load(room_path) as PackedScene).instantiate() as Room
 	room_holder.add_child(room)
+	SaveManager.restore_room(room)
 	room.enter(player, exit_name)
 	player.camera.reset_smoothing.call_deferred()
 	var rest_point := _current_rest_point()
@@ -76,7 +99,12 @@ func _load_room(room_path: String, exit_name: StringName) -> void:
 ## Always reloads the room, so its enemies start fresh.
 func _respawn_at_rest_point() -> void:
 	_load_room(_rest_room, &"")
-	player.respawn(_current_rest_point().global_position)
+	var rest_point := _current_rest_point()
+	if rest_point:
+		player.respawn(rest_point.global_position)
+	else:
+		push_warning("Rest point %s is gone from %s" % [_rest_path, _rest_room])
+		room.respawn_player()
 
 
 ## The last rest point used, if it is in the current room.

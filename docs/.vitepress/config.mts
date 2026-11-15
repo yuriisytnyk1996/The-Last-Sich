@@ -44,6 +44,7 @@ export default defineConfig({
           { text: 'HUD', link: '/systems/hud' },
           { text: 'Rooms', link: '/systems/rooms' },
           { text: 'Rest points', link: '/systems/rest-points' },
+          { text: 'Save system', link: '/systems/save-system' },
           { text: 'Input', link: '/systems/input' },
           { text: 'Rendering & pixel art', link: '/systems/rendering' },
         ],

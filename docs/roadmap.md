@@ -41,14 +41,14 @@
 - [x] Rest points: press up to heal and reset the room's enemies; death respawns at the last one used, loading its room
 - [x] Hard landing: falling 10 tiles or more leaves the player stuck in place for a moment, with a camera shake; a dash cancels it halfway
 - [x] Enemy poise: after 3 staggers in a row an enemy stops flinching and strikes back
+- [x] Save system: the last rest point is saved to disk on rest and loaded on start; rooms and global systems can save their own state; safe writes with a backup; F8 deletes the save in debug builds
 
 ## Next
 
-- [ ] Save system (starting with the last rest point used)
+- [ ] Enemy line of sight (walls block vision)
 
 ## Later
 
-- [ ] Enemy line of sight (walls block vision)
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
 - [ ] Room split into Layout / Deco / Logic sub-scenes

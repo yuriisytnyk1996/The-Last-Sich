@@ -13,7 +13,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 | `camera_shake_requested(trauma)` | `HurtFeedback` (on every accepted hit) | `CameraShake` on the player's camera | Shake the active camera; `trauma` 0 to 1 adds up |
 | `player_health_changed(current, maximum)` | `PlayerDamage` (on every health change, and once on spawn) | `HealthBar` in the HUD, every `Enemy` (to know whether the player is alive) | The player's health is now `current` out of `maximum` |
 | `player_died` | The player's `Dead` state (after `death_delay`; pits kill through `Health.kill()` and end up here too) | `World` (respawns at the last [rest point](/systems/rest-points), or asks the current `Room` to respawn the player and reset its enemies) | The player died and should respawn |
-| `rested(rest_point)` | `RestPoint` (the player pressed up at it) | `World` (remembers it as the respawn point), every `RestPoint` (lights the used one) | The player rested; `rest_point` is the node |
+| `rested(rest_point)` | `RestPoint` (the player pressed up at it) | `World` (remembers it as the respawn point and saves the game), every `RestPoint` (lights the used one) | The player rested; `rest_point` is the node |
 | `room_change_requested(room_path, exit_name)` | `RoomExit` (the player touched it, or pressed up at a door) | `World` (fades out, swaps the room, fades in) | Load `room_path` and place the player at its exit named `exit_name` |
 
 ## Usage

@@ -15,7 +15,8 @@ The-Last-Sich/
 ├── autoload/
 │   ├── events.gd                 Global signal bus (autoload "Events")
 │   ├── display_settings.gd       Fullscreen and scaling mode, saved to user://settings.cfg (autoload "DisplaySettings")
-│   └── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
+│   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
+│   └── save_manager.gd           Save snapshot, load and save, room state (autoload "SaveManager")
 ├── components/
 │   ├── state_machine/
 │   │   ├── state_machine.gd      Generic finite state machine
@@ -24,6 +25,8 @@ The-Last-Sich/
 │   │   └── camera_shake.gd       Trauma-based shake for a Camera2D
 │   ├── interaction/
 │   │   └── interaction_area.gd   Touch or press-up area, base for exits and doors
+│   ├── save/
+│   │   └── save_file.gd          JSON save slot with safe writes and a backup
 │   └── combat/
 │       ├── hitbox.gd             Deals damage while active
 │       ├── hurtbox.gd            Detects hitboxes, reports hits, invincibility
@@ -73,7 +76,7 @@ The-Last-Sich/
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
 │   ├── world.tscn                Main scene: player, HUD, screen fade and the current room
-│   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points
+│   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room

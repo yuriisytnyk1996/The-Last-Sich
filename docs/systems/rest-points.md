@@ -13,7 +13,7 @@ A rest point is a checkpoint. Pressing up at one heals the player to full, reset
    - **One was used:** `World` fades out, reloads the rest point's room (also when it's the current one, so its enemies start fresh), respawns the player on the rest point with full health and fades back in.
 6. Whenever a room loads, `World` lights its rest point if it's the remembered one.
 
-Resting doesn't save the game to disk yet. The remembered rest point lasts until the game is closed. That comes with the save system.
+Resting also saves the game: `World` writes the remembered rest point to disk, and on the next start the player wakes up on it. See [Save system](/systems/save-system).
 
 ## Files
 
@@ -21,7 +21,7 @@ Resting doesn't save the game to disk yet. The remembered rest point lasts until
 |---|---|
 | `levels/objects/rest_point.gd` | `RestPoint`: heals, resets enemies, emits `Events.rested`, shows whether it's lit |
 | `levels/objects/rest_point.tscn` | Area, placeholder post with a crossbar, `Flame` and `Prompt` |
-| `levels/world.gd` | Remembers the last rest point used and respawns the player there |
+| `levels/world.gd` | Remembers the last rest point used, saves it and respawns the player there |
 | `autoload/events.gd` | `rested(rest_point)` signal |
 
 ## Scene layout
@@ -44,11 +44,10 @@ A rest point has no values of its own. `press_up` comes from `InteractionArea` a
 ## Extending
 
 - Place one by instancing `levels/objects/rest_point.tscn` anywhere in a room, standing on the ground. The test house has one.
-- The node path inside the room is what `World` remembers, so renaming or moving a rest point inside its room loses it as a respawn point until it's used again.
+- The node path inside the room is what `World` remembers and saves, so renaming or moving a rest point inside its room loses it as a respawn point until it's used again. A save pointing at a missing rest point respawns the player at the room's spawn point instead.
 
 ## Known limitations
 
-- Not saved to disk yet: closing the game forgets it.
 - No resting animation or menu. The player keeps control the whole time.
 - Resting resets only the current room's enemies. Other rooms reset anyway when they load.
 - Placeholder rectangles for the post and flame.
