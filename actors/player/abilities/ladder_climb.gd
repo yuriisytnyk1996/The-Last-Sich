@@ -10,7 +10,7 @@ extends Node
 ## Vertical input needed to grab a ladder (0 to 1).
 @export_range(0.0, 1.0) var grab_threshold := 0.5
 ## After jumping off or letting go, ladders can't be grabbed for this long (s).
-@export var regrab_delay := 0.3
+@export var regrab_delay := 0.5
 
 ## The ladder to climb, set by the `wants_grab_*()` checks.
 var ladder: Ladder

@@ -48,10 +48,10 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), Dash, an attack, Fall (once moving down) |
 | **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), Dash, an attack, Idle/Run (landed) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
-| **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump + direction), Fall (jump alone, or off the bottom) |
+| **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
-| **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
+| **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
 
 ## Movement techniques
 
@@ -93,7 +93,7 @@ A [ladder](/systems/rooms#ladders) is grabbed by holding up over it (on the grou
 
 - **Up / down** move at `climb_speed`. With no input the player hangs still.
 - **Reaching the top** puts the feet exactly on the ladder's top, on the plank there, and enters Idle. **Reaching the ground** while climbing down enters Idle. **Going past the bottom** of a ladder that hangs in the air lets go (Fall).
-- **Jump** with a direction held jumps off sideways at `run_speed`; jump alone lets go and falls. Either way the ladder can't be grabbed again for `regrab_delay`, so holding up doesn't snap you straight back on.
+- **Jump** is a full jump off the ladder: straight up, or sideways at `run_speed` if a direction is held. Holding up while jumping still jumps. **Down + jump** just lets go and falls. Either way the ladder can't be grabbed again for `regrab_delay`, so holding up doesn't snap you straight back on; after that, holding up over the ladder grabs it again.
 - One-way platforms are off while climbing (`set_platforms_enabled(false)`), so the player passes through the plank at the top and any planks the ladder crosses.
 - A hit knocks the player off into Hurt as usual.
 
@@ -116,7 +116,7 @@ A fixed-speed horizontal burst in the input direction (or facing direction if th
 
 **Invincibility** lasts through the whole Hurt state and for `invincibility_time` after it ends, so the player gets control back while still safe for a moment. A stagger that is longer (heavy hit) automatically gets longer protection. A LIGHT hit, which has no stagger, gives `invincibility_time` from the hit. The `InvincibilityBlink` node shows it by blinking `Visual`. While invincible, new hits are ignored completely: no damage, no knockback.
 
-**Respawn** (`respawn(at)`) restores full health and ends invincibility.
+**Respawn** (`respawn(at)`) restores full health, ends invincibility and clears the jump and attack buffers, so presses made while dead don't fire in the new life.
 
 ## Tuning
 
@@ -161,7 +161,7 @@ Climbing values are on the **`LadderClimb`** child node (`PlayerLadderClimb`):
 | `climb_speed` | 80 | Climbing speed up and down (px/s) |
 | `grab_reach` | 8 | How far from a ladder's centre the player can grab it (px) |
 | `grab_threshold` | 0.5 | Vertical input needed to grab a ladder |
-| `regrab_delay` | 0.3 | Time after jumping off or letting go before a ladder can be grabbed again (s) |
+| `regrab_delay` | 0.5 | Time after jumping off or letting go before a ladder can be grabbed again (s) |
 
 The drop-through value is on the **`DropThrough`** child node (`PlayerDropThrough`):
 
@@ -190,7 +190,7 @@ Used by states and other systems:
 | `wants_attack()` / `consume_attack()` | Attack buffer |
 | `can_interact()` | Up just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |
 | `set_camera_limits(bounds)` | Called by the room |
-| `respawn(at)` | Teleports, resets velocity, health, invincibility and camera, enters Idle |
+| `respawn(at)` | Teleports, resets velocity, health, invincibility, input buffers and camera, enters Idle |
 
 ## Known limitations
 

@@ -3,8 +3,9 @@ extends PlayerState
 ##
 ## Reaching the top puts the player on the plank above (Idle), reaching the
 ## ground ends the climb, and running off the bottom lets go (Fall). Jump
-## with a direction jumps off sideways; jump alone lets go. One-way
-## platforms are off while climbing so the player passes through them.
+## is a full jump off the ladder, straight up or to the side held; down +
+## jump just lets go. One-way platforms are off while climbing so the
+## player passes through them.
 
 var _ladder: Ladder
 
@@ -59,11 +60,12 @@ func _find_ladder_again() -> bool:
 
 func _jump_off() -> void:
 	player.ladder_climb.let_go()
-	var axis := player.get_move_axis()
-	if axis == 0.0:
+	if player.get_vertical_axis() >= player.ladder_climb.grab_threshold:
 		player.consume_jump()
 		finished.emit(FALL)
 		return
-	player.set_facing(axis)
+	var axis := player.get_move_axis()
+	if axis != 0.0:
+		player.set_facing(axis)
 	player.velocity.x = axis * player.run_speed
 	finished.emit(JUMP)

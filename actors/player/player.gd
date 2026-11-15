@@ -182,6 +182,9 @@ func respawn(at: Vector2) -> void:
 	velocity = Vector2.ZERO
 	drop_through.reset()
 	ladder_climb.reset()
+	# Presses made while dead don't carry over into the new life.
+	consume_jump()
+	consume_attack()
 	camera.reset_smoothing.call_deferred()
 	state_machine.transition_to(PlayerState.IDLE)
 	# After the transition: leaving Hurt would start invincibility again.

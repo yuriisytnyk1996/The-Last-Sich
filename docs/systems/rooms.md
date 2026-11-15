@@ -5,7 +5,7 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 ## How it works
 
 1. `World` loads `start_room` into its `RoomHolder` and calls `Room.enter(player, exit_name)`. The room sets the camera limits to its `bounds` and returns where the player should stand: the `Landing` of the named exit, or `SpawnPoint` when the name is empty (the start of the game).
-2. A room kills the player (or an enemy) instantly when they enter `KillZone` (a bottomless pit), whatever health is left, with `Health.kill()`. The player goes through the normal death: the **Dead** state, the HUD bar empties, and after `death_delay` the Dead state emits `Events.player_died`. Invincibility doesn't protect against pits.
+2. A room kills the player (or an enemy) instantly when they enter `KillZone` (a bottomless pit), whatever health is left, with `Health.kill()`. The player goes through the normal death: the **Dead** state (the body stops where it is, below the screen, so the camera stays put), the HUD bar empties, and after `death_delay` the Dead state emits `Events.player_died`. Invincibility doesn't protect against pits.
 3. When `Events.player_died` fires and no [rest point](/systems/rest-points) has been used, `World` calls `Room.respawn_player()`, which respawns the player where they entered the room: the landing they arrived at, or `SpawnPoint` at the start of the game or when the exit they came through has `respawn_here` off. `Player.respawn()` restores full health.
 4. At the same moment, the room calls `reset()` on every node in the `enemies` group: each enemy returns to its spawn point with full health, including dead ones. See [Enemies](/systems/enemies#respawning).
 
