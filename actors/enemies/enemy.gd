@@ -1,7 +1,7 @@
 class_name Enemy
 extends CharacterBody2D
 ## Base for every enemy: shared tuning and the helpers its states use
-## (gravity, walking, turning, ledge checks, finding the player).
+## (gravity, walking, turning, ledge checks, finding and seeing the player).
 ##
 ## Behaviour lives in the state nodes under StateMachine, hit reactions in
 ## the Damage node. Enemies join the "enemies" group, and the room calls
@@ -24,8 +24,14 @@ extends CharacterBody2D
 @export var sight_range := 140.0
 ## How far above or below the player can be and still count (px).
 @export var sight_height := 40.0
+## Within this distance the enemy notices the player behind it too (px).
+@export var close_range := 24.0
+## The sight ray aims this high above the player's feet (px).
+@export var target_height := 15.0
 ## A chasing enemy gives up when the player gets this far away (px).
 @export var lose_range := 220.0
+## A chasing enemy gives up after not seeing the player for this long (s).
+@export var lose_sight_time := 1.5
 ## The player must be this far to one side before the enemy turns (px).
 @export var turn_dead_zone := 4.0
 
@@ -42,6 +48,7 @@ var _spawn_position := Vector2.ZERO
 
 @onready var visual: Node2D = $Visual
 @onready var floor_probe: RayCast2D = $Visual/FloorProbe
+@onready var sight_ray: RayCast2D = $Visual/SightRay
 @onready var state_machine: StateMachine = $StateMachine
 @onready var health: Health = $Health
 @onready var hurtbox: Hurtbox = $Hurtbox
@@ -94,12 +101,17 @@ func is_path_blocked() -> bool:
 # --- Senses ---
 
 
-## The player is alive, in front and within sight.
+## The player is alive, within sight, in front (or within `close_range`)
+## and no wall stands in between.
 func can_see_target() -> bool:
 	if not _has_live_target():
 		return false
 	var offset := _target_offset()
-	return offset.x * facing >= 0.0 and absf(offset.x) <= sight_range and _target_level(offset)
+	if absf(offset.x) > sight_range or not _target_level(offset):
+		return false
+	if offset.x * facing < 0.0 and offset.length() > close_range:
+		return false
+	return _has_line_of_sight()
 
 
 ## A chasing enemy keeps chasing while this is true.
@@ -158,6 +170,15 @@ func _has_live_target() -> bool:
 
 func _target_offset() -> Vector2:
 	return _target.global_position - global_position
+
+
+## Casts `SightRay` from the eye to the player's body. Only solid terrain
+## blocks it: one-way platforms don't.
+func _has_line_of_sight() -> bool:
+	var aim := _target.global_position + Vector2.UP * target_height
+	sight_ray.target_position = sight_ray.to_local(aim)
+	sight_ray.force_raycast_update()
+	return not sight_ray.is_colliding()
 
 
 func _target_level(offset: Vector2) -> bool:

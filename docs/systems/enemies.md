@@ -14,11 +14,23 @@ any state ──health 0──► Dead ──Enemy.reset()──► Patrol
 ```
 
 1. **Patrol** walks at `patrol_speed`. At a wall or a ledge it stops, waits `turn_pause` and turns around. Enemies never walk off ledges: a `FloorProbe` raycast under `Visual` checks for ground just ahead.
-2. When the player is in front, within `sight_range` horizontally and `sight_height` vertically, the enemy switches to **Chase**. It can't see behind itself, so the player can sneak up on a patrolling enemy.
-3. **Chase** runs at `chase_speed` towards the player, still stopping at walls and ledges. It turns only once the player is more than `turn_dead_zone` to one side, so it doesn't jitter when the player is right above it. It gives up and patrols again once the player is further than `lose_range`.
+2. When it [sees](#line-of-sight) the player, the enemy switches to **Chase**. It can't see behind itself, so the player can sneak up on a patrolling enemy, but not closer than `close_range`.
+3. **Chase** runs at `chase_speed` towards the player, still stopping at walls and ledges. It turns only once the player is more than `turn_dead_zone` to one side, so it doesn't jitter when the player is right above it. It gives up and patrols again once the player is further than `lose_range`, or has been out of sight for `lose_sight_time` in a row.
 4. Within `attack_range` (and at the same height), with the cooldown over and on the floor, it starts its **Attack**.
 5. A hit sends it to **Hurt** (see [Hit reactions](#hit-reactions)). Afterwards it goes back to Chase if the player is still close, or Patrol otherwise.
 6. At 0 health it enters **Dead**: hurtbox and contact damage turn off, the body darkens, slides to a stop and fades out after `corpse_time`.
+
+### Line of sight
+
+`Enemy.can_see_target()` runs these checks in order, cheapest first:
+
+1. The player is alive, within `sight_range` horizontally and `sight_height` vertically (measured feet to feet).
+2. The player is in front, or within `close_range` in any direction. A player standing right behind an enemy gets noticed.
+3. Nothing solid is in between. `SightRay`, a `RayCast2D` at the enemy's eye under `Visual`, is aimed at a point `target_height` above the player's feet and cast on demand (`force_raycast_update()`, the ray is otherwise disabled). Its mask is `world` only, so walls, floors and ceilings block sight, while one-way `platforms` don't: the player is seen through planks.
+
+Losing sight doesn't end a chase right away. Chase counts the time since it last saw the player and gives up after `lose_sight_time`. Ducking behind a pillar or jumping over the enemy's head for a moment keeps it chasing, while hiding behind a wall shakes it off. A chasing enemy always runs at the player's current position: it doesn't remember where it last saw them.
+
+To see the rays while playing, turn on **Debug ▸ Visible Collision Shapes** in the editor.
 
 ### Attacks
 
@@ -75,6 +87,7 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 │   ├── Body, Eye                placeholder rectangles
 │   ├── Telegraph                glint shown during the wind-up
 │   ├── FloorProbe (RayCast2D)   (10, -4) → 12 px down, ledge check, mask: world, platforms
+│   ├── SightRay (RayCast2D)     (4, -22) at the eye, line of sight, mask: world
 │   └── Attacks/Slash (Hitbox)   (18, -14), 24×16, layer enemy_attacks
 ├── Health                       max_health 3
 ├── Hurtbox                      14×26, mask player_attacks
@@ -94,7 +107,7 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 | `actors/enemies/enemy_damage.gd` | `EnemyDamage`: hit reactions, hurt and death tuning |
 | `actors/enemies/enemy_state.gd` | `EnemyState`: state names, `can_be_staggered()`, `alert_state()` |
 | `actors/enemies/states/patrol.gd` | Walk, turn at walls and ledges, spot the player |
-| `actors/enemies/states/chase.gd` | Run at the player, start attacks, give up |
+| `actors/enemies/states/chase.gd` | Run at the player, start attacks, give up when out of range or out of sight |
 | `actors/enemies/states/hurt.gd` | Knockback and stagger |
 | `actors/enemies/states/dead.gd` | Combat off, darken and fade |
 | `actors/enemies/states/enemy_attack_state.gd` | `EnemyAttackState`: telegraphed startup, active, recovery, cooldown |
@@ -119,7 +132,10 @@ Set on the enemy's root node. Raider values are the defaults.
 | `turn_pause` | 0.6 | Wait at a wall or ledge before turning (s) |
 | `sight_range` | 140 | How far ahead it notices the player (px) |
 | `sight_height` | 40 | How far above or below the player can be to be seen or attacked (px) |
+| `close_range` | 24 | Within this distance the player is noticed behind the enemy too (px) |
+| `target_height` | 15 | Height above the player's feet the sight ray aims at, about mid-body (px) |
 | `lose_range` | 220 | Distance at which a chase is given up (px) |
+| `lose_sight_time` | 1.5 | Time out of sight after which a chase is given up (s) |
 | `turn_dead_zone` | 4 | How far to one side the player must be before it turns (px) |
 | `attack_range` | 30 | Horizontal distance at which an attack starts (px) |
 
@@ -164,7 +180,8 @@ The slash and contact hitboxes use the `Hitbox` defaults: 1 damage, NORMAL react
 
 ## Known limitations
 
-- Sight is distance only: enemies see through walls and platforms.
+- Sight is a single ray to the player's mid-body. A player whose head pokes over a wall, with the middle of the body hidden, isn't seen.
+- A chasing enemy doesn't search for the player: when sight is lost it keeps running at the player's position until `lose_sight_time` runs out.
 - Enemies don't jump, drop down or climb. A player standing on a step or ledge they can't reach is safe from melee.
 - Several enemies overlap freely because enemy bodies don't collide with each other.
 - One attack per enemy. Enemies with several attacks will need a state that picks between them.
