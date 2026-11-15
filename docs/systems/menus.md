@@ -28,7 +28,7 @@ world.tscn
 - Back (`ui_cancel`: Escape / B) calls the top screen's `go_back()`. The title screen overrides it to do nothing. The pause screen keeps the default, so back on its first page resumes.
 - Each page remembers which row had focus when another page opened over it, and gets it back on return. If the mouse clicks empty space and focus is lost, the next arrow press focuses the first row again.
 - `MenuScreen` (`ui/menus/menu_screen.gd`) is a column. Subclasses add rows in `_build()` with `add_title`, `add_text`, `add_button`, `add_option` and `add_gap`.
-- `OptionRow` (`ui/menus/option_row.gd`) is a button with a name on the left and `< value >` on the right. Left and right step through the values, and pressing or clicking it steps forward. On/off and lists wrap around. Ranges such as volume stop at the ends.
+- `OptionRow` (`ui/menus/option_row.gd`) is a button with a name on the left and `< value >` on the right. Left and right step through the values, and accept steps forward. Clicking the left half of the value (the `<` arrow) steps back, clicking anywhere else steps forward. Mouse presses are handled in `_gui_input()` rather than through `pressed`, which can't tell where the click landed and drops fast repeat clicks. On/off and lists wrap around. Ranges such as volume stop at the ends.
 - `ConfirmScreen` (`ui/menus/confirm_screen.gd`) asks a yes/no question. **No** is focused first.
 
 ### Look

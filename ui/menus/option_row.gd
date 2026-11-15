@@ -1,12 +1,16 @@
 class_name OptionRow
 extends Button
-## A menu row with a name on the left and a value on the right. Left and
-## right step through the values; pressing it (or clicking) steps forward.
-## Lists and toggles wrap around, ranges such as volume stop at the ends.
+## A menu row with a name on the left and `< value >` on the right. Left
+## and right step through the values, and accept steps forward. A click on
+## the left half of the value (the "<" arrow) steps back, anywhere else
+## steps forward. Lists and toggles wrap around, ranges such as volume
+## stop at the ends.
 
 signal changed(index: int)
 
 const WIDTH := 240.0
+## Extra room left of the "<" arrow that still counts as clicking it (px).
+const ARROW_SLACK := 8.0
 
 var values: PackedStringArray
 var index := 0
@@ -44,7 +48,15 @@ func set_values(value_names: PackedStringArray, new_index: int) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_left", true):
+	var click := event as InputEventMouseButton
+	if click and click.button_index == MOUSE_BUTTON_LEFT:
+		# Handled here instead of `pressed`, which can't tell where the click
+		# landed and drops fast repeat clicks (they arrive as double-clicks).
+		if click.pressed:
+			grab_focus()
+			_step(-1 if _is_back_arrow(click.position) else 1)
+		accept_event()
+	elif event.is_action_pressed("ui_left", true):
 		_step(-1)
 		accept_event()
 	elif event.is_action_pressed("ui_right", true):
@@ -54,6 +66,14 @@ func _gui_input(event: InputEvent) -> void:
 
 func _pressed() -> void:
 	_step(1)
+
+
+func _is_back_arrow(point: Vector2) -> bool:
+	var font := _value.get_theme_font("font")
+	var font_size := _value.get_theme_font_size("font_size")
+	var width := font.get_string_size(_value.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var start := size.x + _value.offset_right - width
+	return point.x >= start - ARROW_SLACK and point.x < start + width / 2.0
 
 
 func _step(direction: int) -> void:
