@@ -39,7 +39,7 @@ func exit() -> void:
 
 
 func can_be_staggered() -> bool:
-	return _phase == Phase.STARTUP
+	return _phase == Phase.STARTUP and not enemy.damage.is_poise_broken()
 
 
 func physics_update(delta: float) -> void:
@@ -69,6 +69,7 @@ func _next_phase() -> void:
 			_phase = Phase.RECOVERY
 			_time_left = recovery
 		Phase.RECOVERY:
+			enemy.damage.reset_poise()
 			finished.emit(alert_state())
 
 

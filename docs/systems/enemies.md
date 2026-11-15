@@ -48,6 +48,16 @@ Each enemy has a `Contact` hitbox around its body: always on, `continuous`, on `
 
 A state can refuse the stagger by overriding `EnemyState.can_be_staggered()`. Attacks do this once their hitbox is out, and Dead always does.
 
+### Poise
+
+Without a limit, a player who keeps swinging could keep a lone enemy staggered forever: every recovery would end in the next hit. `EnemyDamage` counts staggers in a row:
+
+1. Each NORMAL or HEAVY hit that staggers the enemy adds one. After `max_staggers` (3) the enemy's **poise is broken**.
+2. While poise is broken, hits still deal damage and flash, but don't stagger. The enemy turns to face the attacker and, if the player is within `attack_range`, attacks right away, even during its cooldown. That attack's wind-up can't be interrupted either (`EnemyAttackState.can_be_staggered()` checks `is_poise_broken()`).
+3. The count goes back to 0 when an attack finishes its recovery, or after `poise_recovery` seconds without being hit. `reset()` also restores it.
+
+So the player gets a few free hits, then has to dodge the counterattack.
+
 ### Finding the player
 
 Enemies find the player through the `player` group and know whether it is alive from `Events.player_health_changed`. Nothing in `actors/enemies/` references the `Player` class, so enemies stay independent of the player's code.
@@ -121,6 +131,8 @@ Set on the enemy's root node. Raider values are the defaults.
 | `hurt_knockback` | 110 | Slide-back speed after a NORMAL hit (px/s) |
 | `heavy_hurt_duration` | 0.45 | Stagger after a HEAVY hit (s) |
 | `heavy_knockback` | 180 | Slide-back speed after a HEAVY hit (px/s) |
+| `max_staggers` | 3 | Staggers in a row before poise breaks. 0: never staggered |
+| `poise_recovery` | 1.5 | Time without being hit before the stagger count resets (s) |
 | `corpse_time` | 0.5 | How long the body stays before fading (s) |
 | `fade_time` | 0.4 | Fade-out length (s) |
 
@@ -148,11 +160,10 @@ The slash and contact hitboxes use the `Hitbox` defaults: 1 damage, NORMAL react
 
 **A new behaviour (ranged attack, flying, guarding):** add a state script in the enemy's own `states/` folder and a node for it under `StateMachine`. If two enemies need it, move it up to `actors/enemies/states/`. If the enemy needs extra data or helpers, give it a root script that extends `Enemy`.
 
-**An enemy that ignores staggers:** override `can_be_staggered()` in its states.
+**An enemy that ignores staggers:** set `max_staggers` to 0 on its `Damage` node, or override `can_be_staggered()` in its states.
 
 ## Known limitations
 
-- An enemy can be hit again during its startup each time it recovers, so a player who keeps swinging can keep a lone enemy staggered. A poise or stagger limit is planned.
 - Sight is distance only: enemies see through walls and platforms.
 - Enemies don't jump, drop down or climb. A player standing on a step or ledge they can't reach is safe from melee.
 - Several enemies overlap freely because enemy bodies don't collide with each other.
