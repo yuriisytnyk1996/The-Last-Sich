@@ -8,8 +8,8 @@ All controls are **actions** defined in `project.godot` (**Project Settings → 
 |---|---|---|---|
 | `move_left` | A, ← | Left stick left, D-pad left | `Player.get_move_axis()` |
 | `move_right` | D, → | Left stick right, D-pad right | `Player.get_move_axis()` |
-| `move_up` | W, ↑ | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); pressed on the ground, enters doors (`Player.can_interact()`) |
-| `move_down` | S, ↓ | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`) |
+| `move_up` | W, ↑ | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); pressed on the ground, enters doors (`Player.can_interact()`); held, grabs and climbs ladders |
+| `move_down` | S, ↓ | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held on top of a ladder, climbs down it; held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`) |
 | `jump` | Space, Z | A / Cross | Jump buffer, variable jump height |
 | `dash` | K, C, Shift | Right shoulder | `Player.wants_dash()` |
 | `attack` | J, X | X / Square | Attack buffer, `Player.wants_attack()` |

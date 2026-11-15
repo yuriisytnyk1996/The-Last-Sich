@@ -20,6 +20,8 @@
 [ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="18_feedback"]
 [ext_resource type="Script" path="res://components/camera/camera_shake.gd" id="19_shake"]
 [ext_resource type="Script" path="res://actors/player/abilities/drop_through.gd" id="20_drop"]
+[ext_resource type="Script" path="res://actors/player/abilities/ladder_climb.gd" id="21_ladder"]
+[ext_resource type="Script" path="res://actors/player/states/climb.gd" id="22_climb"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -157,6 +159,9 @@ shake = 0.6
 [node name="DropThrough" type="Node" parent="."]
 script = ExtResource("20_drop")
 
+[node name="LadderClimb" type="Node" parent="."]
+script = ExtResource("21_ladder")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)
 position_smoothing_enabled = true
@@ -183,6 +188,9 @@ script = ExtResource("6_fall")
 
 [node name="Dash" type="Node" parent="StateMachine"]
 script = ExtResource("7_dash")
+
+[node name="Climb" type="Node" parent="StateMachine"]
+script = ExtResource("22_climb")
 
 [node name="SideAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("8_side_attack")

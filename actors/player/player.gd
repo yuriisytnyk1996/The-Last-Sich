@@ -65,6 +65,7 @@ var _air_dash_available := true
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var damage: PlayerDamage = $Damage
 @onready var drop_through: PlayerDropThrough = $DropThrough
+@onready var ladder_climb: PlayerLadderClimb = $LadderClimb
 
 
 func _physics_process(delta: float) -> void:
@@ -180,6 +181,7 @@ func respawn(at: Vector2) -> void:
 	global_position = at
 	velocity = Vector2.ZERO
 	drop_through.reset()
+	ladder_climb.reset()
 	camera.reset_smoothing.call_deferred()
 	state_machine.transition_to(PlayerState.IDLE)
 	# After the transition: leaving Hurt would start invincibility again.

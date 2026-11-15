@@ -30,7 +30,8 @@ func receive(player: Player) -> void:
 	player.global_position = landing.global_position
 	if arrival_facing != 0:
 		player.set_facing(arrival_facing)
-	if arrival_rise > 0.0 and player.velocity.y < 0.0:
+	var climbing := player.state_machine.state.name == PlayerState.CLIMB
+	if arrival_rise > 0.0 and player.velocity.y < 0.0 and not climbing:
 		player.velocity.y = -sqrt(2.0 * player.jump_gravity * arrival_rise)
 		# Fall, not Jump: releasing jump must not cut the boost short.
 		player.state_machine.transition_to(PlayerState.FALL)

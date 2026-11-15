@@ -37,6 +37,16 @@ Neither landing is safe ground, so both exits have `respawn_here` off: dying aft
 
 To make jumping up possible, put something to jump from within reach under the ceiling opening. In the test shaft that's a stack of one-way planks right below it.
 
+### Ladders
+
+A `Ladder` (`levels/objects/ladder.gd`) is a `Node2D` with a placeholder drawing (`@tool`, so it shows in the editor). Its origin is the **top centre** and it reaches `height` px down. It has no collision: the player finds ladders by position through the `ladders` group. See [Climbing ladders](/systems/player#climbing-ladders) for the controls.
+
+- Make it 16 px wide on the tile grid: put its x on the middle of a tile column (`16 × column + 8`).
+- Put a **one-way plank** tile at the top, level with the ladder's top, so the player can stand on it, walk across, and climb down with down. The player climbs up through it and ends standing on it.
+- Let the bottom reach the floor, or hang it in the air: running off the bottom lets go.
+
+**Ladders between rooms.** A ladder can go down through a hole in the floor into the room below. Add a 16×8 `RoomExit` under the hole (like a [vertical exit](#vertical-exits)) and make the ladder reach past it, and in the room below an exit above the ceiling opening with a ladder starting above the room's top edge (y = -16) so the landing is on it. Both landings must be on the ladders (12 px above the floor exit, 44 px below the ceiling exit) and both exits have `respawn_here` off. The player keeps climbing through the transition.
+
 ### Doors
 
 `levels/objects/door.tscn` is a `RoomExit` with `press_up` on, a 24×44 placeholder door, a 20×40 area and a `Prompt` arrow above it. Its origin is the bottom centre: place it on the ground. The `Landing` sits on the origin, inside the area. That's safe for doors: entering needs a fresh press of up, so holding up while you arrive doesn't send you back. Set `arrival_facing` so the player arrives facing into the room.
@@ -61,6 +71,7 @@ While the player is inside a press-up area, its `Prompt` child (any `CanvasItem`
 | `levels/world.tscn`, `levels/world.gd` | Main scene. Owns the player, HUD, debug labels and screen fade. Loads rooms and runs transitions |
 | `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset |
 | `levels/objects/room_exit.gd` | Edge exit or door to another room |
+| `levels/objects/ladder.gd` | Climbable ladder, found by position |
 | `levels/objects/door.tscn` | Door: a `RoomExit` entered by pressing up |
 | `components/interaction/interaction_area.gd` | Touch or press-up area, base of `RoomExit` |
 | `ui/screen_fade.gd` | Black overlay that fades out and in, runs while paused and during hit-stop |
@@ -72,6 +83,7 @@ While the player is inside a press-up area, its `Prompt` child (any `CanvasItem`
 |---|---|---|---|
 | `SpawnPoint` | `Marker2D` | Yes | Where the player starts when the room is the start room |
 | `Terrain` | `TileMapLayer` | Yes | Ground and walls, see [Terrain](#terrain) |
+| `Ladder` nodes | `Ladder` | No | Ladders, anywhere in the room |
 | `Exits` | `Node2D` holding `RoomExit` areas and door instances | No | Ways to other rooms. Each exit has a `Shape` and a `Landing` marker |
 | `KillZone` | `Area2D` (layer `hazards`, mask `player` and `enemies`) | No | Bottomless pit: kills the player or an enemy on contact, ignoring health |
 | `Enemies` | `Node2D` holding enemy instances | No | Enemies of the room |
@@ -87,6 +99,7 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | `target_room` | `RoomExit` | empty | Room to load (an exit with no target does nothing) |
 | `target_exit` | `RoomExit` | empty | Name of the exit in `target_room` to arrive through |
 | `arrival_facing` | `RoomExit` | `Keep` | Which way the player faces after arriving through this exit: `Keep`, `Left` or `Right` |
+| `height` | `Ladder` | `64.0` | Length of the ladder down from its top (px) |
 | `arrival_rise` | `RoomExit` | `0.0` | Height (px) a player arriving while moving up is launched to. For floor holes the player comes up through. 0 keeps their speed |
 | `respawn_here` | `RoomExit` | `true` | Off when the landing isn't safe ground: a death in the room then respawns at `SpawnPoint` |
 | `press_up` | `InteractionArea` | `false` | Needs up pressed inside the area instead of a touch. On in `door.tscn` |
@@ -124,11 +137,11 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Test cave layout
 
-`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. It has no pits, so no `KillZone`.
+`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. Further right, a ladder goes down through a one-tile hole covered by a plank (x 848 to 864), through the `LadderDown` exit into the shaft. It has no pits, so no `KillZone`.
 
 ## Test shaft layout
 
-`levels/rooms/test_shaft.tscn` is 960×480 and sits under the test cave. Its `Up` exit is an opening in the ceiling at the same x as the cave's hole. Under it is a stack of one-way planks 2 tiles apart: falling in, you land on the top one; drop through them (down + jump) to reach the floor, and jump up through them to climb back. From the top plank, a jump reaches the opening and takes you back to the cave. One raider patrols the floor.
+`levels/rooms/test_shaft.tscn` is 960×480 and sits under the test cave. Its `Up` exit is an opening in the ceiling at the same x as the cave's hole. Under it is a stack of one-way planks 2 tiles apart: falling in, you land on the top one; drop through them (down + jump) to reach the floor, and jump up through them to climb back. From the top plank, a jump reaches the opening and takes you back to the cave. A ladder (`LadderUp`) runs the full height of the shaft, from the floor up through a one-tile opening in the ceiling into the cave. One raider patrols the floor.
 
 ## Test house layout
 
@@ -142,7 +155,8 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 4. For each way out, leave a gap in the wall (4 tiles high is enough), and add a `RoomExit` under `Exits`: an `Area2D` with `collision_layer` 0, `collision_mask` `player`, `monitorable` off, a `Shape` covering the gap at the room edge and a `Landing` marker inside the room. Set `target_room` and `target_exit`, and make the exit in the other room point back.
 5. Keep the floor at the same height on both sides of a linked pair, so walking through feels continuous.
 6. For a hole down to another room, leave a gap in the floor and add a 64×8 `RoomExit` just below it, with its `Landing` 12 px above the area. In the room below, add the matching exit just above an opening in the ceiling with its `Landing` 44 px below. Set `respawn_here` off on both, and `arrival_rise` on the floor exit if players can jump up into it. See [Vertical exits](#vertical-exits).
-7. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
+7. For a ladder, add a `Ladder` node with a plank tile at its top. See [Ladders](#ladders).
+8. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
 
 ## Planned
 

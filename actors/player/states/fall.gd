@@ -8,6 +8,8 @@ func physics_update(delta: float) -> void:
 
 	if player.wants_jump() and player.has_coyote_time():
 		finished.emit(JUMP)
+	elif player.ladder_climb.wants_grab_up():
+		finished.emit(CLIMB)
 	elif player.wants_dash():
 		finished.emit(DASH)
 	elif player.wants_attack():

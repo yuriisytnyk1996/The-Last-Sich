@@ -10,6 +10,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/player.gd` | `Player`: tuning values, timers and helper functions shared by states |
 | `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning, reports health to `Events` |
 | `actors/player/abilities/drop_through.gd` | `PlayerDropThrough`: down + jump through one-way platforms |
+| `actors/player/abilities/ladder_climb.gd` | `PlayerLadderClimb`: finds ladders to grab, climbing tuning |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -29,10 +30,11 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── Damage                   PlayerDamage: hit reactions and hurt/death tuning
 ├── HurtFeedback             flash, hit-stop 0.1 s, shake 0.6
 ├── DropThrough              PlayerDropThrough: down + jump through one-way platforms
+├── LadderClimb              PlayerLadderClimb: finds ladders, climbing tuning
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
-    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash
+    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack
     └── Hurt  └── Dead
 ```
@@ -41,11 +43,12 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Jump, Dash, an attack, Idle (no move input) |
-| **Jump** | Sets upward velocity, cuts the jump if the button is released | Dash, an attack, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Dash, an attack, Idle/Run (landed) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
+| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, an attack, Idle (no move input) |
+| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), Dash, an attack, Fall (once moving down) |
+| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), Dash, an attack, Idle/Run (landed) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
+| **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump + direction), Fall (jump alone, or off the bottom) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop | None: emits `Events.player_died` after `death_delay`, and the room's respawn puts the player in Idle |
@@ -83,6 +86,18 @@ Holding down and pressing jump while standing on a one-way platform drops the pl
 The drop only happens when nothing solid is under the player: `drop_through.wants()` briefly turns the platforms layer off and checks one pixel down with `test_move()`. On solid ground, or with one foot on a solid block, down + jump is an ordinary jump. Down has to be held at least as far as `attack_vertical_threshold`, the same as for a crouch attack.
 
 Dropping uses up the jump press and coyote time, so the player can't jump straight back up from mid-drop.
+
+### Climbing ladders
+
+A [ladder](/systems/rooms#ladders) is grabbed by holding up over it (on the ground or in the air), or by holding down while standing on its top. "Over it" means within `grab_reach` of its centre, with the feet between its top and bottom; grabbing up also needs the ladder to go on above the feet. The player snaps to the ladder's centre and enters **Climb**.
+
+- **Up / down** move at `climb_speed`. With no input the player hangs still.
+- **Reaching the top** puts the feet exactly on the ladder's top, on the plank there, and enters Idle. **Reaching the ground** while climbing down enters Idle. **Going past the bottom** of a ladder that hangs in the air lets go (Fall).
+- **Jump** with a direction held jumps off sideways at `run_speed`; jump alone lets go and falls. Either way the ladder can't be grabbed again for `regrab_delay`, so holding up doesn't snap you straight back on.
+- One-way platforms are off while climbing (`set_platforms_enabled(false)`), so the player passes through the plank at the top and any planks the ladder crosses.
+- A hit knocks the player off into Hurt as usual.
+
+Ladders can continue into another room through a [vertical exit](/systems/rooms#vertical-exits). The Climb state keeps going after the room changes: its ladder was freed with the old room, so it looks up the ladder at the new position (`PlayerLadderClimb.refind()`) and carries on. Ladders are found by position through the `ladders` group, not by physics, so this works on the very first frame of the new room.
 
 ### Dash
 
@@ -139,6 +154,15 @@ Hurt and death values are on the **`Damage`** child node (`PlayerDamage`):
 | Invincibility | `invincibility_time` | 0.5 | Immunity after Hurt ends (s), or after a LIGHT hit |
 | Death | `death_delay` | 1.0 | Seconds before the room respawns a dead player |
 
+Climbing values are on the **`LadderClimb`** child node (`PlayerLadderClimb`):
+
+| Value | Default | Effect |
+|---|---|---|
+| `climb_speed` | 80 | Climbing speed up and down (px/s) |
+| `grab_reach` | 8 | How far from a ladder's centre the player can grab it (px) |
+| `grab_threshold` | 0.5 | Vertical input needed to grab a ladder |
+| `regrab_delay` | 0.3 | Time after jumping off or letting go before a ladder can be grabbed again (s) |
+
 The drop-through value is on the **`DropThrough`** child node (`PlayerDropThrough`):
 
 | Value | Default | Effect |
@@ -159,7 +183,8 @@ Used by states and other systems:
 | `apply_gravity(delta)` | Rising or falling gravity, clamped to `max_fall_speed` |
 | `move_horizontally(delta, accel, decel)` | Accelerates toward input or slows down |
 | `wants_jump()` / `has_coyote_time()` / `consume_jump()` | Jump buffer and coyote logic |
-| `set_platforms_enabled(enabled)` | Turns collision with one-way platforms on or off |
+| `set_platforms_enabled(enabled)` | Turns collision with one-way platforms on or off (drop-through, climbing) |
+| `ladder_climb.wants_grab_up()` / `wants_grab_down()` | Up over a ladder, or down on its top; stores the ladder for the Climb state |
 | `drop_through.wants()` / `drop_through.start()` | Down + jump on a one-way platform, drop timer (on `PlayerDropThrough`) |
 | `wants_dash()` / `start_dash()` | Dash availability and cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |

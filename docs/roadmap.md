@@ -37,10 +37,10 @@
 - [x] Drop through one-way platforms with down + jump
 - [x] Doors you enter by pressing up, `InteractionArea` base, arrival facing for exits
 - [x] Vertical exits: fall through a floor hole into the room below, jump up through a ceiling opening with a launch (`arrival_rise`); test shaft under the cave
+- [x] Ladders: grab with up or down, climb, jump off, climb through vertical exits into another room
 
 ## Next
 
-- [ ] Ladders
 - [ ] Rest points: checkpoint that heals, resets enemies and sets the respawn
 - [ ] Enemy poise, so a lone enemy can't be kept staggered forever
 
@@ -71,5 +71,6 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
 - Plain rectangles for the HUD health bar
+- Drawn rails and rungs for ladders
 - Brown rectangle for doors, a triangle for the press-up prompt
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash

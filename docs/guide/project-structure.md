@@ -36,7 +36,8 @@ The-Last-Sich/
 │   │   ├── player.gd             Tuning values and shared helpers
 │   │   ├── player_damage.gd      Hit reactions, hurt and death tuning
 │   │   ├── abilities/            Movement pieces with their own tuning
-│   │   │   └── drop_through.gd   Down + jump through one-way platforms
+│   │   │   ├── drop_through.gd   Down + jump through one-way platforms
+│   │   │   └── ladder_climb.gd   Finds ladders to grab, climbing tuning
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
@@ -44,6 +45,7 @@ The-Last-Sich/
 │   │       ├── jump.gd
 │   │       ├── fall.gd
 │   │       ├── dash.gd
+│   │       ├── climb.gd          On a ladder
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       └── attacks/          One script per attack direction
@@ -74,7 +76,8 @@ The-Last-Sich/
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
-│   │   └── door.tscn             Door entered by pressing up
+│   │   ├── door.tscn             Door entered by pressing up
+│   │   └── ladder.gd             Climbable ladder
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room)
 │   │   ├── test_cave.tscn        Second test room, east of the test room

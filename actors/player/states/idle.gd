@@ -8,6 +8,8 @@ func physics_update(delta: float) -> void:
 
 	if not player.is_on_floor():
 		finished.emit(FALL)
+	elif player.ladder_climb.wants_grab_up() or player.ladder_climb.wants_grab_down():
+		finished.emit(CLIMB)
 	elif player.drop_through.wants():
 		player.drop_through.start()
 		finished.emit(FALL)
