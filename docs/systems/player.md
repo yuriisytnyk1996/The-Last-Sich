@@ -45,9 +45,9 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 |---|---|---|
 | **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
 | **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, an attack, Idle (no move input) |
-| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), Dash, an attack, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), Dash, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
-| **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
+| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), an attack, Fall (once moving down) |
+| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
+| **Dash** | Ground only. Fixed horizontal speed, no gravity | Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
@@ -108,11 +108,13 @@ The **Fall** state measures how far the player drops while moving down. Landing 
 - The camera shakes once (`Events.camera_shake_requested`, trauma 0.5).
 - Once `hard_landing_dash_cancel` (half) of the time has passed, a dash gets the player out early.
 
-The distance is counted from where the Fall state starts: the top of a jump, walking off a ledge, letting go of a ladder. It carries through room transitions, so falling through a hole into the room below counts as one drop. Air attacks and dashes start a new count. Ordinary jumps (52 px) and the 2-tile platform rules never come close.
+The distance is counted from where the Fall state starts: the top of a jump, walking off a ledge, letting go of a ladder. It carries through room transitions, so falling through a hole into the room below counts as one drop. Air attacks start a new count. Ordinary jumps (52 px) and the 2-tile platform rules never come close.
 
 ### Dash
 
-A fixed-speed horizontal burst in the input direction (or facing direction if there's no input). One air dash is allowed until the player lands. The cooldown prevents spamming.
+A fixed-speed horizontal burst along the ground in the input direction (or facing direction if there's no input). The cooldown prevents spamming.
+
+Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't start while jumping, falling or climbing a ladder, and if jump and dash are pressed in the same frame, the jump wins. A dash that runs off a ledge ends at once; the player keeps `run_speed` and falls with normal air control.
 
 ### Taking damage
 
@@ -200,7 +202,7 @@ Used by states and other systems:
 | `set_platforms_enabled(enabled)` | Turns collision with one-way platforms on or off (drop-through, climbing) |
 | `ladder_climb.wants_grab_up()` / `wants_grab_down()` | Up over a ladder, or down on its top; stores the ladder for the Climb state |
 | `drop_through.wants()` / `drop_through.start()` | Down + jump on a one-way platform, drop timer (on `PlayerDropThrough`) |
-| `wants_dash()` / `start_dash()` | Dash availability and cooldown |
+| `wants_dash()` / `start_dash()` | Dash press on the ground, cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
 | `can_interact()` | Up just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |
 | `set_camera_limits(bounds)` | Called by the room |

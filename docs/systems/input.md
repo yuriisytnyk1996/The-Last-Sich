@@ -11,7 +11,7 @@ All controls are **actions** defined in `project.godot` (**Project Settings → 
 | `move_up` | W, ↑ | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); pressed on the ground, enters doors (`Player.can_interact()`); held, grabs and climbs ladders |
 | `move_down` | S, ↓ | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held on top of a ladder, climbs down it; held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`) |
 | `jump` | Space, Z | A / Cross | Jump buffer, variable jump height |
-| `dash` | K, C, Shift | Right shoulder | `Player.wants_dash()` |
+| `dash` | K, C, Shift | Right shoulder | `Player.wants_dash()`, on the ground only |
 | `attack` | J, X | X / Square | Attack buffer, `Player.wants_attack()` |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
 

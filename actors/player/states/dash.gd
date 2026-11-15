@@ -1,4 +1,7 @@
 extends PlayerState
+## A fast, straight burst along the ground in the input direction (or the
+## facing direction). No gravity. Ground only: running off a ledge ends it
+## at once and the player falls with normal air control.
 
 var _time_left := 0.0
 
@@ -13,11 +16,11 @@ func enter(_previous_state: StringName) -> void:
 
 
 func physics_update(delta: float) -> void:
-	# No gravity during a dash: a straight, snappy burst.
 	_time_left -= delta
 	player.move_and_slide()
-	if _time_left > 0.0:
-		return
-
-	player.velocity.x = player.facing * player.run_speed
-	finished.emit(ground_state() if player.is_on_floor() else FALL)
+	if not player.is_on_floor():
+		player.velocity.x = player.facing * player.run_speed
+		finished.emit(FALL)
+	elif _time_left <= 0.0:
+		player.velocity.x = player.facing * player.run_speed
+		finished.emit(ground_state())

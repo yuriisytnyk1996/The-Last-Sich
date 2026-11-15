@@ -60,7 +60,6 @@ var _coyote_timer := 0.0
 var _jump_buffer_timer := 0.0
 var _attack_buffer_timer := 0.0
 var _dash_cooldown_timer := 0.0
-var _air_dash_available := true
 
 @onready var jump_velocity: float = -2.0 * jump_height / jump_time_to_peak
 @onready var jump_gravity: float = 2.0 * jump_height / (jump_time_to_peak * jump_time_to_peak)
@@ -80,7 +79,6 @@ func _physics_process(delta: float) -> void:
 	# A parent runs before its children, so the states always see fresh timers.
 	if is_on_floor():
 		_coyote_timer = coyote_time
-		_air_dash_available = true
 	else:
 		_coyote_timer = maxf(_coyote_timer - delta, 0.0)
 
@@ -146,18 +144,19 @@ func set_platforms_enabled(enabled: bool) -> void:
 	set_collision_mask_value(PLATFORMS_LAYER, enabled)
 
 
+## Dash is a ground move only: never in the air or on a ladder, and a jump
+## pressed in the same frame wins.
 func wants_dash() -> bool:
 	return (
 		Input.is_action_just_pressed("dash")
+		and not Input.is_action_just_pressed("jump")
 		and _dash_cooldown_timer <= 0.0
-		and (is_on_floor() or _air_dash_available)
+		and is_on_floor()
 	)
 
 
 func start_dash() -> void:
 	_dash_cooldown_timer = dash_cooldown
-	if not is_on_floor():
-		_air_dash_available = false
 
 
 func wants_attack() -> bool:
