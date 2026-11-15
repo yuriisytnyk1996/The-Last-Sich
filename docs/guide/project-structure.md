@@ -13,7 +13,8 @@ The-Last-Sich/
 ├── pnpm-workspace.yaml           pnpm settings (allowed install scripts)
 ├── .versionrc.json               Release and changelog settings
 ├── autoload/
-│   └── events.gd                 Global signal bus (autoload "Events")
+│   ├── events.gd                 Global signal bus (autoload "Events")
+│   └── display_settings.gd       Fullscreen and scaling mode, saved to user://settings.cfg (autoload "DisplaySettings")
 ├── components/
 │   └── state_machine/
 │       ├── state_machine.gd      Generic finite state machine

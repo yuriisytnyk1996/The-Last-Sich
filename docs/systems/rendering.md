@@ -20,11 +20,48 @@ The Mobile renderer needs Vulkan or Metal. Older Android devices may fall back t
 | Setting | Value | Why |
 |---|---|---|
 | Base resolution | 640×360 | Scales evenly to 720p (×2), 1080p (×3), 1440p (×4) and 4K (×6) |
-| Window size (desktop) | 1280×720 | Comfortable default window |
+| Window mode (desktop) | Fullscreen on first launch | Uses the desktop resolution. Players toggle it with F11 / Alt+Enter, and the choice is saved |
+| Window size (desktop, windowed) | 1280×720 | Exactly 2×, so windowed mode has no bars |
 | Stretch mode | `viewport` | Renders at 640×360 and scales the result up, so every pixel stays a square |
-| Scale mode | `integer` | Only whole-number scaling, no uneven pixels |
+| Scale mode | `integer` (default) | Only whole-number scaling, no uneven pixels. Players can switch it, see below |
 | Aspect | `expand` | Wider screens (phones, ultrawide) show more of the level instead of black bars |
 | Orientation (mobile) | Sensor landscape | Landscape, follows how the device is held |
+
+## Display settings (player options)
+
+`autoload/display_settings.gd` (autoload `DisplaySettings`) owns the player-facing display options. Both are saved in the `[display]` section of `user://settings.cfg`.
+
+### Fullscreen
+
+| Value | Default | Effect |
+|---|---|---|
+| `fullscreen` | `true` | Fullscreen at the desktop resolution. `false` gives a 1280×720 window |
+
+- **F11** or **Alt+Enter** (input action `toggle_fullscreen`) switches modes in every build, because players expect these keys.
+- The toggle reads the real window state, so leaving fullscreen through the OS (for example the green button on macOS) doesn't confuse it.
+- There is no resolution list. Fullscreen always uses the desktop resolution, and the scaling mode below decides how 640×360 fits on it.
+- Skipped on phones, which are always fullscreen, and in the editor's embedded Game view, where the editor owns the window. Press F11 there and the choice is still saved, but it only takes effect in a separate window or an exported build.
+
+### Scaling mode
+
+The base resolution only scales evenly when the screen is an exact multiple of 640×360. Common monitors are (1080p is 3×, 1440p is 4×, 4K is 6×), but some laptops and resized windows are not. The player picks:
+
+| Mode | Stretch | Result |
+|---|---|---|
+| `PIXEL_PERFECT` (default) | `integer` | Largest whole-number scale that fits. Sharp, even pixels, black bars around the picture |
+| `SCALE` | `fractional` | Fills the screen. No bars, but some pixels are one screen pixel wider than others |
+
+In debug builds, **F3** toggles the scaling mode. It stands in for the options menu until that exists.
+
+::: tip Small picture in the editor
+The editor's embedded Game view is slightly smaller than 1280×720 (for example 1278×719). In `PIXEL_PERFECT`, that drops to 1× scale. Press F3 to switch to `SCALE`, or run the game in its own window.
+:::
+
+### How it works
+
+1. On start, `DisplaySettings` loads `user://settings.cfg`. Missing values use the defaults above.
+2. `apply()` sets `get_tree().root.content_scale_stretch` and the window mode. Godot re-fits the picture whenever the window size changes.
+3. `set_fullscreen()` and `set_scaling_mode()` apply and save. A future options menu calls these.
 
 ## Keeping pixels crisp
 

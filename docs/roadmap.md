@@ -16,6 +16,7 @@
 - [x] In-game version label
 - [x] Linting and formatting: ESLint for TS tooling, gdtoolkit for GDScript, pinned tools via mise
 - [x] Project `code-style` skill for AI-assisted refactoring
+- [x] Display settings: fullscreen by default (F11 / Alt+Enter) and scaling mode (pixel perfect / scale, F3 in debug builds), saved between runs
 
 ## Next
 
@@ -33,7 +34,7 @@
 - [ ] First enemy (reusing the state machine)
 - [ ] Save system
 - [ ] Audio
-- [ ] Main menu and pause menu
+- [ ] Main menu and pause menu (with fullscreen and scaling mode options)
 
 ## Placeholders currently in the game
 

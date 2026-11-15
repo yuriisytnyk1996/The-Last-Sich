@@ -4,7 +4,7 @@ The game is built from three kinds of pieces:
 
 | Piece | What it is | Example |
 |---|---|---|
-| **Autoloads** | Global nodes that exist for the whole game | `Events` |
+| **Autoloads** | Global nodes that exist for the whole game | `Events`, `DisplaySettings` |
 | **Components** | Reusable nodes with no knowledge of who uses them | `StateMachine`, `State` |
 | **Scenes** | Actors and levels assembled from nodes and components | `Player`, `TestRoom` |
 
