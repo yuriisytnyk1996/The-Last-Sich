@@ -1,0 +1,8 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Docs site
+docs/node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/

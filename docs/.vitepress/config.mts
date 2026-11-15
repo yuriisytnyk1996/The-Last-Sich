@@ -1,0 +1,56 @@
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  title: 'The Last Sich',
+  description: 'Developer documentation for The Last Sich',
+  cleanUrls: true,
+  lastUpdated: true,
+
+  themeConfig: {
+    nav: [
+      { text: 'Guide', link: '/guide/getting-started' },
+      { text: 'Architecture', link: '/architecture/overview' },
+      { text: 'Systems', link: '/systems/player' },
+      { text: 'Roadmap', link: '/roadmap' },
+    ],
+
+    sidebar: [
+      {
+        text: 'Guide',
+        items: [
+          { text: 'Getting started', link: '/guide/getting-started' },
+          { text: 'Project structure', link: '/guide/project-structure' },
+          { text: 'Conventions', link: '/guide/conventions' },
+          { text: 'Writing docs', link: '/guide/writing-docs' },
+        ],
+      },
+      {
+        text: 'Architecture',
+        items: [
+          { text: 'Overview', link: '/architecture/overview' },
+          { text: 'Events (signal bus)', link: '/architecture/events' },
+          { text: 'State machine', link: '/architecture/state-machine' },
+        ],
+      },
+      {
+        text: 'Systems',
+        items: [
+          { text: 'Player', link: '/systems/player' },
+          { text: 'Rooms', link: '/systems/rooms' },
+          { text: 'Input', link: '/systems/input' },
+          { text: 'Rendering & pixel art', link: '/systems/rendering' },
+        ],
+      },
+      {
+        text: 'Project',
+        items: [
+          { text: 'Roadmap', link: '/roadmap' },
+          { text: 'Changelog', link: '/changelog' },
+        ],
+      },
+    ],
+
+    search: { provider: 'local' },
+    outline: [2, 3],
+  },
+})
