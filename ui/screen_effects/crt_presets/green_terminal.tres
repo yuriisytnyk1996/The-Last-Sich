@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="CrtPreset" format=3]
+[gd_resource type="Resource" script_class="CrtPreset" format=3 uid="uid://dj2a6h3d03iaf"]
 
-[ext_resource type="Script" path="res://ui/screen_effects/crt_preset.gd" id="1_preset"]
+[ext_resource type="Script" uid="uid://duio0ikqekwy7" path="res://ui/screen_effects/crt_preset.gd" id="1_preset"]
 
 [resource]
 script = ExtResource("1_preset")
@@ -16,12 +16,11 @@ interference = 0.0035
 color_noise = 0
 white_noise = 0
 curvature = 0.55
-vignette_size = 0.35
 vignette_strength = 0.35
 brightness = 0.4
 contrast = -0.1
 saturation = -0.8
 darkest_level = 0.039
 brightest_level = 0.804
-darkest_color = Color(0.0, 0.118, 0.0, 1)
-brightest_color = Color(0.098, 1.0, 0.098, 1)
+darkest_color = Color(0, 0.118, 0, 1)
+brightest_color = Color(0.098, 1, 0.098, 1)

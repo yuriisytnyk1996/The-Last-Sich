@@ -1,13 +1,12 @@
-[gd_resource type="Resource" script_class="CrtPreset" format=3]
+[gd_resource type="Resource" script_class="CrtPreset" format=3 uid="uid://dochiy3sx0owo"]
 
-[ext_resource type="Script" path="res://ui/screen_effects/crt_preset.gd" id="1_preset"]
+[ext_resource type="Script" uid="uid://duio0ikqekwy7" path="res://ui/screen_effects/crt_preset.gd" id="1_preset"]
 
 [resource]
 script = ExtResource("1_preset")
 display_name = "Broken black & white"
 blur_size = 0.9
 blur_strength = 1
-bleeding_size = 0.75
 bleeding_strength = 0.9
 aberration = 2.5
 mask_strength = 0.15
@@ -15,7 +14,6 @@ scanline_strength = 0.075
 interference = 0.05
 color_noise = 0.75
 white_noise = 0.5
-curvature = 0.6
 vignette_size = 0.75
 vignette_strength = 0.5
 brightness = 0
@@ -24,4 +22,3 @@ saturation = -1
 darkest_level = 0.059
 brightest_level = 0.882
 darkest_color = Color(0.117, 0.117, 0.117, 1)
-brightest_color = Color(1.0, 1.0, 1.0, 1)
