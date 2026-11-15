@@ -27,8 +27,12 @@ The-Last-Sich/
 ├── ui/
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
+├── tools/
+│   └── check_file_sizes.sh       Enforces file size limits
 └── docs/                         This site (VitePress)
 ```
+
+See [Code organization](/guide/code-organization) for the rules behind this layout and the planned folders.
 
 ## Folder rules
 
@@ -39,6 +43,7 @@ The-Last-Sich/
 | `actors/` | Anything that moves and acts: the player, enemies, bosses, NPCs. One folder per actor, with its scene, script and states. |
 | `levels/` | Rooms and level-specific scripts. |
 | `ui/` | Menus, HUD and debug overlays. |
+| `tools/` | Developer scripts that are not part of the game. |
 | `docs/` | Documentation only. Ignored by Godot. |
 
-Planned folders as the game grows: `assets/` (sprites, audio, fonts), `resources/` (data `.tres` files such as enemy stats).
+Planned folders as the game grows: `assets/` (sprites, audio, fonts), `resources/` (data `.tres` files such as enemy stats), `actors/enemies/`, `actors/bosses/`.

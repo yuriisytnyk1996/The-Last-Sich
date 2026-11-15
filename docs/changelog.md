@@ -2,6 +2,12 @@
 
 Newest first. Each entry lists what changed and which docs pages cover it.
 
+## 2026-11-15: Code organization rules
+
+**Added**
+- File size limits, folder hierarchy and splitting rules. See [Code organization](/guide/code-organization).
+- `tools/check_file_sizes.sh` to enforce the limits.
+
 ## 2026-11-15: Foundation
 
 **Added**

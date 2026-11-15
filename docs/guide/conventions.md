@@ -10,6 +10,8 @@
 
 ## Design rules
 
+File size limits and folder layout are covered in [Code organization](/guide/code-organization).
+
 1. **One responsibility per script.** The player script holds data and helpers; each state holds one behaviour.
 2. **Tuning values are `@export` variables**, grouped with `@export_group`, so they can be adjusted in the Inspector without editing code.
 3. **Systems communicate through signals.** Global events go through [`Events`](/architecture/events). Avoid `get_node("../../Something")` across systems.
@@ -34,5 +36,6 @@ Defined in `project.godot` under `[layer_names]`:
 A feature is finished when:
 
 1. It works in the game and has no errors or warnings in the Godot output.
-2. Its documentation page is created or updated (see [Writing docs](/guide/writing-docs)).
-3. The [Changelog](/changelog) and [Roadmap](/roadmap) are updated.
+2. `tools/check_file_sizes.sh` passes.
+3. Its documentation page is created or updated (see [Writing docs](/guide/writing-docs)).
+4. The [Changelog](/changelog) and [Roadmap](/roadmap) are updated.

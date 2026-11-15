@@ -22,6 +22,18 @@ Follow the page template in `docs/guide/writing-docs.md`. Check that the site bu
 
 - Never mention or reference other commercial games (by name or otherwise) in code, comments, docs or commit messages. Describe patterns on their own merits.
 
+## Code organization
+
+Full rules: `docs/guide/code-organization.md`. Keep files small and the hierarchy predictable:
+
+- **File size:** aim for 100 lines or fewer. Over 200 is a warning, over 300 is not allowed. Run `tools/check_file_sizes.sh` before committing.
+- **Functions** fit on one screen (~30 lines).
+- **Organize by feature, then concern:** `actors/<actor>/` holds the scene, the root script (data and helpers only), `states/` (one behaviour per file) and optional `attacks/`, `abilities/`, `audio/`. Every actor uses the same layout.
+- **Bosses:** one attack pattern per state file. No monolithic behaviour scripts.
+- **Reusable pieces** go in `components/`, global managers in `autoload/` (one per file), shared actor code in base classes. Never import across sibling actor folders.
+- **One class per file**, named after the class in snake_case. No `utils`/`helpers`/`misc` dumping grounds.
+- **Folders:** split into subfolders past ~10 files; max 4 levels below `res://`. Don't create empty placeholder folders.
+
 ## Code conventions
 
 See `docs/guide/conventions.md`. In short: static typing, `class_name` for shared types, `@export` tuning values, one behaviour per state script, global events through the `Events` autoload, physics layers as named in `project.godot`.

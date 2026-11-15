@@ -20,6 +20,7 @@ export default defineConfig({
         items: [
           { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Project structure', link: '/guide/project-structure' },
+          { text: 'Code organization', link: '/guide/code-organization' },
           { text: 'Conventions', link: '/guide/conventions' },
           { text: 'Writing docs', link: '/guide/writing-docs' },
         ],
