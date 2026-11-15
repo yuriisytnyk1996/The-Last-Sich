@@ -15,7 +15,9 @@ any state ──health 0──► Dead ──Enemy.reset()──► Patrol
 
 1. **Patrol** walks at `patrol_speed`. At a wall or a ledge it stops, waits `turn_pause` and turns around. Enemies never walk off ledges: a `FloorProbe` raycast under `Visual` checks for ground just ahead.
 2. When it [sees](#line-of-sight) the player, the enemy switches to **Chase**. It can't see behind itself, so the player can sneak up on a patrolling enemy, but not closer than `close_range`.
-3. **Chase** runs at `chase_speed` towards the player, still stopping at walls and ledges. It turns only once the player is more than `turn_dead_zone` to one side, so it doesn't jitter when the player is right above it. It gives up and patrols again once the player is further than `lose_range`, or has been out of sight for `lose_sight_time` in a row.
+3. **Chase** runs at `chase_speed` towards the player, still stopping at walls and ledges. It turns only once the player is more than `turn_dead_zone` to one side, and at most once per `turn_delay`, so it doesn't flip back and forth when the player runs right under or over it. It gives up and patrols again once the player is further than `lose_range`, or has been out of sight for `lose_sight_time` in a row.
+   - **Out of reach:** a player more than `sight_height` above or below (on a platform overhead, or down below a ledge) can't be reached (`Enemy.can_reach_target()`), so the enemy doesn't run at them: it stops and keeps facing them. The same goes for a wall or a ledge in the way.
+   - **Giving up:** after `give_up_time` stuck like that, the enemy turns its back and patrols again. It can't see behind itself, so it walks off until the next turn brings the player back into view. Waiting in attack range for the cooldown doesn't count as stuck.
 4. Within `attack_range` (and at the same height), with the cooldown over and on the floor, it starts its **Attack**.
 5. A hit sends it to **Hurt** (see [Hit reactions](#hit-reactions)). Afterwards it goes back to Chase if the player is still close, or Patrol otherwise.
 6. At 0 health it enters **Dead**: hurtbox and contact damage turn off, the body darkens, slides to a stop and fades out after `corpse_time`.
@@ -136,7 +138,9 @@ Set on the enemy's root node. Raider values are the defaults.
 | `target_height` | 15 | Height above the player's feet the sight ray aims at, about mid-body (px) |
 | `lose_range` | 220 | Distance at which a chase is given up (px) |
 | `lose_sight_time` | 1.5 | Time out of sight after which a chase is given up (s) |
-| `turn_dead_zone` | 4 | How far to one side the player must be before it turns (px) |
+| `give_up_time` | 1.0 | Time a chase can't reach the player before the enemy turns away and patrols (s) |
+| `turn_dead_zone` | 12 | How far to one side the player must be before it turns (px) |
+| `turn_delay` | 0.3 | Time after turning towards the player before it can turn again (s) |
 | `attack_range` | 30 | Horizontal distance at which an attack starts (px) |
 
 ### EnemyDamage

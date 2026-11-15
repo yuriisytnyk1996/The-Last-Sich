@@ -1,8 +1,6 @@
 class_name Enemy
 extends CharacterBody2D
-## Base for every enemy: shared tuning and the helpers its states use
-## (gravity, walking, turning, ledge checks, finding and seeing the player).
-##
+## Base for every enemy: shared tuning and the helpers its states use.
 ## Behaviour lives in the state nodes under StateMachine, hit reactions in
 ## the Damage node. Enemies join the "enemies" group, and the room calls
 ## `reset()` on all of them when the player respawns.
@@ -32,8 +30,12 @@ extends CharacterBody2D
 @export var lose_range := 220.0
 ## A chasing enemy gives up after not seeing the player for this long (s).
 @export var lose_sight_time := 1.5
+## A chase that can't reach the player waits this long, then gives up (s).
+@export var give_up_time := 1.0
 ## The player must be this far to one side before the enemy turns (px).
-@export var turn_dead_zone := 4.0
+@export var turn_dead_zone := 12.0
+## Seconds after turning to face the player before it can turn again.
+@export var turn_delay := 0.3
 
 @export_group("Attack")
 ## Horizontal distance to the player at which an attack starts (px).
@@ -44,6 +46,7 @@ var facing := 1
 var _target: Node2D
 var _target_alive := true
 var _attack_cooldown := 0.0
+var _turn_cooldown := 0.0
 var _spawn_position := Vector2.ZERO
 
 @onready var visual: Node2D = $Visual
@@ -65,6 +68,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_attack_cooldown = maxf(_attack_cooldown - delta, 0.0)
+	_turn_cooldown = maxf(_turn_cooldown - delta, 0.0)
 
 
 # --- Movement helpers ---
@@ -91,7 +95,7 @@ func turn_around() -> void:
 	set_facing(-facing)
 
 
-## A wall or a drop right in front. Enemies never walk off ledges.
+## A wall or a drop right in front: enemies never walk off ledges.
 func is_path_blocked() -> bool:
 	if is_on_wall() and signf(get_wall_normal().x) == -facing:
 		return true
@@ -101,8 +105,7 @@ func is_path_blocked() -> bool:
 # --- Senses ---
 
 
-## The player is alive, within sight, in front (or within `close_range`)
-## and no wall stands in between.
+## The player is alive, in sight range, in front (or within `close_range`), unblocked.
 func can_see_target() -> bool:
 	if not _has_live_target():
 		return false
@@ -119,6 +122,11 @@ func can_track_target() -> bool:
 	return _has_live_target() and _target_offset().length() <= lose_range
 
 
+## On the enemy's level, so a chase could get to them.
+func can_reach_target() -> bool:
+	return _has_live_target() and _target_level(_target_offset())
+
+
 func is_target_in_attack_range() -> bool:
 	if not _has_live_target():
 		return false
@@ -126,12 +134,14 @@ func is_target_in_attack_range() -> bool:
 	return absf(offset.x) <= attack_range and _target_level(offset)
 
 
+## Turns to the player at most once per `turn_delay`, so no flip-flopping.
 func face_target() -> void:
-	if not _has_live_target():
+	if not _has_live_target() or _turn_cooldown > 0.0:
 		return
 	var dx := _target_offset().x
-	if absf(dx) > turn_dead_zone:
+	if absf(dx) > turn_dead_zone and signf(dx) != facing:
 		set_facing(dx)
+		_turn_cooldown = turn_delay
 
 
 # --- Attack and lifecycle ---
@@ -158,6 +168,7 @@ func reset() -> void:
 	velocity = Vector2.ZERO
 	set_facing(start_facing)
 	_attack_cooldown = 0.0
+	_turn_cooldown = 0.0
 	damage.reset()
 	state_machine.transition_to(EnemyState.PATROL)
 
