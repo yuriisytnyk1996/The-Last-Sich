@@ -1,16 +1,18 @@
-[gd_resource type="TileSet" format=3]
+[gd_resource type="TileSet" format=3 uid="uid://b6xv8xxnyt15g"]
 
-[ext_resource type="Texture2D" path="res://levels/terrain/terrain_tiles.png" id="1_tffl1"]
+[ext_resource type="Texture2D" uid="uid://c6tpnciq7h7p3" path="res://levels/terrain/terrain_tiles.png" id="1_tffl1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_luxg6"]
 texture = ExtResource("1_tffl1")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -4, -8, -4)
-1:0/0/physics_layer_0/polygon_0/one_way = true
+1:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -4, -8, -4)
+1:0/0/physics_layer_1/polygon_0/one_way = true
 
 [resource]
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
+physics_layer_1/collision_layer = 64
+physics_layer_1/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_luxg6")

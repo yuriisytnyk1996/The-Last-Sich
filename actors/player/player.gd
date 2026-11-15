@@ -6,6 +6,9 @@ extends CharacterBody2D
 ## (what happens when idle, running, jumping...) lives in the state nodes
 ## under StateMachine, one small script per state.
 
+## Physics layer of one-way platforms, switched off while dropping through.
+const PLATFORMS_LAYER := 7
+
 @export_group("Run")
 @export var run_speed := 140.0
 @export var acceleration := 1200.0
@@ -25,6 +28,10 @@ extends CharacterBody2D
 @export var coyote_time := 0.1
 ## A jump pressed slightly before landing still counts.
 @export var jump_buffer_time := 0.12
+
+## Down + jump on a one-way platform drops through it. The platforms layer
+## stays off for this long, enough to fall clear of the plank.
+@export var drop_through_time := 0.25
 
 @export_group("Dash")
 @export var dash_speed := 300.0
@@ -49,6 +56,7 @@ var _jump_buffer_timer := 0.0
 var _attack_buffer_timer := 0.0
 var _dash_cooldown_timer := 0.0
 var _air_dash_available := true
+var _drop_through_timer := 0.0
 
 @onready var jump_velocity: float = -2.0 * jump_height / jump_time_to_peak
 @onready var jump_gravity: float = 2.0 * jump_height / (jump_time_to_peak * jump_time_to_peak)
@@ -81,6 +89,11 @@ func _physics_process(delta: float) -> void:
 		_attack_buffer_timer = maxf(_attack_buffer_timer - delta, 0.0)
 
 	_dash_cooldown_timer = maxf(_dash_cooldown_timer - delta, 0.0)
+
+	if _drop_through_timer > 0.0:
+		_drop_through_timer -= delta
+		if _drop_through_timer <= 0.0:
+			set_collision_mask_value(PLATFORMS_LAYER, true)
 
 
 # --- Helpers used by the states ---
@@ -127,6 +140,24 @@ func consume_jump() -> void:
 	_coyote_timer = 0.0
 
 
+## Down + jump while standing only on one-way platforms (no solid floor below).
+func wants_drop_through() -> bool:
+	if not (wants_jump() and is_on_floor()):
+		return false
+	if get_vertical_axis() < attack_vertical_threshold:
+		return false
+	set_collision_mask_value(PLATFORMS_LAYER, false)
+	var on_solid := test_move(global_transform, Vector2(0.0, 1.0))
+	set_collision_mask_value(PLATFORMS_LAYER, true)
+	return not on_solid
+
+
+func start_drop_through() -> void:
+	consume_jump()
+	set_collision_mask_value(PLATFORMS_LAYER, false)
+	_drop_through_timer = drop_through_time
+
+
 func wants_dash() -> bool:
 	return (
 		Input.is_action_just_pressed("dash")
@@ -159,6 +190,8 @@ func set_camera_limits(bounds: Rect2i) -> void:
 func respawn(at: Vector2) -> void:
 	global_position = at
 	velocity = Vector2.ZERO
+	_drop_through_timer = 0.0
+	set_collision_mask_value(PLATFORMS_LAYER, true)
 	camera.reset_smoothing.call_deferred()
 	state_machine.transition_to(PlayerState.IDLE)
 	# After the transition: leaving Hurt would start invincibility again.

@@ -27,7 +27,7 @@ size = Vector2(10, 22)
 
 [node name="Raider" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 1
+collision_mask = 65
 floor_snap_length = 4.0
 script = ExtResource("1_enemy")
 start_facing = -1
@@ -65,6 +65,7 @@ color = Color(2.5, 2.2, 0.8, 1)
 [node name="FloorProbe" type="RayCast2D" parent="Visual"]
 position = Vector2(10, -4)
 target_position = Vector2(0, 12)
+collision_mask = 65
 
 [node name="Attacks" type="Node2D" parent="Visual"]
 

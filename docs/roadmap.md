@@ -34,6 +34,7 @@
 - [x] Enemies reset when the player respawns; pits kill enemies too
 - [x] Room transitions: `World` main scene owns the player and HUD, `RoomExit` doorways at screen edges, fade out and in while the game is paused, health carries over, death respawns at the room's entrance
 - [x] `TileMapLayer` terrain: shared 16×16 tileset with solid and one-way tiles, test room rebuilt on the tile grid with every platform in jump reach
+- [x] Drop through one-way platforms with down + jump
 
 ## Next
 

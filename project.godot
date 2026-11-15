@@ -104,6 +104,7 @@ toggle_fullscreen={
 2d_physics/layer_4="player_attacks"
 2d_physics/layer_5="enemy_attacks"
 2d_physics/layer_6="hazards"
+2d_physics/layer_7="platforms"
 
 [physics]
 

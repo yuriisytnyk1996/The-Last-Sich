@@ -56,12 +56,12 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 
 ## Terrain
 
-Solid ground is painted on a `TileMapLayer` named `Terrain`, using the shared tileset `levels/terrain/terrain.tres`. The tileset's physics layer puts every tile on the `world` physics layer, so the player, enemies and their ledge probes collide with it like any other body.
+Solid ground is painted on a `TileMapLayer` named `Terrain`, using the shared tileset `levels/terrain/terrain.tres`. The tileset has two physics layers: solid tiles are on the `world` physics layer and one-way planks on the `platforms` layer. The player, enemies and their floor probes mask both, so they collide with the tiles like any other body. Keeping planks on their own layer is what lets the player [drop through them](/systems/player#dropping-through-platforms).
 
 | Tile | Atlas coords | Collision |
 |---|---|---|
 | Solid block | `(0, 0)` | Full 16×16 square |
-| One-way plank | `(1, 0)` | Top 4 px only, one-way: you can jump up through it and land on top |
+| One-way plank | `(1, 0)` | `platforms` layer, top 4 px only, one-way: you can jump up through it, land on top, and drop through with down + jump |
 
 The tiles are 16×16 px. The texture `levels/terrain/terrain_tiles.png` is a placeholder: flat colours with a light top edge.
 

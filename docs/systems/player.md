@@ -15,7 +15,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 ## Scene tree
 
 ```
-Player (CharacterBody2D)     layer: player   mask: world   group: "player"
+Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "player"
 ├── CollisionShape2D         12×30 rectangle, origin at the feet
 ├── Visual (Node2D)          flipped with scale.x to face left/right
 │   ├── Body (ColorRect)     placeholder
@@ -39,8 +39,8 @@ Player (CharacterBody2D)     layer: player   mask: world   group: "player"
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall, Jump, Dash, an attack, Idle (no move input) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
+| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Jump, Dash, an attack, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Dash, an attack, Fall (once moving down) |
 | **Fall** | Gravity, air control | Jump (coyote time), Dash, an attack, Idle/Run (landed) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
@@ -73,6 +73,14 @@ For `coyote_time` seconds after walking off a ledge, the player can still jump. 
 ### Jump buffering
 
 A jump pressed up to `jump_buffer_time` seconds before landing is remembered and fires on landing. This forgives early presses.
+
+### Dropping through platforms
+
+Holding down and pressing jump while standing on a one-way platform drops the player through it instead of jumping. One-way tiles sit on their own `platforms` physics layer, so the drop just switches that layer off in the player's mask for `drop_through_time` seconds, long enough to fall clear of the plank, then switches it back on.
+
+The drop only happens when nothing solid is under the player: `wants_drop_through()` briefly turns the platforms layer off and checks one pixel down with `test_move()`. On solid ground, or with one foot on a solid block, down + jump is an ordinary jump. Down has to be held at least as far as `attack_vertical_threshold`, the same as for a crouch attack.
+
+Dropping uses up the jump press and coyote time, so the player can't jump straight back up from mid-drop.
 
 ### Dash
 
@@ -110,6 +118,7 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Jump | `max_fall_speed` | 360 | Terminal fall speed (px/s) |
 | Jump | `coyote_time` | 0.1 | Grace period after leaving a ledge (s) |
 | Jump | `jump_buffer_time` | 0.12 | How early a jump press is remembered (s) |
+| Jump | `drop_through_time` | 0.25 | How long the platforms layer stays off after dropping through (s) |
 | Dash | `dash_speed` | 300 | Dash speed (px/s) |
 | Dash | `dash_duration` | 0.18 | Dash length (s) |
 | Dash | `dash_cooldown` | 0.4 | Time before the next dash (s) |
@@ -143,6 +152,7 @@ Used by states and other systems:
 | `apply_gravity(delta)` | Rising or falling gravity, clamped to `max_fall_speed` |
 | `move_horizontally(delta, accel, decel)` | Accelerates toward input or slows down |
 | `wants_jump()` / `has_coyote_time()` / `consume_jump()` | Jump buffer and coyote logic |
+| `wants_drop_through()` / `start_drop_through()` | Down + jump on a one-way platform, drop timer |
 | `wants_dash()` / `start_dash()` | Dash availability and cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
 | `set_camera_limits(bounds)` | Called by the room |
@@ -154,4 +164,3 @@ Used by states and other systems:
 - Knockback strength comes from the reaction only; hitbox `knockback_force` is ignored for the player.
 - No death animation yet.
 - No combos or movement attacks yet (planned as upgrades).
-- No dropping down through one-way platforms.

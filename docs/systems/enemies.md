@@ -59,12 +59,12 @@ Enemies join the `enemies` group. When the player respawns, the room calls `rese
 ## Scene layout
 
 ```
-Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world
+Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 ├── CollisionShape2D             14×28
 ├── Visual                       flipped with facing
 │   ├── Body, Eye                placeholder rectangles
 │   ├── Telegraph                glint shown during the wind-up
-│   ├── FloorProbe (RayCast2D)   (10, -4) → 12 px down, ledge check
+│   ├── FloorProbe (RayCast2D)   (10, -4) → 12 px down, ledge check, mask: world, platforms
 │   └── Attacks/Slash (Hitbox)   (18, -14), 24×16, layer enemy_attacks
 ├── Health                       max_health 3
 ├── Hurtbox                      14×26, mask player_attacks
