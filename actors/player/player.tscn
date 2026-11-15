@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://actors/player/player_damage.gd" id="17_damage"]
 [ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="18_feedback"]
 [ext_resource type="Script" path="res://components/camera/camera_shake.gd" id="19_shake"]
+[ext_resource type="Script" path="res://actors/player/abilities/drop_through.gd" id="20_drop"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -152,6 +153,9 @@ hurtbox = NodePath("../Hurtbox")
 flash_target = NodePath("../Visual")
 hit_stop = 0.1
 shake = 0.6
+
+[node name="DropThrough" type="Node" parent="."]
+script = ExtResource("20_drop")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)

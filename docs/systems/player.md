@@ -9,6 +9,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/player.tscn` | Scene: body, collision, visuals, camera, state machine |
 | `actors/player/player.gd` | `Player`: tuning values, timers and helper functions shared by states |
 | `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning, reports health to `Events` |
+| `actors/player/abilities/drop_through.gd` | `PlayerDropThrough`: down + jump through one-way platforms |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -27,6 +28,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── InvincibilityBlink       blinks Visual while the hurtbox is invincible
 ├── Damage                   PlayerDamage: hit reactions and hurt/death tuning
 ├── HurtFeedback             flash, hit-stop 0.1 s, shake 0.6
+├── DropThrough              PlayerDropThrough: down + jump through one-way platforms
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
@@ -76,9 +78,9 @@ A jump pressed up to `jump_buffer_time` seconds before landing is remembered and
 
 ### Dropping through platforms
 
-Holding down and pressing jump while standing on a one-way platform drops the player through it instead of jumping. One-way tiles sit on their own `platforms` physics layer, so the drop just switches that layer off in the player's mask for `drop_through_time` seconds, long enough to fall clear of the plank, then switches it back on.
+Holding down and pressing jump while standing on a one-way platform drops the player through it instead of jumping. One-way tiles sit on their own `platforms` physics layer, so the drop (`PlayerDropThrough` on the `DropThrough` node) just switches that layer off in the player's mask for `drop_through_time` seconds, long enough to fall clear of the plank, then switches it back on.
 
-The drop only happens when nothing solid is under the player: `wants_drop_through()` briefly turns the platforms layer off and checks one pixel down with `test_move()`. On solid ground, or with one foot on a solid block, down + jump is an ordinary jump. Down has to be held at least as far as `attack_vertical_threshold`, the same as for a crouch attack.
+The drop only happens when nothing solid is under the player: `drop_through.wants()` briefly turns the platforms layer off and checks one pixel down with `test_move()`. On solid ground, or with one foot on a solid block, down + jump is an ordinary jump. Down has to be held at least as far as `attack_vertical_threshold`, the same as for a crouch attack.
 
 Dropping uses up the jump press and coyote time, so the player can't jump straight back up from mid-drop.
 
@@ -118,7 +120,6 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Jump | `max_fall_speed` | 360 | Terminal fall speed (px/s) |
 | Jump | `coyote_time` | 0.1 | Grace period after leaving a ledge (s) |
 | Jump | `jump_buffer_time` | 0.12 | How early a jump press is remembered (s) |
-| Jump | `drop_through_time` | 0.25 | How long the platforms layer stays off after dropping through (s) |
 | Dash | `dash_speed` | 300 | Dash speed (px/s) |
 | Dash | `dash_duration` | 0.18 | Dash length (s) |
 | Dash | `dash_cooldown` | 0.4 | Time before the next dash (s) |
@@ -138,6 +139,12 @@ Hurt and death values are on the **`Damage`** child node (`PlayerDamage`):
 | Invincibility | `invincibility_time` | 0.5 | Immunity after Hurt ends (s), or after a LIGHT hit |
 | Death | `death_delay` | 1.0 | Seconds before the room respawns a dead player |
 
+The drop-through value is on the **`DropThrough`** child node (`PlayerDropThrough`):
+
+| Value | Default | Effect |
+|---|---|---|
+| `drop_through_time` | 0.25 | How long the platforms layer stays off after dropping through (s) |
+
 Maximum health is set on the `Health` child node (`max_health`, default 5). Flash, hit-stop and shake are on the `HurtFeedback` node, see [Combat](/systems/combat#hurtfeedback).
 
 ## Public helpers
@@ -152,7 +159,8 @@ Used by states and other systems:
 | `apply_gravity(delta)` | Rising or falling gravity, clamped to `max_fall_speed` |
 | `move_horizontally(delta, accel, decel)` | Accelerates toward input or slows down |
 | `wants_jump()` / `has_coyote_time()` / `consume_jump()` | Jump buffer and coyote logic |
-| `wants_drop_through()` / `start_drop_through()` | Down + jump on a one-way platform, drop timer |
+| `set_platforms_enabled(enabled)` | Turns collision with one-way platforms on or off |
+| `drop_through.wants()` / `drop_through.start()` | Down + jump on a one-way platform, drop timer (on `PlayerDropThrough`) |
 | `wants_dash()` / `start_dash()` | Dash availability and cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
 | `can_interact()` | Up just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |

@@ -35,6 +35,8 @@ The-Last-Sich/
 │   │   ├── player.tscn           Player scene
 │   │   ├── player.gd             Tuning values and shared helpers
 │   │   ├── player_damage.gd      Hit reactions, hurt and death tuning
+│   │   ├── abilities/            Movement pieces with their own tuning
+│   │   │   └── drop_through.gd   Down + jump through one-way platforms
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd

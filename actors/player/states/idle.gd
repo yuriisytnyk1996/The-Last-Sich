@@ -8,8 +8,8 @@ func physics_update(delta: float) -> void:
 
 	if not player.is_on_floor():
 		finished.emit(FALL)
-	elif player.wants_drop_through():
-		player.start_drop_through()
+	elif player.drop_through.wants():
+		player.drop_through.start()
 		finished.emit(FALL)
 	elif player.wants_jump():
 		finished.emit(JUMP)
