@@ -2,6 +2,10 @@ class_name Room
 extends Node2D
 ## A level room: camera bounds, pits, exits and respawning.
 ##
+## Each room is split into three sub-scenes, so art and level design can be
+## edited apart: `Deco` (art, never collides), `Layout` (terrain, ladders,
+## hazards, pits) and `Logic` (spawn point, exits, enemies, objects).
+##
 ## The `World` scene owns the player and calls `enter()` after adding the
 ## room. When the player dies and no rest point has been used, the world
 ## calls `respawn_player()`: they come back where they entered this room
@@ -13,9 +17,9 @@ extends Node2D
 var player: Player
 var _respawn_position := Vector2.ZERO
 
-@onready var spawn_point: Marker2D = $SpawnPoint
-@onready var kill_zone: Area2D = get_node_or_null(^"KillZone")
-@onready var exits: Node = get_node_or_null(^"Exits")
+@onready var spawn_point: Marker2D = $Logic/SpawnPoint
+@onready var kill_zone: Area2D = get_node_or_null(^"Layout/KillZone")
+@onready var exits: Node = get_node_or_null(^"Logic/Exits")
 
 
 func _ready() -> void:

@@ -95,10 +95,14 @@ The-Last-Sich/
 │   │   ├── rest_point.tscn       Rest point scene
 │   │   └── ladder.gd             Climbable ladder
 │   ├── rooms/
-│   │   ├── test_room.tscn        Test level (start room)
+│   │   ├── test_room.tscn        Test level (start room): a Room with Deco, Layout and Logic
+│   │   ├── test_room/            Its parts: deco.tscn, layout.tscn, logic.tscn
 │   │   ├── test_cave.tscn        Second test room, east of the test room
+│   │   ├── test_cave/            Its parts
 │   │   ├── test_house.tscn       Small room behind the test room's door
-│   │   └── test_shaft.tscn       Tall room under the test cave, reached through a hole
+│   │   ├── test_house/           Its parts
+│   │   ├── test_shaft.tscn       Tall room under the test cave, reached through a hole
+│   │   └── test_shaft/           Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)

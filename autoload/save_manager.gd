@@ -13,7 +13,8 @@ extends Node
 ## written to disk on `save_game()`. In debug builds F8 deletes the save
 ## and restarts the game.
 
-const FORMAT_VERSION := 1
+## 2: rooms were split into Deco, Layout and Logic, so node paths changed.
+const FORMAT_VERSION := 2
 const PERSISTENT_GROUP := &"persistent"
 
 var slot := 0

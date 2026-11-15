@@ -1,0 +1,54 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="3_exit"]
+[ext_resource type="PackedScene" path="res://actors/enemies/raider/raider.tscn" id="4_raider"]
+
+[sub_resource type="RectangleShape2D" id="shape_ladder_exit"]
+size = Vector2(16, 8)
+
+[sub_resource type="RectangleShape2D" id="shape_hole"]
+size = Vector2(64, 8)
+
+[node name="Logic" type="Node2D"]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(480, 432)
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="Up" type="Area2D" parent="Exits"]
+position = Vector2(736, -4)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("3_exit")
+target_room = "res://levels/rooms/test_cave.tscn"
+target_exit = &"Down"
+respawn_here = false
+
+[node name="Shape" type="CollisionShape2D" parent="Exits/Up"]
+shape = SubResource("shape_hole")
+
+[node name="Landing" type="Marker2D" parent="Exits/Up"]
+position = Vector2(0, 44)
+
+[node name="LadderUp" type="Area2D" parent="Exits"]
+position = Vector2(856, -4)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("3_exit")
+target_room = "res://levels/rooms/test_cave.tscn"
+target_exit = &"LadderDown"
+respawn_here = false
+
+[node name="Shape" type="CollisionShape2D" parent="Exits/LadderUp"]
+shape = SubResource("shape_ladder_exit")
+
+[node name="Landing" type="Marker2D" parent="Exits/LadderUp"]
+position = Vector2(0, 44)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Raider" parent="Enemies" instance=ExtResource("4_raider")]
+position = Vector2(300, 432)

@@ -69,24 +69,50 @@ While the player is inside an interact area, its `Prompt` child (any `CanvasItem
 | File | Role |
 |---|---|
 | `levels/world.tscn`, `levels/world.gd` | Gameplay scene, started from the [main menu](/systems/menus). Owns the player, HUD, debug labels, screen fade and pause menu. Loads rooms, runs transitions, handles death (rest point or room respawn) |
-| `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset |
+| `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset. Finds its nodes inside the `Layout` and `Logic` parts |
 | `levels/objects/room_exit.gd` | Edge exit or door to another room |
 | `levels/objects/ladder.gd` | Climbable ladder, found by position |
 | `levels/objects/door.tscn` | Door: a `RoomExit` entered by pressing interact |
 | `components/interaction/interaction_area.gd` | Touch or interact area, base of `RoomExit` |
 | `ui/screen_fade.gd` | Black overlay that fades out and in, runs while paused and during hit-stop |
-| `levels/rooms/*.tscn` | The rooms |
+| `levels/rooms/<name>.tscn` | A room: the `Room` root and its three parts |
+| `levels/rooms/<name>/deco.tscn`, `layout.tscn`, `logic.tscn` | The parts of that room |
 
-## Room nodes
+## Room structure
 
-| Node | Type | Required | Purpose |
-|---|---|---|---|
-| `SpawnPoint` | `Marker2D` | Yes | Where the player starts when the room is the start room |
-| `Terrain` | `TileMapLayer` | Yes | Ground and walls, see [Terrain](#terrain) |
-| `Ladder` nodes | `Ladder` | No | Ladders, anywhere in the room |
-| `Exits` | `Node2D` holding `RoomExit` areas and door instances | No | Ways to other rooms. Each exit has a `Shape` and a `Landing` marker |
-| `KillZone` | `Area2D` (layer `hazards`, mask `player` and `enemies`) | No | Bottomless pit: kills the player or an enemy on contact, ignoring health |
-| `Enemies` | `Node2D` holding enemy instances | No | Enemies of the room |
+Each room is split into three sub-scenes, so an artist and a level designer can work on the same room at once without touching the same file. The room scene itself only holds the `Room` script, its `bounds` and the three instances:
+
+```
+levels/rooms/test_room.tscn   TestRoom (Room)
+├── Deco     levels/rooms/test_room/deco.tscn     art, drawn first
+├── Layout   levels/rooms/test_room/layout.tscn   what the player collides with
+└── Logic    levels/rooms/test_room/logic.tscn    what happens in the room
+```
+
+| Part | Holds | Rule |
+|---|---|---|
+| **Deco** | Background, and later tile art, props, parallax and lighting | Never collides and has no scripts that change gameplay. Safe to change without retesting the level |
+| **Layout** | `Terrain`, `Ladder` nodes, `Hazards` (spikes) and `KillZone` | Everything that decides where the player can stand, climb or die. Follow the [platform heights](#platform-heights) |
+| **Logic** | `SpawnPoint`, `Exits`, `Enemies`, rest points, training dummies, later triggers and pickups | Things that act, react or are saved. Node paths in here are saved, so renaming one loses its saved state |
+
+The parts are drawn in that order: Deco behind, then Layout, then Logic. Art that must go in front of the player (foreground pillars, grass) stays in Deco with a higher `z_index`. All three share the room's coordinates: their roots sit at (0, 0), so a position means the same thing in every part.
+
+`Room` finds its nodes by path: `Logic/SpawnPoint`, `Layout/KillZone` and `Logic/Exits`. Save keys are paths inside the room too, such as `Logic/RestPoint`.
+
+**Editing a room.** Open the part you want to change (`layout.tscn` to paint ground) rather than the room scene. To see the other parts while editing, open the room scene, where all three show together. Changes made there to an instanced part's children stay in the room scene as overrides, so make them in the part's own file instead.
+
+### Room nodes
+
+| Node | Part | Type | Required | Purpose |
+|---|---|---|---|---|
+| `Background` | Deco | `ColorRect` | No | Placeholder backdrop the size of `bounds` |
+| `Terrain` | Layout | `TileMapLayer` | Yes | Ground and walls, see [Terrain](#terrain) |
+| `Ladder` nodes | Layout | `Ladder` | No | Ladders |
+| `Hazards` | Layout | `Node2D` holding hazard `Hitbox`es | No | Spikes and other static hazards |
+| `KillZone` | Layout | `Area2D` (layer `hazards`, mask `player` and `enemies`) | No | Bottomless pit: kills the player or an enemy on contact, ignoring health |
+| `SpawnPoint` | Logic | `Marker2D` | Yes | Where the player starts when the room is the start room |
+| `Exits` | Logic | `Node2D` holding `RoomExit` areas and door instances | No | Ways to other rooms. Each exit has a `Shape` and a `Landing` marker |
+| `Enemies` | Logic | `Node2D` holding enemy instances | No | Enemies of the room |
 
 Rooms don't contain the player, the HUD or the debug labels: those live in `World`.
 
@@ -149,18 +175,18 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Making a new room
 
-1. Create a new scene in `levels/rooms/` with a `Node2D` root and attach `levels/room.gd`. Set `bounds` to the room's size.
-2. Add a `SpawnPoint` marker, a `Terrain` tile layer (tileset `levels/terrain/terrain.tres`) and paint the ground. Follow the [platform heights](#platform-heights) rules.
-3. Put enemy instances under an `Enemies` node. Add a `KillZone` if the room has pits.
-4. For each way out, leave a gap in the wall (4 tiles high is enough), and add a `RoomExit` under `Exits`: an `Area2D` with `collision_layer` 0, `collision_mask` `player`, `monitorable` off, a `Shape` covering the gap at the room edge and a `Landing` marker inside the room. Set `target_room` and `target_exit`, and make the exit in the other room point back.
-5. Keep the floor at the same height on both sides of a linked pair, so walking through feels continuous.
-6. For a hole down to another room, leave a gap in the floor and add a 64×8 `RoomExit` just below it, with its `Landing` 12 px above the area. In the room below, add the matching exit just above an opening in the ceiling with its `Landing` 44 px below. Set `respawn_here` off on both, and `arrival_rise` on the floor exit if players can jump up into it. See [Vertical exits](#vertical-exits).
-7. For a ladder, add a `Ladder` node with a plank tile at its top. See [Ladders](#ladders).
-8. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
+1. Make a folder `levels/rooms/<name>/` with three scenes, each with a `Node2D` root at (0, 0): `deco.tscn` (root `Deco`), `layout.tscn` (root `Layout`) and `logic.tscn` (root `Logic`). Duplicating another room's folder is quickest.
+2. Create `levels/rooms/<name>.tscn` with a `Node2D` root, attach `levels/room.gd` and set `bounds` to the room's size. Instance the three parts as children, named `Deco`, `Layout` and `Logic`, in that order.
+3. In `layout.tscn`, add a `Terrain` tile layer (tileset `levels/terrain/terrain.tres`) and paint the ground. Follow the [platform heights](#platform-heights) rules. Add a `KillZone` if the room has pits.
+4. In `logic.tscn`, add a `SpawnPoint` marker and put enemy instances under an `Enemies` node.
+5. For each way out, leave a gap in the wall (4 tiles high is enough), and add a `RoomExit` under `Exits` in `logic.tscn`: an `Area2D` with `collision_layer` 0, `collision_mask` `player`, `monitorable` off, a `Shape` covering the gap at the room edge and a `Landing` marker inside the room. Set `target_room` and `target_exit`, and make the exit in the other room point back.
+6. Keep the floor at the same height on both sides of a linked pair, so walking through feels continuous.
+7. For a hole down to another room, leave a gap in the floor and add a 64×8 `RoomExit` just below it, with its `Landing` 12 px above the area. In the room below, add the matching exit just above an opening in the ceiling with its `Landing` 44 px below. Set `respawn_here` off on both, and `arrival_rise` on the floor exit if players can jump up into it. See [Vertical exits](#vertical-exits).
+8. For a ladder, add a `Ladder` node in `layout.tscn` with a plank tile at its top. See [Ladders](#ladders).
+9. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
 
 ## Planned
 
-- Split rooms into **Layout** (collision), **Deco** (art and parallax) and **Logic** (enemies, triggers) sub-scenes, so art and design work don't conflict.
 - Real tile art with terrain autotiling (corners and edges picked automatically).
 - Locked doors that need a key item (after the save system and inventory).
 - Loading rooms in the background, so big rooms don't hitch.

@@ -49,6 +49,7 @@
 - [x] Main menu (Continue / New game / Options / Quit) as the main scene, and a pause menu (Escape / Start) with Resume, Options and Quit to main menu
 - [x] Options, applied and saved at once: video (fullscreen, resolution, scaling, VSync, textures, brightness, 10 CRT filter presets), audio (master, music, effects and voice buses), accessibility (screen shake, rumble) and controls (rebind keys and gamepad buttons, swap on conflict, reset to defaults)
 - [x] Gamepad rumble on hits
+- [x] Rooms split into Deco, Layout and Logic sub-scenes, so art and level design can be edited apart
 
 ## Next
 
@@ -58,7 +59,6 @@ Nothing picked yet. The next item comes from Later.
 
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
-- [ ] Room split into Layout / Deco / Logic sub-scenes
 - [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
 - [ ] Audio
 

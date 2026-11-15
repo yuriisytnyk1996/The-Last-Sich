@@ -8,9 +8,9 @@ All saved state lives in one **snapshot** dictionary in the `SaveManager` autolo
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "global": {
-    "world": { "rest_room": "res://levels/rooms/test_house.tscn", "rest_path": "RestPoint" }
+    "world": { "rest_room": "res://levels/rooms/test_house.tscn", "rest_path": "Logic/RestPoint" }
   },
   "rooms": {
     "res://levels/rooms/test_house.tscn": { "SomeDoor": { "opened": true } }
@@ -64,7 +64,7 @@ In debug builds, **F8** deletes the save and restarts the game from `start_room`
 | Value | Default | Effect |
 |---|---|---|
 | `SaveManager.slot` | `0` | Which slot is read and written. Set it before `World` starts (a slot menu, later). |
-| `SaveManager.FORMAT_VERSION` | `1` | Saves with another version are ignored |
+| `SaveManager.FORMAT_VERSION` | `2` | Saves with another version are ignored. Version 2 came with the [room split](/systems/rooms#room-structure), which changed node paths inside rooms |
 | `SaveFile.SLOT_PATH` | `user://save_%d.json` | Where slots are written |
 
 On macOS, `user://` is `~/Library/Application Support/Godot/app_userdata/The Last Sich/`.
