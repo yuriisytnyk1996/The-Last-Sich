@@ -29,6 +29,9 @@ extends Node
 @export var corpse_time := 0.5
 ## Seconds the fade-out takes.
 @export var fade_time := 0.4
+## Once killed, stays dead when the player leaves the room and comes back,
+## until they rest or die. Off: back every time the room loads.
+@export var stays_dead := true
 
 ## Resolved for the current hit, read by the Hurt state. Signed x speed.
 var knockback := 0.0
@@ -57,6 +60,13 @@ func reset() -> void:
 	enemy.health.reset()
 	enemy.hurtbox.clear_invincibility()
 	reset_poise()
+
+
+## Already dead when the room loads: killed earlier and not back yet.
+## Skips the fade. `Enemy.reset()` brings it back as usual.
+func lie_dead() -> void:
+	enemy.health.kill()
+	enemy.modulate.a = 0.0
 
 
 ## Called when an attack finishes, so the enemy can be staggered again.

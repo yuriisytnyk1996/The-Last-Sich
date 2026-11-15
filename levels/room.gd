@@ -60,6 +60,15 @@ func _on_kill_zone_body_entered(body: Node2D) -> void:
 		(body as Enemy).health.kill.call_deferred()
 
 
+## The enemies placed in this room.
+func get_enemies() -> Array[Enemy]:
+	var enemies: Array[Enemy] = []
+	for node in get_tree().get_nodes_in_group(&"enemies"):
+		if node is Enemy and is_ancestor_of(node):
+			enemies.append(node)
+	return enemies
+
+
 func respawn_player() -> void:
 	player.respawn(_respawn_position)
 	get_tree().call_group(&"enemies", &"reset")

@@ -7,7 +7,7 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 1. `World` loads `start_room` into its `RoomHolder` and calls `Room.enter(player, exit_name)`. The room sets the camera limits to its `bounds` and returns where the player should stand: the `Landing` of the named exit, or `SpawnPoint` when the name is empty (the start of the game).
 2. A room kills the player (or an enemy) instantly when they enter `KillZone` (a bottomless pit), whatever health is left, with `Health.kill()`. The player goes through the normal death: the **Dead** state (the body stops where it is, below the screen, so the camera stays put), the HUD bar empties, and after `death_delay` the Dead state emits `Events.player_died`. Invincibility doesn't protect against pits.
 3. When `Events.player_died` fires and no [rest point](/systems/rest-points) has been used, `World` calls `Room.respawn_player()`, which respawns the player where they entered the room: the landing they arrived at, or `SpawnPoint` at the start of the game or when the exit they came through has `respawn_here` off. `Player.respawn()` restores full health.
-4. At the same moment, the room calls `reset()` on every node in the `enemies` group: each enemy returns to its spawn point with full health, including dead ones. See [Enemies](/systems/enemies#respawning).
+4. At the same moment, the room calls `reset()` on every node in the `enemies` group: each enemy returns to its spawn point with full health, including dead ones. `World` also forgets every killed enemy, so the enemies of other rooms are back too. See [Enemies](/systems/enemies#respawning).
 
 ## Room transitions
 
@@ -22,7 +22,7 @@ A `RoomExit` (`levels/objects/room_exit.gd`) is an `InteractionArea` (see [Inter
 3. `World` frees the old room, loads the new one and calls `Room.enter()`, which calls `RoomExit.receive()` on the target exit: the player is placed at its `Landing` marker and turned to `arrival_facing` (unless it is `Keep`). The camera snaps there without smoothing.
 4. The game unpauses and the screen fades back in. Further requests are ignored until the fade finishes.
 
-The player is never recreated, so health, velocity and the current state carry over: walking into an exit, you walk out of the other one. Rooms are loaded when needed and freed when left, so enemies in a room you come back to start fresh.
+The player is never recreated, so health, velocity and the current state carry over: walking into an exit, you walk out of the other one. Rooms are loaded when needed and freed when left. Coming back, enemies you killed there stay dead until you rest or die, and the ones left alive start fresh. See [Enemies](/systems/enemies#respawning).
 
 Keep each edge exit's `Landing` outside its own exit area, or the player would bounce straight back. A good spot is 40 px inside the room, standing on the ground.
 
@@ -69,7 +69,8 @@ While the player is inside an interact area, its `Prompt` child (any `CanvasItem
 | File | Role |
 |---|---|
 | `levels/world.tscn`, `levels/world.gd` | Gameplay scene, started from the [main menu](/systems/menus). Owns the player, HUD, debug labels, screen fade and pause menu. Loads rooms, runs transitions, handles death (rest point or room respawn) |
-| `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset. Finds its nodes inside the `Layout` and `Logic` parts |
+| `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset, `get_enemies()`. Finds its nodes inside the `Layout` and `Logic` parts |
+| `levels/killed_enemies.gd` | `KilledEnemies`: keeps killed enemies dead across room changes until the player rests or dies |
 | `levels/objects/room_exit.gd` | Edge exit or door to another room |
 | `levels/objects/ladder.gd` | Climbable ladder, found by position |
 | `levels/objects/door.tscn` | Door: a `RoomExit` entered by pressing interact |

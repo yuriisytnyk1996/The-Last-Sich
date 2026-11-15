@@ -3,7 +3,7 @@ extends CharacterBody2D
 ## Base for every enemy: shared tuning and the helpers its states use.
 ## Behaviour lives in the state nodes under StateMachine, hit reactions in
 ## the Damage node. Enemies join the "enemies" group, and the room calls
-## `reset()` on all of them when the player respawns.
+## `reset()` on all of them when the player respawns or rests.
 
 @export_enum("Left:-1", "Right:1") var start_facing := 1
 

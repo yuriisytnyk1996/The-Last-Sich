@@ -50,6 +50,7 @@
 - [x] Options, applied and saved at once: video (fullscreen, resolution, scaling, VSync, textures, brightness, 10 CRT filter presets), audio (master, music, effects and voice buses), accessibility (screen shake, rumble) and controls (rebind keys and gamepad buttons, swap on conflict, reset to defaults)
 - [x] Gamepad rumble on hits
 - [x] Rooms split into Deco, Layout and Logic sub-scenes, so art and level design can be edited apart
+- [x] Killed enemies stay dead across room changes until the player rests or dies (`stays_dead` to opt out)
 
 ## Next
 

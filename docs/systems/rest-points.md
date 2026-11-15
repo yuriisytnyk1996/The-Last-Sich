@@ -1,11 +1,11 @@
 # Rest points
 
-A rest point is a checkpoint. Pressing interact at one heals the player to full, refills their healing flasks, resets the enemies in the room and makes it the place the player comes back to after dying, even from another room.
+A rest point is a checkpoint. Pressing interact at one heals the player to full, refills their healing flasks, brings back every enemy (in this room and all others) and makes it the place the player comes back to after dying, even from another room.
 
 ## How it works
 
 1. A `RestPoint` (`levels/objects/rest_point.gd`, scene `levels/objects/rest_point.tscn`) is an [interaction area](/systems/rooms#interaction-areas) with `press_interact` on. The player stands at it and presses interact (on the ground, in Idle or Run). A `Prompt` arrow shows while they're in range.
-2. The rest point restores the player's health (`Health.reset()`, so the HUD bar refills), refills their [healing flasks](/systems/player#healing-flasks) (`PlayerFlasks.refill()`), stops their horizontal movement, calls `reset()` on every node in the `enemies` group and emits `Events.rested(rest_point)`.
+2. The rest point restores the player's health (`Health.reset()`, so the HUD bar refills), refills their [healing flasks](/systems/player#healing-flasks) (`PlayerFlasks.refill()`), stops their horizontal movement, calls `reset()` on every node in the `enemies` group and emits `Events.rested(rest_point)`. `World` then forgets every killed enemy, so the enemies of other rooms are back when those rooms load (see [Enemies](/systems/enemies#respawning)).
 3. Every rest point listens to `Events.rested`: the one that was used lights its flame, the others put theirs out.
 4. `World` (`levels/world.gd`) remembers the last rest point used: the scene path of its room and its node path inside that room.
 5. When the player dies (`Events.player_died`), `World` checks for a remembered rest point:
@@ -49,5 +49,4 @@ A rest point has no values of its own. `press_interact` comes from `InteractionA
 ## Known limitations
 
 - No resting animation or menu. The player keeps control the whole time.
-- Resting resets only the current room's enemies. Other rooms reset anyway when they load.
 - Placeholder rectangles for the post and flame.

@@ -18,6 +18,7 @@ extends Node2D
 var save_id := &"world"
 
 var room: Room
+var _killed := KilledEnemies.new()
 var _changing := false
 ## The last rest point used: its room and its path inside that room.
 var _rest_room := ""
@@ -65,10 +66,12 @@ func _on_room_change_requested(room_path: String, exit_name: StringName) -> void
 func _on_rested(rest_point: Node2D) -> void:
 	_rest_room = room.scene_file_path
 	_rest_path = room.get_path_to(rest_point)
+	_killed.clear()
 	SaveManager.save_game(room)
 
 
 func _on_player_died() -> void:
+	_killed.clear()
 	if _rest_room == "":
 		room.respawn_player()
 	else:
@@ -98,6 +101,7 @@ func _load_room(room_path: String, exit_name: StringName) -> void:
 	room = (load(room_path) as PackedScene).instantiate() as Room
 	room_holder.add_child(room)
 	SaveManager.restore_room(room)
+	_killed.watch(room)
 	room.enter(player, exit_name)
 	player.camera.reset_smoothing.call_deferred()
 	var rest_point := _current_rest_point()

@@ -88,6 +88,7 @@ The-Last-Sich/
 │   ├── world.tscn                Gameplay scene: player, HUD, screen fade, pause menu and the current room
 │   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
+│   ├── killed_enemies.gd         Keeps killed enemies dead across rooms until the player rests or dies
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
 │   │   ├── door.tscn             Door entered by pressing interact

@@ -78,7 +78,23 @@ Enemies find the player through the `player` group and know whether it is alive 
 
 ### Respawning
 
-Enemies join the `enemies` group. When the player respawns, the room calls `reset()` on the whole group: every enemy goes back to its spawn point and `start_facing` with full health and patrols again, dead or not. Pits (the room's `KillZone`) kill enemies the same way they kill the player.
+Enemies join the `enemies` group. Pits (the room's `KillZone`) kill enemies the same way they kill the player.
+
+**A killed enemy stays dead** until the player rests or dies, even if the player leaves its room and comes back. Enemies left alive come back fresh when their room loads again: at their spawn point, with full health.
+
+| Event | Enemies |
+|---|---|
+| Leave a room and come back | Killed ones stay dead. Living ones start fresh, because the room is loaded again |
+| Player dies, no rest point used | All come back: the current room calls `reset()` on its enemies, and every other room's are back when it loads |
+| Player dies after resting | All come back: the rest point's room is reloaded, and every other room's are back when it loads |
+| Player rests | All come back: the rest point calls `reset()` on the room's enemies, and every other room's are back when it loads |
+| Continue or New game | All come back. Killed enemies are never saved, and the game only saves at rest points, where everyone comes back anyway |
+
+`KilledEnemies` (`levels/killed_enemies.gd`) does the remembering. `World` owns one and calls `watch(room)` after loading each room. It listens to each enemy's `Health.died` and stores the enemy's room scene path and node path. When that room loads again, the enemy's `EnemyDamage.lie_dead()` kills it at once with no fade, so it is in **Dead** like any killed enemy, and the usual `Enemy.reset()` brings it back. `World` calls `KilledEnemies.clear()` when the player rests or dies.
+
+An enemy with `stays_dead` off comes back every time its room loads. Use it for enemies that should always be there, such as weak fodder near a rest point.
+
+`reset()` sends every enemy back to its spawn point and `start_facing` with full health, patrolling, dead or not.
 
 ## Scene layout
 
@@ -106,7 +122,8 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 | File | Role |
 |---|---|
 | `actors/enemies/enemy.gd` | `Enemy`: shared tuning, movement and sensing helpers, `reset()` |
-| `actors/enemies/enemy_damage.gd` | `EnemyDamage`: hit reactions, hurt and death tuning |
+| `actors/enemies/enemy_damage.gd` | `EnemyDamage`: hit reactions, hurt and death tuning, `lie_dead()` |
+| `levels/killed_enemies.gd` | `KilledEnemies`: which enemies stay dead until the player rests or dies |
 | `actors/enemies/enemy_state.gd` | `EnemyState`: state names, `can_be_staggered()`, `alert_state()` |
 | `actors/enemies/states/patrol.gd` | Walk, turn at walls and ledges, spot the player |
 | `actors/enemies/states/chase.gd` | Run at the player, start attacks, give up when out of range or out of sight |
@@ -155,6 +172,7 @@ Set on the enemy's root node. Raider values are the defaults.
 | `poise_recovery` | 1.5 | Time without being hit before the stagger count resets (s) |
 | `corpse_time` | 0.5 | How long the body stays before fading (s) |
 | `fade_time` | 0.4 | Fade-out length (s) |
+| `stays_dead` | On | Killed, it stays dead across room changes until the player rests or dies. Off: back every time its room loads |
 
 ### EnemyAttackState
 
