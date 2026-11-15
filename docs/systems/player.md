@@ -34,7 +34,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
-    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb
+    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── HardLanding
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack
     └── Hurt  └── Dead
 ```
@@ -46,9 +46,10 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, an attack (attack buffered), Run (move input) |
 | **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, an attack, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), Dash, an attack, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), Dash, an attack, Idle/Run (landed) |
+| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), Dash, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
+| **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
@@ -99,6 +100,16 @@ A [ladder](/systems/rooms#ladders) is grabbed by holding up over it (on the grou
 
 Ladders can continue into another room through a [vertical exit](/systems/rooms#vertical-exits). The Climb state keeps going after the room changes: its ladder was freed with the old room, so it looks up the ladder at the new position (`PlayerLadderClimb.refind()`) and carries on. Ladders are found by position through the `ladders` group, not by physics, so this works on the very first frame of the new room.
 
+### Hard landing
+
+The **Fall** state measures how far the player drops while moving down. Landing after `hard_landing_height` (160 px, 10 tiles) or more enters **HardLanding** instead of Idle/Run:
+
+- The player can't move for `hard_landing_time` (0.5 s). Horizontal speed is held at 0 and no input is read.
+- The camera shakes once (`Events.camera_shake_requested`, trauma 0.5).
+- Once `hard_landing_dash_cancel` (half) of the time has passed, a dash gets the player out early.
+
+The distance is counted from where the Fall state starts: the top of a jump, walking off a ledge, letting go of a ladder. It carries through room transitions, so falling through a hole into the room below counts as one drop. Air attacks and dashes start a new count. Ordinary jumps (52 px) and the 2-tile platform rules never come close.
+
 ### Dash
 
 A fixed-speed horizontal burst in the input direction (or facing direction if there's no input). One air dash is allowed until the player lands. The cooldown prevents spamming.
@@ -135,6 +146,9 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Jump | `max_fall_speed` | 360 | Terminal fall speed (px/s) |
 | Jump | `coyote_time` | 0.1 | Grace period after leaving a ledge (s) |
 | Jump | `jump_buffer_time` | 0.12 | How early a jump press is remembered (s) |
+| Landing | `hard_landing_height` | 160 | Fall distance that ends in a hard landing (px) |
+| Landing | `hard_landing_time` | 0.5 | Seconds stuck in place after a hard landing |
+| Landing | `hard_landing_dash_cancel` | 0.5 | Fraction of the hard landing after which a dash cancels it |
 | Dash | `dash_speed` | 300 | Dash speed (px/s) |
 | Dash | `dash_duration` | 0.18 | Dash length (s) |
 | Dash | `dash_cooldown` | 0.4 | Time before the next dash (s) |

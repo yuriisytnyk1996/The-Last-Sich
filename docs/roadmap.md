@@ -39,6 +39,7 @@
 - [x] Vertical exits: fall through a floor hole into the room below, jump up through a ceiling opening with a launch (`arrival_rise`); test shaft under the cave
 - [x] Ladders: grab with up or down, climb, jump off, climb through vertical exits into another room
 - [x] Rest points: press up to heal and reset the room's enemies; death respawns at the last one used, loading its room
+- [x] Hard landing: falling 10 tiles or more leaves the player stuck in place for a moment, with a camera shake; a dash cancels it halfway
 - [x] Enemy poise: after 3 staggers in a row an enemy stops flinching and strikes back
 
 ## Next

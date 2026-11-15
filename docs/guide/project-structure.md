@@ -46,6 +46,7 @@ The-Last-Sich/
 │   │       ├── fall.gd
 │   │       ├── dash.gd
 │   │       ├── climb.gd          On a ladder
+│   │       ├── hard_landing.gd   Stuck in place after a long fall
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       └── attacks/          One script per attack direction

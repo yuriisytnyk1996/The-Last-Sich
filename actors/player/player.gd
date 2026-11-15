@@ -30,6 +30,14 @@ const PLATFORMS_LAYER := 7
 ## A jump pressed slightly before landing still counts.
 @export var jump_buffer_time := 0.12
 
+@export_group("Landing")
+## Falling at least this far (px) ends in a hard landing.
+@export var hard_landing_height := 160.0
+## Seconds without control after a hard landing.
+@export var hard_landing_time := 0.5
+## A dash cancels the hard landing once this fraction of it has passed.
+@export_range(0.0, 1.0) var hard_landing_dash_cancel := 0.5
+
 @export_group("Dash")
 @export var dash_speed := 300.0
 @export var dash_duration := 0.18
