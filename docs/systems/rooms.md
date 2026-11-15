@@ -6,7 +6,7 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 
 1. `World` loads `start_room` into its `RoomHolder` and calls `Room.enter(player, exit_name)`. The room sets the camera limits to its `bounds` and returns where the player should stand: the `Landing` of the named exit, or `SpawnPoint` when the name is empty (the start of the game).
 2. A room kills the player (or an enemy) instantly when they enter `KillZone` (a bottomless pit), whatever health is left, with `Health.kill()`. The player goes through the normal death: the **Dead** state, the HUD bar empties, and after `death_delay` the Dead state emits `Events.player_died`. Invincibility doesn't protect against pits.
-3. When `Events.player_died` fires, the room respawns the player where they entered it (the landing they arrived at, or `SpawnPoint`). `Player.respawn()` restores full health.
+3. When `Events.player_died` fires, the room respawns the player where they entered it: the landing they arrived at, or `SpawnPoint` at the start of the game or when the exit they came through has `respawn_here` off. `Player.respawn()` restores full health.
 4. At the same moment, it calls `reset()` on every node in the `enemies` group: each enemy returns to its spawn point with full health, including dead ones. See [Enemies](/systems/enemies#respawning).
 
 ## Room transitions
@@ -14,6 +14,7 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 A `RoomExit` (`levels/objects/room_exit.gd`) is an `InteractionArea` (see [Interaction areas](#interaction-areas)) that only detects the `player` layer. Its node name is its id. It points at another room (`target_room`) and at the exit there to arrive through (`target_exit`). Two linked exits point at each other by name. There are two kinds:
 
 - **Edge exits** (`press_up` off): a gap in the wall at the edge of the room. Touching it is enough.
+- **Vertical exits** (`press_up` off): a hole in the floor or an opening in the ceiling. See [Vertical exits](#vertical-exits).
 - **Doors** (`press_up` on): an instance of `levels/objects/door.tscn`, standing on the ground. The player stands in front of it and presses up. See [Doors](#doors).
 
 1. The player touches an edge exit, or presses up in front of a door. It emits `Events.room_change_requested(target_room, target_exit)`.
@@ -24,6 +25,17 @@ A `RoomExit` (`levels/objects/room_exit.gd`) is an `InteractionArea` (see [Inter
 The player is never recreated, so health, velocity and the current state carry over: walking into an exit, you walk out of the other one. Rooms are loaded when needed and freed when left, so enemies in a room you come back to start fresh.
 
 Keep each edge exit's `Landing` outside its own exit area, or the player would bounce straight back. A good spot is 40 px inside the room, standing on the ground.
+
+### Vertical exits
+
+A vertical exit is an ordinary `RoomExit` laid flat: a 64×8 area just below the bottom edge of a hole (y = room height + 4), or just above an opening in the ceiling (y = -4). Two linked exits sit at the same x in both rooms so the drop feels continuous.
+
+- **Falling down.** The player falls into the hole and arrives at the `Landing` of the ceiling exit in the room below, 44 px under the top edge so the whole body is below the area. Velocity carries over, so they keep falling.
+- **Jumping up.** The player jumps into the ceiling opening and arrives at the `Landing` of the floor exit in the room above, just above its area (12 px). That landing is inside the hole, so the floor exit has `arrival_rise` set: a player who arrives moving up is launched to rise that many pixels (64 in the test cave), enough to clear the floor and steer onto the ground beside the hole. They arrive in the **Fall** state, so releasing jump doesn't cut the launch short.
+
+Neither landing is safe ground, so both exits have `respawn_here` off: dying after arriving through them respawns the player at the room's `SpawnPoint`.
+
+To make jumping up possible, put something to jump from within reach under the ceiling opening. In the test shaft that's a stack of one-way planks right below it.
 
 ### Doors
 
@@ -75,6 +87,8 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | `target_room` | `RoomExit` | empty | Room to load (an exit with no target does nothing) |
 | `target_exit` | `RoomExit` | empty | Name of the exit in `target_room` to arrive through |
 | `arrival_facing` | `RoomExit` | `Keep` | Which way the player faces after arriving through this exit: `Keep`, `Left` or `Right` |
+| `arrival_rise` | `RoomExit` | `0.0` | Height (px) a player arriving while moving up is launched to. For floor holes the player comes up through. 0 keeps their speed |
+| `respawn_here` | `RoomExit` | `true` | Off when the landing isn't safe ground: a death in the room then respawns at `SpawnPoint` |
 | `press_up` | `InteractionArea` | `false` | Needs up pressed inside the area instead of a touch. On in `door.tscn` |
 | `duration` | `ScreenFade` | `0.15` | Seconds for one fade, out or in |
 
@@ -110,7 +124,11 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Test cave layout
 
-`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. It has no pits, so no `KillZone`.
+`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. It has no pits, so no `KillZone`.
+
+## Test shaft layout
+
+`levels/rooms/test_shaft.tscn` is 960×480 and sits under the test cave. Its `Up` exit is an opening in the ceiling at the same x as the cave's hole. Under it is a stack of one-way planks 2 tiles apart: falling in, you land on the top one; drop through them (down + jump) to reach the floor, and jump up through them to climb back. From the top plank, a jump reaches the opening and takes you back to the cave. One raider patrols the floor.
 
 ## Test house layout
 
@@ -123,12 +141,12 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 3. Put enemy instances under an `Enemies` node. Add a `KillZone` if the room has pits.
 4. For each way out, leave a gap in the wall (4 tiles high is enough), and add a `RoomExit` under `Exits`: an `Area2D` with `collision_layer` 0, `collision_mask` `player`, `monitorable` off, a `Shape` covering the gap at the room edge and a `Landing` marker inside the room. Set `target_room` and `target_exit`, and make the exit in the other room point back.
 5. Keep the floor at the same height on both sides of a linked pair, so walking through feels continuous.
-6. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
+6. For a hole down to another room, leave a gap in the floor and add a 64×8 `RoomExit` just below it, with its `Landing` 12 px above the area. In the room below, add the matching exit just above an opening in the ceiling with its `Landing` 44 px below. Set `respawn_here` off on both, and `arrival_rise` on the floor exit if players can jump up into it. See [Vertical exits](#vertical-exits).
+7. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
 
 ## Planned
 
 - Split rooms into **Layout** (collision), **Deco** (art and parallax) and **Logic** (enemies, triggers) sub-scenes, so art and design work don't conflict.
 - Real tile art with terrain autotiling (corners and edges picked automatically).
-- Vertical exits (falling into the room below, jumping up into the room above).
 - Locked doors that need a key item (after the save system and inventory).
 - Loading rooms in the background, so big rooms don't hitch.

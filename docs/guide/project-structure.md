@@ -76,7 +76,8 @@ The-Last-Sich/
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room)
 │   │   ├── test_cave.tscn        Second test room, east of the test room
-│   │   └── test_house.tscn       Small room behind the test room's door
+│   │   ├── test_house.tscn       Small room behind the test room's door
+│   │   └── test_shaft.tscn       Tall room under the test cave, reached through a hole
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)

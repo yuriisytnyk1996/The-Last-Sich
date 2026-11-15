@@ -32,7 +32,8 @@ func enter(entering_player: Player, exit_name: StringName) -> void:
 	var exit := _find_exit(exit_name)
 	if exit:
 		exit.receive(player)
-		_respawn_position = exit.landing.global_position
+		if exit.respawn_here:
+			_respawn_position = exit.landing.global_position
 		return
 	if exit_name != &"":
 		push_warning("Room %s has no exit named %s" % [name, exit_name])

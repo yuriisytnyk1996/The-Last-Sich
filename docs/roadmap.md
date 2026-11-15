@@ -36,10 +36,10 @@
 - [x] `TileMapLayer` terrain: shared 16×16 tileset with solid and one-way tiles, test room rebuilt on the tile grid with every platform in jump reach
 - [x] Drop through one-way platforms with down + jump
 - [x] Doors you enter by pressing up, `InteractionArea` base, arrival facing for exits
+- [x] Vertical exits: fall through a floor hole into the room below, jump up through a ceiling opening with a launch (`arrival_rise`); test shaft under the cave
 
 ## Next
 
-- [ ] Vertical exits (falling into the room below, jumping up into the room above)
 - [ ] Ladders
 - [ ] Rest points: checkpoint that heals, resets enemies and sets the respawn
 - [ ] Enemy poise, so a lone enemy can't be kept staggered forever
