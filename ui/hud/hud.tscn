@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/hud/health_bar.gd" id="1_health_bar"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="HealthBar" type="Control" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 70.0
+offset_bottom = 14.0
+mouse_filter = 2
+script = ExtResource("1_health_bar")

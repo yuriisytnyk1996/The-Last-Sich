@@ -8,7 +8,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 |---|---|
 | `actors/player/player.tscn` | Scene: body, collision, visuals, camera, state machine |
 | `actors/player/player.gd` | `Player`: tuning values, timers and helper functions shared by states |
-| `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning |
+| `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning, reports health to `Events` |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -85,6 +85,8 @@ A fixed-speed horizontal burst in the input direction (or facing direction if th
 3. `PlayerDamage` reads the hit's [reaction](/systems/combat#reactions). LIGHT stops here. NORMAL and HEAVY pick the knockback and stagger time, turn the player to face the hit and enter **Hurt**.
 4. The hurtbox removes health. At 0, `Health.died` makes `PlayerDamage` enter **Dead** instead.
 
+`PlayerDamage` also forwards every health change to `Events.player_health_changed`, which drives the [HUD](/systems/hud) health bar.
+
 **Knockback direction:** the horizontal sign of the hitbox's knockback. A hitbox that pushes straight up (spikes) pushes the player away from its centre. If the player is exactly on the centre, they are pushed backwards.
 
 **Invincibility** lasts through the whole Hurt state and for `invincibility_time` after it ends, so the player gets control back while still safe for a moment. A stagger that is longer (heavy hit) automatically gets longer protection. A LIGHT hit, which has no stagger, gives `invincibility_time` from the hit. The `InvincibilityBlink` node shows it by blinking `Visual`. While invincible, new hits are ignored completely: no damage, no knockback.
@@ -149,7 +151,6 @@ Used by states and other systems:
 ## Known limitations
 
 - Placeholder rectangles instead of sprites and animations.
-- Health is only shown in the debug label until the HUD exists.
 - Knockback strength comes from the reaction only; hitbox `knockback_force` is ignored for the player.
 - No death animation yet.
 - No combos or movement attacks yet (planned as upgrades).

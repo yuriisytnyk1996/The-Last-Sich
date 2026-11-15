@@ -55,6 +55,9 @@ The-Last-Sich/
 │   └── test_room.tscn            Test level (main scene)
 ├── ui/
 │   ├── version_label.gd          On-screen game version
+│   ├── hud/
+│   │   ├── hud.tscn              Gameplay HUD layer, instanced in each room
+│   │   └── health_bar.gd         Player health bar
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/

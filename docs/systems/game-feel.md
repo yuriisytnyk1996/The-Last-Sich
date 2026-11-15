@@ -53,5 +53,5 @@ How long and how hard each hit freezes and shakes is set on each actor's `HurtFe
 
 ## Known limitations
 
-- Hit-stop freezes everything, including the HUD once it exists. If UI animations must keep running, give them `PROCESS_MODE_ALWAYS` and real-time animation.
+- Hit-stop freezes everything, including the HUD. If UI animations must keep running, give them `PROCESS_MODE_ALWAYS` and real-time animation.
 - No controller rumble yet.

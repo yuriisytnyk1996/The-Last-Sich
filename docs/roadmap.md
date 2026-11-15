@@ -26,10 +26,10 @@
 - [x] Game feel: hit-stop, camera shake and hit flash on every hit (`HitStop`, `CameraShake`, `HurtFeedback`)
 - [x] Hit reactions: light, normal and heavy hitboxes
 - [x] Player invincibility lasts through the stagger plus a short window after it
+- [x] HUD health bar: instant fill drop, trailing loss segment, width grows with max health, driven by `Events.player_health_changed`
 
 ## Next
 
-- [ ] HUD health display
 - [ ] Touch controls for mobile
 
 ## Later
@@ -52,4 +52,4 @@
 - Coloured rectangles for the training dummy and its health bar
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
-- Player health shown only in the debug label (HUD is next)
+- Plain rectangles for the HUD health bar

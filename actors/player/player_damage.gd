@@ -35,12 +35,19 @@ func _ready() -> void:
 	player.hurtbox.invincibility_time = invincibility_time
 	player.hurtbox.hurt.connect(_on_hurt)
 	player.health.died.connect(_on_died)
+	player.health.health_changed.connect(Events.player_health_changed.emit)
+	# Deferred: the HUD may come after the player in the tree and isn't ready yet.
+	_announce_health.call_deferred()
 
 
 ## Full health, no invincibility. Called on respawn.
 func reset() -> void:
 	player.health.reset()
 	player.hurtbox.clear_invincibility()
+
+
+func _announce_health() -> void:
+	Events.player_health_changed.emit(player.health.current, player.health.max_health)
 
 
 func _on_hurt(hitbox: Hitbox) -> void:
