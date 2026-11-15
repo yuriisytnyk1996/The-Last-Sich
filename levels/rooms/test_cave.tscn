@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://levels/room.gd" id="1_room"]
 [ext_resource type="PackedScene" path="res://actors/enemies/raider/raider.tscn" id="8_raider"]
 [ext_resource type="TileSet" path="res://levels/terrain/terrain.tres" id="9_terrain"]
-[ext_resource type="Script" path="res://levels/room_exit.gd" id="10_exit"]
+[ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="10_exit"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)

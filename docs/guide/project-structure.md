@@ -22,6 +22,8 @@ The-Last-Sich/
 │   │   └── state.gd              Base class for one state
 │   ├── camera/
 │   │   └── camera_shake.gd       Trauma-based shake for a Camera2D
+│   ├── interaction/
+│   │   └── interaction_area.gd   Touch or press-up area, base for exits and doors
 │   └── combat/
 │       ├── hitbox.gd             Deals damage while active
 │       ├── hurtbox.gd            Detects hitboxes, reports hits, invincibility
@@ -68,10 +70,13 @@ The-Last-Sich/
 │   ├── world.tscn                Main scene: player, HUD, screen fade and the current room
 │   ├── world.gd                  Loads rooms and runs room transitions
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning
-│   ├── room_exit.gd              Doorway to another room
+│   ├── objects/                  Things placed in rooms
+│   │   ├── room_exit.gd          Edge exit or door to another room
+│   │   └── door.tscn             Door entered by pressing up
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room)
-│   │   └── test_cave.tscn        Second test room, east of the test room
+│   │   ├── test_cave.tscn        Second test room, east of the test room
+│   │   └── test_house.tscn       Small room behind the test room's door
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)

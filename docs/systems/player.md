@@ -155,6 +155,7 @@ Used by states and other systems:
 | `wants_drop_through()` / `start_drop_through()` | Down + jump on a one-way platform, drop timer |
 | `wants_dash()` / `start_dash()` | Dash availability and cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
+| `can_interact()` | Up just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |
 | `set_camera_limits(bounds)` | Called by the room |
 | `respawn(at)` | Teleports, resets velocity, health, invincibility and camera, enters Idle |
 

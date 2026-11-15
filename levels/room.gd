@@ -23,18 +23,20 @@ func _ready() -> void:
 	Events.player_died.connect(_on_player_died)
 
 
-## Hands the player to this room. Returns where the player should stand:
-## the landing of the exit named `exit_name`, or `SpawnPoint` when empty.
-func enter(entering_player: Player, exit_name: StringName) -> Vector2:
+## Hands the player to this room and places them: at the exit named
+## `exit_name`, or at `SpawnPoint` when the name is empty.
+func enter(entering_player: Player, exit_name: StringName) -> void:
 	player = entering_player
 	player.set_camera_limits(bounds)
 	_respawn_position = spawn_point.global_position
 	var exit := _find_exit(exit_name)
 	if exit:
+		exit.receive(player)
 		_respawn_position = exit.landing.global_position
-	elif exit_name != &"":
+		return
+	if exit_name != &"":
 		push_warning("Room %s has no exit named %s" % [name, exit_name])
-	return _respawn_position
+	player.global_position = _respawn_position
 
 
 func _find_exit(exit_name: StringName) -> RoomExit:

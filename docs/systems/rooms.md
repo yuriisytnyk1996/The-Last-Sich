@@ -11,16 +11,36 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 
 ## Room transitions
 
-A `RoomExit` (`levels/room_exit.gd`) is an `Area2D` that only detects the `player` layer, usually placed in a gap in the wall at the edge of the room. Its node name is its id. It points at another room (`target_room`) and at the exit there to arrive through (`target_exit`). Two linked exits point at each other by name.
+A `RoomExit` (`levels/objects/room_exit.gd`) is an `InteractionArea` (see [Interaction areas](#interaction-areas)) that only detects the `player` layer. Its node name is its id. It points at another room (`target_room`) and at the exit there to arrive through (`target_exit`). Two linked exits point at each other by name. There are two kinds:
 
-1. The player touches the exit. It emits `Events.room_change_requested(target_room, target_exit)`.
+- **Edge exits** (`press_up` off): a gap in the wall at the edge of the room. Touching it is enough.
+- **Doors** (`press_up` on): an instance of `levels/objects/door.tscn`, standing on the ground. The player stands in front of it and presses up. See [Doors](#doors).
+
+1. The player touches an edge exit, or presses up in front of a door. It emits `Events.room_change_requested(target_room, target_exit)`.
 2. `World` pauses the game and `ScreenFade` (`ui/screen_fade.gd`) fades to black. Nothing can hit the player while the screen is dark.
-3. `World` frees the old room, loads the new one and places the player at the target exit's `Landing` marker. The camera snaps there without smoothing.
+3. `World` frees the old room, loads the new one and calls `Room.enter()`, which calls `RoomExit.receive()` on the target exit: the player is placed at its `Landing` marker and turned to `arrival_facing` (unless it is `Keep`). The camera snaps there without smoothing.
 4. The game unpauses and the screen fades back in. Further requests are ignored until the fade finishes.
 
 The player is never recreated, so health, velocity and the current state carry over: walking into an exit, you walk out of the other one. Rooms are loaded when needed and freed when left, so enemies in a room you come back to start fresh.
 
-Keep each `Landing` outside its own exit area, or the player would bounce straight back. A good spot is 40 px inside the room, standing on the ground.
+Keep each edge exit's `Landing` outside its own exit area, or the player would bounce straight back. A good spot is 40 px inside the room, standing on the ground.
+
+### Doors
+
+`levels/objects/door.tscn` is a `RoomExit` with `press_up` on, a 24×44 placeholder door, a 20×40 area and a `Prompt` arrow above it. Its origin is the bottom centre: place it on the ground. The `Landing` sits on the origin, inside the area. That's safe for doors: entering needs a fresh press of up, so holding up while you arrive doesn't send you back. Set `arrival_facing` so the player arrives facing into the room.
+
+The player can use a door only from **Idle** or **Run**, on the ground (`Player.can_interact()`). Up while jumping, dashing, attacking or staggered does nothing.
+
+## Interaction areas
+
+`InteractionArea` (`components/interaction/interaction_area.gd`) is the base for anything the player sets off: room exits, doors and (later) rest points. It's an `Area2D` on no layer that masks `player`.
+
+| `press_up` | Sets off when |
+|---|---|
+| Off | The player touches the area |
+| On | The player is inside and `can_interact()` returns true (up just pressed, on the ground, in Idle or Run) |
+
+While the player is inside a press-up area, its `Prompt` child (any `CanvasItem`, optional) is shown. Subclasses override `_activate(player)`. The area doesn't import `Player`: it calls `can_interact()` on whatever body enters, so other bodies are ignored.
 
 ## Files
 
@@ -28,7 +48,9 @@ Keep each `Landing` outside its own exit area, or the player would bounce straig
 |---|---|
 | `levels/world.tscn`, `levels/world.gd` | Main scene. Owns the player, HUD, debug labels and screen fade. Loads rooms and runs transitions |
 | `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset |
-| `levels/room_exit.gd` | Doorway to another room |
+| `levels/objects/room_exit.gd` | Edge exit or door to another room |
+| `levels/objects/door.tscn` | Door: a `RoomExit` entered by pressing up |
+| `components/interaction/interaction_area.gd` | Touch or press-up area, base of `RoomExit` |
 | `ui/screen_fade.gd` | Black overlay that fades out and in, runs while paused and during hit-stop |
 | `levels/rooms/*.tscn` | The rooms |
 
@@ -38,7 +60,7 @@ Keep each `Landing` outside its own exit area, or the player would bounce straig
 |---|---|---|---|
 | `SpawnPoint` | `Marker2D` | Yes | Where the player starts when the room is the start room |
 | `Terrain` | `TileMapLayer` | Yes | Ground and walls, see [Terrain](#terrain) |
-| `Exits` | `Node2D` holding `RoomExit` areas | No | Doorways to other rooms. Each exit has a `Shape` and a `Landing` marker |
+| `Exits` | `Node2D` holding `RoomExit` areas and door instances | No | Ways to other rooms. Each exit has a `Shape` and a `Landing` marker |
 | `KillZone` | `Area2D` (layer `hazards`, mask `player` and `enemies`) | No | Bottomless pit: kills the player or an enemy on contact, ignoring health |
 | `Enemies` | `Node2D` holding enemy instances | No | Enemies of the room |
 
@@ -52,6 +74,8 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | `start_room` | `World` | `res://levels/rooms/test_room.tscn` | The room the game starts in |
 | `target_room` | `RoomExit` | empty | Room to load (an exit with no target does nothing) |
 | `target_exit` | `RoomExit` | empty | Name of the exit in `target_room` to arrive through |
+| `arrival_facing` | `RoomExit` | `Keep` | Which way the player faces after arriving through this exit: `Keep`, `Left` or `Right` |
+| `press_up` | `InteractionArea` | `false` | Needs up pressed inside the area instead of a touch. On in `door.tscn` |
 | `duration` | `ScreenFade` | `0.15` | Seconds for one fade, out or in |
 
 ## Terrain
@@ -77,6 +101,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 - Ground on both sides of a pit, with a kill zone in the pit
 - Walls at both edges, with a gap at the bottom of the right wall: the `East` exit leads to the test cave
+- A door (`HouseDoor`) near the start, leading to the test house
 - A low step (2 tiles high) on the left, then a mid ledge 2 tiles above it
 - A one-way bridge (lighter colour) over the pit, level with the mid ledge
 - A step block on the right side with a high ledge 2 tiles above it
@@ -87,6 +112,10 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 `levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. It has no pits, so no `KillZone`.
 
+## Test house layout
+
+`levels/rooms/test_house.tscn` is a closed 640×360 room behind the test room's door. It has a `Door` back to the test room and a one-way plank 2 tiles above the floor.
+
 ## Making a new room
 
 1. Create a new scene in `levels/rooms/` with a `Node2D` root and attach `levels/room.gd`. Set `bounds` to the room's size.
@@ -94,10 +123,12 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 3. Put enemy instances under an `Enemies` node. Add a `KillZone` if the room has pits.
 4. For each way out, leave a gap in the wall (4 tiles high is enough), and add a `RoomExit` under `Exits`: an `Area2D` with `collision_layer` 0, `collision_mask` `player`, `monitorable` off, a `Shape` covering the gap at the room edge and a `Landing` marker inside the room. Set `target_room` and `target_exit`, and make the exit in the other room point back.
 5. Keep the floor at the same height on both sides of a linked pair, so walking through feels continuous.
+6. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
 
 ## Planned
 
 - Split rooms into **Layout** (collision), **Deco** (art and parallax) and **Logic** (enemies, triggers) sub-scenes, so art and design work don't conflict.
 - Real tile art with terrain autotiling (corners and edges picked automatically).
-- Doors you enter by pressing up, and vertical exits (falling into the room below, jumping up into the room above).
+- Vertical exits (falling into the room below, jumping up into the room above).
+- Locked doors that need a key item (after the save system and inventory).
 - Loading rooms in the background, so big rooms don't hitch.

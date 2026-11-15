@@ -1,7 +1,7 @@
 class_name World
 extends Node2D
 ## The main scene. Owns the player, the HUD and the current room, and
-## swaps rooms when the player walks through a `RoomExit`.
+## swaps rooms when the player goes through a `RoomExit`.
 ##
 ## The player lives here rather than in each room, so health and state
 ## carry over between rooms.
@@ -41,5 +41,5 @@ func _load_room(room_path: String, exit_name: StringName) -> void:
 		room.queue_free()
 	room = (load(room_path) as PackedScene).instantiate() as Room
 	room_holder.add_child(room)
-	player.global_position = room.enter(player, exit_name)
+	room.enter(player, exit_name)
 	player.camera.reset_smoothing.call_deferred()

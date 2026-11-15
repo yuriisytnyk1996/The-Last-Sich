@@ -180,6 +180,16 @@ func consume_attack() -> void:
 	_attack_buffer_timer = 0.0
 
 
+## Up was just pressed while standing or running: use a door or rest point.
+func can_interact() -> bool:
+	var state := state_machine.state.name
+	return (
+		Input.is_action_just_pressed("move_up")
+		and is_on_floor()
+		and (state == PlayerState.IDLE or state == PlayerState.RUN)
+	)
+
+
 func set_camera_limits(bounds: Rect2i) -> void:
 	camera.limit_left = bounds.position.x
 	camera.limit_top = bounds.position.y

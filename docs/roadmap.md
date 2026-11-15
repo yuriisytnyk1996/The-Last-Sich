@@ -35,14 +35,17 @@
 - [x] Room transitions: `World` main scene owns the player and HUD, `RoomExit` doorways at screen edges, fade out and in while the game is paused, health carries over, death respawns at the room's entrance
 - [x] `TileMapLayer` terrain: shared 16×16 tileset with solid and one-way tiles, test room rebuilt on the tile grid with every platform in jump reach
 - [x] Drop through one-way platforms with down + jump
+- [x] Doors you enter by pressing up, `InteractionArea` base, arrival facing for exits
 
 ## Next
 
-- [ ] Doors (press up to enter) and vertical exits (falling into the room below, jumping up into the room above)
+- [ ] Vertical exits (falling into the room below, jumping up into the room above)
+- [ ] Ladders
+- [ ] Rest points: checkpoint that heals, resets enemies and sets the respawn
+- [ ] Enemy poise, so a lone enemy can't be kept staggered forever
 
 ## Later
 
-- [ ] Enemy poise, so a lone enemy can't be kept staggered forever
 - [ ] Enemy line of sight (walls block vision)
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
@@ -68,4 +71,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
 - Plain rectangles for the HUD health bar
+- Brown rectangle for doors, a triangle for the press-up prompt
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
