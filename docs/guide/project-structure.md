@@ -66,6 +66,9 @@ The-Last-Sich/
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
 │   ├── room.gd                   Base room logic
+│   ├── terrain/
+│   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
+│   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)
 │   └── test_room.tscn            Test level (main scene)
 ├── ui/
 │   ├── version_label.gd          On-screen game version

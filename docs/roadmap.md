@@ -32,10 +32,10 @@
 - [x] Telegraphed enemy attacks (`EnemyAttackState`): interruptible wind-up, committed once the hitbox is out, cooldown
 - [x] First enemy: the raider, a melee grunt with a lunging saber slash and contact damage
 - [x] Enemies reset when the player respawns; pits kill enemies too
+- [x] `TileMapLayer` terrain: shared 16×16 tileset with solid and one-way tiles, test room rebuilt on the tile grid with every platform in jump reach
 
 ## Next
 
-- [ ] `TileMapLayer` terrain
 - [ ] Room transitions
 
 ## Later
@@ -43,6 +43,7 @@
 - [ ] Enemy poise, so a lone enemy can't be kept staggered forever
 - [ ] Enemy line of sight (walls block vision)
 - [ ] Pixel art sprites and animations for the player and the raider
+- [ ] Terrain tile art with autotiling
 - [ ] Room split into Layout / Deco / Logic sub-scenes
 - [ ] Save system
 - [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
@@ -57,7 +58,8 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 
 ## Placeholders currently in the game
 
-- Coloured rectangles for the player and platforms
+- Coloured rectangle for the player
+- Flat-colour terrain tiles (solid block and one-way plank)
 - Debug label is always visible
 - Translucent rectangle for the attack slash
 - Coloured rectangles for the training dummy and its health bar
