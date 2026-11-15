@@ -14,6 +14,8 @@
 - [x] Code organization rules and file size check
 - [x] Conventional Commits, git hooks, automated versioning and changelog
 - [x] In-game version label
+- [x] Linting and formatting: ESLint for TS tooling, gdtoolkit for GDScript, pinned tools via mise
+- [x] Project `code-style` skill for AI-assisted refactoring
 
 ## Next
 

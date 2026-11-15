@@ -6,8 +6,11 @@ The-Last-Sich/
 ├── CLAUDE.md                     Rules for AI-assisted work (docs, commits)
 ├── CHANGELOG.md                  Generated on release from commit messages
 ├── package.json                  Tooling: docs site, commit linting, releases (pnpm)
-├── commitlint.config.js          Commit message rules
+├── commitlint.config.ts          Commit message rules
 ├── lefthook.yml                  Git hooks
+├── eslint.config.ts              Lint rules for the JS/TS tooling
+├── mise.toml                     Pinned tool versions (Node, pnpm, gdtoolkit)
+├── pnpm-workspace.yaml           pnpm settings (allowed install scripts)
 ├── .versionrc.json               Release and changelog settings
 ├── autoload/
 │   └── events.gd                 Global signal bus (autoload "Events")
@@ -36,7 +39,7 @@ The-Last-Sich/
 ├── tools/
 │   ├── check_file_sizes.sh       Enforces file size limits
 │   └── release/
-│       └── godot-version-updater.cjs   Bumps the version in project.godot
+│       └── godot-version-updater.ts   Bumps the version in project.godot
 └── docs/                         This site (VitePress)
 ```
 

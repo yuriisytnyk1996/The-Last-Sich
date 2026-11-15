@@ -1,0 +1,5 @@
+# Tool versions for the dev tooling. Run `mise install` once after cloning.
+[tools]
+node = "24"
+"pipx:gdtoolkit" = "4"
+pnpm = "12.21.0"

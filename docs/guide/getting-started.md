@@ -5,16 +5,21 @@
 | Tool | Version | Used for |
 |---|---|---|
 | Godot | 4.7 | The game |
-| Node.js | 22+ | Docs site, commit hooks, releases |
-| pnpm | 10+ | Package manager for the tooling |
+| [mise](https://mise.jdx.dev) | any | Installs the tool versions pinned in `mise.toml` |
+| Node.js | 24 | Docs site, commit hooks, releases, linting. Installed by mise. |
+| pnpm | 12 | Package manager for the tooling. Installed by mise. |
+| gdtoolkit | 4.x | GDScript linter and formatter (`gdlint`, `gdformat`). Installed by mise. |
 
 ## First-time setup
 
 ```sh
-pnpm install
+mise install   # Node 24, pnpm 12 and gdtoolkit, as pinned in mise.toml
+pnpm install   # tooling packages and git hooks
 ```
 
-This installs the docs site and release tooling, and sets up the git hooks (see [Versioning & releases](/guide/versioning)).
+Node 24 is required because the tooling scripts and configs are TypeScript files that Node runs directly, with no build step.
+
+See [Versioning & releases](/guide/versioning) for what the git hooks check.
 
 ## Run the game
 

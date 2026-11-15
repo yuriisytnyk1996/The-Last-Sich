@@ -5,6 +5,12 @@ pre-commit:
     file-sizes:
       glob: "*.gd"
       run: tools/check_file_sizes.sh
+    eslint:
+      glob: "*.{js,mjs,ts,mts}"
+      run: node_modules/.bin/eslint {staged_files}
+    gdlint:
+      glob: "*.gd"
+      run: gdlint {staged_files} && gdformat --check {staged_files}
 
 commit-msg:
   commands:

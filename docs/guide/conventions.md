@@ -8,6 +8,39 @@
 - Private members start with an underscore: `_coyote_timer`.
 - Document classes and exported values with `##` comments. Godot shows them as tooltips in the Inspector.
 
+Formatting is enforced by `gdformat` and `gdlint` ([gdtoolkit](https://github.com/Scony/godot-gdscript-toolkit)). Run `pnpm format` to fix formatting, `pnpm lint` to check.
+
+## JavaScript / TypeScript style
+
+Applies to the tooling code (release scripts, configs, the docs site config). Enforced by ESLint, see `eslint.config.ts`.
+
+- No semicolons, single quotes, 2-space indent, trailing commas on multiline literals.
+- **Arrow functions use a block body** with an explicit `return`, never an implicit-return expression.
+- **Every `if`/`else`/loop body is wrapped in braces** on its own line, never `if (x) throw ...`.
+- **Blank lines between logical blocks**: after declarations, around `if`/loop blocks and before `return`/`throw`.
+
+```js
+module.exports.readVersion = (contents) => {
+  const match = contents.match(VERSION_LINE)
+
+  if (!match) {
+    throw new Error('project.godot has no config/version line')
+  }
+
+  return match[1]
+}
+```
+
+## Linting
+
+| Command | What it does |
+|---|---|
+| `pnpm lint` | ESLint, `gdlint` and `gdformat --check` over the whole repo |
+| `pnpm lint:js` / `pnpm lint:gd` | Only one language |
+| `pnpm format` | Auto-fixes ESLint issues and reformats GDScript |
+
+The lefthook `pre-commit` hook runs the same checks on staged files.
+
 ## Design rules
 
 File size limits and folder layout are covered in [Code organization](/guide/code-organization).
@@ -36,7 +69,7 @@ Defined in `project.godot` under `[layer_names]`:
 A feature is finished when:
 
 1. It works in the game and has no errors or warnings in the Godot output.
-2. `tools/check_file_sizes.sh` passes.
+2. `tools/check_file_sizes.sh` and `pnpm lint` pass.
 3. Its documentation page is created or updated (see [Writing docs](/guide/writing-docs)).
 4. The [Roadmap](/roadmap) is updated.
 5. It is committed with a [Conventional Commit](/guide/versioning#commit-messages) message, which becomes its changelog entry.

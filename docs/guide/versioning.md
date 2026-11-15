@@ -47,7 +47,7 @@ docs: explain coyote time
 
 `player`, `enemies`, `bosses`, `combat`, `rooms`, `ui`, `input`, `rendering`, `audio`, `save`, `state-machine`, `events`, `docs`, `tooling`, `release`.
 
-Other scopes are allowed but produce a warning. Add new ones to `commitlint.config.js` when a new system appears.
+Other scopes are allowed but produce a warning. Add new ones to `commitlint.config.ts` when a new system appears.
 
 ### Breaking changes
 
@@ -87,7 +87,7 @@ pnpm release --dry-run           # preview without changing anything
 A release:
 
 1. Reads the commits since the last tag and works out the next version.
-2. Updates the version in `package.json` **and** `project.godot` (`application/config/version`). The bump for `project.godot` is done by `tools/release/godot-version-updater.cjs`.
+2. Updates the version in `package.json` **and** `project.godot` (`application/config/version`). The bump for `project.godot` is done by `tools/release/godot-version-updater.ts`.
 3. Adds a new section at the top of `CHANGELOG.md`.
 4. Commits as `chore(release): x.y.z` and creates the tag `vx.y.z`.
 
@@ -106,10 +106,10 @@ The [Changelog](/changelog) page in these docs shows `CHANGELOG.md` directly.
 | File | Role |
 |---|---|
 | `package.json` | Tooling dependencies, scripts, version |
-| `commitlint.config.js` | Commit rules and scopes |
+| `commitlint.config.ts` | Commit rules and scopes |
 | `lefthook.yml` | Git hooks |
 | `.versionrc.json` | Changelog sections and files to bump |
-| `tools/release/godot-version-updater.cjs` | Reads and writes the version in `project.godot` |
+| `tools/release/godot-version-updater.ts` | Reads and writes the version in `project.godot` |
 | `CHANGELOG.md` | Generated changelog |
 
 ::: tip Godot and node_modules

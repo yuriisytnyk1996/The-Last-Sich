@@ -8,20 +8,27 @@
     "postinstall": "node -e \"require('fs').writeFileSync('node_modules/.gdignore','')\"",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "release": "commit-and-tag-version"
+    "release": "commit-and-tag-version",
+    "lint": "pnpm lint:js && pnpm lint:gd",
+    "lint:js": "eslint .",
+    "lint:gd": "gdlint $(git ls-files \"*.gd\") && gdformat --check $(git ls-files \"*.gd\")",
+    "format": "eslint . --fix && gdformat $(git ls-files \"*.gd\")"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "commit-and-tag-version": "^13.3.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
     "lefthook": "^2.2.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2",
     "vitepress": "^1.6.4"
   },
-  "packageManager": "pnpm@10.26.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lefthook"
-    ]
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": ">=24"
   }
 }

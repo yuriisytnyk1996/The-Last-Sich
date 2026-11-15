@@ -65,6 +65,7 @@ func _physics_process(delta: float) -> void:
 
 # --- Helpers used by the states ---
 
+
 func get_move_axis() -> float:
 	return Input.get_axis("move_left", "move_right")
 
@@ -102,8 +103,11 @@ func consume_jump() -> void:
 
 
 func wants_dash() -> bool:
-	return Input.is_action_just_pressed("dash") and _dash_cooldown_timer <= 0.0 \
-			and (is_on_floor() or _air_dash_available)
+	return (
+		Input.is_action_just_pressed("dash")
+		and _dash_cooldown_timer <= 0.0
+		and (is_on_floor() or _air_dash_available)
+	)
 
 
 func start_dash() -> void:
