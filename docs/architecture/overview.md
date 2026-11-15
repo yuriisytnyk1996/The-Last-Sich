@@ -18,7 +18,7 @@ TestRoom (Room)
 ├── TrainingDummy        Hurtbox + Health, target for testing attacks
 ├── Player (Player)
 │   ├── Visual           placeholder graphics, flipped to face left/right
-│   │   └── AttackHitbox turned on by the Attack state
+│   │   └── Attacks      one hitbox per attack direction
 │   ├── Camera2D         limited to the room's bounds
 │   └── StateMachine
 │       ├── Idle
@@ -26,7 +26,7 @@ TestRoom (Room)
 │       ├── Jump
 │       ├── Fall
 │       ├── Dash
-│       └── Attack
+│       └── SideAttack, UpAttack, CrouchAttack
 └── DebugLayer
     └── DebugLabel       reads the player's current state
 ```

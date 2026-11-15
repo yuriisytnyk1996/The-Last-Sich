@@ -38,5 +38,6 @@ func _on_area_entered(area: Area2D) -> void:
 
 	_invincible_left = invincibility_time
 	hurt.emit(hitbox)
+	hitbox.register_hit(self)
 	if health:
 		health.take_damage(hitbox.damage)

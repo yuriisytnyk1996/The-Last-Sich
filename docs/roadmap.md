@@ -19,6 +19,7 @@
 - [x] Display settings: fullscreen by default (F11 / Alt+Enter) and scaling mode (pixel perfect / scale, F3 in debug builds), saved between runs
 - [x] Combat components: `Hitbox`, `Hurtbox`, `Health`
 - [x] Player attack state with startup / active / recovery windows and attack buffering
+- [x] Directional attacks: side, up and crouch. Planted on the ground (can turn mid-swing), air control in the air, re-swing after a miss
 - [x] Training dummy in the test room
 
 ## Next
@@ -36,6 +37,7 @@
 - [ ] Room transitions
 - [ ] First enemy (reusing the state machine)
 - [ ] Save system
+- [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
 - [ ] Audio
 - [ ] Main menu and pause menu (with fullscreen and scaling mode options)
 

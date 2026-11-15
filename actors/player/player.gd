@@ -38,6 +38,9 @@ extends CharacterBody2D
 @export var attack_recovery := 0.15
 ## An attack pressed slightly before the current action ends still counts.
 @export var attack_buffer_time := 0.12
+## How far up or down the stick must be held for an up or crouch attack.
+## Diagonals below this give a side attack.
+@export_range(0.0, 1.0) var attack_vertical_threshold := 0.75
 
 var facing := 1
 
@@ -54,7 +57,6 @@ var _air_dash_available := true
 @onready var visual: Node2D = $Visual
 @onready var camera: Camera2D = $Camera2D
 @onready var state_machine: StateMachine = $StateMachine
-@onready var attack_hitbox: Hitbox = $Visual/AttackHitbox
 
 
 func _physics_process(delta: float) -> void:
@@ -83,6 +85,11 @@ func _physics_process(delta: float) -> void:
 
 func get_move_axis() -> float:
 	return Input.get_axis("move_left", "move_right")
+
+
+## Up is negative, matching screen coordinates.
+func get_vertical_axis() -> float:
+	return Input.get_axis("move_up", "move_down")
 
 
 func set_facing(direction: float) -> void:

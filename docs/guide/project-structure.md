@@ -34,7 +34,11 @@ The-Last-Sich/
 │   │       ├── jump.gd
 │   │       ├── fall.gd
 │   │       ├── dash.gd
-│   │       └── attack.gd
+│   │       └── attacks/          One script per attack direction
+│   │           ├── player_attack_state.gd   Shared swing timing
+│   │           ├── side_attack.gd
+│   │           ├── up_attack.gd
+│   │           └── crouch_attack.gd
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild

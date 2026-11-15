@@ -7,14 +7,22 @@
 [ext_resource type="Script" path="res://actors/player/states/jump.gd" id="5_jump"]
 [ext_resource type="Script" path="res://actors/player/states/fall.gd" id="6_fall"]
 [ext_resource type="Script" path="res://actors/player/states/dash.gd" id="7_dash"]
-[ext_resource type="Script" path="res://actors/player/states/attack.gd" id="8_attack"]
+[ext_resource type="Script" path="res://actors/player/states/attacks/side_attack.gd" id="8_side_attack"]
+[ext_resource type="Script" path="res://actors/player/states/attacks/up_attack.gd" id="10_up_attack"]
+[ext_resource type="Script" path="res://actors/player/states/attacks/crouch_attack.gd" id="11_crouch_attack"]
 [ext_resource type="Script" path="res://components/combat/hitbox.gd" id="9_hitbox"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
 
-[sub_resource type="RectangleShape2D" id="attack_shape"]
+[sub_resource type="RectangleShape2D" id="side_attack_shape"]
 size = Vector2(22, 18)
+
+[sub_resource type="RectangleShape2D" id="up_attack_shape"]
+size = Vector2(24, 20)
+
+[sub_resource type="RectangleShape2D" id="crouch_attack_shape"]
+size = Vector2(22, 10)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -43,22 +51,65 @@ offset_bottom = -23.0
 mouse_filter = 2
 color = Color(0.15, 0.1, 0.1, 1)
 
-[node name="AttackHitbox" type="Area2D" parent="Visual"]
+[node name="Attacks" type="Node2D" parent="Visual"]
+
+[node name="Side" type="Area2D" parent="Visual/Attacks"]
 position = Vector2(16, -16)
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
+knockback_direction = Vector2(1, 0)
 
-[node name="Shape" type="CollisionShape2D" parent="Visual/AttackHitbox"]
-shape = SubResource("attack_shape")
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Side"]
+shape = SubResource("side_attack_shape")
 disabled = true
 
-[node name="Slash" type="ColorRect" parent="Visual/AttackHitbox"]
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/Side"]
 offset_left = -11.0
 offset_top = -9.0
 offset_right = 11.0
 offset_bottom = 9.0
+mouse_filter = 2
+color = Color(0.95, 0.92, 0.8, 0.6)
+
+[node name="Up" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(2, -40)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+knockback_direction = Vector2(0, -1)
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Up"]
+shape = SubResource("up_attack_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/Up"]
+offset_left = -12.0
+offset_top = -10.0
+offset_right = 12.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(0.95, 0.92, 0.8, 0.6)
+
+[node name="Crouch" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(16, -6)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+knockback_direction = Vector2(1, 0)
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Crouch"]
+shape = SubResource("crouch_attack_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/Crouch"]
+offset_left = -11.0
+offset_top = -5.0
+offset_right = 11.0
+offset_bottom = 5.0
 mouse_filter = 2
 color = Color(0.95, 0.92, 0.8, 0.6)
 
@@ -86,5 +137,14 @@ script = ExtResource("6_fall")
 [node name="Dash" type="Node" parent="StateMachine"]
 script = ExtResource("7_dash")
 
-[node name="Attack" type="Node" parent="StateMachine"]
-script = ExtResource("8_attack")
+[node name="SideAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("8_side_attack")
+hitbox = NodePath("../../Visual/Attacks/Side")
+
+[node name="UpAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("10_up_attack")
+hitbox = NodePath("../../Visual/Attacks/Up")
+
+[node name="CrouchAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("11_crouch_attack")
+hitbox = NodePath("../../Visual/Attacks/Crouch")
