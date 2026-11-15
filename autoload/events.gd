@@ -17,3 +17,8 @@ signal camera_shake_requested(trauma: float)
 ## The HUD listens to this instead of holding a reference to the player.
 @warning_ignore("unused_signal")
 signal player_health_changed(current: int, maximum: int)
+
+## The player walked through a `RoomExit`. The world fades out, loads
+## `room_path` and places the player at the exit named `exit_name` there.
+@warning_ignore("unused_signal")
+signal room_change_requested(room_path: String, exit_name: StringName)

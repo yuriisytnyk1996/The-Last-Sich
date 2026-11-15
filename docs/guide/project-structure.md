@@ -65,15 +65,21 @@ The-Last-Sich/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
-│   ├── room.gd                   Base room logic
+│   ├── world.tscn                Main scene: player, HUD, screen fade and the current room
+│   ├── world.gd                  Loads rooms and runs room transitions
+│   ├── room.gd                   Base room logic: camera bounds, pits, respawning
+│   ├── room_exit.gd              Doorway to another room
+│   ├── rooms/
+│   │   ├── test_room.tscn        Test level (start room)
+│   │   └── test_cave.tscn        Second test room, east of the test room
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)
-│   └── test_room.tscn            Test level (main scene)
 ├── ui/
 │   ├── version_label.gd          On-screen game version
+│   ├── screen_fade.gd            Black fade for room transitions
 │   ├── hud/
-│   │   ├── hud.tscn              Gameplay HUD layer, instanced in each room
+│   │   ├── hud.tscn              Gameplay HUD layer, instanced in the world scene
 │   │   └── health_bar.gd         Player health bar
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout

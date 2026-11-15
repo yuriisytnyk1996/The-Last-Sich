@@ -24,7 +24,7 @@ See [Versioning & releases](/guide/versioning) for what the git hooks check.
 ## Run the game
 
 1. Open Godot and import `project.godot` from the repository root.
-2. Press **F5** (Run Project). The main scene is `levels/test_room.tscn`.
+2. Press **F5** (Run Project). The main scene is `levels/world.tscn`, which starts in `levels/rooms/test_room.tscn`.
 
 The debug label in the top-left corner shows the player's current state, velocity and whether they are on the floor.
 

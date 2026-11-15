@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/world.gd" id="1_world"]
+[ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://ui/debug/debug_label.gd" id="3_debug"]
+[ext_resource type="Script" path="res://ui/version_label.gd" id="4_version"]
+[ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://ui/screen_fade.gd" id="6_fade"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_world")
+
+[node name="RoomHolder" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="DebugLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugLabel" type="Label" parent="DebugLayer" node_paths=PackedStringArray("player")]
+offset_left = 6.0
+offset_top = 18.0
+offset_right = 200.0
+offset_bottom = 74.0
+theme_override_font_sizes/font_size = 8
+script = ExtResource("3_debug")
+player = NodePath("../../Player")
+
+[node name="VersionLabel" type="Label" parent="DebugLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -14.0
+offset_right = -4.0
+offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 2
+script = ExtResource("4_version")
+
+[node name="ScreenFade" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("6_fade")
+
+[node name="Rect" type="ColorRect" parent="ScreenFade"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

@@ -60,5 +60,5 @@ On the `HealthBar` node:
 ## Known limitations
 
 - Placeholder look: plain rectangles, no sprite frame.
-- The HUD is instanced by hand in each room. Once room transitions exist it should move to a persistent layer that survives room changes.
+- The HUD lives in the `World` scene, so it survives room changes.
 - No layout for mobile touch controls yet.

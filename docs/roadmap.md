@@ -32,11 +32,12 @@
 - [x] Telegraphed enemy attacks (`EnemyAttackState`): interruptible wind-up, committed once the hitbox is out, cooldown
 - [x] First enemy: the raider, a melee grunt with a lunging saber slash and contact damage
 - [x] Enemies reset when the player respawns; pits kill enemies too
+- [x] Room transitions: `World` main scene owns the player and HUD, `RoomExit` doorways at screen edges, fade out and in while the game is paused, health carries over, death respawns at the room's entrance
 - [x] `TileMapLayer` terrain: shared 16×16 tileset with solid and one-way tiles, test room rebuilt on the tile grid with every platform in jump reach
 
 ## Next
 
-- [ ] Room transitions
+- [ ] Doors (press up to enter) and vertical exits (falling into the room below, jumping up into the room above)
 
 ## Later
 
