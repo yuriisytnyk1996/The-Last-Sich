@@ -8,15 +8,22 @@ Developer docs live in `docs/` (VitePress). **Every finished feature must update
 
 1. The relevant page in `docs/systems/` or `docs/architecture/` is created or updated. New pages are added to the sidebar in `docs/.vitepress/config.mts`.
 2. Tuning tables match the `@export` defaults in code.
-3. `docs/changelog.md` has an entry and `docs/roadmap.md` is updated.
+3. `docs/roadmap.md` is updated.
 4. `docs/guide/project-structure.md` is updated if files or folders were added or moved.
 
-Follow the page template in `docs/guide/writing-docs.md`. Check that the site builds: `cd docs && npm run build`.
+Follow the page template in `docs/guide/writing-docs.md`. Check that the site builds: `pnpm docs:build`.
 
-## Commits
+## Commits, versioning and changelog
 
+Full rules: `docs/guide/versioning.md`.
+
+- Package manager is **pnpm** (never npm or yarn).
+- Commit messages follow **Conventional Commits**: `type(scope): summary`, e.g. `feat(player): add wall jump`. commitlint enforces this through a lefthook `commit-msg` hook; never bypass hooks with `--no-verify`.
+- Scopes are listed in `commitlint.config.js`. Add a scope there when a new system is introduced.
+- `CHANGELOG.md` is **generated** from commits by `pnpm release` (commit-and-tag-version). Don't edit it by hand; write good commit messages instead.
+- Version lives in `package.json` and `project.godot` (`application/config/version`); both are bumped by `pnpm release`. Don't change them by hand. Currently in the `0.0.x` prototype stage.
+- Only run `pnpm release` when the user asks for a release.
 - Do **not** add `Co-Authored-By: Claude` or any other Claude/AI attribution lines to commit messages or PR descriptions.
-- Write a short summary line, then a body describing what changed.
 
 ## Content rules
 

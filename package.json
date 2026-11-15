@@ -1,0 +1,27 @@
+{
+  "name": "the-last-sich",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Dev tooling for The Last Sich: docs site, commit linting and releases",
+  "scripts": {
+    "postinstall": "node -e \"require('fs').writeFileSync('node_modules/.gdignore','')\"",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "release": "commit-and-tag-version"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "commit-and-tag-version": "^13.3.0",
+    "lefthook": "^2.2.2",
+    "vitepress": "^1.6.4"
+  },
+  "packageManager": "pnpm@10.26.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook"
+    ]
+  }
+}

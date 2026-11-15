@@ -1,0 +1,12 @@
+# Git hooks (https://lefthook.dev). Installed automatically by `pnpm install`.
+
+pre-commit:
+  commands:
+    file-sizes:
+      glob: "*.gd"
+      run: tools/check_file_sizes.sh
+
+commit-msg:
+  commands:
+    commitlint:
+      run: node_modules/.bin/commitlint --edit {1}

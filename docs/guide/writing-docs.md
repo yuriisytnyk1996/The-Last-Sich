@@ -11,7 +11,7 @@ Documentation is part of every feature, not an afterthought. When a feature is d
 | New or changed tuning values | The tuning table on the system's page |
 | New input action | [Input](/systems/input) |
 | New folder or moved files | [Project structure](/guide/project-structure) |
-| Any finished feature | [Changelog](/changelog) and [Roadmap](/roadmap) |
+| Any finished feature | [Roadmap](/roadmap). The [Changelog](/changelog) is generated from commit messages, see [Versioning & releases](/guide/versioning). |
 
 ## Page template
 
@@ -41,4 +41,4 @@ What is missing or placeholder.
 - Write for someone opening the project for the first time.
 - Explain **why**, not just what. The code already shows what.
 - Keep defaults in tables in sync with the `@export` values in code.
-- Preview locally with `npm run dev` in `docs/`.
+- Preview locally with `pnpm docs:dev`.

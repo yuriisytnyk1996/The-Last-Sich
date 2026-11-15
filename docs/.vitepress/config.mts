@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Code organization', link: '/guide/code-organization' },
           { text: 'Conventions', link: '/guide/conventions' },
           { text: 'Writing docs', link: '/guide/writing-docs' },
+          { text: 'Versioning & releases', link: '/guide/versioning' },
         ],
       },
       {

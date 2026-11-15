@@ -11,6 +11,9 @@
 - [x] Test room with camera bounds, kill zone and respawn
 - [x] Debug state label
 - [x] Documentation site
+- [x] Code organization rules and file size check
+- [x] Conventional Commits, git hooks, automated versioning and changelog
+- [x] In-game version label
 
 ## Next
 

@@ -38,4 +38,5 @@ A feature is finished when:
 1. It works in the game and has no errors or warnings in the Godot output.
 2. `tools/check_file_sizes.sh` passes.
 3. Its documentation page is created or updated (see [Writing docs](/guide/writing-docs)).
-4. The [Changelog](/changelog) and [Roadmap](/roadmap) are updated.
+4. The [Roadmap](/roadmap) is updated.
+5. It is committed with a [Conventional Commit](/guide/versioning#commit-messages) message, which becomes its changelog entry.

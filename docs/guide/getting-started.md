@@ -5,7 +5,16 @@
 | Tool | Version | Used for |
 |---|---|---|
 | Godot | 4.7 | The game |
-| Node.js | 22+ | This documentation site |
+| Node.js | 22+ | Docs site, commit hooks, releases |
+| pnpm | 10+ | Package manager for the tooling |
+
+## First-time setup
+
+```sh
+pnpm install
+```
+
+This installs the docs site and release tooling, and sets up the git hooks (see [Versioning & releases](/guide/versioning)).
 
 ## Run the game
 
@@ -28,13 +37,10 @@ See [Input](/systems/input) for the full input map.
 ## Run the documentation site
 
 ```sh
-cd docs
-npm install      # first time only
-npm run dev      # opens a local site with live reload
+pnpm docs:dev      # local site with live reload
+pnpm docs:build    # static site in docs/.vitepress/dist
 ```
 
-`npm run build` produces a static site in `docs/.vitepress/dist`.
-
 ::: tip
-The `docs/` folder contains a `.gdignore` file so Godot never scans `node_modules` or the site files.
+`docs/` and `node_modules/` both contain a `.gdignore` file, so Godot never scans them.
 :::

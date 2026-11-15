@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://levels/room.gd" id="1_room"]
 [ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://ui/debug/debug_label.gd" id="3_debug"]
+[ext_resource type="Script" path="res://ui/version_label.gd" id="4_version"]
 
 [sub_resource type="RectangleShape2D" id="shape_GroundLeft"]
 size = Vector2(560, 40)
@@ -197,3 +198,19 @@ offset_bottom = 60.0
 theme_override_font_sizes/font_size = 8
 script = ExtResource("3_debug")
 player = NodePath("../../Player")
+
+[node name="VersionLabel" type="Label" parent="DebugLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -14.0
+offset_right = -4.0
+offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 2
+script = ExtResource("4_version")

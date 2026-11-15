@@ -2,8 +2,13 @@
 
 ```
 The-Last-Sich/
-├── project.godot                 Engine settings, input map, autoloads, physics layers
+├── project.godot                 Engine settings, input map, autoloads, physics layers, version
 ├── CLAUDE.md                     Rules for AI-assisted work (docs, commits)
+├── CHANGELOG.md                  Generated on release from commit messages
+├── package.json                  Tooling: docs site, commit linting, releases (pnpm)
+├── commitlint.config.js          Commit message rules
+├── lefthook.yml                  Git hooks
+├── .versionrc.json               Release and changelog settings
 ├── autoload/
 │   └── events.gd                 Global signal bus (autoload "Events")
 ├── components/
@@ -25,10 +30,13 @@ The-Last-Sich/
 │   ├── room.gd                   Base room logic
 │   └── test_room.tscn            Test level (main scene)
 ├── ui/
+│   ├── version_label.gd          On-screen game version
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/
-│   └── check_file_sizes.sh       Enforces file size limits
+│   ├── check_file_sizes.sh       Enforces file size limits
+│   └── release/
+│       └── godot-version-updater.cjs   Bumps the version in project.godot
 └── docs/                         This site (VitePress)
 ```
 
