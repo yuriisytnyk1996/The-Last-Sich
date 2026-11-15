@@ -12,5 +12,7 @@ func physics_update(delta: float) -> void:
 		finished.emit(JUMP)
 	elif player.wants_dash():
 		finished.emit(DASH)
+	elif player.wants_attack():
+		finished.emit(ATTACK)
 	elif player.get_move_axis() == 0.0:
 		finished.emit(IDLE)

@@ -21,5 +21,7 @@ func physics_update(delta: float) -> void:
 
 	if player.wants_dash():
 		finished.emit(DASH)
+	elif player.wants_attack():
+		finished.emit(ATTACK)
 	elif player.velocity.y >= 0.0:
 		finished.emit(FALL)

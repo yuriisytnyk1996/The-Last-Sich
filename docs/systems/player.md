@@ -18,21 +18,25 @@ Player (CharacterBody2D)     layer: player   mask: world   group: "player"
 ├── CollisionShape2D         12×30 rectangle, origin at the feet
 ├── Visual (Node2D)          flipped with scale.x to face left/right
 │   ├── Body (ColorRect)     placeholder
-│   └── Eye (ColorRect)      placeholder, shows facing direction
+│   ├── Eye (ColorRect)      placeholder, shows facing direction
+│   └── AttackHitbox (Hitbox) layer: player_attacks, flips with Visual
+│       ├── Shape            22×18, in front of the player
+│       └── Slash (ColorRect) placeholder, visible only while the hitbox is on
 ├── Camera2D                 smoothed, limited by the room's bounds
 └── StateMachine
-    ├── Idle  ├── Run  ├── Jump  ├── Fall  └── Dash
+    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  └── Attack
 ```
 
 ## States and transitions
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor), Jump (jump buffered), Dash, Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall, Jump, Dash, Idle (no move input) |
-| **Jump** | Sets upward velocity, cuts the jump if the button is released | Dash, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Dash, Idle/Run (landed) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor), Jump (jump buffered), Dash, Attack (attack buffered), Run (move input) |
+| **Run** | Gravity, accelerates toward `run_speed` | Fall, Jump, Dash, Attack, Idle (no move input) |
+| **Jump** | Sets upward velocity, cuts the jump if the button is released | Dash, Attack, Fall (once moving down) |
+| **Fall** | Gravity, air control | Jump (coyote time), Dash, Attack, Idle/Run (landed) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
+| **Attack** | Startup, active and recovery windows with the hitbox on in the middle. Facing locked; slows down on the ground, keeps air control in the air. See [Combat](/systems/combat#player-attack) | Idle/Run (on floor), Fall (in air) |
 
 ## Movement techniques
 
@@ -84,6 +88,10 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Dash | `dash_speed` | 300 | Dash speed (px/s) |
 | Dash | `dash_duration` | 0.18 | Dash length (s) |
 | Dash | `dash_cooldown` | 0.4 | Time before the next dash (s) |
+| Attack | `attack_startup` | 0.05 | Wind-up before the hitbox turns on (s) |
+| Attack | `attack_active` | 0.1 | How long the hitbox is on (s) |
+| Attack | `attack_recovery` | 0.15 | Time after the hitbox turns off before the player can act (s) |
+| Attack | `attack_buffer_time` | 0.12 | How early an attack press is remembered (s) |
 
 ## Public helpers
 
@@ -97,11 +105,13 @@ Used by states and other systems:
 | `move_horizontally(delta, accel, decel)` | Accelerates toward input or slows down |
 | `wants_jump()` / `has_coyote_time()` / `consume_jump()` | Jump buffer and coyote logic |
 | `wants_dash()` / `start_dash()` | Dash availability and cooldown |
+| `wants_attack()` / `consume_attack()` | Attack buffer |
 | `set_camera_limits(bounds)` | Called by the room |
 | `respawn(at)` | Teleports, resets velocity and camera, enters Idle |
 
 ## Known limitations
 
 - Placeholder rectangles instead of sprites and animations.
-- No attack, health or damage yet.
+- No health yet, and nothing can damage the player except the kill zone.
+- Single attack only: no combos, no up/down attacks.
 - No dropping down through one-way platforms.

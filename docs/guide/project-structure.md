@@ -16,20 +16,28 @@ The-Last-Sich/
 │   ├── events.gd                 Global signal bus (autoload "Events")
 │   └── display_settings.gd       Fullscreen and scaling mode, saved to user://settings.cfg (autoload "DisplaySettings")
 ├── components/
-│   └── state_machine/
-│       ├── state_machine.gd      Generic finite state machine
-│       └── state.gd              Base class for one state
+│   ├── state_machine/
+│   │   ├── state_machine.gd      Generic finite state machine
+│   │   └── state.gd              Base class for one state
+│   └── combat/
+│       ├── hitbox.gd             Deals damage while active
+│       ├── hurtbox.gd            Detects hitboxes, reports hits
+│       └── health.gd             Hit points, damaged and died signals
 ├── actors/
-│   └── player/
-│       ├── player.tscn           Player scene
-│       ├── player.gd             Tuning values and shared helpers
-│       └── states/               One script per player state
-│           ├── player_state.gd   Base class for player states
-│           ├── idle.gd
-│           ├── run.gd
-│           ├── jump.gd
-│           ├── fall.gd
-│           └── dash.gd
+│   ├── player/
+│   │   ├── player.tscn           Player scene
+│   │   ├── player.gd             Tuning values and shared helpers
+│   │   └── states/               One script per player state
+│   │       ├── player_state.gd   Base class for player states
+│   │       ├── idle.gd
+│   │       ├── run.gd
+│   │       ├── jump.gd
+│   │       ├── fall.gd
+│   │       ├── dash.gd
+│   │       └── attack.gd
+│   └── training_dummy/
+│       ├── training_dummy.tscn   Stationary target for testing attacks
+│       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
 │   ├── room.gd                   Base room logic
 │   └── test_room.tscn            Test level (main scene)
@@ -51,7 +59,7 @@ See [Code organization](/guide/code-organization) for the rules behind this layo
 | Folder | What goes in it |
 |---|---|
 | `autoload/` | Global singletons registered in **Project Settings → Globals → Autoload**. Keep them few and small. |
-| `components/` | Reusable building blocks with no knowledge of specific actors (state machine, later hitboxes, health). |
+| `components/` | Reusable building blocks with no knowledge of specific actors (state machine, hitboxes, hurtboxes, health). |
 | `actors/` | Anything that moves and acts: the player, enemies, bosses, NPCs. One folder per actor, with its scene, script and states. |
 | `levels/` | Rooms and level-specific scripts. |
 | `ui/` | Menus, HUD and debug overlays. |

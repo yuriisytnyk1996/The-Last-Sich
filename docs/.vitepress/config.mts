@@ -38,6 +38,7 @@ export default defineConfig({
         text: 'Systems',
         items: [
           { text: 'Player', link: '/systems/player' },
+          { text: 'Combat', link: '/systems/combat' },
           { text: 'Rooms', link: '/systems/rooms' },
           { text: 'Input', link: '/systems/input' },
           { text: 'Rendering & pixel art', link: '/systems/rendering' },

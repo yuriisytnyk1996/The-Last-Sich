@@ -60,8 +60,8 @@ Defined in `project.godot` under `[layer_names]`:
 | 1 | `world` | Platforms, walls, ground |
 | 2 | `player` | The player body |
 | 3 | `enemies` | Enemy bodies (planned) |
-| 4 | `player_attacks` | Player hitboxes (planned) |
-| 5 | `enemy_attacks` | Enemy hitboxes (planned) |
+| 4 | `player_attacks` | Player hitboxes. Enemy hurtboxes mask this layer |
+| 5 | `enemy_attacks` | Enemy hitboxes (planned). The player's hurtbox will mask this layer |
 | 6 | `hazards` | Kill zones, spikes |
 
 ## Definition of done

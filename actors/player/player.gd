@@ -31,10 +31,19 @@ extends CharacterBody2D
 @export var dash_duration := 0.18
 @export var dash_cooldown := 0.4
 
+@export_group("Attack")
+## The swing is split into wind-up, hitbox-on and recovery windows (s).
+@export var attack_startup := 0.05
+@export var attack_active := 0.1
+@export var attack_recovery := 0.15
+## An attack pressed slightly before the current action ends still counts.
+@export var attack_buffer_time := 0.12
+
 var facing := 1
 
 var _coyote_timer := 0.0
 var _jump_buffer_timer := 0.0
+var _attack_buffer_timer := 0.0
 var _dash_cooldown_timer := 0.0
 var _air_dash_available := true
 
@@ -45,6 +54,7 @@ var _air_dash_available := true
 @onready var visual: Node2D = $Visual
 @onready var camera: Camera2D = $Camera2D
 @onready var state_machine: StateMachine = $StateMachine
+@onready var attack_hitbox: Hitbox = $Visual/AttackHitbox
 
 
 func _physics_process(delta: float) -> void:
@@ -59,6 +69,11 @@ func _physics_process(delta: float) -> void:
 		_jump_buffer_timer = jump_buffer_time
 	else:
 		_jump_buffer_timer = maxf(_jump_buffer_timer - delta, 0.0)
+
+	if Input.is_action_just_pressed("attack"):
+		_attack_buffer_timer = attack_buffer_time
+	else:
+		_attack_buffer_timer = maxf(_attack_buffer_timer - delta, 0.0)
 
 	_dash_cooldown_timer = maxf(_dash_cooldown_timer - delta, 0.0)
 
@@ -114,6 +129,14 @@ func start_dash() -> void:
 	_dash_cooldown_timer = dash_cooldown
 	if not is_on_floor():
 		_air_dash_available = false
+
+
+func wants_attack() -> bool:
+	return _attack_buffer_timer > 0.0
+
+
+func consume_attack() -> void:
+	_attack_buffer_timer = 0.0
 
 
 func set_camera_limits(bounds: Rect2i) -> void:

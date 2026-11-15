@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://ui/debug/debug_label.gd" id="3_debug"]
 [ext_resource type="Script" path="res://ui/version_label.gd" id="4_version"]
+[ext_resource type="PackedScene" path="res://actors/training_dummy/training_dummy.tscn" id="5_dummy"]
 
 [sub_resource type="RectangleShape2D" id="shape_GroundLeft"]
 size = Vector2(560, 40)
@@ -184,6 +185,9 @@ shape = SubResource("shape_kill")
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(80, 320)
+
+[node name="TrainingDummy" parent="." instance=ExtResource("5_dummy")]
+position = Vector2(200, 320)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(80, 320)

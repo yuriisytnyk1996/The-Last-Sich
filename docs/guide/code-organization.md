@@ -44,7 +44,7 @@ res://
 │   └── (save_manager.gd, audio_manager.gd, ...)
 ├── components/               Reusable, actor-agnostic building blocks
 │   ├── state_machine/
-│   └── (combat/: hitbox, hurtbox, health ...)
+│   └── combat/               Hitbox, hurtbox, health
 ├── actors/
 │   ├── player/
 │   │   ├── player.tscn

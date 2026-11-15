@@ -12,7 +12,7 @@ All controls are **actions** defined in `project.godot` (**Project Settings → 
 | `move_down` | S, ↓ | Left stick down, D-pad down | Not used yet |
 | `jump` | Space, Z | A / Cross | Jump buffer, variable jump height |
 | `dash` | K, C, Shift | Right shoulder | `Player.wants_dash()` |
-| `attack` | J, X | X / Square | Not used yet |
+| `attack` | J, X | X / Square | Attack buffer, `Player.wants_attack()` |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
 
 All actions use a dead zone of 0.3. Debug-only keys (F3, scaling mode) are not actions; see [Rendering](/systems/rendering). Keys are bound by **physical** position, so the layout works the same on QWERTY, AZERTY and Cyrillic keyboards.

@@ -7,6 +7,7 @@ const RUN := &"Run"
 const JUMP := &"Jump"
 const FALL := &"Fall"
 const DASH := &"Dash"
+const ATTACK := &"Attack"
 
 @onready var player := owner as Player
 

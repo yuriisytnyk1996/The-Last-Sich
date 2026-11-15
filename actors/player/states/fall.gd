@@ -10,5 +10,7 @@ func physics_update(delta: float) -> void:
 		finished.emit(JUMP)
 	elif player.wants_dash():
 		finished.emit(DASH)
+	elif player.wants_attack():
+		finished.emit(ATTACK)
 	elif player.is_on_floor():
 		finished.emit(ground_state())
