@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.4](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.3...v0.0.4) (2026-11-15)
+
+### Features
+
+* **save:** save the last rest point to disk and load it on start ([843072b](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/843072b13cf079695c4aaa6b493f28029eda36db))
+
 ## [0.0.3](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.2...v0.0.3) (2026-11-15)
 
 ### Features
