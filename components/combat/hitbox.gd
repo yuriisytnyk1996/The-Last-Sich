@@ -77,3 +77,13 @@ func get_knockback() -> Vector2:
 	if global_transform.x.x < 0.0:
 		direction.x = -direction.x
 	return direction * knockback_force
+
+
+## Which way this hit pushes something standing at `target`: 1 right,
+## -1 left, 0 if it can't tell. Follows the knockback; a hitbox that pushes
+## straight up or down (spikes, up slashes) pushes away from its centre.
+func push_direction(target: Vector2) -> float:
+	var direction := signf(get_knockback().x)
+	if direction == 0.0:
+		direction = signf(target.x - global_position.x)
+	return direction

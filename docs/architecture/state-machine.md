@@ -1,6 +1,6 @@
 # State machine
 
-A generic, node-based finite state machine in `components/state_machine/`. It is used by the player and will be reused for enemies and bosses.
+A generic, node-based finite state machine in `components/state_machine/`. It is used by the player and the enemies, and will be reused for bosses.
 
 ## Files
 

@@ -59,10 +59,10 @@ Defined in `project.godot` under `[layer_names]`:
 |---|---|---|
 | 1 | `world` | Platforms, walls, ground |
 | 2 | `player` | The player body |
-| 3 | `enemies` | Enemy bodies (planned) |
+| 3 | `enemies` | Enemy bodies. Nothing masks this layer, so the player and other enemies pass through them |
 | 4 | `player_attacks` | Player hitboxes. Enemy hurtboxes mask this layer |
-| 5 | `enemy_attacks` | Enemy hitboxes (planned). The player's hurtbox will mask this layer |
-| 6 | `hazards` | Kill zones, spikes |
+| 5 | `enemy_attacks` | Enemy attack and contact hitboxes. The player's hurtbox masks this layer |
+| 6 | `hazards` | Kill zones, spikes. The kill zone masks `player` and `enemies` |
 
 ## Definition of done
 

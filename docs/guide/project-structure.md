@@ -47,6 +47,20 @@ The-Last-Sich/
 │   │           ├── side_attack.gd
 │   │           ├── up_attack.gd
 │   │           └── crouch_attack.gd
+│   ├── enemies/
+│   │   ├── enemy.gd              Shared enemy base: tuning, movement and sensing helpers
+│   │   ├── enemy_damage.gd       Enemy hit reactions, hurt and death tuning
+│   │   ├── enemy_state.gd        Base class for enemy states
+│   │   ├── states/               States shared by every enemy
+│   │   │   ├── patrol.gd
+│   │   │   ├── chase.gd
+│   │   │   ├── hurt.gd
+│   │   │   ├── dead.gd
+│   │   │   └── enemy_attack_state.gd   Shared telegraphed attack timing
+│   │   └── raider/
+│   │       ├── raider.tscn       Melee grunt
+│   │       └── states/
+│   │           └── saber_slash.gd   Lunging forward cut
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
@@ -81,4 +95,4 @@ See [Code organization](/guide/code-organization) for the rules behind this layo
 | `tools/` | Developer scripts that are not part of the game. |
 | `docs/` | Documentation only. Ignored by Godot. |
 
-Planned folders as the game grows: `assets/` (sprites, audio, fonts), `resources/` (data `.tres` files such as enemy stats), `actors/enemies/`, `actors/bosses/`.
+Planned folders as the game grows: `assets/` (sprites, audio, fonts), `resources/` (data `.tres` files such as enemy stats), `actors/bosses/`.

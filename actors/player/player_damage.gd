@@ -66,10 +66,8 @@ func _on_died() -> void:
 	player.state_machine.transition_to(PlayerState.DEAD)
 
 
-## 1 pushes right, -1 left. Follows the hitbox's knockback; a hitbox that
-## pushes straight up (spikes) pushes away from its centre instead.
+## 1 pushes right, -1 left. See `Hitbox.push_direction()`; a hit dead
+## centre pushes the player backwards.
 func _push_direction(hitbox: Hitbox) -> float:
-	var direction := signf(hitbox.get_knockback().x)
-	if direction == 0.0:
-		direction = signf(player.global_position.x - hitbox.global_position.x)
+	var direction := hitbox.push_direction(player.global_position)
 	return direction if direction != 0.0 else float(-player.facing)

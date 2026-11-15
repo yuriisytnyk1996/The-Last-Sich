@@ -1,6 +1,7 @@
 class_name Room
 extends Node2D
 ## A level room: sets the camera bounds and respawns the player.
+## When the player respawns, every enemy in the room resets too.
 ##
 ## Later, rooms can be split into Layout / Deco / Logic sub-scenes
 ## by instancing them as children.
@@ -21,12 +22,15 @@ func _ready() -> void:
 
 
 func _on_kill_zone_body_entered(body: Node2D) -> void:
+	# A pit is instant death, whatever health is left. The Dead state
+	# takes it from there. Deferred: never change physics state inside a
+	# physics callback.
 	if body is Player:
-		# A pit is instant death, whatever health is left. The Dead state
-		# then asks for the respawn. Deferred: never change physics state
-		# inside a physics callback.
 		(body as Player).health.kill.call_deferred()
+	elif body is Enemy:
+		(body as Enemy).health.kill.call_deferred()
 
 
 func _on_player_died() -> void:
 	player.respawn(spawn_point.global_position)
+	get_tree().call_group(&"enemies", &"reset")

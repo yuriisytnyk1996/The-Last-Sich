@@ -28,22 +28,32 @@
 - [x] Player invincibility lasts through the stagger plus a short window after it
 - [x] HUD health bar: instant fill drop, trailing loss segment, width grows with max health, driven by `Events.player_health_changed`
 - [x] Bottomless pits are instant death: the kill zone empties health and the player goes through the Dead state before respawning
+- [x] Enemy base: shared `Enemy` class, `EnemyDamage`, and shared Patrol, Chase, Hurt and Dead states
+- [x] Telegraphed enemy attacks (`EnemyAttackState`): interruptible wind-up, committed once the hitbox is out, cooldown
+- [x] First enemy: the raider, a melee grunt with a lunging saber slash and contact damage
+- [x] Enemies reset when the player respawns; pits kill enemies too
 
 ## Next
 
-- [ ] Touch controls for mobile
+- [ ] `TileMapLayer` terrain
+- [ ] Room transitions
 
 ## Later
 
-- [ ] Pixel art sprites and animations for the player
-- [ ] `TileMapLayer` terrain
+- [ ] Enemy poise, so a lone enemy can't be kept staggered forever
+- [ ] Enemy line of sight (walls block vision)
+- [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Room split into Layout / Deco / Logic sub-scenes
-- [ ] Room transitions
-- [ ] First enemy (reusing the state machine)
 - [ ] Save system
 - [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
 - [ ] Audio
 - [ ] Main menu and pause menu (with fullscreen and scaling mode options)
+
+## Last
+
+The game is built and tuned on desktop first. Mobile comes at the end.
+
+- [ ] Touch controls for mobile
 
 ## Placeholders currently in the game
 
@@ -54,3 +64,4 @@
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
 - Plain rectangles for the HUD health bar
+- Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash

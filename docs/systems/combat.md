@@ -96,13 +96,15 @@ Positions are relative to the player's feet, facing right.
 
 Each hitbox has a `reaction` that tells the receiver how hard to react. The hitbox only carries the label; each actor decides what it means.
 
-| Reaction | Player | Hit-stop and shake (`feedback_scale()`) |
-|---|---|---|
-| `LIGHT` | Damage, flash and invincibility only. No stagger, no knockback, keeps doing what they were doing | ×0.5 |
-| `NORMAL` | **Hurt** for `hurt_duration` with `hurt_knockback`, turns to face the hit | ×1 |
-| `HEAVY` | **Hurt** for `heavy_hurt_duration` with `heavy_knockback` | ×2 |
+| Reaction | Player | Enemies | Hit-stop and shake (`feedback_scale()`) |
+|---|---|---|---|
+| `LIGHT` | Damage, flash and invincibility only. No stagger, no knockback, keeps doing what they were doing | Damage and flash only | ×0.5 |
+| `NORMAL` | **Hurt** for `hurt_duration` with `hurt_knockback`, turns to face the hit | **Hurt** with `hurt_knockback`, turns to face the hit, unless mid-attack. See [Enemies](/systems/enemies#hit-reactions) | ×1 |
+| `HEAVY` | **Hurt** for `heavy_hurt_duration` with `heavy_knockback` | **Hurt** with `heavy_knockback` | ×2 |
 
-Nothing uses `LIGHT` or `HEAVY` yet. They are there for the first enemies.
+All current attacks are `NORMAL`. `LIGHT` and `HEAVY` are ready for upgraded player attacks and tougher enemies.
+
+`Hitbox.push_direction(target)` gives the side a hit pushes towards. It follows the knockback, and a hitbox that pushes straight up or down (spikes, up slashes, enemy contact) pushes away from its own centre instead. Both the player and enemies use it.
 
 ## Hit feedback
 
@@ -128,7 +130,7 @@ A hazard is a `Hitbox` that is always on: `active_on_start` and **`continuous`**
 
 Hurtboxes normally react only to *new* contacts. Without `continuous`, a player who lands in spikes and stays there would be hit once and then never again. When a hurtbox's invincibility ends, it checks what it still overlaps, and a `continuous` hitbox it is still inside hits it again. Attack swings must not be `continuous`, or one swing could hit a target with invincibility frames twice.
 
-The test room's spikes push straight up with `knockback_force` 0. The player turns that into "away from the spikes' centre".
+The test room's spikes push straight up with `knockback_force` 0. The player turns that into "away from the spikes' centre". Enemy contact damage works the same way, see [Enemies](/systems/enemies#contact-damage).
 
 ## Training dummy
 
