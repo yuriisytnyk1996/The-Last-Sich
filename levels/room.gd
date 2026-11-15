@@ -22,8 +22,10 @@ func _ready() -> void:
 
 func _on_kill_zone_body_entered(body: Node2D) -> void:
 	if body is Player:
-		# Deferred: never move physics bodies inside a physics callback.
-		Events.player_died.emit.call_deferred()
+		# A pit is instant death, whatever health is left. The Dead state
+		# then asks for the respawn. Deferred: never change physics state
+		# inside a physics callback.
+		(body as Player).health.kill.call_deferred()
 
 
 func _on_player_died() -> void:

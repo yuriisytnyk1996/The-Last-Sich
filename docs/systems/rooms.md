@@ -6,15 +6,15 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 
 1. Places the player at `SpawnPoint` when the room loads.
 2. Limits the player's camera to `bounds`, so nothing outside the room is ever shown.
-3. Announces `Events.player_died` when the player enters `KillZone`.
-4. Respawns the player at `SpawnPoint` when `Events.player_died` fires. This happens after falling into the kill zone, or after the player's health runs out. `Player.respawn()` restores full health.
+3. Kills the player instantly when they enter `KillZone` (a bottomless pit), whatever health is left, with `Health.kill()`. The player goes through the normal death: the **Dead** state, the HUD bar empties, and after `death_delay` the Dead state emits `Events.player_died`. Invincibility doesn't protect against pits.
+4. Respawns the player at `SpawnPoint` when `Events.player_died` fires. `Player.respawn()` restores full health.
 
 ## Required nodes
 
 | Node | Type | Purpose |
 |---|---|---|
 | `SpawnPoint` | `Marker2D` | Where the player appears and respawns |
-| `KillZone` | `Area2D` (layer `hazards`, mask `player`) | Kills the player on contact |
+| `KillZone` | `Area2D` (layer `hazards`, mask `player`) | Bottomless pit: kills the player on contact, ignoring health |
 | `Player` | Instance of `player.tscn` | The player |
 
 ## Settings

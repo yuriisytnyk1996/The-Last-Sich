@@ -33,6 +33,13 @@ func heal(amount: int) -> void:
 	health_changed.emit(current, max_health)
 
 
+## Instant death that ignores the amount left (bottomless pits).
+func kill() -> void:
+	if is_dead():
+		return
+	take_damage(current)
+
+
 ## Back to full health, also after dying.
 func reset() -> void:
 	current = max_health

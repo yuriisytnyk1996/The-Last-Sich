@@ -27,6 +27,7 @@
 - [x] Hit reactions: light, normal and heavy hitboxes
 - [x] Player invincibility lasts through the stagger plus a short window after it
 - [x] HUD health bar: instant fill drop, trailing loss segment, width grows with max health, driven by `Events.player_health_changed`
+- [x] Bottomless pits are instant death: the kill zone empties health and the player goes through the Dead state before respawning
 
 ## Next
 

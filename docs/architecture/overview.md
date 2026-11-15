@@ -13,7 +13,7 @@ The game is built from three kinds of pieces:
 ```
 TestRoom (Room)
 ├── Platforms            static level geometry
-├── KillZone ──────────► Events.player_died ──► Room respawns the player
+├── KillZone ──────────► Health.kill() ──► Dead state ──► Events.player_died ──► Room respawns the player
 ├── SpawnPoint
 ├── TrainingDummy        Hurtbox + Health, target for testing attacks
 ├── Player (Player)

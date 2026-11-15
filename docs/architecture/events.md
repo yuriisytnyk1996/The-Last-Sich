@@ -12,7 +12,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 |---|---|---|---|
 | `camera_shake_requested(trauma)` | `HurtFeedback` (on every accepted hit) | `CameraShake` on the player's camera | Shake the active camera; `trauma` 0 to 1 adds up |
 | `player_health_changed(current, maximum)` | `PlayerDamage` (on every health change, and once on spawn) | `HealthBar` in the HUD | The player's health is now `current` out of `maximum` |
-| `player_died` | `Room` (when the player enters the `KillZone`), the player's `Dead` state (after `death_delay`) | `Room` (respawns the player) | The player died and should respawn |
+| `player_died` | The player's `Dead` state (after `death_delay`; pits kill through `Health.kill()` and end up here too) | `Room` (respawns the player) | The player died and should respawn |
 
 ## Usage
 

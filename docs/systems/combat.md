@@ -7,7 +7,7 @@ Three small components in `components/combat/` handle all damage in the game: a 
 1. An attack turns its `Hitbox` on (`set_active(true)`). This enables its collision shapes.
 2. A `Hurtbox` whose collision mask includes the hitbox's layer gets `area_entered` and reports it.
 3. The hurtbox emits `hurt(hitbox)`, tells the hitbox with `register_hit()` (which emits the hitbox's `hit_landed`), then, if its `health` is set, calls `health.take_damage(hitbox.damage)`.
-4. `Health` emits `health_changed(current, maximum)`, and `died` when it reaches 0.
+4. `Health` emits `health_changed(current, maximum)`, and `died` when it reaches 0. `Health.kill()` drops it straight to 0 for instant deaths such as pits.
 5. The owner listens to these signals and reacts (flash, knockback, respawn...).
 
 The attack turns the hitbox off again after its active window. Turning a hitbox off and on counts as a new contact, so **each activation hits each hurtbox at most once**. A single swing never deals damage twice, however many frames it overlaps.
