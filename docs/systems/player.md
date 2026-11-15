@@ -51,7 +51,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump + direction), Fall (jump alone, or off the bottom) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
-| **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop | None: emits `Events.player_died` after `death_delay`, and the room's respawn puts the player in Idle |
+| **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
 
 ## Movement techniques
 
@@ -152,7 +152,7 @@ Hurt and death values are on the **`Damage`** child node (`PlayerDamage`):
 | Hurt | `heavy_hurt_duration` | 0.5 | Seconds without control after a HEAVY hit |
 | Hurt | `heavy_knockback` | (240, 180) | Knockback for a HEAVY hit, px/s |
 | Invincibility | `invincibility_time` | 0.5 | Immunity after Hurt ends (s), or after a LIGHT hit |
-| Death | `death_delay` | 1.0 | Seconds before the room respawns a dead player |
+| Death | `death_delay` | 1.0 | Seconds before a dead player respawns |
 
 Climbing values are on the **`LadderClimb`** child node (`PlayerLadderClimb`):
 

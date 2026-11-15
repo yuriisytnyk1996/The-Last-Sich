@@ -72,11 +72,13 @@ The-Last-Sich/
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
 │   ├── world.tscn                Main scene: player, HUD, screen fade and the current room
-│   ├── world.gd                  Loads rooms and runs room transitions
-│   ├── room.gd                   Base room logic: camera bounds, pits, respawning
+│   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points
+│   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
 │   │   ├── door.tscn             Door entered by pressing up
+│   │   ├── rest_point.gd         Checkpoint: heal, reset enemies, set the respawn
+│   │   ├── rest_point.tscn       Rest point scene
 │   │   └── ladder.gd             Climbable ladder
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room)

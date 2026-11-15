@@ -6,8 +6,8 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 
 1. `World` loads `start_room` into its `RoomHolder` and calls `Room.enter(player, exit_name)`. The room sets the camera limits to its `bounds` and returns where the player should stand: the `Landing` of the named exit, or `SpawnPoint` when the name is empty (the start of the game).
 2. A room kills the player (or an enemy) instantly when they enter `KillZone` (a bottomless pit), whatever health is left, with `Health.kill()`. The player goes through the normal death: the **Dead** state, the HUD bar empties, and after `death_delay` the Dead state emits `Events.player_died`. Invincibility doesn't protect against pits.
-3. When `Events.player_died` fires, the room respawns the player where they entered it: the landing they arrived at, or `SpawnPoint` at the start of the game or when the exit they came through has `respawn_here` off. `Player.respawn()` restores full health.
-4. At the same moment, it calls `reset()` on every node in the `enemies` group: each enemy returns to its spawn point with full health, including dead ones. See [Enemies](/systems/enemies#respawning).
+3. When `Events.player_died` fires and no [rest point](/systems/rest-points) has been used, `World` calls `Room.respawn_player()`, which respawns the player where they entered the room: the landing they arrived at, or `SpawnPoint` at the start of the game or when the exit they came through has `respawn_here` off. `Player.respawn()` restores full health.
+4. At the same moment, the room calls `reset()` on every node in the `enemies` group: each enemy returns to its spawn point with full health, including dead ones. See [Enemies](/systems/enemies#respawning).
 
 ## Room transitions
 
@@ -55,7 +55,7 @@ The player can use a door only from **Idle** or **Run**, on the ground (`Player.
 
 ## Interaction areas
 
-`InteractionArea` (`components/interaction/interaction_area.gd`) is the base for anything the player sets off: room exits, doors and (later) rest points. It's an `Area2D` on no layer that masks `player`.
+`InteractionArea` (`components/interaction/interaction_area.gd`) is the base for anything the player sets off: room exits, doors and [rest points](/systems/rest-points). It's an `Area2D` on no layer that masks `player`.
 
 | `press_up` | Sets off when |
 |---|---|
@@ -68,7 +68,7 @@ While the player is inside a press-up area, its `Prompt` child (any `CanvasItem`
 
 | File | Role |
 |---|---|
-| `levels/world.tscn`, `levels/world.gd` | Main scene. Owns the player, HUD, debug labels and screen fade. Loads rooms and runs transitions |
+| `levels/world.tscn`, `levels/world.gd` | Main scene. Owns the player, HUD, debug labels and screen fade. Loads rooms, runs transitions, handles death (rest point or room respawn) |
 | `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset |
 | `levels/objects/room_exit.gd` | Edge exit or door to another room |
 | `levels/objects/ladder.gd` | Climbable ladder, found by position |
@@ -145,7 +145,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Test house layout
 
-`levels/rooms/test_house.tscn` is a closed 640×360 room behind the test room's door. It has a `Door` back to the test room and a one-way plank 2 tiles above the floor.
+`levels/rooms/test_house.tscn` is a closed 640×360 room behind the test room's door. It has a `Door` back to the test room, a [rest point](/systems/rest-points) in the middle and a one-way plank 2 tiles above the floor.
 
 ## Making a new room
 

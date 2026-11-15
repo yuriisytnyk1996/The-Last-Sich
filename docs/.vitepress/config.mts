@@ -43,6 +43,7 @@ export default defineConfig({
           { text: 'Game feel', link: '/systems/game-feel' },
           { text: 'HUD', link: '/systems/hud' },
           { text: 'Rooms', link: '/systems/rooms' },
+          { text: 'Rest points', link: '/systems/rest-points' },
           { text: 'Input', link: '/systems/input' },
           { text: 'Rendering & pixel art', link: '/systems/rendering' },
         ],

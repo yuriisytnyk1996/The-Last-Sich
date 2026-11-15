@@ -38,10 +38,10 @@
 - [x] Doors you enter by pressing up, `InteractionArea` base, arrival facing for exits
 - [x] Vertical exits: fall through a floor hole into the room below, jump up through a ceiling opening with a launch (`arrival_rise`); test shaft under the cave
 - [x] Ladders: grab with up or down, climb, jump off, climb through vertical exits into another room
+- [x] Rest points: press up to heal and reset the room's enemies; death respawns at the last one used, loading its room
 
 ## Next
 
-- [ ] Rest points: checkpoint that heals, resets enemies and sets the respawn
 - [ ] Enemy poise, so a lone enemy can't be kept staggered forever
 
 ## Later
@@ -50,7 +50,7 @@
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
 - [ ] Room split into Layout / Deco / Logic sub-scenes
-- [ ] Save system
+- [ ] Save system (starting with the last rest point used)
 - [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
 - [ ] Audio
 - [ ] Main menu and pause menu (with fullscreen and scaling mode options)
@@ -72,5 +72,6 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Dark tint for the dead player instead of a death animation
 - Plain rectangles for the HUD health bar
 - Drawn rails and rungs for ladders
+- Post, crossbar and flame rectangles for rest points
 - Brown rectangle for doors, a triangle for the press-up prompt
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash

@@ -18,6 +18,10 @@ signal camera_shake_requested(trauma: float)
 @warning_ignore("unused_signal")
 signal player_health_changed(current: int, maximum: int)
 
+## The player used a rest point. The world makes it the respawn point.
+@warning_ignore("unused_signal")
+signal rested(rest_point: Node2D)
+
 ## The player walked through a `RoomExit`. The world fades out, loads
 ## `room_path` and places the player at the exit named `exit_name` there.
 @warning_ignore("unused_signal")

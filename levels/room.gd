@@ -3,7 +3,8 @@ extends Node2D
 ## A level room: camera bounds, pits, exits and respawning.
 ##
 ## The `World` scene owns the player and calls `enter()` after adding the
-## room. When the player dies, they respawn where they entered this room
+## room. When the player dies and no rest point has been used, the world
+## calls `respawn_player()`: they come back where they entered this room
 ## and every enemy in it resets.
 
 ## The playable area. The camera never shows anything outside it.
@@ -20,7 +21,6 @@ var _respawn_position := Vector2.ZERO
 func _ready() -> void:
 	if kill_zone:
 		kill_zone.body_entered.connect(_on_kill_zone_body_entered)
-	Events.player_died.connect(_on_player_died)
 
 
 ## Hands the player to this room and places them: at the exit named
@@ -56,8 +56,6 @@ func _on_kill_zone_body_entered(body: Node2D) -> void:
 		(body as Enemy).health.kill.call_deferred()
 
 
-func _on_player_died() -> void:
-	if player == null:
-		return
+func respawn_player() -> void:
 	player.respawn(_respawn_position)
 	get_tree().call_group(&"enemies", &"reset")
