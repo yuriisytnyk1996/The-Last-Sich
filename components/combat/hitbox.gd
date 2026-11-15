@@ -16,6 +16,9 @@ signal hit_landed(hurtbox: Hurtbox)
 ## with a negative scale.x.
 @export var knockback_direction := Vector2.RIGHT
 @export var active_on_start := false
+## Keeps hurting a hurtbox that stays inside it, each time that hurtbox's
+## invincibility ends. For hazards and contact damage, not for swings.
+@export var continuous := false
 
 var _active := false
 var _has_hit := false

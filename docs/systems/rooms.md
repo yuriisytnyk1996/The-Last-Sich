@@ -7,7 +7,7 @@ A room is one playable area of the world. `levels/room.gd` (`Room`) provides the
 1. Places the player at `SpawnPoint` when the room loads.
 2. Limits the player's camera to `bounds`, so nothing outside the room is ever shown.
 3. Announces `Events.player_died` when the player enters `KillZone`.
-4. Respawns the player at `SpawnPoint` when `Events.player_died` fires.
+4. Respawns the player at `SpawnPoint` when `Events.player_died` fires. This happens after falling into the kill zone, or after the player's health runs out. `Player.respawn()` restores full health.
 
 ## Required nodes
 
@@ -32,6 +32,7 @@ The test room is 1280×360 (two screens wide). It contains:
 - Ledges at several heights to test jump height
 - A one-way bridge (lighter colour) you can jump up through from below
 - A step block on the right side
+- Spikes (red) on the right ground, under `Hazards`: a continuous `Hitbox` on the `hazards` layer that deals 1 damage. See [Combat](/systems/combat#hazards)
 
 Platforms are `StaticBody2D` nodes on the `world` layer, each with a `ColorRect` placeholder.
 

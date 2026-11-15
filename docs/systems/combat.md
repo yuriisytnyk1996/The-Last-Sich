@@ -32,7 +32,8 @@ Only hurtboxes detect (`monitoring = true`, `monitorable = false`). Hitboxes are
 | Player attack `Hitbox` | `player_attacks` (4) | none |
 | Enemy attack `Hitbox` | `enemy_attacks` (5) | none |
 | Enemy `Hurtbox` | none | `player_attacks` (4) |
-| Player `Hurtbox` (planned) | none | `enemy_attacks` (5), `hazards` (6) |
+| Player `Hurtbox` | none | `enemy_attacks` (5), `hazards` (6) |
+| Hazard `Hitbox` (spikes) | `hazards` (6) | none |
 
 This also prevents actors from hitting themselves: the player's hurtbox will never look at `player_attacks`.
 
@@ -91,6 +92,22 @@ The miss check uses `Hitbox.has_hit()`, which is reset each time the hitbox turn
 
 Positions are relative to the player's feet, facing right.
 
+## Invincibility
+
+A hurtbox with `invincibility_time` above 0 ignores every hit for that long after accepting one. The player uses this (see [Player](/systems/player#taking-damage)); the training dummy doesn't.
+
+`InvincibilityBlink` (`components/combat/invincibility_blink.gd`) is a separate node that blinks a `CanvasItem` while a hurtbox is invincible. Point its `hurtbox` and `target` at the right nodes. Any actor can use it.
+
+`clear_invincibility()` ends it early, for example on respawn.
+
+## Hazards
+
+A hazard is a `Hitbox` that is always on: `active_on_start` and **`continuous`** enabled, on the `hazards` layer.
+
+Hurtboxes normally react only to *new* contacts. Without `continuous`, a player who lands in spikes and stays there would be hit once and then never again. When a hurtbox's invincibility ends, it checks what it still overlaps, and a `continuous` hitbox it is still inside hits it again. Attack swings must not be `continuous`, or one swing could hit a target with invincibility frames twice.
+
+The test room's spikes push straight up with `knockback_force` 0. The player turns that into "away from the spikes' centre".
+
 ## Training dummy
 
 `actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health` and a small health bar. When hit it flashes (an over-bright `modulate`, which works because 2D HDR is on) and tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
@@ -104,6 +121,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `components/combat/hitbox.gd` | `Hitbox`: damage and knockback, `set_active()`, `has_hit()`, `hit_landed` |
 | `components/combat/hurtbox.gd` | `Hurtbox`: detects hitboxes, invincibility, emits `hurt` |
 | `components/combat/health.gd` | `Health`: hit points, `health_changed` and `died` |
+| `components/combat/invincibility_blink.gd` | `InvincibilityBlink`: blinks a visual while a hurtbox is invincible |
 | `actors/player/states/attacks/player_attack_state.gd` | `PlayerAttackState`: swing phases, re-swing, planted on the ground / air control in the air |
 | `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground |
 | `actors/player/states/attacks/up_attack.gd` | Up slash |
@@ -121,13 +139,22 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `knockback_force` | 120 | Knockback strength (px/s) |
 | `knockback_direction` | (1, 0) | Direction when facing right, mirrored when flipped |
 | `active_on_start` | false | On for hazards that always hurt |
+| `continuous` | false | Hits a hurtbox again when its invincibility ends while still inside. For hazards |
 
 ### Hurtbox
 
 | Value | Default | Effect |
 |---|---|---|
 | `health` | none | `Health` node that takes the damage automatically |
-| `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts |
+| `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `Player.invincibility_time` |
+
+### InvincibilityBlink
+
+| Value | Default | Effect |
+|---|---|---|
+| `hurtbox` | none | Hurtbox whose invincibility is shown |
+| `target` | none | Node that blinks |
+| `interval` | 0.06 | Seconds per on/off step |
 
 ### Health
 
@@ -149,7 +176,23 @@ Set on the `Player` node, group **Attack**.
 
 All three attacks share the timing. Damage and knockback are set per attack on the hitboxes under `Visual/Attacks` in `player.tscn`.
 
-### Training dummy
+### Invincibility
+
+A hurtbox with `invincibility_time` above 0 ignores every hit for that long after accepting one. The player uses this (see [Player](/systems/player#taking-damage)); the training dummy doesn't.
+
+`InvincibilityBlink` (`components/combat/invincibility_blink.gd`) is a separate node that blinks a `CanvasItem` while a hurtbox is invincible. Point its `hurtbox` and `target` at the right nodes. Any actor can use it.
+
+`clear_invincibility()` ends it early, for example on respawn.
+
+## Hazards
+
+A hazard is a `Hitbox` that is always on: `active_on_start` and **`continuous`** enabled, on the `hazards` layer.
+
+Hurtboxes normally react only to *new* contacts. Without `continuous`, a player who lands in spikes and stays there would be hit once and then never again. When a hurtbox's invincibility ends, it checks what it still overlaps, and a `continuous` hitbox it is still inside hits it again. Attack swings must not be `continuous`, or one swing could hit a target with invincibility frames twice.
+
+The test room's spikes push straight up with `knockback_force` 0. The player turns that into "away from the spikes' centre".
+
+## Training dummy
 
 | Value | Default | Effect |
 |---|---|---|
@@ -167,12 +210,11 @@ Its health is set on its `Health` child node.
 
 **A new player attack:** add a hitbox under `Visual/Attacks`, a script in `actors/player/states/attacks/` that extends `PlayerAttackState` (override `move()` for different movement), a state node pointing its `hitbox` at the new hitbox, a name constant in `PlayerState`, and a rule in `PlayerState.attack_state()`.
 
-**A hazard (spikes):** a `Hitbox` on the `hazards` layer with `active_on_start` enabled.
+**A hazard (spikes):** a `Hitbox` on the `hazards` layer with `active_on_start` and `continuous` enabled.
 
 ## Known limitations
 
-- The player has no hurtbox or health yet, so nothing can hurt them except the kill zone.
-- A hurtbox only reacts to *new* contacts. A hitbox that stays overlapping after invincibility ends doesn't hit again. Contact damage from always-on hazards will need a re-check of overlapping areas when invincibility ends.
+- A hurtbox without invincibility only reacts to *new* contacts, so a `continuous` hitbox only repeats against hurtboxes that have invincibility frames.
 - No hit-stop or screen shake yet.
 - No combos, charged attacks or movement attacks (dash attack, dive attack). These are planned as upgrades once an upgrade system exists.
 - No crouch state yet: the crouch attack doesn't lower the player's body, it only swings low.

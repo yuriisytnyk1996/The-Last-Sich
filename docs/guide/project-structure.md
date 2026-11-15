@@ -21,8 +21,9 @@ The-Last-Sich/
 │   │   └── state.gd              Base class for one state
 │   └── combat/
 │       ├── hitbox.gd             Deals damage while active
-│       ├── hurtbox.gd            Detects hitboxes, reports hits
-│       └── health.gd             Hit points, damaged and died signals
+│       ├── hurtbox.gd            Detects hitboxes, reports hits, invincibility
+│       ├── health.gd             Hit points, damaged and died signals
+│       └── invincibility_blink.gd   Blinks a visual while a hurtbox is invincible
 ├── actors/
 │   ├── player/
 │   │   ├── player.tscn           Player scene
@@ -34,6 +35,8 @@ The-Last-Sich/
 │   │       ├── jump.gd
 │   │       ├── fall.gd
 │   │       ├── dash.gd
+│   │       ├── hurt.gd           Knockback after a hit
+│   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       └── attacks/          One script per attack direction
 │   │           ├── player_attack_state.gd   Shared swing timing
 │   │           ├── side_attack.gd

@@ -22,11 +22,29 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _invincible_left <= 0.0:
+		return
 	_invincible_left = maxf(_invincible_left - delta, 0.0)
+	if _invincible_left == 0.0:
+		_recheck_continuous_hitboxes()
 
 
 func is_invincible() -> bool:
 	return _invincible_left > 0.0
+
+
+## Ends invincibility early, for example on respawn.
+func clear_invincibility() -> void:
+	_invincible_left = 0.0
+
+
+## A continuous hitbox (spikes) we are still standing in hits again.
+func _recheck_continuous_hitboxes() -> void:
+	for area in get_overlapping_areas():
+		var hitbox := area as Hitbox
+		if hitbox and hitbox.continuous:
+			_on_area_entered(hitbox)
+			return
 
 
 func _on_area_entered(area: Area2D) -> void:

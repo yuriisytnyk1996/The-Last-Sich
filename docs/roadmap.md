@@ -21,10 +21,11 @@
 - [x] Player attack state with startup / active / recovery windows and attack buffering
 - [x] Directional attacks: side, up and crouch. Planted on the ground (can turn mid-swing), air control in the air, re-swing after a miss
 - [x] Training dummy in the test room
+- [x] Player health, hurtbox, hurt state with knockback, invincibility with blinking, death and respawn
+- [x] Continuous hitboxes for hazards (re-hit after invincibility), spikes in the test room
 
 ## Next
 
-- [ ] Player health, hurtbox, hurt state with knockback and invincibility, death
 - [ ] HUD health display
 - [ ] Touch controls for mobile
 - [ ] Game feel: hit-stop and screen shake
@@ -47,3 +48,6 @@
 - Debug label is always visible
 - Translucent rectangle for the attack slash
 - Coloured rectangles for the training dummy and its health bar
+- Red rectangle for the spikes
+- Dark tint for the dead player instead of a death animation
+- Player health shown only in the debug label (HUD is next)

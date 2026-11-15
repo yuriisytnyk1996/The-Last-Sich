@@ -10,7 +10,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 
 | Signal | Emitted by | Listened to by | Meaning |
 |---|---|---|---|
-| `player_died` | `Room` (when the player enters the `KillZone`) | `Room` (respawns the player) | The player died and should respawn |
+| `player_died` | `Room` (when the player enters the `KillZone`), the player's `Dead` state (after `death_delay`) | `Room` (respawns the player) | The player died and should respawn |
 
 ## Usage
 

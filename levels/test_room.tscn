@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://ui/debug/debug_label.gd" id="3_debug"]
 [ext_resource type="Script" path="res://ui/version_label.gd" id="4_version"]
 [ext_resource type="PackedScene" path="res://actors/training_dummy/training_dummy.tscn" id="5_dummy"]
+[ext_resource type="Script" path="res://components/combat/hitbox.gd" id="6_hitbox"]
 
 [sub_resource type="RectangleShape2D" id="shape_GroundLeft"]
 size = Vector2(560, 40)
@@ -32,6 +33,9 @@ size = Vector2(120, 60)
 
 [sub_resource type="RectangleShape2D" id="shape_LedgeHigh"]
 size = Vector2(100, 16)
+
+[sub_resource type="RectangleShape2D" id="shape_spikes"]
+size = Vector2(40, 8)
 
 [sub_resource type="RectangleShape2D" id="shape_kill"]
 size = Vector2(200, 40)
@@ -173,6 +177,30 @@ offset_right = 50.0
 offset_bottom = 8.0
 mouse_filter = 2
 color = Color(0.36, 0.3, 0.26, 1)
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="Spikes" type="Area2D" parent="Hazards"]
+position = Vector2(760, 316)
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("6_hitbox")
+knockback_force = 0.0
+knockback_direction = Vector2(0, -1)
+active_on_start = true
+continuous = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hazards/Spikes"]
+shape = SubResource("shape_spikes")
+
+[node name="Visual" type="ColorRect" parent="Hazards/Spikes"]
+offset_left = -20.0
+offset_top = -4.0
+offset_right = 20.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.75, 0.2, 0.2, 1)
 
 [node name="KillZone" type="Area2D" parent="."]
 position = Vector2(620, 400)

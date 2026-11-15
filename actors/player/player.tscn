@@ -11,6 +11,11 @@
 [ext_resource type="Script" path="res://actors/player/states/attacks/up_attack.gd" id="10_up_attack"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/crouch_attack.gd" id="11_crouch_attack"]
 [ext_resource type="Script" path="res://components/combat/hitbox.gd" id="9_hitbox"]
+[ext_resource type="Script" path="res://actors/player/states/hurt.gd" id="12_hurt"]
+[ext_resource type="Script" path="res://actors/player/states/dead.gd" id="13_dead"]
+[ext_resource type="Script" path="res://components/combat/health.gd" id="14_health"]
+[ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="15_hurtbox"]
+[ext_resource type="Script" path="res://components/combat/invincibility_blink.gd" id="16_blink"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -23,6 +28,9 @@ size = Vector2(24, 20)
 
 [sub_resource type="RectangleShape2D" id="crouch_attack_shape"]
 size = Vector2(22, 10)
+
+[sub_resource type="RectangleShape2D" id="hurtbox_shape"]
+size = Vector2(10, 26)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -113,6 +121,25 @@ offset_bottom = 5.0
 mouse_filter = 2
 color = Color(0.95, 0.92, 0.8, 0.6)
 
+[node name="Health" type="Node" parent="."]
+script = ExtResource("14_health")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 0
+collision_mask = 48
+monitorable = false
+script = ExtResource("15_hurtbox")
+health = NodePath("../Health")
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -14)
+shape = SubResource("hurtbox_shape")
+
+[node name="InvincibilityBlink" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "target")]
+script = ExtResource("16_blink")
+hurtbox = NodePath("../Hurtbox")
+target = NodePath("../Visual")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)
 position_smoothing_enabled = true
@@ -148,3 +175,9 @@ hitbox = NodePath("../../Visual/Attacks/Up")
 [node name="CrouchAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("11_crouch_attack")
 hitbox = NodePath("../../Visual/Attacks/Crouch")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("12_hurt")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("13_dead")

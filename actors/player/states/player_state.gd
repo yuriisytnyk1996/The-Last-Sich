@@ -10,6 +10,8 @@ const DASH := &"Dash"
 const SIDE_ATTACK := &"SideAttack"
 const UP_ATTACK := &"UpAttack"
 const CROUCH_ATTACK := &"CrouchAttack"
+const HURT := &"Hurt"
+const DEAD := &"Dead"
 
 @onready var player := owner as Player
 

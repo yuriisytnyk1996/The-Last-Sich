@@ -21,10 +21,14 @@ Player (CharacterBody2D)     layer: player   mask: world   group: "player"
 │   ├── Eye (ColorRect)      placeholder, shows facing direction
 │   └── Attacks (Node2D)     one Hitbox per attack, layer: player_attacks
 │       ├── Side  ├── Up  └── Crouch   each with a Shape and a placeholder Slash
+├── Health                   5 hit points
+├── Hurtbox (Area2D)         10×26, mask: enemy_attacks, hazards
+├── InvincibilityBlink       blinks Visual while the hurtbox is invincible
 ├── Camera2D                 smoothed, limited by the room's bounds
 └── StateMachine
     ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash
-    └── SideAttack  ├── UpAttack  └── CrouchAttack
+    ├── SideAttack  ├── UpAttack  ├── CrouchAttack
+    └── Hurt  └── Dead
 ```
 
 ## States and transitions
@@ -37,6 +41,8 @@ Player (CharacterBody2D)     layer: player   mask: world   group: "player"
 | **Fall** | Gravity, air control | Jump (coyote time), Dash, an attack, Idle/Run (landed) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
+| **Hurt** | Entered from any state when the hurtbox takes a hit. Knocked up and away, faces the hit, no control | Idle/Run (on floor), Fall (in air) after `hurt_duration` |
+| **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop | None: emits `Events.player_died` after `death_delay`, and the room's respawn puts the player in Idle |
 
 ## Movement techniques
 
@@ -68,6 +74,18 @@ A jump pressed up to `jump_buffer_time` seconds before landing is remembered and
 
 A fixed-speed horizontal burst in the input direction (or facing direction if there's no input). One air dash is allowed until the player lands. The cooldown prevents spamming.
 
+### Taking damage
+
+1. A `Hitbox` on `enemy_attacks` or `hazards` touches the player's `Hurtbox`.
+2. The hurtbox starts `invincibility_time` and emits `hurt`. `Player` works out `hurt_direction` and enters **Hurt**.
+3. The hurtbox removes health. At 0, `Health.died` makes `Player` enter **Dead** instead.
+
+**Knockback direction:** the horizontal sign of the hitbox's knockback. A hitbox that pushes straight up (spikes) pushes the player away from its centre. If the player is exactly on the centre, they are pushed backwards.
+
+**Invincibility** counts from the hit and lasts longer than `hurt_duration`, so the player gets control back while still safe for a moment. The `InvincibilityBlink` node shows it by blinking `Visual`. While invincible, new hits are ignored completely: no damage, no knockback.
+
+**Respawn** (`respawn(at)`) restores full health and ends invincibility.
+
 ## Tuning
 
 Select the `Player` node in `player.tscn` and edit values in the Inspector.
@@ -93,6 +111,12 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Attack | `attack_recovery` | 0.15 | Time after the hitbox turns off before the player can act (s) |
 | Attack | `attack_buffer_time` | 0.12 | How early an attack press is remembered (s) |
 | Attack | `attack_vertical_threshold` | 0.75 | Vertical input needed for an up or crouch attack |
+| Hurt | `hurt_duration` | 0.3 | Seconds without control after a hit |
+| Hurt | `hurt_knockback` | (160, 140) | Speed away from the hit (x) and upward pop (y), px/s |
+| Hurt | `invincibility_time` | 1.0 | Immunity after a hit (s), counted from the hit. Copied to the `Hurtbox` on ready |
+| Hurt | `death_delay` | 1.0 | Seconds before the room respawns a dead player |
+
+Maximum health is set on the `Health` child node (`max_health`, default 5).
 
 ## Public helpers
 
@@ -109,11 +133,13 @@ Used by states and other systems:
 | `wants_dash()` / `start_dash()` | Dash availability and cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
 | `set_camera_limits(bounds)` | Called by the room |
-| `respawn(at)` | Teleports, resets velocity and camera, enters Idle |
+| `respawn(at)` | Teleports, resets velocity, health, invincibility and camera, enters Idle |
 
 ## Known limitations
 
 - Placeholder rectangles instead of sprites and animations.
-- No health yet, and nothing can damage the player except the kill zone.
+- Health is only shown in the debug label until the HUD exists.
+- Every hit uses the same knockback; hitbox `knockback_force` is ignored for the player.
+- No hit-stop, screen shake or death animation yet.
 - No combos or movement attacks yet (planned as upgrades).
 - No dropping down through one-way platforms.
