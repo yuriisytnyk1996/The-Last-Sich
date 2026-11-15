@@ -167,6 +167,7 @@ hurtbox = NodePath("../Hurtbox")
 flash_target = NodePath("../Visual")
 hit_stop = 0.1
 shake = 0.6
+rumble = 0.8
 
 [node name="DropThrough" type="Node" parent="."]
 script = ExtResource("20_drop")

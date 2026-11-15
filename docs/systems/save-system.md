@@ -99,7 +99,7 @@ func _ready() -> void:
 	SaveManager.register(self)
 ```
 
-Register before `World` calls `load_game()`. Autoloads are ready before the main scene, so registering in their `_ready()` is enough.
+Register before `World` calls `load_game()`. Autoloads are ready before any scene, so registering in their `_ready()` is enough.
 
 Values go through JSON, so keep data to strings, numbers, booleans, arrays and dictionaries. Numbers come back as floats: convert with `int()` where needed. Store a `Vector2` as two numbers.
 

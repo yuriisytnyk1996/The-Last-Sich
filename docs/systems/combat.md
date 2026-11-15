@@ -113,8 +113,9 @@ All current attacks are `NORMAL`. `LIGHT` and `HEAVY` are ready for upgraded pla
 1. Flashes `flash_target` with an over-bright `modulate` (works because 2D HDR is on).
 2. Freezes the game for `hit_stop` seconds through the `HitStop` autoload.
 3. Asks for `shake` camera trauma through `Events.camera_shake_requested`.
+4. Rumbles the gamepad with `rumble` strength for `rumble_time` seconds through the `Rumble` autoload.
 
-Both 2 and 3 are scaled by the hit's reaction. The values sit on the **receiver**, so each actor sets how much a hit on it is felt: getting hit as the player freezes longer and shakes harder than landing a hit on the dummy. See [Game feel](/systems/game-feel) for the freeze and shake themselves.
+Steps 2 to 4 are scaled by the hit's reaction. The values sit on the **receiver**, so each actor sets how much a hit on it is felt: getting hit as the player freezes longer, shakes harder and rumbles more than landing a hit on the dummy. See [Game feel](/systems/game-feel) for the freeze, shake and rumble themselves.
 
 ## Invincibility
 
@@ -134,7 +135,7 @@ The test room's spikes push straight up with `knockback_force` 0. The player tur
 
 ## Training dummy
 
-`actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health`, a `HurtFeedback` (flash, 0.05 s hit-stop, 0.3 shake) and a small health bar. When hit it also tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
+`actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health`, a `HurtFeedback` (flash, 0.05 s hit-stop, 0.3 shake, 0.3 rumble) and a small health bar. When hit it also tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
 
 It has no behaviour of its own, so unlike other actors it has no `states/` folder.
 
@@ -146,7 +147,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `components/combat/hurtbox.gd` | `Hurtbox`: detects hitboxes, invincibility, emits `hurt` |
 | `components/combat/health.gd` | `Health`: hit points, `health_changed` and `died` |
 | `components/combat/invincibility_blink.gd` | `InvincibilityBlink`: blinks a visual while a hurtbox is invincible |
-| `components/combat/hurt_feedback.gd` | `HurtFeedback`: flash, hit-stop and camera shake on every accepted hit |
+| `components/combat/hurt_feedback.gd` | `HurtFeedback`: flash, hit-stop, camera shake and rumble on every accepted hit |
 | `actors/player/states/attacks/player_attack_state.gd` | `PlayerAttackState`: swing phases, re-swing, planted on the ground / air control in the air |
 | `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground |
 | `actors/player/states/attacks/up_attack.gd` | Up slash |
@@ -184,6 +185,8 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `flash_time` | 0.12 | Fade back from the flash (s) |
 | `hit_stop` | 0 | Freeze length (s) at NORMAL. Player 0.1, dummy 0.05 |
 | `shake` | 0 | Camera trauma at NORMAL (0 to 1). Player 0.6, dummy 0.3 |
+| `rumble` | 0 | Gamepad rumble strength at NORMAL (0 to 1). Player 0.8, raider and dummy 0.3 |
+| `rumble_time` | 0.15 | Rumble length (s) at NORMAL |
 
 ### InvincibilityBlink
 

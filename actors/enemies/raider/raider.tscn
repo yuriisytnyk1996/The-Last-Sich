@@ -131,6 +131,7 @@ hurtbox = NodePath("../Hurtbox")
 flash_target = NodePath("../Visual")
 hit_stop = 0.05
 shake = 0.3
+rumble = 0.3
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_fsm")

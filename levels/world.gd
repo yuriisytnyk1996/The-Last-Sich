@@ -26,6 +26,7 @@ var _rest_path: NodePath
 @onready var room_holder: Node2D = $RoomHolder
 @onready var player: Player = $Player
 @onready var fade: ScreenFade = $ScreenFade
+@onready var pause_menu: PauseMenu = $PauseMenu
 
 
 func _ready() -> void:
@@ -38,6 +39,14 @@ func _ready() -> void:
 	else:
 		_rest_room = ""
 		_load_room(start_room, &"")
+
+
+## Runs only while the tree isn't paused, so the pause menu can't open
+## during a room transition or while it is already open.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		pause_menu.open()
+		get_viewport().set_input_as_handled()
 
 
 func get_save_data() -> Dictionary:

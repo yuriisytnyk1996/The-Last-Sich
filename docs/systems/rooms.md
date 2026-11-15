@@ -1,6 +1,6 @@
 # Rooms
 
-A room is one playable area of the world. `levels/room.gd` (`Room`) provides the shared logic. The rooms themselves live in `levels/rooms/`. The main scene, `levels/world.tscn` (`World`), owns the player and the HUD and swaps rooms when the player walks through an exit.
+A room is one playable area of the world. `levels/room.gd` (`Room`) provides the shared logic. The rooms themselves live in `levels/rooms/`. The world scene, `levels/world.tscn` (`World`), owns the player and the HUD and swaps rooms when the player walks through an exit.
 
 ## How it works
 
@@ -68,7 +68,7 @@ While the player is inside an interact area, its `Prompt` child (any `CanvasItem
 
 | File | Role |
 |---|---|
-| `levels/world.tscn`, `levels/world.gd` | Main scene. Owns the player, HUD, debug labels and screen fade. Loads rooms, runs transitions, handles death (rest point or room respawn) |
+| `levels/world.tscn`, `levels/world.gd` | Gameplay scene, started from the [main menu](/systems/menus). Owns the player, HUD, debug labels, screen fade and pause menu. Loads rooms, runs transitions, handles death (rest point or room respawn) |
 | `levels/room.gd` | Base room: camera bounds, pits, respawn point, enemy reset |
 | `levels/objects/room_exit.gd` | Edge exit or door to another room |
 | `levels/objects/ladder.gd` | Climbable ladder, found by position |

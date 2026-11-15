@@ -16,7 +16,7 @@
 - [x] In-game version label
 - [x] Linting and formatting: ESLint for TS tooling, gdtoolkit for GDScript, pinned tools via mise
 - [x] Project `code-style` skill for AI-assisted refactoring
-- [x] Display settings: fullscreen by default (F11 / Alt+Enter) and scaling mode (pixel perfect / scale, F3 in debug builds), saved between runs
+- [x] Display settings: fullscreen by default (F11 / Alt+Enter) and scaling mode (pixel perfect / scale), saved between runs
 - [x] Combat components: `Hitbox`, `Hurtbox`, `Health`
 - [x] Player attack state with startup / active / recovery windows and attack buffering
 - [x] Directional attacks: side, up and crouch. Planted on the ground (can turn mid-swing), air control in the air, re-swing after a miss
@@ -46,6 +46,9 @@
 - [x] Enemies don't run at a player they can't reach (another level, wall or ledge in the way): they stop, watch, then turn away and patrol; turning is throttled so they don't flip under the player
 - [x] Healing flasks: a few charges that heal on the ground while standing still, refilled at rest points and on death, shown as pips in the HUD; aura while drinking, HUD flash on use and shake when empty
 - [x] One key and one gamepad button per action; a separate interact button (E / B) for doors and rest points instead of up
+- [x] Main menu (Continue / New game / Options / Quit) as the main scene, and a pause menu (Escape / Start) with Resume, Options and Quit to main menu
+- [x] Options, applied and saved at once: video (fullscreen, resolution, scaling, VSync, textures, brightness, 10 CRT filter presets), audio (master, music, effects and voice buses), accessibility (screen shake, rumble) and controls (rebind keys and gamepad buttons, swap on conflict, reset to defaults)
+- [x] Gamepad rumble on hits
 
 ## Next
 
@@ -58,7 +61,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Room split into Layout / Deco / Logic sub-scenes
 - [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
 - [ ] Audio
-- [ ] Main menu and pause menu (with fullscreen and scaling mode options)
 
 ## Last
 
@@ -80,4 +82,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Drawn rails and rungs for ladders
 - Post, crossbar and flame rectangles for rest points
 - Brown rectangle for doors, a triangle for the interact prompt
+- Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash

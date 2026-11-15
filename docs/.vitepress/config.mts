@@ -46,6 +46,8 @@ export default defineConfig({
           { text: 'Rest points', link: '/systems/rest-points' },
           { text: 'Save system', link: '/systems/save-system' },
           { text: 'Input', link: '/systems/input' },
+          { text: 'Menus', link: '/systems/menus' },
+          { text: 'Options', link: '/systems/options' },
           { text: 'Rendering & pixel art', link: '/systems/rendering' },
         ],
       },

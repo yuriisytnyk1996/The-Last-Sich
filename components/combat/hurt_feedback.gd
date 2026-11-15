@@ -1,7 +1,7 @@
 class_name HurtFeedback
 extends Node
-## Makes a hit felt: flashes a visual, freezes the game and shakes the
-## camera whenever a Hurtbox accepts a hit.
+## Makes a hit felt: flashes a visual, freezes the game, shakes the
+## camera and rumbles the gamepad whenever a Hurtbox accepts a hit.
 ##
 ## Values are per receiver, so each actor decides how much a hit on it
 ## should shake things. Light hits scale them down, heavy hits up
@@ -16,6 +16,10 @@ extends Node
 @export var hit_stop := 0.0
 ## Camera trauma added (0 to 1). 0 turns it off.
 @export var shake := 0.0
+## Gamepad rumble strength (0 to 1). 0 turns it off.
+@export var rumble := 0.0
+## Rumble length (s) for a normal hit.
+@export var rumble_time := 0.15
 
 var _tween: Tween
 
@@ -30,6 +34,7 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	HitStop.freeze(hit_stop * scale)
 	if shake > 0.0:
 		Events.camera_shake_requested.emit(shake * scale)
+	Rumble.play(rumble * scale, rumble_time * scale)
 
 
 func _flash() -> void:

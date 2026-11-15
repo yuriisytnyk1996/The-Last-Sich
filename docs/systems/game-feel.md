@@ -26,12 +26,21 @@ Overlapping freezes don't add up. The one that ends last decides when the game r
 
 Squaring the trauma means small requests barely move the camera while big ones shake hard, and the shake eases out smoothly instead of stopping abruptly. During a hit-stop the shake holds still, because the frame delta is 0.
 
+Players can turn screen shake off in **Options → Accessibility**. `CameraShake.add_trauma()` then ignores every request, so callers don't need to check.
+
+### Rumble
+
+`autoload/rumble.gd` is registered as **`Rumble`**. `Rumble.play(strength, duration)` vibrates every connected gamepad: the light motor follows `strength`, and above 0.5 the heavy motor joins in. A new request replaces the running one. It does nothing while rumble is off in **Options → Accessibility**.
+
+`HurtFeedback` requests rumble on every accepted hit, scaled by the hit's reaction like the shake.
+
 ## Files
 
 | File | Role |
 |---|---|
 | `autoload/hit_stop.gd` | `HitStop` autoload: `freeze(duration)` |
 | `components/camera/camera_shake.gd` | `CameraShake`: trauma-based offset shake for its parent camera |
+| `autoload/rumble.gd` | `Rumble` autoload: `play(strength, duration)`, `stop()` |
 | `components/combat/hurt_feedback.gd` | Asks for both on every hit, see [Combat](/systems/combat#hit-feedback) |
 
 ## Tuning
@@ -43,7 +52,7 @@ Squaring the trauma means small requests barely move the camera while big ones s
 | `max_offset` | (8, 5) | Offset at full trauma (px) |
 | `decay` | 2.5 | Trauma lost per second |
 
-How long and how hard each hit freezes and shakes is set on each actor's `HurtFeedback` node, scaled by the hit's [reaction](/systems/combat#reactions).
+How long and how hard each hit freezes, shakes and rumbles is set on each actor's `HurtFeedback` node, scaled by the hit's [reaction](/systems/combat#reactions).
 
 ## Extending
 
@@ -51,7 +60,9 @@ How long and how hard each hit freezes and shakes is set on each actor's `HurtFe
 
 **Freeze from something else** (a parry, a finishing blow): `HitStop.freeze(0.15)`.
 
+**Rumble from something else** (a boss roar): `Rumble.play(0.7, 0.4)`.
+
 ## Known limitations
 
 - Hit-stop freezes everything, including the HUD. If UI animations must keep running, give them `PROCESS_MODE_ALWAYS` and real-time animation.
-- No controller rumble yet.
+- Rumble goes to every connected gamepad, not only the one being played with.

@@ -12,9 +12,14 @@ The-Last-Sich/
 ├── mise.toml                     Pinned tool versions (Node, pnpm, gdtoolkit)
 ├── pnpm-workspace.yaml           pnpm settings (allowed install scripts)
 ├── .versionrc.json               Release and changelog settings
+├── default_bus_layout.tres       Audio buses: Master, Music, Effects, Voice
 ├── autoload/
 │   ├── events.gd                 Global signal bus (autoload "Events")
-│   ├── display_settings.gd       Fullscreen and scaling mode, saved to user://settings.cfg (autoload "DisplaySettings")
+│   ├── display_settings.gd       Video options: window, scaling, VSync, textures, brightness, CRT (autoload "DisplaySettings")
+│   ├── audio_settings.gd         Bus volumes (autoload "AudioSettings")
+│   ├── accessibility_settings.gd Screen shake and rumble toggles (autoload "AccessibilitySettings")
+│   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
+│   ├── rumble.gd                 Gamepad vibration (autoload "Rumble")
 │   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
 │   └── save_manager.gd           Save snapshot, load and save, room state (autoload "SaveManager")
 ├── components/
@@ -26,7 +31,10 @@ The-Last-Sich/
 │   ├── interaction/
 │   │   └── interaction_area.gd   Touch or interact area, base for exits and doors
 │   ├── save/
-│   │   └── save_file.gd          JSON save slot with safe writes and a backup
+│   │   ├── save_file.gd          JSON save slot with safe writes and a backup
+│   │   └── settings_file.gd      One section of user://settings.cfg per settings autoload
+│   ├── display/
+│   │   └── resolution_list.gd    Window sizes that fit the screen
 │   └── combat/
 │       ├── hitbox.gd             Deals damage while active
 │       ├── hurtbox.gd            Detects hitboxes, reports hits, invincibility
@@ -77,7 +85,7 @@ The-Last-Sich/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
-│   ├── world.tscn                Main scene: player, HUD, screen fade and the current room
+│   ├── world.tscn                Gameplay scene: player, HUD, screen fade, pause menu and the current room
 │   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── objects/                  Things placed in rooms
@@ -97,6 +105,31 @@ The-Last-Sich/
 ├── ui/
 │   ├── version_label.gd          On-screen game version
 │   ├── screen_fade.gd            Black fade for room transitions
+│   ├── screen_effects/
+│   │   ├── screen_effects.gd     Full-screen brightness and CRT pass (owned by DisplaySettings)
+│   │   ├── screen_effects.gdshader
+│   │   ├── crt_preset.gd         One CRT look
+│   │   └── crt_presets/          The 10 CRT presets (.tres)
+│   ├── menus/
+│   │   ├── menu.gd               Stack of menu screens, back, focus recovery
+│   │   ├── menu_screen.gd        Base page with row helpers
+│   │   ├── option_row.gd         Left/right value row
+│   │   ├── confirm_screen.gd     Yes/no question
+│   │   ├── menu_theme.tres       Menu fonts, colours, focus marker
+│   │   ├── main_menu/
+│   │   │   ├── main_menu.tscn    Main scene: the title screen
+│   │   │   ├── main_menu.gd
+│   │   │   └── title_screen.gd   Continue, New game, Options, Quit
+│   │   ├── pause/
+│   │   │   ├── pause_menu.gd     Pauses the game while open
+│   │   │   └── pause_screen.gd   Resume, Options, Quit to main menu
+│   │   └── options/
+│   │       ├── options_screen.gd Options hub
+│   │       ├── video_options.gd
+│   │       ├── audio_options.gd
+│   │       ├── accessibility_options.gd
+│   │       ├── controls_options.gd   Rebinding page
+│   │       └── binding_button.gd     One key or button binding
 │   ├── hud/
 │   │   ├── hud.tscn              Gameplay HUD layer, instanced in the world scene
 │   │   ├── health_bar.gd         Player health bar

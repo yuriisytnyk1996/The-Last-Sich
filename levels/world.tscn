@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://ui/version_label.gd" id="4_version"]
 [ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="5_hud"]
 [ext_resource type="Script" path="res://ui/screen_fade.gd" id="6_fade"]
+[ext_resource type="Script" path="res://ui/menus/pause/pause_menu.gd" id="7_pause"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_world")
@@ -60,3 +61,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+script = ExtResource("7_pause")

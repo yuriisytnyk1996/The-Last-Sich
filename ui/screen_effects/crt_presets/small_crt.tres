@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CrtPreset" format=3]
+
+[ext_resource type="Script" path="res://ui/screen_effects/crt_preset.gd" id="1_preset"]
+
+[resource]
+script = ExtResource("1_preset")
+display_name = "Small CRT"
+blur_size = 0.8
+blur_strength = 0.8
+bleeding_size = 0.5
+bleeding_strength = 1
+aberration = 2.5
+mask_strength = 1.0
+scanline_strength = 0.5
+interference = 0
+color_noise = 0.25
+white_noise = 0.25
+curvature = 0.7
+vignette_size = 0.5
+vignette_strength = 0.425
+brightness = 0.3
+contrast = 0.3
+saturation = -0.1
+darkest_level = 0.0
+brightest_level = 0.882
+darkest_color = Color(0.069, 0.069, 0.069, 1)
+brightest_color = Color(1.0, 1.0, 1.0, 1)

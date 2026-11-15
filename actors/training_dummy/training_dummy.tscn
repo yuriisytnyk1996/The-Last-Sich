@@ -56,6 +56,7 @@ hurtbox = NodePath("../Hurtbox")
 flash_target = NodePath("../Visual")
 hit_stop = 0.05
 shake = 0.3
+rumble = 0.3
 
 [node name="HealthBar" type="Node2D" parent="."]
 position = Vector2(0, -40)
