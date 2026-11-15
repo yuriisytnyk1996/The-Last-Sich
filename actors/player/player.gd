@@ -42,19 +42,7 @@ extends CharacterBody2D
 ## Diagonals below this give a side attack.
 @export_range(0.0, 1.0) var attack_vertical_threshold := 0.75
 
-@export_group("Hurt")
-## Seconds without control after a hit.
-@export var hurt_duration := 0.3
-## Speed away from the hit (x) and upward pop (y), in px/s.
-@export var hurt_knockback := Vector2(160.0, 140.0)
-## Immunity after a hit (s), counted from the hit. Outlasts `hurt_duration`.
-@export var invincibility_time := 1.0
-## Seconds the body lies still before the room respawns the player.
-@export var death_delay := 1.0
-
 var facing := 1
-## Direction of the last hit's knockback: 1 pushes right, -1 pushes left.
-var hurt_direction := 1
 
 var _coyote_timer := 0.0
 var _jump_buffer_timer := 0.0
@@ -71,12 +59,7 @@ var _air_dash_available := true
 @onready var state_machine: StateMachine = $StateMachine
 @onready var health: Health = $Health
 @onready var hurtbox: Hurtbox = $Hurtbox
-
-
-func _ready() -> void:
-	hurtbox.invincibility_time = invincibility_time
-	hurtbox.hurt.connect(_on_hurt)
-	health.died.connect(_on_died)
+@onready var damage: PlayerDamage = $Damage
 
 
 func _physics_process(delta: float) -> void:
@@ -176,24 +159,7 @@ func set_camera_limits(bounds: Rect2i) -> void:
 func respawn(at: Vector2) -> void:
 	global_position = at
 	velocity = Vector2.ZERO
-	health.reset()
-	hurtbox.clear_invincibility()
 	camera.reset_smoothing.call_deferred()
 	state_machine.transition_to(PlayerState.IDLE)
-
-
-# --- Damage ---
-
-
-func _on_hurt(hitbox: Hitbox) -> void:
-	# Pushed the way the hit points; hazards that push straight up
-	# push away from their centre instead.
-	var direction := signf(hitbox.get_knockback().x)
-	if direction == 0.0:
-		direction = signf(global_position.x - hitbox.global_position.x)
-	hurt_direction = int(direction) if direction != 0.0 else -facing
-	state_machine.transition_to(PlayerState.HURT)
-
-
-func _on_died() -> void:
-	state_machine.transition_to(PlayerState.DEAD)
+	# After the transition: leaving Hurt would start invincibility again.
+	damage.reset()

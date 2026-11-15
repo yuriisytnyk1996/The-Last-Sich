@@ -23,12 +23,14 @@
 - [x] Training dummy in the test room
 - [x] Player health, hurtbox, hurt state with knockback, invincibility with blinking, death and respawn
 - [x] Continuous hitboxes for hazards (re-hit after invincibility), spikes in the test room
+- [x] Game feel: hit-stop, camera shake and hit flash on every hit (`HitStop`, `CameraShake`, `HurtFeedback`)
+- [x] Hit reactions: light, normal and heavy hitboxes
+- [x] Player invincibility lasts through the stagger plus a short window after it
 
 ## Next
 
 - [ ] HUD health display
 - [ ] Touch controls for mobile
-- [ ] Game feel: hit-stop and screen shake
 
 ## Later
 

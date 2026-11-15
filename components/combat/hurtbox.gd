@@ -33,6 +33,11 @@ func is_invincible() -> bool:
 	return _invincible_left > 0.0
 
 
+## Replaces the remaining invincibility. INF holds it until set again.
+func set_invincible_for(seconds: float) -> void:
+	_invincible_left = maxf(seconds, 0.0)
+
+
 ## Ends invincibility early, for example on respawn.
 func clear_invincibility() -> void:
 	_invincible_left = 0.0

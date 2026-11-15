@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 Events="*res://autoload/events.gd"
 DisplaySettings="*res://autoload/display_settings.gd"
+HitStop="*res://autoload/hit_stop.gd"
 
 [display]
 

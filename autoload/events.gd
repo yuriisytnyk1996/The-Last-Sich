@@ -8,3 +8,7 @@ extends Node
 
 @warning_ignore("unused_signal")
 signal player_died
+
+## Shake the active camera. `trauma` is 0 to 1; requests add up.
+@warning_ignore("unused_signal")
+signal camera_shake_requested(trauma: float)

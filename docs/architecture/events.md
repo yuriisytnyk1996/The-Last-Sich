@@ -10,6 +10,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 
 | Signal | Emitted by | Listened to by | Meaning |
 |---|---|---|---|
+| `camera_shake_requested(trauma)` | `HurtFeedback` (on every accepted hit) | `CameraShake` on the player's camera | Shake the active camera; `trauma` 0 to 1 adds up |
 | `player_died` | `Room` (when the player enters the `KillZone`), the player's `Dead` state (after `death_delay`) | `Room` (respawns the player) | The player died and should respawn |
 
 ## Usage

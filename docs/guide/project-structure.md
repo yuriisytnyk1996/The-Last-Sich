@@ -14,20 +14,25 @@ The-Last-Sich/
 ├── .versionrc.json               Release and changelog settings
 ├── autoload/
 │   ├── events.gd                 Global signal bus (autoload "Events")
-│   └── display_settings.gd       Fullscreen and scaling mode, saved to user://settings.cfg (autoload "DisplaySettings")
+│   ├── display_settings.gd       Fullscreen and scaling mode, saved to user://settings.cfg (autoload "DisplaySettings")
+│   └── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
 ├── components/
 │   ├── state_machine/
 │   │   ├── state_machine.gd      Generic finite state machine
 │   │   └── state.gd              Base class for one state
+│   ├── camera/
+│   │   └── camera_shake.gd       Trauma-based shake for a Camera2D
 │   └── combat/
 │       ├── hitbox.gd             Deals damage while active
 │       ├── hurtbox.gd            Detects hitboxes, reports hits, invincibility
 │       ├── health.gd             Hit points, damaged and died signals
-│       └── invincibility_blink.gd   Blinks a visual while a hurtbox is invincible
+│       ├── invincibility_blink.gd   Blinks a visual while a hurtbox is invincible
+│       └── hurt_feedback.gd      Flash, hit-stop and shake on every hit
 ├── actors/
 │   ├── player/
 │   │   ├── player.tscn           Player scene
 │   │   ├── player.gd             Tuning values and shared helpers
+│   │   ├── player_damage.gd      Hit reactions, hurt and death tuning
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd

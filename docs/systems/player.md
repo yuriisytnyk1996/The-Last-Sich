@@ -8,6 +8,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 |---|---|
 | `actors/player/player.tscn` | Scene: body, collision, visuals, camera, state machine |
 | `actors/player/player.gd` | `Player`: tuning values, timers and helper functions shared by states |
+| `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -24,7 +25,10 @@ Player (CharacterBody2D)     layer: player   mask: world   group: "player"
 ├── Health                   5 hit points
 ├── Hurtbox (Area2D)         10×26, mask: enemy_attacks, hazards
 ├── InvincibilityBlink       blinks Visual while the hurtbox is invincible
+├── Damage                   PlayerDamage: hit reactions and hurt/death tuning
+├── HurtFeedback             flash, hit-stop 0.1 s, shake 0.6
 ├── Camera2D                 smoothed, limited by the room's bounds
+│   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
     ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack
@@ -41,7 +45,7 @@ Player (CharacterBody2D)     layer: player   mask: world   group: "player"
 | **Fall** | Gravity, air control | Jump (coyote time), Dash, an attack, Idle/Run (landed) |
 | **Dash** | Fixed horizontal speed, no gravity | Idle/Run (on floor), Fall (in air) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
-| **Hurt** | Entered from any state when the hurtbox takes a hit. Knocked up and away, faces the hit, no control | Idle/Run (on floor), Fall (in air) after `hurt_duration` |
+| **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop | None: emits `Events.player_died` after `death_delay`, and the room's respawn puts the player in Idle |
 
 ## Movement techniques
@@ -77,12 +81,13 @@ A fixed-speed horizontal burst in the input direction (or facing direction if th
 ### Taking damage
 
 1. A `Hitbox` on `enemy_attacks` or `hazards` touches the player's `Hurtbox`.
-2. The hurtbox starts `invincibility_time` and emits `hurt`. `Player` works out `hurt_direction` and enters **Hurt**.
-3. The hurtbox removes health. At 0, `Health.died` makes `Player` enter **Dead** instead.
+2. The hurtbox emits `hurt`. `HurtFeedback` flashes the player, freezes the game and shakes the camera.
+3. `PlayerDamage` reads the hit's [reaction](/systems/combat#reactions). LIGHT stops here. NORMAL and HEAVY pick the knockback and stagger time, turn the player to face the hit and enter **Hurt**.
+4. The hurtbox removes health. At 0, `Health.died` makes `PlayerDamage` enter **Dead** instead.
 
 **Knockback direction:** the horizontal sign of the hitbox's knockback. A hitbox that pushes straight up (spikes) pushes the player away from its centre. If the player is exactly on the centre, they are pushed backwards.
 
-**Invincibility** counts from the hit and lasts longer than `hurt_duration`, so the player gets control back while still safe for a moment. The `InvincibilityBlink` node shows it by blinking `Visual`. While invincible, new hits are ignored completely: no damage, no knockback.
+**Invincibility** lasts through the whole Hurt state and for `invincibility_time` after it ends, so the player gets control back while still safe for a moment. A stagger that is longer (heavy hit) automatically gets longer protection. A LIGHT hit, which has no stagger, gives `invincibility_time` from the hit. The `InvincibilityBlink` node shows it by blinking `Visual`. While invincible, new hits are ignored completely: no damage, no knockback.
 
 **Respawn** (`respawn(at)`) restores full health and ends invincibility.
 
@@ -111,12 +116,18 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Attack | `attack_recovery` | 0.15 | Time after the hitbox turns off before the player can act (s) |
 | Attack | `attack_buffer_time` | 0.12 | How early an attack press is remembered (s) |
 | Attack | `attack_vertical_threshold` | 0.75 | Vertical input needed for an up or crouch attack |
-| Hurt | `hurt_duration` | 0.3 | Seconds without control after a hit |
-| Hurt | `hurt_knockback` | (160, 140) | Speed away from the hit (x) and upward pop (y), px/s |
-| Hurt | `invincibility_time` | 1.0 | Immunity after a hit (s), counted from the hit. Copied to the `Hurtbox` on ready |
-| Hurt | `death_delay` | 1.0 | Seconds before the room respawns a dead player |
+Hurt and death values are on the **`Damage`** child node (`PlayerDamage`):
 
-Maximum health is set on the `Health` child node (`max_health`, default 5).
+| Group | Value | Default | Effect |
+|---|---|---|---|
+| Hurt | `hurt_duration` | 0.3 | Seconds without control after a NORMAL hit |
+| Hurt | `hurt_knockback` | (160, 140) | Speed away from the hit (x) and upward pop (y), px/s |
+| Hurt | `heavy_hurt_duration` | 0.5 | Seconds without control after a HEAVY hit |
+| Hurt | `heavy_knockback` | (240, 180) | Knockback for a HEAVY hit, px/s |
+| Invincibility | `invincibility_time` | 0.5 | Immunity after Hurt ends (s), or after a LIGHT hit |
+| Death | `death_delay` | 1.0 | Seconds before the room respawns a dead player |
+
+Maximum health is set on the `Health` child node (`max_health`, default 5). Flash, hit-stop and shake are on the `HurtFeedback` node, see [Combat](/systems/combat#hurtfeedback).
 
 ## Public helpers
 
@@ -139,7 +150,7 @@ Used by states and other systems:
 
 - Placeholder rectangles instead of sprites and animations.
 - Health is only shown in the debug label until the HUD exists.
-- Every hit uses the same knockback; hitbox `knockback_force` is ignored for the player.
-- No hit-stop, screen shake or death animation yet.
+- Knockback strength comes from the reaction only; hitbox `knockback_force` is ignored for the player.
+- No death animation yet.
 - No combos or movement attacks yet (planned as upgrades).
 - No dropping down through one-way platforms.

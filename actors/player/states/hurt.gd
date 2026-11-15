@@ -1,18 +1,21 @@
 extends PlayerState
-## Knocked back by a hit. No control until `hurt_duration` ends.
+## Staggered by a hit: knocked back with no control for a moment.
 ##
-## The player is thrown up and away from the hit and turns to face it.
-## Invincibility runs on the Hurtbox and outlasts this state, so the player
-## gets a moment to escape after control returns.
+## Knockback and length come from PlayerDamage, which already turned the
+## player to face the hit. The hurtbox stays invincible for the whole
+## stagger, and for `invincibility_time` after it.
 
 var _time_left := 0.0
 
 
 func enter(_previous_state: StringName) -> void:
-	var direction := player.hurt_direction
-	player.set_facing(-direction)
-	player.velocity = Vector2(direction * player.hurt_knockback.x, -player.hurt_knockback.y)
-	_time_left = player.hurt_duration
+	player.velocity = player.damage.knockback
+	_time_left = player.damage.stagger_time
+	player.hurtbox.set_invincible_for(INF)
+
+
+func exit() -> void:
+	player.hurtbox.set_invincible_for(player.damage.invincibility_time)
 
 
 func physics_update(delta: float) -> void:

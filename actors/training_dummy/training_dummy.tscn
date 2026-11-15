@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://actors/training_dummy/training_dummy.gd" id="1_dummy"]
 [ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="2_hurtbox"]
 [ext_resource type="Script" path="res://components/combat/health.gd" id="3_health"]
+[ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="4_feedback"]
 
 [sub_resource type="RectangleShape2D" id="hurt_shape"]
 size = Vector2(16, 30)
@@ -48,6 +49,13 @@ shape = SubResource("hurt_shape")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("3_health")
+
+[node name="HurtFeedback" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "flash_target")]
+script = ExtResource("4_feedback")
+hurtbox = NodePath("../Hurtbox")
+flash_target = NodePath("../Visual")
+hit_stop = 0.05
+shake = 0.3
 
 [node name="HealthBar" type="Node2D" parent="."]
 position = Vector2(0, -40)

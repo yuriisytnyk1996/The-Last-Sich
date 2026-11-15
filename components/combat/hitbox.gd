@@ -10,11 +10,23 @@ extends Area2D
 ## Emitted when a Hurtbox accepts a hit from this hitbox.
 signal hit_landed(hurtbox: Hurtbox)
 
+## How hard the receiver reacts. LIGHT: damage and flash, no knockback or
+## stagger. NORMAL: stagger and knockback. HEAVY: longer stagger, more
+## knockback, stronger hit-stop and shake.
+enum Reaction { NORMAL, LIGHT, HEAVY }
+
+const FEEDBACK_SCALE: Dictionary[Reaction, float] = {
+	Reaction.LIGHT: 0.5,
+	Reaction.NORMAL: 1.0,
+	Reaction.HEAVY: 2.0,
+}
+
 @export var damage := 1
 @export var knockback_force := 120.0
 ## Direction when the hitbox faces right. Mirrored when a parent is flipped
 ## with a negative scale.x.
 @export var knockback_direction := Vector2.RIGHT
+@export var reaction := Reaction.NORMAL
 @export var active_on_start := false
 ## Keeps hurting a hurtbox that stays inside it, each time that hurtbox's
 ## invincibility ends. For hazards and contact damage, not for swings.
@@ -53,6 +65,11 @@ func has_hit() -> bool:
 func register_hit(hurtbox: Hurtbox) -> void:
 	_has_hit = true
 	hit_landed.emit(hurtbox)
+
+
+## Multiplier for hit-stop and camera shake, from `reaction`.
+func feedback_scale() -> float:
+	return FEEDBACK_SCALE[reaction]
 
 
 func get_knockback() -> Vector2:

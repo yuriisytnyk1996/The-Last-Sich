@@ -2,13 +2,13 @@ class_name TrainingDummy
 extends Node2D
 ## A stationary target for testing attacks.
 ##
-## Flashes and tilts away from each hit, breaks at zero health and rebuilds
+## Tilts away from each hit (the flash, hit-stop and shake come from its
+## HurtFeedback node), breaks at zero health and rebuilds
 ## itself after `respawn_delay`. It has no behaviour of its own, so it has
 ## no state machine.
 
 @export var respawn_delay := 1.5
 @export var hit_tilt_degrees := 14.0
-@export var hit_flash_time := 0.12
 
 var _tween: Tween
 var _bar_width := 0.0
@@ -32,11 +32,8 @@ func _on_hurt(hitbox: Hitbox) -> void:
 	var direction := signf(hitbox.get_knockback().x)
 	if _tween:
 		_tween.kill()
-	# Values above 1 overbrighten thanks to the 2D HDR setting.
-	visual.modulate = Color(3.0, 3.0, 3.0)
 	visual.rotation_degrees = direction * hit_tilt_degrees
-	_tween = create_tween().set_parallel()
-	_tween.tween_property(visual, "modulate", Color.WHITE, hit_flash_time)
+	_tween = create_tween()
 	(
 		_tween
 		. tween_property(visual, "rotation_degrees", 0.0, 0.4)

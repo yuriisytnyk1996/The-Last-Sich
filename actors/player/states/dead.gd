@@ -9,13 +9,14 @@ var _announced := false
 
 
 func enter(_previous_state: StringName) -> void:
-	_time_left = player.death_delay
+	_time_left = player.damage.death_delay
 	_announced = false
-	player.visual.modulate = DEAD_TINT
+	# On the root, so it multiplies with the hit flash on Visual.
+	player.modulate = DEAD_TINT
 
 
 func exit() -> void:
-	player.visual.modulate = Color.WHITE
+	player.modulate = Color.WHITE
 
 
 func physics_update(delta: float) -> void:

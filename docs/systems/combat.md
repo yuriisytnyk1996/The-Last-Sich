@@ -14,7 +14,7 @@ The attack turns the hitbox off again after its active window. Turning a hitbox 
 
 ```
 Player                                   TrainingDummy
-└── Visual                               ├── Hurtbox ──hurt──► dummy flashes and tilts
+└── Visual                               ├── Hurtbox ──hurt──► HurtFeedback, dummy tilts
     └── Attacks/Side ──area_entered──►   │      ├──register_hit──► Hitbox.has_hit()
         (player_attacks layer)           │      └──take_damage──► Health
                                          │                         ├─ health_changed ─► health bar
@@ -92,13 +92,35 @@ The miss check uses `Hitbox.has_hit()`, which is reset each time the hitbox turn
 
 Positions are relative to the player's feet, facing right.
 
+## Reactions
+
+Each hitbox has a `reaction` that tells the receiver how hard to react. The hitbox only carries the label; each actor decides what it means.
+
+| Reaction | Player | Hit-stop and shake (`feedback_scale()`) |
+|---|---|---|
+| `LIGHT` | Damage, flash and invincibility only. No stagger, no knockback, keeps doing what they were doing | ×0.5 |
+| `NORMAL` | **Hurt** for `hurt_duration` with `hurt_knockback`, turns to face the hit | ×1 |
+| `HEAVY` | **Hurt** for `heavy_hurt_duration` with `heavy_knockback` | ×2 |
+
+Nothing uses `LIGHT` or `HEAVY` yet. They are there for the first enemies.
+
+## Hit feedback
+
+`HurtFeedback` (`components/combat/hurt_feedback.gd`) listens to a hurtbox and, on every accepted hit:
+
+1. Flashes `flash_target` with an over-bright `modulate` (works because 2D HDR is on).
+2. Freezes the game for `hit_stop` seconds through the `HitStop` autoload.
+3. Asks for `shake` camera trauma through `Events.camera_shake_requested`.
+
+Both 2 and 3 are scaled by the hit's reaction. The values sit on the **receiver**, so each actor sets how much a hit on it is felt: getting hit as the player freezes longer and shakes harder than landing a hit on the dummy. See [Game feel](/systems/game-feel) for the freeze and shake themselves.
+
 ## Invincibility
 
-A hurtbox with `invincibility_time` above 0 ignores every hit for that long after accepting one. The player uses this (see [Player](/systems/player#taking-damage)); the training dummy doesn't.
+A hurtbox with `invincibility_time` above 0 ignores every hit for that long after accepting one. The training dummy has none. The player's Hurt state holds invincibility with `set_invincible_for(INF)` and, when it ends, sets it to `invincibility_time` (see [Player](/systems/player#taking-damage)).
 
 `InvincibilityBlink` (`components/combat/invincibility_blink.gd`) is a separate node that blinks a `CanvasItem` while a hurtbox is invincible. Point its `hurtbox` and `target` at the right nodes. Any actor can use it.
 
-`clear_invincibility()` ends it early, for example on respawn.
+`set_invincible_for(seconds)` replaces the remaining time, and `clear_invincibility()` ends it early, for example on respawn.
 
 ## Hazards
 
@@ -110,7 +132,7 @@ The test room's spikes push straight up with `knockback_force` 0. The player tur
 
 ## Training dummy
 
-`actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health` and a small health bar. When hit it flashes (an over-bright `modulate`, which works because 2D HDR is on) and tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
+`actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health`, a `HurtFeedback` (flash, 0.05 s hit-stop, 0.3 shake) and a small health bar. When hit it also tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
 
 It has no behaviour of its own, so unlike other actors it has no `states/` folder.
 
@@ -122,6 +144,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `components/combat/hurtbox.gd` | `Hurtbox`: detects hitboxes, invincibility, emits `hurt` |
 | `components/combat/health.gd` | `Health`: hit points, `health_changed` and `died` |
 | `components/combat/invincibility_blink.gd` | `InvincibilityBlink`: blinks a visual while a hurtbox is invincible |
+| `components/combat/hurt_feedback.gd` | `HurtFeedback`: flash, hit-stop and camera shake on every accepted hit |
 | `actors/player/states/attacks/player_attack_state.gd` | `PlayerAttackState`: swing phases, re-swing, planted on the ground / air control in the air |
 | `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground |
 | `actors/player/states/attacks/up_attack.gd` | Up slash |
@@ -138,6 +161,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `damage` | 1 | Health removed per hit |
 | `knockback_force` | 120 | Knockback strength (px/s) |
 | `knockback_direction` | (1, 0) | Direction when facing right, mirrored when flipped |
+| `reaction` | NORMAL | How hard the receiver reacts: LIGHT, NORMAL or HEAVY. See [Reactions](#reactions) |
 | `active_on_start` | false | On for hazards that always hurt |
 | `continuous` | false | Hits a hurtbox again when its invincibility ends while still inside. For hazards |
 
@@ -146,7 +170,18 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | Value | Default | Effect |
 |---|---|---|
 | `health` | none | `Health` node that takes the damage automatically |
-| `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `Player.invincibility_time` |
+| `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `PlayerDamage.invincibility_time` |
+
+### HurtFeedback
+
+| Value | Default | Effect |
+|---|---|---|
+| `hurtbox` | none | Hurtbox to listen to |
+| `flash_target` | none | Node that flashes. None means no flash |
+| `flash_color` | (3, 3, 3) | Flash colour, above 1 overbrightens |
+| `flash_time` | 0.12 | Fade back from the flash (s) |
+| `hit_stop` | 0 | Freeze length (s) at NORMAL. Player 0.1, dummy 0.05 |
+| `shake` | 0 | Camera trauma at NORMAL (0 to 1). Player 0.6, dummy 0.3 |
 
 ### InvincibilityBlink
 
@@ -176,29 +211,12 @@ Set on the `Player` node, group **Attack**.
 
 All three attacks share the timing. Damage and knockback are set per attack on the hitboxes under `Visual/Attacks` in `player.tscn`.
 
-### Invincibility
-
-A hurtbox with `invincibility_time` above 0 ignores every hit for that long after accepting one. The player uses this (see [Player](/systems/player#taking-damage)); the training dummy doesn't.
-
-`InvincibilityBlink` (`components/combat/invincibility_blink.gd`) is a separate node that blinks a `CanvasItem` while a hurtbox is invincible. Point its `hurtbox` and `target` at the right nodes. Any actor can use it.
-
-`clear_invincibility()` ends it early, for example on respawn.
-
-## Hazards
-
-A hazard is a `Hitbox` that is always on: `active_on_start` and **`continuous`** enabled, on the `hazards` layer.
-
-Hurtboxes normally react only to *new* contacts. Without `continuous`, a player who lands in spikes and stays there would be hit once and then never again. When a hurtbox's invincibility ends, it checks what it still overlaps, and a `continuous` hitbox it is still inside hits it again. Attack swings must not be `continuous`, or one swing could hit a target with invincibility frames twice.
-
-The test room's spikes push straight up with `knockback_force` 0. The player turns that into "away from the spikes' centre".
-
-## Training dummy
+### Training dummy
 
 | Value | Default | Effect |
 |---|---|---|
 | `respawn_delay` | 1.5 | Seconds before a broken dummy rebuilds |
 | `hit_tilt_degrees` | 14 | How far it tilts when hit |
-| `hit_flash_time` | 0.12 | How long the white flash lasts (s) |
 
 Its health is set on its `Health` child node.
 
@@ -215,7 +233,6 @@ Its health is set on its `Health` child node.
 ## Known limitations
 
 - A hurtbox without invincibility only reacts to *new* contacts, so a `continuous` hitbox only repeats against hurtboxes that have invincibility frames.
-- No hit-stop or screen shake yet.
 - No combos, charged attacks or movement attacks (dash attack, dive attack). These are planned as upgrades once an upgrade system exists.
 - No crouch state yet: the crouch attack doesn't lower the player's body, it only swings low.
 - All three attacks share one set of timings.
