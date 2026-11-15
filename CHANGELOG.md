@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.5](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.4...v0.0.5) (2026-11-15)
+
+### Features
+
+* **enemies:** add line of sight ([b948904](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/b9489044f47258f84d3e1cbcbe9d6de3299b23be))
+* **player:** add healing flasks and simplify controls ([d06974d](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/d06974d508052e79dc66cf980bbba2692c5ac533))
+* **ui:** add main menu, pause menu and options ([f7edca8](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/f7edca806e1608cf79e764fdb62860e436ee10be))
+
+### Bug Fixes
+
+* **enemies:** stop chasing a player out of reach ([19f8390](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/19f8390017d3c41049a14d5be71d3e38008d6513))
+* **ui:** step back when clicking the left arrow of an option row ([146e0b7](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/146e0b780afd0c9c1be38915e91bff36d57ebcad))
+
 ## [0.0.4](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.3...v0.0.4) (2026-11-15)
 
 ### Features
