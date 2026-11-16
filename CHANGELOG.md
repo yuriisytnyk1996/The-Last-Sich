@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.7](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.6...v0.0.7) (2026-11-16)
+
+### Features
+
+* **death-penalty:** add death marks, spirit and currency ([1653b4c](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/1653b4c8241551d5cfa501779e887fcf5bb4c20f))
+
 ## [0.0.6](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.5...v0.0.6) (2026-11-16)
 
 ### Features
