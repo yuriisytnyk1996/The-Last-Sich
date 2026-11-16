@@ -24,9 +24,9 @@ const ACTIONS: Array[StringName] = [
 	&"interact",
 	&"ranged",
 ]
-## Keys that keep their job: back / pause, fullscreen and the debug save
-## reset.
-const RESERVED_KEYS: Array[Key] = [KEY_ESCAPE, KEY_F11, KEY_F8]
+## Keys that keep their job: back / pause, fullscreen and the debug keys
+## (save reset, unlock all skills).
+const RESERVED_KEYS: Array[Key] = [KEY_ESCAPE, KEY_F11, KEY_F8, KEY_F9]
 ## Start always pauses.
 const RESERVED_BUTTONS: Array[JoyButton] = [JOY_BUTTON_START]
 

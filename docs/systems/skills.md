@@ -19,6 +19,15 @@ Skills are upgrades the player learns at a skill shrine, paid for with [currency
 
 `PlayerSkills` is a global save system (`skills`, see [Save system](/systems/save-system)): the learned ids and `max_tier` are saved when the player rests or dies, together with the wallet. Quitting before that loses the skill and gives the currency back.
 
+### Debug
+
+In debug builds (running from the editor, or a debug export):
+
+- **F9** in game learns every skill for free and raises the tier to `TIER_CAP` (`PlayerSkills.unlock_all()`).
+- The skill shrine shows two extra buttons: **Debug: unlock all** (the same) and **Debug: lock all**, which forgets every skill and resets the tier to `start_tier` (`lock_all()`). Spent currency is not given back.
+
+Both change only the running game; they are saved like normal skills the next time the game saves. Release builds have neither.
+
 ### Skill tree
 
 | Line | Level 1 | Level 2 | Level 3 |

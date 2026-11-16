@@ -89,7 +89,7 @@ Volumes go from 0% to 100% in steps of 10 and are set with `AudioServer.set_bus_
 3. If another action already uses that key or button, the two actions **swap**, so no action is ever left unbound by accident.
 4. **Reset to defaults** (after a confirmation) reloads the bindings from `project.godot` and removes the `[controls]` section.
 
-Only the key and button events change. Stick directions on the move actions stay fixed. Reserved, and never bound to an action: Escape (back and pause), F11 (fullscreen), F8 (debug save reset) and Start (pause).
+Only the key and button events change. Stick directions on the move actions stay fixed. Reserved, and never bound to an action: Escape (back and pause), F11 (fullscreen), F8 (debug save reset), F9 (debug unlock all skills) and Start (pause).
 
 Keys are stored as **physical** keycodes, like the defaults. The page shows each key as it is labelled on the player's layout.
 

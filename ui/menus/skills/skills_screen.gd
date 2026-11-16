@@ -36,8 +36,22 @@ func _build() -> void:
 	_info = add_text("")
 	_info.custom_minimum_size.x = CELL_WIDTH * PlayerSkills.LEVELS
 	add_gap()
+	if OS.is_debug_build():
+		_add_debug_buttons()
 	add_button("Leave", go_back)
 	_refresh()
+
+
+## Debug builds only.
+func _add_debug_buttons() -> void:
+	add_button("Debug: unlock all", _debug.bind(_skills.unlock_all))
+	add_button("Debug: lock all", _debug.bind(_skills.lock_all))
+
+
+func _debug(action: Callable) -> void:
+	action.call()
+	_refresh()
+	_info.text = ""
 
 
 func _refresh() -> void:

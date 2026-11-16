@@ -14,6 +14,10 @@ extends Node
 ##
 ## A global save system (see `SaveManager`): the learned ids and the tier
 ## are written to disk whenever the game saves.
+##
+## Debug builds: F9 learns every skill for free and opens every tier
+## (`unlock_all()`). The skill shrine also has debug buttons for this and
+## for `lock_all()`.
 
 signal learned(skill: PlayerSkill)
 signal tier_raised(tier: int)
@@ -77,6 +81,31 @@ func learn(skill: PlayerSkill) -> bool:
 	_learned[skill.id] = true
 	learned.emit(skill)
 	return true
+
+
+## Debug: learns every skill for free and opens every tier.
+func unlock_all() -> void:
+	max_tier = TIER_CAP
+	for skill in all:
+		if not has(skill.id):
+			_learned[skill.id] = true
+			learned.emit(skill)
+	tier_raised.emit(max_tier)
+
+
+## Debug: forgets every skill and goes back to `start_tier`. Spent
+## currency is not given back.
+func lock_all() -> void:
+	_learned.clear()
+	max_tier = start_tier
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if OS.is_debug_build() and key and key.pressed and not key.echo:
+		if key.physical_keycode == KEY_F9:
+			unlock_all()
+			get_viewport().set_input_as_handled()
 
 
 ## Opens the next tier. Returns false at `TIER_CAP`.
