@@ -35,6 +35,9 @@ The-Last-Sich/
 │   │   └── settings_file.gd      One section of user://settings.cfg per settings autoload
 │   ├── display/
 │   │   └── resolution_list.gd    Window sizes that fit the screen
+│   ├── stats/
+│   │   ├── stats.gd              Named stats with modifiers by source
+│   │   └── stat_modifier.gd      One flat or percent change to a stat (resource)
 │   └── combat/
 │       ├── hitbox.gd             Deals damage while active
 │       ├── hurtbox.gd            Detects hitboxes, reports hits, invincibility
@@ -46,17 +49,18 @@ The-Last-Sich/
 │   │   ├── player.tscn           Player scene
 │   │   ├── player.gd             Tuning values and shared helpers
 │   │   ├── player_damage.gd      Hit reactions, hurt and death tuning
+│   │   ├── player_stats.gd       Player stats: health, flasks, damage, resistances, spirit, timing
 │   │   ├── abilities/            Movement, healing, spirit and currency pieces with their own tuning
 │   │   │   ├── drop_through.gd   Down + jump through one-way platforms
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
 │   │   │   ├── ledge_grab.gd     Finds ledges to grab, hang and climb tuning
-│   │   │   ├── flasks.gd         Healing flask charges
+│   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
 │   │   │   ├── wallet.gd         Currency the player carries, spent on skills, saved
 │   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
 │   │   │   ├── spirit.gd         Spirit, filled by landing hits
 │   │   │   ├── area_effects.gd   Combines the wind and mud zones the player is in
-│   │   │   └── parry.gd          Parry and riposte tuning
+│   │   │   └── parry.gd          Parry and riposte tuning (windows from stats)
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
 │   │   │   ├── combo/            combo_1/2/3.tres: the combo finishers
@@ -100,6 +104,7 @@ The-Last-Sich/
 │   ├── enemies/
 │   │   ├── enemy.gd              Shared enemy base: tuning, movement and sensing helpers
 │   │   ├── enemy_damage.gd       Enemy hit reactions, hurt and death tuning
+│   │   ├── enemy_stats.gd        Enemy stats: health, damage multiplier, resistances
 │   │   ├── enemy_state.gd        Base class for enemy states
 │   │   ├── attacks/
 │   │   │   └── enemy_projectile.gd   Shared flying shot: straight line, ends on a hit or a wall
@@ -222,7 +227,7 @@ See [Code organization](/guide/code-organization) for the rules behind this layo
 | Folder | What goes in it |
 |---|---|
 | `autoload/` | Global singletons registered in **Project Settings → Globals → Autoload**. Keep them few and small. |
-| `components/` | Reusable building blocks with no knowledge of specific actors (state machine, hitboxes, hurtboxes, health). |
+| `components/` | Reusable building blocks with no knowledge of specific actors (state machine, hitboxes, hurtboxes, health, stats). |
 | `actors/` | Anything that moves and acts: the player, enemies, bosses, NPCs. One folder per actor, with its scene, script and states. |
 | `levels/` | Rooms and level-specific scripts. |
 | `ui/` | Menus, HUD and debug overlays. |

@@ -109,7 +109,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `strength` | `WindZone` | 60 | Push (px/s), positive blows right |
 | `speed_multiplier` | `MudZone` | 0.5 | Fraction of run speed kept |
 | `jump_multiplier` | `MudZone` | 0.5 | Fraction of jump height kept |
-| `damage` | `PoisonZone` | 1 | Damage per tick |
+| `damage` | `PoisonZone` | 20 | Damage per tick (POISON element) |
 | `tick_time` | `PoisonZone` | 1.2 | Seconds between ticks |
 | `grace_time` | `PoisonZone` | 0.6 | Seconds inside before the first tick |
 

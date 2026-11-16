@@ -54,4 +54,6 @@ func height_above_ground() -> float:
 
 func spawn_shockwave() -> void:
 	if shockwave_scene:
-		PlayerBlast.spawn(shockwave_scene, player.get_parent(), player.global_position)
+		PlayerBlast.spawn(
+			shockwave_scene, player.get_parent(), player.global_position, player.stats
+		)

@@ -11,9 +11,11 @@ extends Hitbox
 var _time_left := 0.0
 
 
-## Adds a blast from `scene` under `parent` at `at` (global) and sets it off.
-static func spawn(scene: PackedScene, parent: Node, at: Vector2) -> PlayerBlast:
+## Adds a blast from `scene` under `parent` at `at` (global) and sets it
+## off. `stats` scale its damage, see `Hitbox.attacker_stats`.
+static func spawn(scene: PackedScene, parent: Node, at: Vector2, stats: Stats) -> PlayerBlast:
 	var blast := scene.instantiate() as PlayerBlast
+	blast.attacker_stats = stats
 	parent.add_child(blast)
 	blast.global_position = at
 	blast.reset_physics_interpolation()

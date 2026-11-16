@@ -3,20 +3,18 @@ extends Node
 ## Spirit: a resource the player fills by landing hits and spends on
 ## skills such as the ranged attack.
 ##
-## Every hit an attack lands adds `per_hit`, multiplied for heavy hits.
-## Death marks lower both the maximum (`max_factor`) and the gain
+## Every hit an attack lands adds `PlayerStats.SPIRIT_PER_HIT`, multiplied
+## for heavy hits. The maximum without death marks is
+## `PlayerStats.MAX_SPIRIT`. Death marks lower both the maximum
+## (`max_factor`) and the gain
 ## (`gain_factor`), see `DeathPenalty`. Spirit starts empty on every load
 ## and resting doesn't refill it: it is earned in fights. Every change is
 ## reported through `Events.player_spirit_changed`, which drives the HUD.
 
-## Maximum spirit without death marks.
-@export var full_max := 30.0
-## Spirit gained per landed hit.
-@export var per_hit := 2.0
 ## Multiplier for hits with a HEAVY reaction (the riposte).
 @export var heavy_multiplier := 2.0
 
-## Part of `full_max` available, set by `DeathPenalty`.
+## Part of `full_max()` available, set by `DeathPenalty`.
 var max_factor := 1.0:
 	set(value):
 		max_factor = clampf(value, 0.0, 1.0)
@@ -30,14 +28,21 @@ var current := 0.0
 
 
 func _ready() -> void:
+	await owner.ready
+	player.stats.stat_changed.connect(_on_stat_changed)
 	for hitbox in player.find_children("*", "Hitbox"):
 		(hitbox as Hitbox).hit_landed.connect(_on_hit_landed.bind(hitbox))
 	# Deferred: the HUD may come after the player in the tree and isn't ready yet.
 	_announce.call_deferred()
 
 
+## Maximum spirit without death marks.
+func full_max() -> float:
+	return player.stats.get_value(PlayerStats.MAX_SPIRIT)
+
+
 func get_max() -> float:
-	return full_max * max_factor
+	return full_max() * max_factor
 
 
 ## Adds spirit, never past the current maximum. Not scaled by `gain_factor`.
@@ -61,11 +66,18 @@ func spend(amount: float) -> bool:
 func _on_hit_landed(hurtbox: Hurtbox, hitbox: Hitbox) -> void:
 	if not hurtbox.rewards_attacker:
 		return
-	var amount := per_hit * gain_factor
+	var amount := player.stats.get_value(PlayerStats.SPIRIT_PER_HIT) * gain_factor
 	if hitbox.reaction == Hitbox.Reaction.HEAVY:
 		amount *= heavy_multiplier
 	add(amount)
 
 
+func _on_stat_changed(stat: StringName) -> void:
+	if stat != PlayerStats.MAX_SPIRIT:
+		return
+	current = minf(current, get_max())
+	_announce()
+
+
 func _announce() -> void:
-	Events.player_spirit_changed.emit(current, get_max(), full_max)
+	Events.player_spirit_changed.emit(current, get_max(), full_max())

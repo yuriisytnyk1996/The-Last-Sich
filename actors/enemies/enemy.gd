@@ -53,6 +53,7 @@ var _spawn_position := Vector2.ZERO
 @onready var floor_probe: RayCast2D = $Visual/FloorProbe
 @onready var sight_ray: RayCast2D = $Visual/SightRay
 @onready var state_machine: StateMachine = $StateMachine
+@onready var stats: EnemyStats = $Stats
 @onready var health: Health = $Health
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var contact: Hitbox = $Contact

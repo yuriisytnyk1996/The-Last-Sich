@@ -12,6 +12,7 @@ export default {
         'enemies',
         'bosses',
         'combat',
+        'stats',
         'rooms',
         'environment',
         'ui',

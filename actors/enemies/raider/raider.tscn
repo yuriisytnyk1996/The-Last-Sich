@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://actors/enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://actors/enemies/enemy_stats.gd" id="enemy_stats"]
 [ext_resource type="Script" path="res://components/combat/hitbox.gd" id="2_hitbox"]
 [ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="3_hurtbox"]
 [ext_resource type="Script" path="res://components/combat/health.gd" id="4_health"]
@@ -104,9 +105,13 @@ offset_bottom = 8.0
 mouse_filter = 2
 color = Color(0.95, 0.5, 0.45, 0.6)
 
-[node name="Health" type="Node" parent="."]
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("enemy_stats")
+max_health = 60.0
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("stats")]
 script = ExtResource("4_health")
-max_health = 3
+stats = NodePath("../Stats")
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
 collision_layer = 0
@@ -124,6 +129,7 @@ collision_layer = 16
 collision_mask = 0
 monitoring = false
 script = ExtResource("2_hitbox")
+element = 1
 knockback_force = 0.0
 knockback_direction = Vector2(0, -1)
 active_on_start = true

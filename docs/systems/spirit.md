@@ -7,8 +7,8 @@ Spirit is a resource the player builds up by fighting. The [ranged bolt](/system
 `PlayerSpirit` (`actors/player/abilities/spirit.gd`) lives on the player.
 
 1. On `_ready()` it connects to `hit_landed` on every `Hitbox` under the player (the attack swings and the riposte).
-2. Each landed hit adds `per_hit × gain_factor`, times `heavy_multiplier` for a hit with a `HEAVY` reaction (the riposte). Hits on the training dummy count too. Hits on a hurtbox with `rewards_attacker` off (crates, cracked walls, see [Environment](/systems/environment#breakables)) don't.
-3. Spirit never goes past `get_max()`, which is `full_max × max_factor`.
+2. Each landed hit adds `spirit_per_hit × gain_factor`, times `heavy_multiplier` for a hit with a `HEAVY` reaction (the riposte). Hits on the training dummy count too. Hits on a hurtbox with `rewards_attacker` off (crates, cracked walls, see [Environment](/systems/environment#breakables)) don't.
+3. Spirit never goes past `get_max()`, which is `full_max() × max_factor`. `full_max()` and `spirit_per_hit` are [stats](/systems/stats) (`max_spirit`, `spirit_per_hit`), so items can raise them.
 4. Every change goes out as `Events.player_spirit_changed(current, maximum, full_maximum)`. The HUD's `SpiritBar` draws it, with the part death marks take away shown as locked.
 
 `DeathPenalty` sets `max_factor` and `gain_factor` from the number of death marks. Lowering `max_factor` also cuts the current spirit down to the new maximum. Recovering a death mark adds part of the maximum through `add()`, which ignores `gain_factor`.
@@ -28,16 +28,17 @@ Spirit is earned in fights, not handed out:
 
 ## Tuning
 
+The maximum (`max_spirit`, 30) and the gain per hit (`spirit_per_hit`, 2) are on the player's `Stats` node, see [Stats](/systems/stats#tuning). On the `Spirit` node:
+
+
 | Value | Default | Effect |
 |---|---|---|
-| `full_max` | 30.0 | Maximum spirit without death marks |
-| `per_hit` | 2.0 | Spirit per landed hit |
 | `heavy_multiplier` | 2.0 | Multiplier for hits with a `HEAVY` reaction |
 
 ## Extending
 
 - **A spirit ability:** call `spirit.spend(amount)` and only go ahead when it returns true, as `PlayerRangedAttack` does.
-- **Max spirit upgrades:** raise `full_max`, then assign `max_factor` again (its setter announces the change), and the bar grows with it.
+- **Max spirit upgrades:** add a `max_spirit` modifier to the player's stats. Spirit announces the change and the bar grows with it.
 - **Other gains** (finishing moves, items): call `add()`.
 
 ## Known limitations

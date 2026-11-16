@@ -38,7 +38,6 @@ const PLATFORMS_LAYER := 7
 @export_group("Dash")
 @export var dash_speed := 300.0
 @export var dash_duration := 0.18
-@export var dash_cooldown := 0.4
 
 @export_group("Attack")
 ## The swing is split into wind-up, hitbox-on and recovery windows (s).
@@ -65,6 +64,7 @@ var _dash_cooldown_timer := 0.0
 @onready var visual: Node2D = $Visual
 @onready var camera: Camera2D = $Camera2D
 @onready var state_machine: StateMachine = $StateMachine
+@onready var stats: PlayerStats = $Stats
 @onready var health: Health = $Health
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var damage: PlayerDamage = $Damage
@@ -167,7 +167,7 @@ func wants_dash() -> bool:
 
 
 func start_dash() -> void:
-	_dash_cooldown_timer = dash_cooldown
+	_dash_cooldown_timer = stats.get_value(PlayerStats.DASH_COOLDOWN)
 
 
 func wants_attack() -> bool:

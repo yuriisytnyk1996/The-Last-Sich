@@ -47,6 +47,7 @@ func _on_active() -> void:
 	if projectile_scene == null:
 		return
 	var ball := projectile_scene.instantiate() as EnemyProjectile
+	ball.attacker_stats = enemy.stats
 	var direction := Vector2(_local_aim.x * enemy.facing, _local_aim.y)
 	ball.launch(muzzle.global_position, direction)
 	enemy.get_parent().add_child(ball)

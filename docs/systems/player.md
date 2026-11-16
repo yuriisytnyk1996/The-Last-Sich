@@ -169,7 +169,7 @@ Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't 
 
 ### Healing flasks
 
-The player carries `max_flasks` healing flasks (the `Flasks` node, `PlayerFlasks`). Pressing `heal` in Idle or Run enters **Heal**, which drinks one: it restores `heal_amount` health right away, then holds the player in place for `drink_time` while a placeholder aura (`Visual/HealAura`, the Heal state's `aura`) glows and fades out.
+The player carries `flask_count` healing flasks (the `Flasks` node, `PlayerFlasks`; both values are [stats](/systems/stats)). Pressing `heal` in Idle or Run enters **Heal**, which drinks one: it restores `flask_heal` health right away, then holds the player in place for `drink_time` while a placeholder aura (`Visual/HealAura`, the Heal state's `aura`) glows and fades out.
 
 - Only on the ground, in Idle or Run: not in the air, on a ladder, mid-attack, mid-dash, hurt or during a hard landing.
 - Heal does nothing at full health, so a flask is never wasted. Jump pressed in the same frame wins.
@@ -217,7 +217,6 @@ Select the `Player` node in `player.tscn` and edit values in the Inspector.
 | Landing | `hard_landing_dash_cancel` | 0.5 | Fraction of the hard landing after which a dash cancels it |
 | Dash | `dash_speed` | 300 | Dash speed (px/s) |
 | Dash | `dash_duration` | 0.18 | Dash length (s) |
-| Dash | `dash_cooldown` | 0.4 | Time before the next dash (s) |
 | Attack | `attack_startup` | 0.05 | Wind-up before the hitbox turns on (s) |
 | Attack | `attack_active` | 0.1 | How long the hitbox is on (s) |
 | Attack | `attack_recovery` | 0.15 | Time after the hitbox turns off before the player can act (s) |
@@ -270,13 +269,11 @@ Healing values are on the **`Flasks`** child node (`PlayerFlasks`):
 
 | Value | Default | Effect |
 |---|---|---|
-| `max_flasks` | 2 | Flasks carried when all are full |
-| `heal_amount` | 2 | Health restored by one flask |
 | `drink_time` | 0.5 | Seconds the player stands still while drinking |
 
 Parry and riposte values are on the **`Parry`** child node (`PlayerParry`) and the **`Riposte`** state node, see [Combat](/systems/combat#parry-and-riposte-1).
 
-Maximum health is set on the `Health` child node (`max_health`, default 5). Flash, hit-stop and shake are on the `HurtFeedback` node, see [Combat](/systems/combat#hurtfeedback).
+Maximum health, flask count and heal, damage, resistances, spirit, the parry windows and the dash cooldown are on the **`Stats`** child node (`PlayerStats`), so items and skills can change them. See [Stats](/systems/stats#tuning). Flash, hit-stop and shake are on the `HurtFeedback` node, see [Combat](/systems/combat#hurtfeedback).
 
 ## Public helpers
 

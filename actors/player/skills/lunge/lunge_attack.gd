@@ -9,7 +9,7 @@ extends Node
 
 @export var speeds: PackedFloat32Array = [260.0, 320.0, 380.0]
 @export var durations: PackedFloat32Array = [0.25, 0.32, 0.4]
-@export var damages: PackedInt32Array = [2, 3, 5]
+@export var damages: PackedInt32Array = [40, 60, 100]
 
 @onready var player := owner as Player
 

@@ -10,7 +10,7 @@ extends Control
 
 @export_group("Size")
 ## Bar width per point of max health (px).
-@export var pixels_per_point := 12
+@export var pixels_per_point := 0.6
 @export var bar_height := 4
 ## Frame thickness around the bar (px).
 @export var border := 1
@@ -19,9 +19,9 @@ extends Control
 ## Seconds the loss segment holds still before draining.
 @export var loss_delay := 0.4
 ## Drain speed of the loss segment, in health points per second.
-@export var loss_drain_speed := 4.0
+@export var loss_drain_speed := 80.0
 ## Rise speed of the fill when healing, in health points per second.
-@export var heal_fill_speed := 6.0
+@export var heal_fill_speed := 120.0
 
 @export_group("Colors")
 @export var frame_color := Color("1a1018")

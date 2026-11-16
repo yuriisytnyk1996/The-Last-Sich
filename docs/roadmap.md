@@ -69,6 +69,8 @@
 - [x] World map: rooms placed on a grid of map cells, cells revealed as the player walks through them and saved; walls with door gaps from room exits, zone colours, marks for rest points, shrines, inner doors and death marks; opened from the pause menu or with M / Back, pan and two zoom levels
 - [x] Second enemy, the musketeer: closes in to musket range and plants itself (never backs away), fires only when it can aim at the player, aims with a visible aim line that freezes just before the shot, fires a musket ball that can't be parried, then a long reload. Shared `EnemyProjectile` for enemy shots
 - [x] Environment pieces: breakable crates and cracked walls (stay broken, saved; props fill no spirit), moving platforms (one-way or solid), elevators with call levers, timed spike and fire traps, turrets, and wind, mud and poison zones. New test works room east of the test cave
+- [x] Stats: named player stats (max health, flasks, damage, per-element resistances, spirit, parry and riposte windows, dash cooldown) with flat and percent modifiers added and removed by source, plus timed modifiers. Health, Flasks, Spirit, Parry, the dash and every player hitbox read from them. Hits carry an element (normal, contact, fire, poison)
+- [x] Health and damage on a 100-point scale (player 100, basic hit 20, raider 60, musketeer 40); enemies have their own stats (health, damage multiplier, resistances)
 
 ## Next
 
@@ -79,6 +81,8 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
+- [ ] Inventory and equipment: items that add stat modifiers when equipped, pickups in rooms, an inventory page, saved
+- [ ] Attack speed, run speed and critical hits as stats
 - [ ] Shops to spend currency
 - [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
 - [ ] Spirit abilities that spend spirit

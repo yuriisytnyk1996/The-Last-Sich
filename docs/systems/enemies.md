@@ -125,7 +125,7 @@ Chase (HoldRange) ──can aim, off cooldown, on floor──► Attack (MusketS
   neither: stand facing the player, give up after give_up_time
 ```
 
-1. **Closing in.** Out of `attack_range`, on its level and with nothing in the way, it walks closer. It never backs away: a player who reaches it gets an easy kill (2 health, no melee attack, only contact damage).
+1. **Closing in.** Out of `attack_range`, on its level and with nothing in the way, it walks closer. It never backs away: a player who reaches it gets an easy kill (40 health, no melee attack, only contact damage).
 2. **Can it aim?** `MusketShot.can_aim()`: the player is in `attack_range`, in [sight](#line-of-sight), in front, and within `max_aim_angle` of straight ahead from the `Muzzle`. When it can, it stands and fires whenever it's on the floor and off cooldown, at point-blank range too.
 3. **Stuck.** A player it can't aim at and can't walk closer to (right under its ledge, up on a platform, behind cover) leaves it standing and facing them. After `give_up_time` it turns away and patrols, like the shared Chase. It also gives up when the player is further than `lose_range` or out of sight for `lose_sight_time`.
 4. **Aiming.** Through the wind-up the aim line (`AimPivot`, the telegraph) follows the player's body, clamped to `max_aim_angle`. For the last `aim_lock` seconds it freezes. Then the ball leaves the `Muzzle` along the line.
@@ -145,7 +145,8 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 │   ├── FloorProbe (RayCast2D)   (10, -4) → 12 px down, ledge check, mask: world, platforms
 │   ├── SightRay (RayCast2D)     (4, -22) at the eye, line of sight, mask: world
 │   └── Attacks/Slash (Hitbox)   (18, -14), 24×16, layer enemy_attacks, parryable
-├── Health                       max_health 3
+├── Stats (EnemyStats)           max_health 60
+├── Health                       max from Stats
 ├── Hurtbox                      14×26, mask player_attacks
 ├── Contact (Hitbox)             10×22, always on, continuous
 ├── Damage (EnemyDamage)
@@ -165,13 +166,13 @@ Musketeer (CharacterBody2D, Enemy)
 │   ├── Barrel               placeholder rectangle
 │   └── Muzzle (Marker2D)    (14, -18), where the ball leaves
 │                            (no Attacks node)
-├── Health                   max_health 2
+├── Stats (EnemyStats)       max_health 40
 └── StateMachine
     ├── Chase                HoldRange, shot: Attack
     └── Attack               MusketShot
 ```
 
-`musket_ball.tscn` is an `EnemyProjectile` on `enemy_attacks`, mask `world`, 6×4, 1 damage, 120 knockback along its flight.
+`musket_ball.tscn` is an `EnemyProjectile` on `enemy_attacks`, mask `world`, 6×4, 20 damage (scaled by the musketeer's `damage` stat), 120 knockback along its flight.
 
 ## Files
 
@@ -253,7 +254,7 @@ Set on the attack state node.
 | `cooldown` | 0.6 | Time after the attack before the next one (s) |
 | `lunge_speed` | 120 | `SaberSlash` only: forward speed while the blade is out (px/s) |
 
-The slash and contact hitboxes use the `Hitbox` defaults: 1 damage, NORMAL reaction. The slash has `parryable` on.
+The slash and contact hitboxes use the `Hitbox` defaults: 20 damage, NORMAL reaction. The contact hitbox has the CONTACT element. Health, the damage multiplier and resistances are on the `Stats` node, see [Stats](/systems/stats#enemy-stats). The slash has `parryable` on.
 
 ### Musketeer
 
@@ -268,7 +269,7 @@ Set on the musketeer's root node, attack node and ball. Values that differ from 
 | Root | `lose_range` | 260 | |
 | Root | `lose_sight_time` | 2.0 | |
 | Root | `attack_range` | 180 | Fires from this far |
-| Health | `max_health` | 2 | |
+| Stats | `max_health` | 40 | |
 | Damage | `currency_reward` | 15 | |
 | Attack | `startup` | 0.7 | Aiming time (s) |
 | Attack | `active` | 0.1 | |

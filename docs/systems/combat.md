@@ -6,7 +6,7 @@ Three small components in `components/combat/` handle all damage in the game: a 
 
 1. An attack turns its `Hitbox` on (`set_active(true)`). This enables its collision shapes.
 2. A `Hurtbox` whose collision mask includes the hitbox's layer gets `area_entered` and reports it.
-3. The hurtbox emits `hurt(hitbox)`, tells the hitbox with `register_hit()` (which emits the hitbox's `hit_landed`), then, if its `health` is set, calls `health.take_damage(hitbox.damage)`.
+3. The hurtbox emits `hurt(hitbox)`, tells the hitbox with `register_hit()` (which emits the hitbox's `hit_landed`), then, if its `health` is set, calls `health.take_hit(hitbox)`. The damage is the hitbox's `damage` scaled by the attacker's [stats](/systems/stats#damage-and-resistance), then lowered by the receiver's resistance to the hit's [element](#elements).
 4. `Health` emits `health_changed(current, maximum)`, and `died` when it reaches 0. `Health.kill()` drops it straight to 0 for instant deaths such as pits.
 5. The owner listens to these signals and reacts (flash, knockback, respawn...).
 
@@ -16,7 +16,7 @@ The attack turns the hitbox off again after its active window. Turning a hitbox 
 Player                                   TrainingDummy
 └── Visual                               ├── Hurtbox ──hurt──► HurtFeedback, dummy tilts
     └── Attacks/Side ──area_entered──►   │      ├──register_hit──► Hitbox.has_hit()
-        (player_attacks layer)           │      └──take_damage──► Health
+        (player_attacks layer)           │      └──take_hit──► Health
                                          │                         ├─ health_changed ─► health bar
                                          │                         └─ died ─► break, rebuild later
 ```
@@ -151,7 +151,7 @@ Idle / Run ──parry──► Parry: GUARD (parry_window)
 2. A hitbox with **`parryable`** on that reaches a parrying hurtbox is deflected: the hurtbox emits `parried(hitbox)` and calls `hitbox.register_parry()`, which emits the hitbox's own `parried(hurtbox)`. No damage, no `hurt`, no invincibility check.
 3. The player turns to the attacker, becomes invincible, and gets a hit-stop, camera shake and rumble (`PlayerParry.play_feedback()`).
 4. The attacker's `EnemyAttackState` hears `parried` and calls `EnemyDamage.stun()`: the enemy is pushed back and goes **Stunned** for `stun_time`. See [Enemies](/systems/enemies#stun).
-5. Pressing attack within `riposte_window` starts the **Riposte**: a short lunge into a heavy slash (3 damage, HEAVY reaction), invincible from start to finish. Without the press the player returns to Idle or Run.
+5. Pressing attack within `riposte_window` starts the **Riposte**: a short lunge into a heavy slash (60 damage, HEAVY reaction), invincible from start to finish. Without the press the player returns to Idle or Run.
 6. After a parry or riposte ends, invincibility lasts `grace_time` more.
 
 A guard that catches nothing leaves the player stuck in place for `fail_recovery`, open to the attack they mistimed. That is the cost of parrying: pressing too early is punished as much as not pressing at all.
@@ -193,6 +193,17 @@ A hurtbox with `invincibility_time` above 0 ignores every hit for that long afte
 
 `set_invincible_for(seconds)` replaces the remaining time, and `clear_invincibility()` ends it early, for example on respawn.
 
+## Elements
+
+Each hitbox has an `element` that says what kind of harm it does. Actors with [stats](/systems/stats) resist each element separately (`normal_resist`, `contact_resist`, `fire_resist`, `poison_resist`). The element changes nothing else: reactions, knockback and feedback stay the same.
+
+| Element | Used by |
+|---|---|
+| `NORMAL` | Every attack swing and projectile, turret bolts, spike traps (default) |
+| `CONTACT` | Enemy contact damage (raider, musketeer) |
+| `FIRE` | Fire traps |
+| `POISON` | Poison zones |
+
 ## Hazards
 
 ### Spikes
@@ -209,7 +220,7 @@ A hazard that pushes straight up with `knockback_force` 0 pushes the player away
 
 ## Training dummy
 
-`actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health`, a `HurtFeedback` (flash, 0.05 s hit-stop, 0.3 shake, 0.3 rumble) and a small health bar. When hit it also tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
+`actors/training_dummy/` is a stationary target placed in the test room. It has a `Hurtbox`, a `Health` (100), a `HurtFeedback` (flash, 0.05 s hit-stop, 0.3 shake, 0.3 rumble) and a small health bar. When hit it also tilts away from the hit. At 0 health it disappears, then rebuilds with full health after `respawn_delay`.
 
 It has no behaviour of its own, so unlike other actors it has no `states/` folder.
 
@@ -217,9 +228,9 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 
 | File | Role |
 |---|---|
-| `components/combat/hitbox.gd` | `Hitbox`: damage and knockback, `set_active()`, `has_hit()`, `hit_landed` |
+| `components/combat/hitbox.gd` | `Hitbox`: damage, element and knockback, `get_damage()`, `set_active()`, `has_hit()`, `hit_landed` |
 | `components/combat/hurtbox.gd` | `Hurtbox`: detects hitboxes, invincibility, emits `hurt` |
-| `components/combat/health.gd` | `Health`: hit points, `health_changed` and `died` |
+| `components/combat/health.gd` | `Health`: hit points, `take_hit()` with resistances, maximum from stats, `health_changed` and `died` |
 | `components/combat/invincibility_blink.gd` | `InvincibilityBlink`: blinks a visual while a hurtbox is invincible |
 | `components/combat/hurt_feedback.gd` | `HurtFeedback`: flash, hit-stop, camera shake and rumble on every accepted hit |
 | `actors/player/states/attacks/player_attack_state.gd` | `PlayerAttackState`: swing phases, re-swing, planted on the ground / air control in the air |
@@ -248,7 +259,8 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 
 | Value | Default | Effect |
 |---|---|---|
-| `damage` | 1 | Health removed per hit |
+| `damage` | 20 | Base damage per hit, scaled by the attacker's `damage` stat |
+| `element` | NORMAL | Kind of harm, resisted per element. See [Elements](#elements) |
 | `knockback_force` | 120 | Knockback strength (px/s) |
 | `knockback_direction` | (1, 0) | Direction when facing right, mirrored when flipped |
 | `reaction` | NORMAL | How hard the receiver reacts: LIGHT, NORMAL or HEAVY. See [Reactions](#reactions) |
@@ -289,7 +301,8 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 
 | Value | Default | Effect |
 |---|---|---|
-| `max_health` | 5 | Starting and maximum health |
+| `max_health` | 100 | Starting and maximum health when `stats` is not set |
+| `stats` | none | `Stats` node. Sets the maximum (`max_health` stat) and the resistances. The player's points at its `Stats` child |
 
 ### Player attack
 
@@ -313,10 +326,10 @@ Set on each state node under `StateMachine`:
 
 | State | `startup` | `active` | `recovery` | `lunge_speed` | `rise_speed` | Hitbox damage | Knockback |
 |---|---|---|---|---|---|---|---|
-| ComboHeavy | 0.1 | 0.12 | 0.3 | 120 | 0 | 2 | 170 |
-| ComboFinisher | 0.12 | 0.14 | 0.35 | 180 | 0 | 3 | 220 |
-| ComboFinisherUp | 0.06 | 0.16 | 0.3 | 0 | 260 | 3 | 200 |
-| ComboFinisherDown | 0.14 | 0.1 | 0.4 | 0 | 0 | 3 | 160 |
+| ComboHeavy | 0.1 | 0.12 | 0.3 | 120 | 0 | 40 | 170 |
+| ComboFinisher | 0.12 | 0.14 | 0.35 | 180 | 0 | 60 | 220 |
+| ComboFinisherUp | 0.06 | 0.16 | 0.3 | 0 | 260 | 60 | 200 |
+| ComboFinisherDown | 0.14 | 0.1 | 0.4 | 0 | 0 | 60 | 160 |
 
 `PlayerComboStrike` defaults are 0.08 / 0.12 / 0.28 with no lunge or hop. Every combo hitbox has the heavy reaction.
 
@@ -330,7 +343,7 @@ Set on each state node under `StateMachine`:
 | `swift_charge_time` | 0.75 | Seconds to a full charge at level 2 and 3 |
 | `wave_offset` | (16, -10) | Where the wave starts, facing right |
 
-ChargedSlash state: `startup` 0.05, `active` 0.14, `recovery` 0.35, `lunge_speed` 60. Hitbox damage 4, knockback 240, heavy.
+ChargedSlash state: `startup` 0.05, `active` 0.14, `recovery` 0.35, `lunge_speed` 60. Hitbox damage 80, knockback 240, heavy.
 
 `PlayerLungeAttack` (`Skills/Lunge`), per level 1 / 2 / 3:
 
@@ -338,7 +351,7 @@ ChargedSlash state: `startup` 0.05, `active` 0.14, `recovery` 0.35, `lunge_speed
 |---|---|---|
 | `speeds` | 260 / 320 / 380 | Forward speed (px/s) |
 | `durations` | 0.25 / 0.32 / 0.4 | Seconds the hitbox is on and the thrust drives |
-| `damages` | 2 / 3 / 5 | Damage, written onto the Lunge hitbox |
+| `damages` | 40 / 60 / 100 | Damage, written onto the Lunge hitbox |
 
 Lunge state: `startup` 0.03, `recovery` 0.2. Hitbox knockback 180, heavy.
 
@@ -355,7 +368,7 @@ Lunge state: `startup` 0.03, `recovery` 0.2. Hitbox knockback 180, heavy.
 | `Dive.recover_time` | 0.25 | Planted after landing (s) |
 | `Dive.land_shake` | 0.6 | Camera shake on landing |
 
-Hitbox damage: plunge 2, landing 3, wide landing 3, shockwave 4 (heavy, shake 0.8).
+Hitbox damage: plunge 40, landing 60, wide landing 60, shockwave 80 (heavy, shake 0.8).
 
 `PlayerRangedAttack` (`Skills/Ranged`) and the Ranged state:
 
@@ -370,13 +383,11 @@ Hitbox damage: plunge 2, landing 3, wide landing 3, shockwave 4 (heavy, shake 0.
 
 ### Parry and riposte
 
-Set on the player's **`Parry`** child node (`PlayerParry`).
+Set on the player's **`Parry`** child node (`PlayerParry`). The guard and riposte windows are player stats, see [Stats](/systems/stats#tuning) (`parry_window` 0.25 s, `riposte_window` 0.5 s).
 
 | Group | Value | Default | Effect |
 |---|---|---|---|
-| Timing | `parry_window` | 0.25 | How long the guard is up after the press (s) |
 | Timing | `fail_recovery` | 0.35 | Time stuck in place after a guard that caught nothing (s) |
-| Timing | `riposte_window` | 0.5 | Time after a parry to press attack for a riposte (s) |
 | Timing | `grace_time` | 0.3 | Invincibility after a parry or riposte ends (s) |
 | Feedback | `hit_stop` | 0.12 | Freeze on a successful parry (s) |
 | Feedback | `shake` | 0.35 | Camera trauma on a successful parry |
@@ -392,7 +403,7 @@ Set on the **`Riposte`** state node:
 | `recovery` | 0.3 | Time after the hitbox turns off (s) |
 | `lunge_speed` | 160 | Forward speed during the wind-up (px/s) |
 
-The `Visual/Attacks/Riposte` hitbox at (18, -16), 28×20, deals 3 damage with a HEAVY reaction and `knockback_force` 180.
+The `Visual/Attacks/Riposte` hitbox at (18, -16), 28×20, deals 60 damage with a HEAVY reaction and `knockback_force` 180.
 
 ### Training dummy
 

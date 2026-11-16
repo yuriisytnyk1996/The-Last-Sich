@@ -4,7 +4,7 @@ extends Area2D
 ##
 ## Set the collision mask to the attack layer that should hurt this actor
 ## (for example `player_attacks` for enemies). If `health` is set, damage is
-## applied automatically; the owner listens to `hurt` for everything else
+## applied automatically (`Health.take_hit()`); the owner listens to `hurt` for everything else
 ## (knockback, flashing, sounds).
 
 signal hurt(hitbox: Hitbox)
@@ -85,4 +85,4 @@ func _on_area_entered(area: Area2D) -> void:
 	hurt.emit(hitbox)
 	hitbox.register_hit(self)
 	if health:
-		health.take_damage(hitbox.damage)
+		health.take_hit(hitbox)

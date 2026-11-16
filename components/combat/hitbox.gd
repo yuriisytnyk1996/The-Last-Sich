@@ -17,14 +17,25 @@ signal parried(hurtbox: Hurtbox)
 ## stagger. NORMAL: stagger and knockback. HEAVY: longer stagger, more
 ## knockback, stronger hit-stop and shake.
 enum Reaction { NORMAL, LIGHT, HEAVY }
+## What kind of harm the hit does. The receiver's `Stats` can resist each
+## element separately (see `RESIST_STATS`).
+enum Element { NORMAL, CONTACT, FIRE, POISON }
 
 const FEEDBACK_SCALE: Dictionary[Reaction, float] = {
 	Reaction.LIGHT: 0.5,
 	Reaction.NORMAL: 1.0,
 	Reaction.HEAVY: 2.0,
 }
+const RESIST_STATS: Dictionary[Element, StringName] = {
+	Element.NORMAL: Stats.NORMAL_RESIST,
+	Element.CONTACT: Stats.CONTACT_RESIST,
+	Element.FIRE: Stats.FIRE_RESIST,
+	Element.POISON: Stats.POISON_RESIST,
+}
 
-@export var damage := 1
+## Base damage, before the attacker's `Stats.DAMAGE` multiplier.
+@export var damage := 20
+@export var element := Element.NORMAL
 @export var knockback_force := 120.0
 ## Direction when the hitbox faces right. Mirrored when a parent is flipped
 ## with a negative scale.x.
@@ -37,6 +48,10 @@ const FEEDBACK_SCALE: Dictionary[Reaction, float] = {
 ## A parrying hurtbox can deflect this hit. For telegraphed melee swings,
 ## not for contact damage, hazards or projectiles.
 @export var parryable := false
+
+## Stats of whoever deals this hit. Their `Stats.DAMAGE` scales `damage`.
+## Optional: without it the base damage is dealt.
+var attacker_stats: Stats
 
 var _active := false
 var _has_hit := false
@@ -76,6 +91,17 @@ func register_hit(hurtbox: Hurtbox) -> void:
 ## Called by the Hurtbox that parried this hit. No damage is dealt.
 func register_parry(hurtbox: Hurtbox) -> void:
 	parried.emit(hurtbox)
+
+
+## Damage this hit deals before the receiver's resistance. Rounded, and
+## never below 1 unless the scaled damage is 0.
+func get_damage() -> int:
+	var scaled := float(damage)
+	if attacker_stats:
+		scaled *= attacker_stats.get_value(Stats.DAMAGE, 1.0)
+	if scaled <= 0.0:
+		return 0
+	return maxi(roundi(scaled), 1)
 
 
 ## Multiplier for hit-stop and camera shake, from `reaction`.

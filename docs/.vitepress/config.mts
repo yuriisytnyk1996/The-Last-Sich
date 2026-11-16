@@ -39,6 +39,7 @@ export default defineConfig({
         items: [
           { text: 'Player', link: '/systems/player' },
           { text: 'Combat', link: '/systems/combat' },
+          { text: 'Stats', link: '/systems/stats' },
           { text: 'Enemies', link: '/systems/enemies' },
           { text: 'Game feel', link: '/systems/game-feel' },
           { text: 'HUD', link: '/systems/hud' },

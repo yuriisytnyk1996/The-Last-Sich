@@ -12,7 +12,7 @@ const HAZARDS_LAYER := 6
 ## How long each tick's hitbox stays out (s).
 const PULSE_TIME := 0.05
 
-@export var damage := 1
+@export var damage := 20
 ## Seconds between hits while inside.
 @export var tick_time := 1.2
 ## Seconds inside before the first hit.
@@ -30,6 +30,7 @@ func _ready() -> void:
 	_hitbox = Hitbox.new()
 	_hitbox.damage = damage
 	_hitbox.reaction = Hitbox.Reaction.LIGHT
+	_hitbox.element = Hitbox.Element.POISON
 	_hitbox.knockback_force = 0.0
 	_hitbox.collision_layer = 0
 	_hitbox.collision_mask = 0

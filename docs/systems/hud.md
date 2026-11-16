@@ -55,12 +55,12 @@ On the `HealthBar` node:
 
 | Value | Default | Effect |
 |---|---|---|
-| `pixels_per_point` | 12 | Bar width per point of max health (px) |
+| `pixels_per_point` | 0.6 | Bar width per point of max health (px), 60 px at 100 health |
 | `bar_height` | 4 | Inner bar height (px) |
 | `border` | 1 | Frame thickness (px) |
 | `loss_delay` | 0.4 | Seconds the loss segment holds before draining |
-| `loss_drain_speed` | 4.0 | Loss segment drain speed (health points/s) |
-| `heal_fill_speed` | 6.0 | Fill rise speed when healing (health points/s) |
+| `loss_drain_speed` | 80.0 | Loss segment drain speed (health points/s) |
+| `heal_fill_speed` | 120.0 | Fill rise speed when healing (health points/s) |
 | `frame_color` | `#1a1018` | Outline |
 | `empty_color` | `#3b2730` | Missing health |
 | `loss_color` | `#e8d8b0` | Just-lost / incoming health |

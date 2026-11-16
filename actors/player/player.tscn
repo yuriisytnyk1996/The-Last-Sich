@@ -67,6 +67,7 @@
 [ext_resource type="PackedScene" path="res://actors/player/attacks/bolt_burst.tscn" id="bolt_burst"]
 [ext_resource type="PackedScene" path="res://actors/player/attacks/dive_shockwave.tscn" id="dive_shockwave"]
 [ext_resource type="Script" path="res://actors/player/abilities/area_effects.gd" id="area_effects"]
+[ext_resource type="Script" path="res://actors/player/player_stats.gd" id="player_stats"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -235,7 +236,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 3
+damage = 60
 knockback_force = 180.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
@@ -258,7 +259,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 2
+damage = 40
 knockback_force = 170.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
@@ -281,7 +282,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 3
+damage = 60
 knockback_force = 220.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
@@ -304,7 +305,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 3
+damage = 60
 knockback_force = 200.0
 knockback_direction = Vector2(0.4, -1)
 reaction = 2
@@ -327,7 +328,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 3
+damage = 60
 knockback_force = 160.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
@@ -350,7 +351,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 4
+damage = 80
 knockback_force = 240.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
@@ -373,7 +374,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 2
+damage = 40
 knockback_force = 180.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
@@ -396,7 +397,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 2
+damage = 40
 knockback_force = 140.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
@@ -419,7 +420,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 3
+damage = 60
 knockback_force = 160.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
@@ -442,7 +443,7 @@ collision_layer = 8
 collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
-damage = 3
+damage = 60
 knockback_force = 180.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
@@ -459,8 +460,12 @@ offset_bottom = 8.0
 mouse_filter = 2
 color = Color(1, 0.85, 0.5, 0.7)
 
-[node name="Health" type="Node" parent="."]
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("player_stats")
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("stats")]
 script = ExtResource("14_health")
+stats = NodePath("../Stats")
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
 collision_layer = 0

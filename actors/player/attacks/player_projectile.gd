@@ -38,7 +38,8 @@ func _ready() -> void:
 	Events.room_change_requested.connect(_on_room_change_requested)
 
 
-## Call before adding it to the tree.
+## Call before adding it to the tree. A `Player` thrower's stats scale the
+## damage.
 func launch(
 	from: Vector2, direction: float, thrower: Node2D, returns := false, burst: PackedScene = null
 ) -> void:
@@ -46,6 +47,8 @@ func launch(
 	_direction = signf(direction)
 	scale.x = _direction
 	_thrower = thrower
+	if thrower is Player:
+		attacker_stats = (thrower as Player).stats
 	_returns = returns
 	_burst_scene = burst
 	_speed = start_speed
@@ -77,7 +80,7 @@ func _end_flight_out() -> void:
 
 func _fly_back() -> void:
 	if _burst_scene:
-		PlayerBlast.spawn(_burst_scene, get_parent(), global_position)
+		PlayerBlast.spawn(_burst_scene, get_parent(), global_position, attacker_stats)
 	_flight = Flight.BACK
 	scale.x = -_direction
 	# A new activation, so enemies hit on the way out can be hit again.

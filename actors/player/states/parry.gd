@@ -1,9 +1,9 @@
 extends PlayerState
 ## Guard up, planted on the ground. Tuning lives in `PlayerParry`.
 ##
-## GUARD: the hurtbox is parrying for `parry_window`. A parryable hit
+## GUARD: the hurtbox is parrying for `parry_window()`. A parryable hit
 ## switches to SUCCESS: the player turns to the attacker, is invincible and
-## can press attack for a Riposte within `riposte_window`. A guard that
+## can press attack for a Riposte within `riposte_window()`. A guard that
 ## caught nothing ends in FAILED, stuck in place for `fail_recovery`.
 ## Unparryable hits (contact, hazards) still land and interrupt it.
 
@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func enter(_previous_state: StringName) -> void:
 	_phase = Phase.GUARD
-	_time_left = player.parry.parry_window
+	_time_left = player.parry.parry_window()
 	player.hurtbox.parrying = true
 	guard.visible = true
 	guard.modulate = Color.WHITE
@@ -68,7 +68,7 @@ func _on_parried(hitbox: Hitbox) -> void:
 	if _phase != Phase.GUARD:
 		return
 	_phase = Phase.SUCCESS
-	_time_left = player.parry.riposte_window
+	_time_left = player.parry.riposte_window()
 	player.hurtbox.parrying = false
 	player.hurtbox.set_invincible_for(INF)
 	player.consume_attack()
@@ -82,4 +82,4 @@ func _on_parried(hitbox: Hitbox) -> void:
 func _flash_guard() -> void:
 	guard.modulate = Color(3.0, 3.0, 3.0)
 	_flash = create_tween()
-	_flash.tween_property(guard, ^"modulate", Color.WHITE, player.parry.riposte_window)
+	_flash.tween_property(guard, ^"modulate", Color.WHITE, player.parry.riposte_window())
