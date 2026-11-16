@@ -68,6 +68,7 @@
 - [x] Ranged bolt: a new `ranged` button throws a bolt for spirit; it returns, then bursts at the turn
 - [x] World map: rooms placed on a grid of map cells, cells revealed as the player walks through them and saved; walls with door gaps from room exits, zone colours, marks for rest points, shrines, inner doors and death marks; opened from the pause menu or with M / Back, pan and two zoom levels
 - [x] Second enemy, the musketeer: closes in to musket range and plants itself (never backs away), fires only when it can aim at the player, aims with a visible aim line that freezes just before the shot, fires a musket ball that can't be parried, then a long reload. Shared `EnemyProjectile` for enemy shots
+- [x] Environment pieces: breakable crates and cracked walls (stay broken, saved; props fill no spirit), moving platforms (one-way or solid), elevators with call levers, timed spike and fire traps, turrets, and wind, mud and poison zones. New test works room east of the test cave
 
 ## Next
 
@@ -111,4 +112,8 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - No hang or climb-up animation for ledges, the placeholder body just moves
 - Grey rectangles with a blue gem for the skill shrine, blue diamonds for tier relics, plain text cells for the skill menu, coloured rectangles for the combo, charged, lunge and dive hitboxes, the projectiles and the blasts, a bar above the head for a full charge
 - Coloured rectangles for the musketeer and its barrel, a thin line for its aim, a small rectangle for the musket ball
+- Brown boxes for crates, a grey block with a dark line for the cracked wall, no break debris
+- Flat rectangles for moving platforms, elevators and their levers
+- Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
+- Drawn tints for zones and drifting line streaks for wind
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

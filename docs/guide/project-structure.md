@@ -55,6 +55,7 @@ The-Last-Sich/
 │   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
 │   │   │   ├── spirit.gd         Spirit, filled by landing hits
+│   │   │   ├── area_effects.gd   Combines the wind and mud zones the player is in
 │   │   │   └── parry.gd          Parry and riposte tuning
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
@@ -144,7 +145,11 @@ The-Last-Sich/
 │   │   ├── tier_relic.gd         Raises the skill tier once when touched
 │   │   ├── tier_relic.tscn       Its scene
 │   │   ├── spikes.gd             Instant death when stepped in
-│   │   └── ladder.gd             Climbable ladder
+│   │   ├── ladder.gd             Climbable ladder
+│   │   ├── breakables/           Breakable crate and cracked wall (breakable.gd, crate.tscn, breakable_wall.tscn)
+│   │   ├── platforms/            Moving platform, elevator and its call lever
+│   │   ├── traps/                Timed spike and fire traps, turret and its bolt
+│   │   └── zones/                Wind, mud and poison zones on the AreaEffect base
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room): a Room with Deco, Layout and Logic
 │   │   ├── test_room/            Its parts: deco.tscn, layout.tscn, logic.tscn
@@ -153,7 +158,9 @@ The-Last-Sich/
 │   │   ├── test_house.tscn       Small room behind the test room's door
 │   │   ├── test_house/           Its parts
 │   │   ├── test_shaft.tscn       Tall room under the test cave, reached through a hole
-│   │   └── test_shaft/           Its parts
+│   │   ├── test_shaft/           Its parts
+│   │   ├── test_works.tscn       Two-floor room east of the test cave with every environment piece
+│   │   └── test_works/           Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)

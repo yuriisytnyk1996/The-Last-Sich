@@ -59,7 +59,7 @@ Move (stick, D-pad, WASD or arrows) pans the view; it stops at the edge of the r
 | `reveal_interval` | `WorldMap` | `0.2` | Seconds between checks of the player's cell |
 | `pan_speed` | `MapView` | `6.0` | Panning speed, in cells per second |
 | `ZOOMS` | `MapView` | `32×18`, `16×9` | Size of one cell on screen per zoom level (px) |
-| `ZONE_COLORS` | `MapView` | Steppe, Caves | Fill colour per zone name |
+| `ZONE_COLORS` | `MapView` | Steppe, Caves, Works | Fill colour per zone name |
 | `EDGE_MARGIN` | `MapRoom` | `24` | How close to a room edge (px) an exit must be to count as a door in the wall |
 
 ### Test rooms on the map

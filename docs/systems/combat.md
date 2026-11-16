@@ -262,6 +262,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 |---|---|---|
 | `health` | none | `Health` node that takes the damage automatically |
 | `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `PlayerDamage.invincibility_time` |
+| `rewards_attacker` | true | Off for props: hits on it fill no spirit |
 
 ### HurtFeedback
 

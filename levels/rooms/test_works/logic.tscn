@@ -1,0 +1,46 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="1_exit"]
+[ext_resource type="PackedScene" path="res://levels/objects/breakables/crate.tscn" id="2_crate"]
+[ext_resource type="PackedScene" path="res://levels/objects/breakables/breakable_wall.tscn" id="3_wall"]
+
+[sub_resource type="RectangleShape2D" id="shape_exit"]
+size = Vector2(8, 64)
+
+[node name="Logic" type="Node2D"]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(56, 320)
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="West" type="Area2D" parent="Exits"]
+position = Vector2(0, 288)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_exit")
+target_room = "res://levels/rooms/test_cave.tscn"
+target_exit = &"East"
+
+[node name="Shape" type="CollisionShape2D" parent="Exits/West"]
+shape = SubResource("shape_exit")
+
+[node name="Landing" type="Marker2D" parent="Exits/West"]
+position = Vector2(40, 32)
+
+[node name="Breakables" type="Node2D" parent="."]
+
+[node name="Crate1" parent="Breakables" instance=ExtResource("2_crate")]
+position = Vector2(96, 320)
+
+[node name="Crate2" parent="Breakables" instance=ExtResource("2_crate")]
+position = Vector2(114, 320)
+
+[node name="CrackedWall" parent="Breakables" instance=ExtResource("3_wall")]
+position = Vector2(1008, 320)
+
+[node name="HiddenCrate" parent="Breakables" instance=ExtResource("2_crate")]
+position = Vector2(1048, 320)
+currency = 30
+stays_broken = true

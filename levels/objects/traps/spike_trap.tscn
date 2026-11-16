@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/traps/timed_trap.gd" id="1_trap"]
+[ext_resource type="Script" path="res://components/combat/hitbox.gd" id="2_hitbox"]
+
+[sub_resource type="RectangleShape2D" id="shape_spikes"]
+size = Vector2(32, 14)
+
+[node name="SpikeTrap" type="Node2D"]
+script = ExtResource("1_trap")
+
+[node name="Base" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -2.0
+offset_right = 16.0
+mouse_filter = 2
+color = Color(0.3, 0.26, 0.24, 1)
+
+[node name="Warning" type="ColorRect" parent="."]
+offset_left = -14.0
+offset_top = -5.0
+offset_right = 14.0
+offset_bottom = -2.0
+mouse_filter = 2
+color = Color(1, 0.75, 0.3, 1)
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("2_hitbox")
+knockback_direction = Vector2(0, -1)
+continuous = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -7)
+shape = SubResource("shape_spikes")
+
+[node name="Spikes" type="Polygon2D" parent="Hitbox"]
+color = Color(0.85, 0.85, 0.9, 1)
+polygon = PackedVector2Array(-16, -2, -12, -16, -8, -2, -4, -16, 0, -2, 4, -16, 8, -2, 12, -16, 16, -2)

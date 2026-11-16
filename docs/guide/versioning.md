@@ -45,7 +45,7 @@ docs: explain coyote time
 
 ### Scopes
 
-`player`, `enemies`, `bosses`, `combat`, `rooms`, `ui`, `input`, `rendering`, `audio`, `save`, `currency`, `spirit`, `death-penalty`, `state-machine`, `events`, `docs`, `tooling`, `release`.
+`player`, `enemies`, `bosses`, `combat`, `rooms`, `environment`, `ui`, `input`, `rendering`, `audio`, `save`, `currency`, `spirit`, `death-penalty`, `state-machine`, `events`, `docs`, `tooling`, `release`.
 
 Other scopes are allowed but produce a warning. Add new ones to `commitlint.config.ts` when a new system appears.
 

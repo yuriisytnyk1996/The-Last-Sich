@@ -95,7 +95,7 @@ levels/rooms/test_room.tscn   TestRoom (Room)
 | Part | Holds | Rule |
 |---|---|---|
 | **Deco** | Background, and later tile art, props, parallax and lighting | Never collides and has no scripts that change gameplay. Safe to change without retesting the level |
-| **Layout** | `Terrain`, `Ladder` nodes, `Hazards` (spikes) and `KillZone` | Everything that decides where the player can stand, climb or die. Follow the [platform heights](#platform-heights) |
+| **Layout** | `Terrain`, `Ladder` nodes, `Hazards` (spikes, traps), `Zones`, `Platforms` and `KillZone` | Everything that decides where the player can stand, climb or die. Follow the [platform heights](#platform-heights) |
 | **Logic** | `SpawnPoint`, `Exits`, `Enemies`, rest points, training dummies, later triggers and pickups | Things that act, react or are saved. Node paths in here are saved, so renaming one loses its saved state |
 
 The parts are drawn in that order: Deco behind, then Layout, then Logic. Art that must go in front of the player (foreground pillars, grass) stays in Deco with a higher `z_index`. All three share the room's coordinates: their roots sit at (0, 0), so a position means the same thing in every part.
@@ -111,11 +111,14 @@ The parts are drawn in that order: Deco behind, then Layout, then Logic. Art tha
 | `Background` | Deco | `ColorRect` | No | Placeholder backdrop the size of `bounds` |
 | `Terrain` | Layout | `TileMapLayer` | Yes | Ground and walls, see [Terrain](#terrain) |
 | `Ladder` nodes | Layout | `Ladder` | No | Ladders |
-| `Hazards` | Layout | `Node2D` holding `Spikes` and hazard `Hitbox`es | No | Spikes and other static hazards |
+| `Hazards` | Layout | `Node2D` holding `Spikes`, hazard `Hitbox`es, timed traps and turrets | No | Hazards, see [Environment](/systems/environment) |
+| `Zones` | Layout | `Node2D` holding wind, mud and poison zones | No | Areas that change the player, see [Environment](/systems/environment#zones) |
+| `Platforms` | Layout | `Node2D` holding moving platforms, elevators and their call levers | No | See [Environment](/systems/environment) |
 | `KillZone` | Layout | `Area2D` (layer `hazards`, mask `player` and `enemies`) | No | Bottomless pit: kills the player or an enemy on contact, ignoring health |
 | `SpawnPoint` | Logic | `Marker2D` | Yes | Where the player starts when the room is the start room |
 | `Exits` | Logic | `Node2D` holding `RoomExit` areas and door instances | No | Ways to other rooms. Each exit has a `Shape` and a `Landing` marker |
 | `Enemies` | Logic | `Node2D` holding enemy instances | No | Enemies of the room |
+| `Breakables` | Logic | `Node2D` holding crates and cracked walls | No | Props broken by attacks; saved when they stay broken. See [Environment](/systems/environment#breakables) |
 
 Rooms don't contain the player, the HUD or the debug labels: those live in `World`.
 
@@ -169,7 +172,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Test cave layout
 
-`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. Further right, a ladder goes down through a one-tile hole covered by a plank (x 848 to 864), through the `LadderDown` exit into the shaft. It has no pits, so no `KillZone`.
+`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. Further right, a ladder goes down through a one-tile hole covered by a plank (x 848 to 864), through the `LadderDown` exit into the shaft. It has no pits, so no `KillZone`. An `East` exit in the gap at the bottom of the right wall leads to the test works, see [Environment](/systems/environment#test-works-layout).
 
 ## Test shaft layout
 

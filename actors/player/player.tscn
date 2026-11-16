@@ -66,6 +66,7 @@
 [ext_resource type="PackedScene" path="res://actors/player/attacks/charged_wave.tscn" id="charged_wave"]
 [ext_resource type="PackedScene" path="res://actors/player/attacks/bolt_burst.tscn" id="bolt_burst"]
 [ext_resource type="PackedScene" path="res://actors/player/attacks/dive_shockwave.tscn" id="dive_shockwave"]
+[ext_resource type="Script" path="res://actors/player/abilities/area_effects.gd" id="area_effects"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -658,3 +659,6 @@ shockwave_scene = ExtResource("dive_shockwave")
 script = ExtResource("ranged_attack")
 bolt_scene = ExtResource("ranged_bolt")
 burst_scene = ExtResource("bolt_burst")
+
+[node name="AreaEffects" type="Node" parent="."]
+script = ExtResource("area_effects")

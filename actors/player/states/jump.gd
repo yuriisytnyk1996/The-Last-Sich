@@ -5,7 +5,7 @@ var _jump_cut := false
 
 func enter(_previous_state: StringName) -> void:
 	_jump_cut = false
-	player.velocity.y = player.jump_velocity
+	player.velocity.y = player.get_jump_velocity()
 	player.consume_jump()
 
 

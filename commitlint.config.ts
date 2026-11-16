@@ -13,6 +13,7 @@ export default {
         'bosses',
         'combat',
         'rooms',
+        'environment',
         'ui',
         'input',
         'rendering',

@@ -7,7 +7,7 @@ Spirit is a resource the player builds up by fighting. The [ranged bolt](/system
 `PlayerSpirit` (`actors/player/abilities/spirit.gd`) lives on the player.
 
 1. On `_ready()` it connects to `hit_landed` on every `Hitbox` under the player (the attack swings and the riposte).
-2. Each landed hit adds `per_hit × gain_factor`, times `heavy_multiplier` for a hit with a `HEAVY` reaction (the riposte). Hits on the training dummy count too.
+2. Each landed hit adds `per_hit × gain_factor`, times `heavy_multiplier` for a hit with a `HEAVY` reaction (the riposte). Hits on the training dummy count too. Hits on a hurtbox with `rewards_attacker` off (crates, cracked walls, see [Environment](/systems/environment#breakables)) don't.
 3. Spirit never goes past `get_max()`, which is `full_max × max_factor`.
 4. Every change goes out as `Events.player_spirit_changed(current, maximum, full_maximum)`. The HUD's `SpiritBar` draws it, with the part death marks take away shown as locked.
 

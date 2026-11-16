@@ -11,6 +11,7 @@ signal zone_changed(zone: String)
 const ZONE_COLORS := {
 	"Steppe": Color(0.42, 0.36, 0.2),
 	"Caves": Color(0.26, 0.3, 0.38),
+	"Works": Color(0.4, 0.27, 0.22),
 }
 const DEFAULT_ZONE_COLOR := Color(0.35, 0.35, 0.35)
 const BACKGROUND := Color(0.05, 0.04, 0.07)

@@ -77,6 +77,7 @@ var _dash_cooldown_timer := 0.0
 @onready var safe_ground: PlayerSafeGround = $SafeGround
 @onready var spirit: PlayerSpirit = $Spirit
 @onready var skills: PlayerSkills = $Skills
+@onready var area_effects: PlayerAreaEffects = $AreaEffects
 
 
 func _physics_process(delta: float) -> void:
@@ -118,13 +119,22 @@ func apply_gravity(delta: float) -> void:
 	velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
 
 
+## Runs or drifts toward the input. Zones change it: mud slows the run,
+## wind adds its speed, so letting go carries the player along.
 func move_horizontally(delta: float, accel: float, decel: float) -> void:
 	var axis := get_move_axis()
+	var wind := area_effects.wind_speed()
 	if axis != 0.0:
-		velocity.x = move_toward(velocity.x, axis * run_speed, accel * delta)
+		var target := axis * run_speed * area_effects.speed_factor() + wind
+		velocity.x = move_toward(velocity.x, target, accel * delta)
 		set_facing(axis)
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, decel * delta)
+		velocity.x = move_toward(velocity.x, wind, decel * delta)
+
+
+## Launch speed of a jump. Mud lowers it.
+func get_jump_velocity() -> float:
+	return jump_velocity * sqrt(area_effects.jump_factor())
 
 
 func wants_jump() -> bool:

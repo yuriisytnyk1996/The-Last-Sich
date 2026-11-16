@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/breakables/breakable.gd" id="1_breakable"]
+[ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="2_hurtbox"]
+[ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="3_feedback"]
+
+[sub_resource type="RectangleShape2D" id="shape_wall"]
+size = Vector2(16, 48)
+
+[sub_resource type="RectangleShape2D" id="shape_hurt"]
+size = Vector2(20, 48)
+
+[node name="BreakableWall" type="Node2D"]
+script = ExtResource("1_breakable")
+hits = 3
+stays_broken = true
+break_shake = 0.4
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Stone" type="ColorRect" parent="Visual"]
+offset_left = -8.0
+offset_top = -48.0
+offset_right = 8.0
+mouse_filter = 2
+color = Color(0.32, 0.3, 0.3, 1)
+
+[node name="Crack" type="ColorRect" parent="Visual"]
+offset_left = -1.0
+offset_top = -40.0
+offset_right = 1.0
+offset_bottom = -12.0
+mouse_filter = 2
+color = Color(0.15, 0.14, 0.14, 1)
+
+[node name="Body" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Body"]
+position = Vector2(0, -24)
+shape = SubResource("shape_wall")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("2_hurtbox")
+rewards_attacker = false
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -24)
+shape = SubResource("shape_hurt")
+
+[node name="HurtFeedback" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "flash_target")]
+script = ExtResource("3_feedback")
+hurtbox = NodePath("../Hurtbox")
+flash_target = NodePath("../Visual")
+hit_stop = 0.05
+shake = 0.15

@@ -14,6 +14,9 @@ signal parried(hitbox: Hitbox)
 @export var health: Health
 ## Seconds of immunity after a hit. 0 means every new hit counts.
 @export var invincibility_time := 0.0
+## Off for props (crates, cracked walls): hits on them don't reward the
+## attacker, so they fill no spirit.
+@export var rewards_attacker := true
 
 ## While on, `parryable` hitboxes are deflected instead of landing, even
 ## during invincibility. Other hitboxes hit as usual.

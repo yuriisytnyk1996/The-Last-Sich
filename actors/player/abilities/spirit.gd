@@ -58,7 +58,9 @@ func spend(amount: float) -> bool:
 	return true
 
 
-func _on_hit_landed(_hurtbox: Hurtbox, hitbox: Hitbox) -> void:
+func _on_hit_landed(hurtbox: Hurtbox, hitbox: Hitbox) -> void:
+	if not hurtbox.rewards_attacker:
+		return
 	var amount := per_hit * gain_factor
 	if hitbox.reaction == Hitbox.Reaction.HEAVY:
 		amount *= heavy_multiplier
