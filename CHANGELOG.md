@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.9](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.8...v0.0.9) (2026-11-16)
+
+### Features
+
+* **stats:** add named stats with modifiers and a 100-point health scale ([b86129d](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/b86129d93e717060b07bedf7e7537c642e91e8c7))
+
 ## [0.0.8](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.7...v0.0.8) (2026-11-16)
 
 ### Features
