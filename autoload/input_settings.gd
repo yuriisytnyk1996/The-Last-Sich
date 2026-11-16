@@ -23,6 +23,7 @@ const ACTIONS: Array[StringName] = [
 	&"heal",
 	&"interact",
 	&"ranged",
+	&"map",
 ]
 ## Keys that keep their job: back / pause, fullscreen and the debug keys
 ## (save reset, unlock all skills).
