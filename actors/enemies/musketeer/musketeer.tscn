@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://actors/enemies/musketeer/musketeer.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://actors/enemies/enemy.gd" id="1_enemy"]
 [ext_resource type="Script" path="res://components/combat/hitbox.gd" id="2_hitbox"]
 [ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="3_hurtbox"]
 [ext_resource type="Script" path="res://components/combat/health.gd" id="4_health"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://actors/enemies/enemy_damage.gd" id="6_damage"]
 [ext_resource type="Script" path="res://components/state_machine/state_machine.gd" id="7_fsm"]
 [ext_resource type="Script" path="res://actors/enemies/states/patrol.gd" id="8_patrol"]
-[ext_resource type="Script" path="res://actors/enemies/musketeer/states/keep_distance.gd" id="9_keep"]
+[ext_resource type="Script" path="res://actors/enemies/musketeer/states/hold_range.gd" id="9_hold"]
 [ext_resource type="Script" path="res://actors/enemies/musketeer/states/musket_shot.gd" id="10_shot"]
 [ext_resource type="Script" path="res://actors/enemies/states/hurt.gd" id="11_hurt"]
 [ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="12_dead"]
@@ -95,11 +95,6 @@ position = Vector2(10, -4)
 target_position = Vector2(0, 12)
 collision_mask = 65
 
-[node name="BackProbe" type="RayCast2D" parent="Visual"]
-position = Vector2(-10, -4)
-target_position = Vector2(0, 12)
-collision_mask = 65
-
 [node name="SightRay" type="RayCast2D" parent="Visual"]
 position = Vector2(4, -22)
 enabled = false
@@ -153,8 +148,9 @@ initial_state = NodePath("Patrol")
 [node name="Patrol" type="Node" parent="StateMachine"]
 script = ExtResource("8_patrol")
 
-[node name="Chase" type="Node" parent="StateMachine"]
-script = ExtResource("9_keep")
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("shot")]
+script = ExtResource("9_hold")
+shot = NodePath("../Attack")
 
 [node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("telegraph", "muzzle", "aim_pivot")]
 script = ExtResource("10_shot")

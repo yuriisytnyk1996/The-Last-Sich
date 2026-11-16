@@ -3,7 +3,7 @@
 Enemies share one base class (`Enemy`), one damage handler (`EnemyDamage`) and a set of shared states. A specific enemy is a scene that wires these together and adds its own attack. There are two so far:
 
 - **Raider:** a melee grunt that patrols, chases the player and swings a saber.
-- **Musketeer:** a ranged enemy that keeps its distance, aims and fires a musket ball, then reloads. See [Musketeer](#musketeer).
+- **Musketeer:** a ranged enemy that stands its ground, aims and fires a musket ball, then reloads. See [Musketeer](#musketeer).
 
 ## How it works
 
@@ -116,19 +116,20 @@ An enemy with `stays_dead` off comes back every time its room loads. Use it for 
 
 ## Musketeer
 
-A ranged enemy that wants to keep the player at musket range. Its root script is `Musketeer` (extends `Enemy`, adds the retreat tuning), and it replaces two shared states with its own: `KeepDistance` as its `Chase`, and `MusketShot` as its `Attack`. Patrol, Hurt, Stunned and Dead are shared.
+A ranged enemy that plants itself and makes the player come to it. It uses the shared `Enemy` root script and replaces two shared states with its own: `HoldRange` as its `Chase`, and `MusketShot` as its `Attack`. Patrol, Hurt, Stunned and Dead are shared.
 
 ```
-Chase (KeepDistance) ──in range, sees player, off cooldown, on floor──► Attack (MusketShot)
-  too close: back away facing the player (not off a ledge or into a wall)
-  too far: walk closer
-  in range: stand
+Chase (HoldRange) ──can aim, off cooldown, on floor──► Attack (MusketShot)
+  can aim: stand
+  out of range: walk closer (not off a ledge)
+  neither: stand facing the player, give up after give_up_time
 ```
 
-1. **Keeping distance.** Closer than `retreat_range`, it backs away at `retreat_speed`, slower than the player runs, still facing them. A `BackProbe` raycast behind it stops it at ledges, as `FloorProbe` does in front. Cornered against a wall or a ledge, it stands and fires at point-blank range. It doesn't back away from a player on another level.
-2. **Firing.** In `attack_range`, with a clear line of sight, off cooldown and on the floor, it starts `MusketShot`. Giving up works like the shared Chase.
-3. **Aiming.** Through the wind-up the aim line (`AimPivot`, the telegraph) follows the player's body, up to `max_aim_angle` above or below straight ahead. For the last `aim_lock` seconds it freezes. Then the ball leaves the `Muzzle` along the line.
-4. **Reload.** The long recovery is the opening: close in while it reloads. It has 2 health and no melee attack, only contact damage.
+1. **Closing in.** Out of `attack_range`, on its level and with nothing in the way, it walks closer. It never backs away: a player who reaches it gets an easy kill (2 health, no melee attack, only contact damage).
+2. **Can it aim?** `MusketShot.can_aim()`: the player is in `attack_range`, in [sight](#line-of-sight), in front, and within `max_aim_angle` of straight ahead from the `Muzzle`. When it can, it stands and fires whenever it's on the floor and off cooldown, at point-blank range too.
+3. **Stuck.** A player it can't aim at and can't walk closer to (right under its ledge, up on a platform, behind cover) leaves it standing and facing them. After `give_up_time` it turns away and patrols, like the shared Chase. It also gives up when the player is further than `lose_range` or out of sight for `lose_sight_time`.
+4. **Aiming.** Through the wind-up the aim line (`AimPivot`, the telegraph) follows the player's body, clamped to `max_aim_angle`. For the last `aim_lock` seconds it freezes. Then the ball leaves the `Muzzle` along the line.
+5. **Reload.** The long recovery is the opening: close in while it reloads.
 
 A hit during the wind-up interrupts the shot, like any enemy attack. A musketeer on a raised block can't see a player standing close to the foot of the block (the block's edge blocks the sight ray), so it walks to the edge and shoots down.
 
@@ -157,17 +158,16 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 The musketeer has the same layout, with these differences:
 
 ```
-Musketeer (CharacterBody2D, Musketeer)
+Musketeer (CharacterBody2D, Enemy)
 ├── Visual
 │   ├── AimPivot             (14, -18), rotated to aim, telegraph
 │   │   └── AimLine          thin 80 px line
 │   ├── Barrel               placeholder rectangle
-│   ├── Muzzle (Marker2D)    (14, -18), where the ball leaves
-│   └── BackProbe (RayCast2D) (-10, -4) → 12 px down, ledge check behind
+│   └── Muzzle (Marker2D)    (14, -18), where the ball leaves
 │                            (no Attacks node)
 ├── Health                   max_health 2
 └── StateMachine
-    ├── Chase                KeepDistance
+    ├── Chase                HoldRange, shot: Attack
     └── Attack               MusketShot
 ```
 
@@ -191,10 +191,9 @@ Musketeer (CharacterBody2D, Musketeer)
 | `actors/enemies/raider/states/saber_slash.gd` | Raider attack: forward lunge while the blade is out |
 | `actors/enemies/attacks/enemy_projectile.gd` | `EnemyProjectile`: a shot that flies straight and ends on a hit or a wall |
 | `actors/enemies/musketeer/musketeer.tscn` | Musketeer scene |
-| `actors/enemies/musketeer/musketeer.gd` | `Musketeer`: retreat tuning, `retreat()`, `is_retreat_blocked()`, `is_target_too_close()` |
 | `actors/enemies/musketeer/musket_ball.tscn` | The musket ball |
-| `actors/enemies/musketeer/states/keep_distance.gd` | Musketeer's Chase: back off, close in, fire |
-| `actors/enemies/musketeer/states/musket_shot.gd` | Musketeer's attack: aim, fire, reload |
+| `actors/enemies/musketeer/states/hold_range.gd` | Musketeer's Chase: close in, stand and fire, never back away |
+| `actors/enemies/musketeer/states/musket_shot.gd` | `MusketShot`: aim, fire, reload; `can_aim()` |
 
 ## Tuning
 
@@ -269,8 +268,6 @@ Set on the musketeer's root node, attack node and ball. Values that differ from 
 | Root | `lose_range` | 260 | |
 | Root | `lose_sight_time` | 2.0 | |
 | Root | `attack_range` | 180 | Fires from this far |
-| Root | `retreat_range` | 64 | Closer than this, it backs away (px) |
-| Root | `retreat_speed` | 45 | Backing-away speed (px/s) |
 | Health | `max_health` | 2 | |
 | Damage | `currency_reward` | 15 | |
 | Attack | `startup` | 0.7 | Aiming time (s) |

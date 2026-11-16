@@ -114,11 +114,10 @@ The-Last-Sich/
 │   │   │   └── states/
 │   │   │       └── saber_slash.gd   Lunging forward cut
 │   │   └── musketeer/
-│   │       ├── musketeer.tscn    Ranged enemy that keeps its distance
-│   │       ├── musketeer.gd      Retreat tuning and helpers
+│   │       ├── musketeer.tscn    Ranged enemy that stands and shoots
 │   │       ├── musket_ball.tscn  The shot
 │   │       └── states/
-│   │           ├── keep_distance.gd   Its Chase: back off, close in, fire
+│   │           ├── hold_range.gd      Its Chase: close in, stand and fire
 │   │           └── musket_shot.gd     Aim, fire, reload
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks

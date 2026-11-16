@@ -1,3 +1,4 @@
+class_name MusketShot
 extends EnemyAttackState
 ## Aims the musket at the player, fires one ball, then a long reload.
 ##
@@ -20,6 +21,14 @@ extends EnemyAttackState
 
 ## Aim in Visual's space: x always points ahead.
 var _local_aim := Vector2.RIGHT
+
+
+## The player is in range, in sight, in front and within the aim angle.
+func can_aim() -> bool:
+	if not (enemy.is_target_in_attack_range() and enemy.can_see_target()):
+		return false
+	var local := _local_offset()
+	return local.x > 0.0 and absf(local.angle()) <= deg_to_rad(max_aim_angle)
 
 
 func enter(previous_state: StringName) -> void:
@@ -46,9 +55,14 @@ func _on_active() -> void:
 func _follow_target() -> void:
 	if not enemy.can_track_target():
 		return
-	var to_target := enemy.target_point() - muzzle.global_position
-	var local := Vector2(to_target.x * enemy.facing, to_target.y)
+	var local := _local_offset()
 	var limit := deg_to_rad(max_aim_angle)
 	var angle := clampf(local.angle(), -limit, limit) if local.x > 0.0 else 0.0
 	_local_aim = Vector2.from_angle(angle)
 	aim_pivot.rotation = angle
+
+
+## Muzzle to the player's body, in Visual's space (x points ahead).
+func _local_offset() -> Vector2:
+	var to_target := enemy.target_point() - muzzle.global_position
+	return Vector2(to_target.x * enemy.facing, to_target.y)

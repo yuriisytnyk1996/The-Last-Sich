@@ -67,7 +67,7 @@
 - [x] Dive: down + hold attack in the air to plunge and hit around the landing; wider landing, then a shockwave from high up
 - [x] Ranged bolt: a new `ranged` button throws a bolt for spirit; it returns, then bursts at the turn
 - [x] World map: rooms placed on a grid of map cells, cells revealed as the player walks through them and saved; walls with door gaps from room exits, zone colours, marks for rest points, shrines, inner doors and death marks; opened from the pause menu or with M / Back, pan and two zoom levels
-- [x] Second enemy, the musketeer: keeps its distance (backs away unless cornered), aims at the player with a visible aim line that freezes just before the shot, fires a musket ball that can't be parried, then a long reload. Shared `EnemyProjectile` for enemy shots
+- [x] Second enemy, the musketeer: closes in to musket range and plants itself (never backs away), fires only when it can aim at the player, aims with a visible aim line that freezes just before the shot, fires a musket ball that can't be parried, then a long reload. Shared `EnemyProjectile` for enemy shots
 
 ## Next
 
