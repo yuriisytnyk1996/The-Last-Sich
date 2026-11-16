@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.10](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.9...v0.0.10) (2026-11-16)
+
+### Features
+
+* **inventory:** add items, equipment slots, item effects and pickups ([7ab7f78](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/7ab7f78861096516b1712cb91e43e0914c809df8))
+* **inventory:** rework the inventory page into tabs, slots, grid and details ([0d218f7](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/0d218f721269c47ee4b8ada363a60af4fdebe99a))
+* **shops:** add shop stands that sell items for currency ([d11d3d5](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/d11d3d515e8e715fe931f024e8b45038751c1623))
+
 ## [0.0.9](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.8...v0.0.9) (2026-11-16)
 
 ### Features
