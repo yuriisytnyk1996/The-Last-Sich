@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" path="res://actors/training_dummy/training_dummy.tscn" id="5_dummy"]
 [ext_resource type="PackedScene" path="res://actors/enemies/raider/raider.tscn" id="8_raider"]
+[ext_resource type="PackedScene" path="res://actors/enemies/musketeer/musketeer.tscn" id="9_musketeer"]
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="10_exit"]
 [ext_resource type="PackedScene" path="res://levels/objects/door.tscn" id="11_door"]
 [ext_resource type="PackedScene" path="res://levels/objects/tier_relic.tscn" id="90_relic"]
@@ -47,6 +48,9 @@ position = Vector2(1180, 320)
 
 [node name="RaiderLedge" parent="Enemies" instance=ExtResource("8_raider")]
 position = Vector2(1072, 256)
+
+[node name="Musketeer" parent="Enemies" instance=ExtResource("9_musketeer")]
+position = Vector2(944, 288)
 
 [node name="TierRelic" parent="." instance=ExtResource("90_relic")]
 position = Vector2(260, 320)

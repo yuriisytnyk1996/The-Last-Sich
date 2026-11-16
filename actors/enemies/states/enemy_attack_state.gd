@@ -1,8 +1,9 @@
 class_name EnemyAttackState
 extends EnemyState
-## Shared timing for enemy melee attacks: a readable wind-up with a
-## telegraph, the active window (hitbox on), then recovery. Subclasses
-## override `move()` to decide how the enemy moves during the attack.
+## Shared timing for enemy attacks: a readable wind-up with a telegraph,
+## the active window (hitbox on), then recovery. Subclasses override
+## `move()` to decide how the enemy moves during the attack, and
+## `_on_active()` to do something when the wind-up ends (fire a shot).
 ##
 ## A hit during the wind-up interrupts the attack. Once the hitbox is out
 ## the attack is committed: hits still deal damage but don't stagger.
@@ -10,7 +11,8 @@ extends EnemyState
 
 enum Phase { STARTUP, ACTIVE, RECOVERY }
 
-## The hitbox this attack turns on, under Visual/Attacks.
+## The hitbox this attack turns on, under Visual/Attacks. Optional: a
+## ranged attack spawns its projectile in `_on_active()` instead.
 @export var hitbox: Hitbox
 ## Shown during the wind-up so the player can read the attack. Optional.
 @export var telegraph: CanvasItem
@@ -26,7 +28,8 @@ var _time_left := 0.0
 
 
 func _ready() -> void:
-	hitbox.parried.connect(_on_parried)
+	if hitbox:
+		hitbox.parried.connect(_on_parried)
 
 
 func enter(_previous_state: StringName) -> void:
@@ -38,7 +41,7 @@ func enter(_previous_state: StringName) -> void:
 
 func exit() -> void:
 	# Also runs when the attack is interrupted by a hit or a reset.
-	hitbox.set_active(false)
+	_set_hitbox_active(false)
 	_show_telegraph(false)
 	enemy.start_attack_cooldown(cooldown)
 
@@ -66,16 +69,27 @@ func _next_phase() -> void:
 	match _phase:
 		Phase.STARTUP:
 			_show_telegraph(false)
-			hitbox.set_active(true)
+			_set_hitbox_active(true)
 			_phase = Phase.ACTIVE
 			_time_left = active
+			_on_active()
 		Phase.ACTIVE:
-			hitbox.set_active(false)
+			_set_hitbox_active(false)
 			_phase = Phase.RECOVERY
 			_time_left = recovery
 		Phase.RECOVERY:
 			enemy.damage.reset_poise()
 			finished.emit(alert_state())
+
+
+## Runs once when the wind-up ends and the active window starts.
+func _on_active() -> void:
+	pass
+
+
+func _set_hitbox_active(value: bool) -> void:
+	if hitbox:
+		hitbox.set_active(value)
 
 
 func _on_parried(hurtbox: Hurtbox) -> void:

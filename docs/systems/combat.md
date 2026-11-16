@@ -156,7 +156,7 @@ Idle / Run ──parry──► Parry: GUARD (parry_window)
 
 A guard that catches nothing leaves the player stuck in place for `fail_recovery`, open to the attack they mistimed. That is the cost of parrying: pressing too early is punished as much as not pressing at all.
 
-**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and (later) projectiles are not, and still hit during the guard. The raider's `Slash` is parryable.
+**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and projectiles (the musketeer's ball) are not, and still hit during the guard. The raider's `Slash` is parryable.
 
 The parry check runs before the invincibility check, so a guard raised while still blinking from an earlier hit can still parry.
 
@@ -273,7 +273,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `flash_time` | 0.12 | Fade back from the flash (s) |
 | `hit_stop` | 0 | Freeze length (s) at NORMAL. Player 0.1, dummy 0.05 |
 | `shake` | 0 | Camera trauma at NORMAL (0 to 1). Player 0.6, dummy 0.3 |
-| `rumble` | 0 | Gamepad rumble strength at NORMAL (0 to 1). Player 0.8, raider and dummy 0.3 |
+| `rumble` | 0 | Gamepad rumble strength at NORMAL (0 to 1). Player 0.8, raider, musketeer and dummy 0.3 |
 | `rumble_time` | 0.15 | Rumble length (s) at NORMAL |
 
 ### InvincibilityBlink

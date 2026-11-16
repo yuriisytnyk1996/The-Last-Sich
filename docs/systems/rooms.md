@@ -165,6 +165,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - A step block on the right side with a high ledge 2 tiles above it
 - Spikes (red, 40 px wide) on the right ground, under `Hazards`: instant death when stepped in, easy to jump over. See [Combat](/systems/combat#spikes)
 - Two raiders under `Enemies`: `RaiderGround` patrols the right ground between the step and the right wall, `RaiderLedge` patrols the high ledge and shows ledge turning. See [Enemies](/systems/enemies)
+- A musketeer under `Enemies` on the raised block right of the pit (x 832 to 960), shooting down at the floor and across the pit
 
 ## Test cave layout
 

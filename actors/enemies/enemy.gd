@@ -134,6 +134,11 @@ func is_target_in_attack_range() -> bool:
 	return absf(offset.x) <= attack_range and _target_level(offset)
 
 
+## The point on the player's body that the sight ray and aimed shots go for.
+func target_point() -> Vector2:
+	return _target.global_position + Vector2.UP * target_height
+
+
 ## Turns to the player at most once per `turn_delay`, so no flip-flopping.
 func face_target() -> void:
 	if not _has_live_target() or _turn_cooldown > 0.0:
@@ -187,8 +192,7 @@ func _target_offset() -> Vector2:
 ## Casts `SightRay` from the eye to the player's body. Only solid terrain
 ## blocks it: one-way platforms don't.
 func _has_line_of_sight() -> bool:
-	var aim := _target.global_position + Vector2.UP * target_height
-	sight_ray.target_position = sight_ray.to_local(aim)
+	sight_ray.target_position = sight_ray.to_local(target_point())
 	sight_ray.force_raycast_update()
 	return not sight_ray.is_colliding()
 

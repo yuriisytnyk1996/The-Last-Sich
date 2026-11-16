@@ -1,6 +1,9 @@
 # Enemies
 
-Enemies share one base class (`Enemy`), one damage handler (`EnemyDamage`) and a set of shared states. A specific enemy is a scene that wires these together and adds its own attack. The first enemy is the **raider**: a melee grunt that patrols, chases the player and swings a saber.
+Enemies share one base class (`Enemy`), one damage handler (`EnemyDamage`) and a set of shared states. A specific enemy is a scene that wires these together and adds its own attack. There are two so far:
+
+- **Raider:** a melee grunt that patrols, chases the player and swings a saber.
+- **Musketeer:** a ranged enemy that keeps its distance, aims and fires a musket ball, then reloads. See [Musketeer](#musketeer).
 
 ## How it works
 
@@ -45,7 +48,11 @@ Enemy attacks extend `EnemyAttackState`, which runs the same three phases as pla
 | Active | `active` | The hitbox is on. The attack is committed: hits still deal damage but no longer stagger |
 | Recovery | `recovery` | The opening to punish |
 
-When the state ends, for any reason, the hitbox turns off and the `cooldown` starts. Subclasses override `move()` to decide how the enemy moves during the attack. The raider's `SaberSlash` lunges forward at `lunge_speed` while the blade is out, and never off a ledge.
+When the state ends, for any reason, the hitbox turns off and the `cooldown` starts. Subclasses override `move()` to decide how the enemy moves during the attack, and `_on_active()` to act once when the wind-up ends. The raider's `SaberSlash` lunges forward at `lunge_speed` while the blade is out, and never off a ledge. The `hitbox` is optional: the musketeer's `MusketShot` has none and fires a projectile from `_on_active()` instead.
+
+### Projectiles
+
+`EnemyProjectile` (`actors/enemies/attacks/`) is a `Hitbox` that flies. `launch(from, direction)` places it and turns it to face the direction, then it flies in a straight line at `speed`. It vanishes on its first hit, on a wall, after `lifetime`, or on a room change. Its mask is `world` only, so it flies through one-way platforms. It is added next to the enemy that fired it, so it keeps flying if the enemy dies. Projectiles are never `parryable`: the player jumps over them or gets out of the way.
 
 ### Contact damage
 
@@ -81,7 +88,7 @@ An attack whose hitbox is `parryable` can be [parried](/systems/combat#parry-and
 2. It stands helpless for `stun_time`, with a placeholder `StunMark` above its head. Poise is restored, so any hit staggers it, and the player's riposte lands in full.
 3. Afterwards it goes back to Chase or Patrol, like after Hurt.
 
-Only the raider's `Slash` is parryable so far. Contact damage never is.
+Only the raider's `Slash` is parryable so far. Contact damage and projectiles never are.
 
 ### Finding the player
 
@@ -107,6 +114,24 @@ An enemy with `stays_dead` off comes back every time its room loads. Use it for 
 
 `reset()` sends every enemy back to its spawn point and `start_facing` with full health, patrolling, dead or not.
 
+## Musketeer
+
+A ranged enemy that wants to keep the player at musket range. Its root script is `Musketeer` (extends `Enemy`, adds the retreat tuning), and it replaces two shared states with its own: `KeepDistance` as its `Chase`, and `MusketShot` as its `Attack`. Patrol, Hurt, Stunned and Dead are shared.
+
+```
+Chase (KeepDistance) ──in range, sees player, off cooldown, on floor──► Attack (MusketShot)
+  too close: back away facing the player (not off a ledge or into a wall)
+  too far: walk closer
+  in range: stand
+```
+
+1. **Keeping distance.** Closer than `retreat_range`, it backs away at `retreat_speed`, slower than the player runs, still facing them. A `BackProbe` raycast behind it stops it at ledges, as `FloorProbe` does in front. Cornered against a wall or a ledge, it stands and fires at point-blank range. It doesn't back away from a player on another level.
+2. **Firing.** In `attack_range`, with a clear line of sight, off cooldown and on the floor, it starts `MusketShot`. Giving up works like the shared Chase.
+3. **Aiming.** Through the wind-up the aim line (`AimPivot`, the telegraph) follows the player's body, up to `max_aim_angle` above or below straight ahead. For the last `aim_lock` seconds it freezes. Then the ball leaves the `Muzzle` along the line.
+4. **Reload.** The long recovery is the opening: close in while it reloads. It has 2 health and no melee attack, only contact damage.
+
+A hit during the wind-up interrupts the shot, like any enemy attack. A musketeer on a raised block can't see a player standing close to the foot of the block (the block's edge blocks the sight ray), so it walks to the edge and shoots down.
+
 ## Scene layout
 
 ```
@@ -129,6 +154,25 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
     └── Attack                      SaberSlash
 ```
 
+The musketeer has the same layout, with these differences:
+
+```
+Musketeer (CharacterBody2D, Musketeer)
+├── Visual
+│   ├── AimPivot             (14, -18), rotated to aim, telegraph
+│   │   └── AimLine          thin 80 px line
+│   ├── Barrel               placeholder rectangle
+│   ├── Muzzle (Marker2D)    (14, -18), where the ball leaves
+│   └── BackProbe (RayCast2D) (-10, -4) → 12 px down, ledge check behind
+│                            (no Attacks node)
+├── Health                   max_health 2
+└── StateMachine
+    ├── Chase                KeepDistance
+    └── Attack               MusketShot
+```
+
+`musket_ball.tscn` is an `EnemyProjectile` on `enemy_attacks`, mask `world`, 6×4, 1 damage, 120 knockback along its flight.
+
 ## Files
 
 | File | Role |
@@ -145,6 +189,12 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 | `actors/enemies/states/enemy_attack_state.gd` | `EnemyAttackState`: telegraphed startup, active, recovery, cooldown |
 | `actors/enemies/raider/raider.tscn` | Raider scene |
 | `actors/enemies/raider/states/saber_slash.gd` | Raider attack: forward lunge while the blade is out |
+| `actors/enemies/attacks/enemy_projectile.gd` | `EnemyProjectile`: a shot that flies straight and ends on a hit or a wall |
+| `actors/enemies/musketeer/musketeer.tscn` | Musketeer scene |
+| `actors/enemies/musketeer/musketeer.gd` | `Musketeer`: retreat tuning, `retreat()`, `is_retreat_blocked()`, `is_target_too_close()` |
+| `actors/enemies/musketeer/musket_ball.tscn` | The musket ball |
+| `actors/enemies/musketeer/states/keep_distance.gd` | Musketeer's Chase: back off, close in, fire |
+| `actors/enemies/musketeer/states/musket_shot.gd` | Musketeer's attack: aim, fire, reload |
 
 ## Tuning
 
@@ -206,6 +256,32 @@ Set on the attack state node.
 
 The slash and contact hitboxes use the `Hitbox` defaults: 1 damage, NORMAL reaction. The slash has `parryable` on.
 
+### Musketeer
+
+Set on the musketeer's root node, attack node and ball. Values that differ from the raider:
+
+| Node | Value | Musketeer | Effect |
+|---|---|---|---|
+| Root | `patrol_speed` | 25 | |
+| Root | `chase_speed` | 50 | Speed when closing in |
+| Root | `sight_range` | 200 | |
+| Root | `sight_height` | 64 | Sees and shoots players up to 4 tiles above or below |
+| Root | `lose_range` | 260 | |
+| Root | `lose_sight_time` | 2.0 | |
+| Root | `attack_range` | 180 | Fires from this far |
+| Root | `retreat_range` | 64 | Closer than this, it backs away (px) |
+| Root | `retreat_speed` | 45 | Backing-away speed (px/s) |
+| Health | `max_health` | 2 | |
+| Damage | `currency_reward` | 15 | |
+| Attack | `startup` | 0.7 | Aiming time (s) |
+| Attack | `active` | 0.1 | |
+| Attack | `recovery` | 1.2 | Reload, the opening to punish (s) |
+| Attack | `cooldown` | 0.8 | |
+| Attack | `aim_lock` | 0.2 | The aim freezes this long before the shot (s) |
+| Attack | `max_aim_angle` | 35 | Furthest it aims up or down from straight ahead (degrees) |
+| Ball | `speed` | 260 | Flight speed (px/s), `EnemyProjectile` default |
+| Ball | `lifetime` | 1.5 | Vanishes after this if it hits nothing (s), `EnemyProjectile` default |
+
 The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stunned).
 
 ## Extending
@@ -214,7 +290,9 @@ The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stun
 
 **A different attack movement:** override `move(delta)` in the attack subclass. Read `_phase` to move differently per phase.
 
-**A new behaviour (ranged attack, flying, guarding):** add a state script in the enemy's own `states/` folder and a node for it under `StateMachine`. If two enemies need it, move it up to `actors/enemies/states/`. If the enemy needs extra data or helpers, give it a root script that extends `Enemy`.
+**A ranged attack:** extend `EnemyAttackState`, leave `hitbox` empty and spawn an `EnemyProjectile` scene in `_on_active()`, as `MusketShot` does.
+
+**A new behaviour (flying, guarding):** add a state script in the enemy's own `states/` folder and a node for it under `StateMachine`. If two enemies need it, move it up to `actors/enemies/states/`. If the enemy needs extra data or helpers, give it a root script that extends `Enemy`.
 
 **An enemy that ignores staggers:** set `max_staggers` to 0 on its `Damage` node, or override `can_be_staggered()` in its states.
 
@@ -222,7 +300,8 @@ The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stun
 
 - Sight is a single ray to the player's mid-body. A player whose head pokes over a wall, with the middle of the body hidden, isn't seen.
 - A chasing enemy doesn't search for the player: when sight is lost it keeps running at the player's position until `lose_sight_time` runs out.
-- Enemies don't jump, drop down or climb. A player standing on a step or ledge they can't reach is safe from melee.
+- Enemies don't jump, drop down or climb. A player standing on a step or ledge they can't reach is safe from melee, but not from a musketeer.
+- The musket ball flies straight, aimed at where the player was when the aim froze. It doesn't lead a moving target.
 - Several enemies overlap freely because enemy bodies don't collide with each other.
 - One attack per enemy. Enemies with several attacks will need a state that picks between them.
-- Placeholder rectangles for the body, the glint and the slash. No animations.
+- Placeholder rectangles for the body, the glint, the slash, the barrel, the aim line and the ball. No animations.

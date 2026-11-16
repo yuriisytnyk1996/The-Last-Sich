@@ -100,6 +100,8 @@ The-Last-Sich/
 │   │   ├── enemy.gd              Shared enemy base: tuning, movement and sensing helpers
 │   │   ├── enemy_damage.gd       Enemy hit reactions, hurt and death tuning
 │   │   ├── enemy_state.gd        Base class for enemy states
+│   │   ├── attacks/
+│   │   │   └── enemy_projectile.gd   Shared flying shot: straight line, ends on a hit or a wall
 │   │   ├── states/               States shared by every enemy
 │   │   │   ├── patrol.gd
 │   │   │   ├── chase.gd
@@ -107,10 +109,17 @@ The-Last-Sich/
 │   │   │   ├── stunned.gd        Helpless after a parried attack
 │   │   │   ├── dead.gd
 │   │   │   └── enemy_attack_state.gd   Shared telegraphed attack timing
-│   │   └── raider/
-│   │       ├── raider.tscn       Melee grunt
+│   │   ├── raider/
+│   │   │   ├── raider.tscn       Melee grunt
+│   │   │   └── states/
+│   │   │       └── saber_slash.gd   Lunging forward cut
+│   │   └── musketeer/
+│   │       ├── musketeer.tscn    Ranged enemy that keeps its distance
+│   │       ├── musketeer.gd      Retreat tuning and helpers
+│   │       ├── musket_ball.tscn  The shot
 │   │       └── states/
-│   │           └── saber_slash.gd   Lunging forward cut
+│   │           ├── keep_distance.gd   Its Chase: back off, close in, fire
+│   │           └── musket_shot.gd     Aim, fire, reload
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
