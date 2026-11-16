@@ -8,6 +8,7 @@
 [node name="TestHouse" type="Node2D"]
 script = ExtResource("1_room")
 bounds = Rect2i(0, 0, 640, 360)
+map_cell = Vector2i(-2, 0)
 
 [node name="Deco" parent="." instance=ExtResource("2_deco")]
 

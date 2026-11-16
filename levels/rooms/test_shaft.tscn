@@ -8,6 +8,8 @@
 [node name="TestShaft" type="Node2D"]
 script = ExtResource("1_room")
 bounds = Rect2i(0, 0, 960, 480)
+map_cell = Vector2i(4, 2)
+map_zone = "Caves"
 
 [node name="Deco" parent="." instance=ExtResource("2_deco")]
 

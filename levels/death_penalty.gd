@@ -76,6 +76,16 @@ func place_in(room: Room) -> void:
 		_markers.append(marker)
 
 
+## Every mark still waiting to be recovered, in every room. The world map
+## shows them. Each has "room" (scene path) and "spot" (Vector2).
+func get_shown_marks() -> Array[Dictionary]:
+	var shown: Array[Dictionary] = []
+	for mark in _marks.marks:
+		if not mark["is_linked"]:
+			shown.append({"room": mark["room"], "spot": DeathMarkList.spot_of(mark)})
+	return shown
+
+
 func get_save_data() -> Dictionary:
 	return _marks.to_data()
 

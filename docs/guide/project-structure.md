@@ -115,12 +115,15 @@ The-Last-Sich/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
-│   ├── world.tscn                Gameplay scene: player, HUD, screen fade, pause menu and the current room
+│   ├── world.tscn                Gameplay scene: player, HUD, world map, screen fade, pause menu and the current room
 │   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── killed_enemies.gd         Keeps killed enemies dead across rooms until the player rests or dies
 │   ├── death_penalty.gd          Death marks: leaves them on death, applies the penalty, recovers them, saved
 │   ├── death_mark_list.gd        The marks and their links, as plain data
+│   ├── map/
+│   │   ├── world_map.gd          World map data: scans rooms, reveals cells as the player walks, saved
+│   │   └── map_room.gd           One room on the map: cells, doors, marks
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
 │   │   ├── door.tscn             Door entered by pressing interact

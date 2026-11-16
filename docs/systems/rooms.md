@@ -124,6 +124,8 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | Value | Where | Default | Effect |
 |---|---|---|---|
 | `bounds` | `Room` | `Rect2i(0, 0, 1280, 360)` | Playable area and camera limits (px) |
+| `map_cell` | `Room` | `Vector2i(0, 0)` | Where the room sits on the [world map](/systems/map), in map cells |
+| `map_zone` | `Room` | `"Steppe"` | Zone name on the map |
 | `start_room` | `World` | `res://levels/rooms/test_room.tscn` | The room the game starts in |
 | `target_room` | `RoomExit` | empty | Room to load (an exit with no target does nothing) |
 | `target_exit` | `RoomExit` | empty | Name of the exit in `target_room` to arrive through |
@@ -187,6 +189,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 7. For a hole down to another room, leave a gap in the floor and add a 64×8 `RoomExit` just below it, with its `Landing` 12 px above the area. In the room below, add the matching exit just above an opening in the ceiling with its `Landing` 44 px below. Set `respawn_here` off on both, and `arrival_rise` on the floor exit if players can jump up into it. See [Vertical exits](#vertical-exits).
 8. For a ladder, add a `Ladder` node in `layout.tscn` with a plank tile at its top. See [Ladders](#ladders).
 9. For a door, instance `levels/objects/door.tscn` under `Exits`, on the ground, and set `target_room`, `target_exit` and `arrival_facing`.
+10. Place the room on the [world map](/systems/map): set `map_cell` so it touches the rooms its exits lead to, and `map_zone`.
 
 ## Planned
 

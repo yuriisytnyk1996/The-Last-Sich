@@ -14,6 +14,13 @@ extends Node2D
 ## The playable area. The camera never shows anything outside it.
 @export var bounds := Rect2i(0, 0, 1280, 360)
 
+@export_group("Map")
+## Where the top left corner of `bounds` sits on the world map, in map
+## cells (see `WorldMap.cell_size`). Rooms joined by an exit should touch.
+@export var map_cell := Vector2i.ZERO
+## The zone name shown on the map. It also picks the cells' colour.
+@export var map_zone := "Steppe"
+
 var player: Player
 var _respawn_position := Vector2.ZERO
 
