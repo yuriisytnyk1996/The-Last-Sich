@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.6](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.5...v0.0.6) (2026-11-16)
+
+### Features
+
+* **combat:** add parry and riposte ([e72f89d](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/e72f89d48002fc3ae608aa1b247091f221222ec4))
+* **enemies:** keep killed enemies dead until the player rests or dies ([b0c0622](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/b0c0622593117b58be6c14562e1ec543bab8cd79))
+* **levels:** add test room scene ([18ef277](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/18ef277e7703b494b93ca2c4cca694f635020f2d))
+
+### Refactoring
+
+* **rooms:** split rooms into Deco, Layout and Logic sub-scenes ([c93f23d](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/c93f23d02ddc7f6fe3173597772a71259ce90789))
+
 ## [0.0.5](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.4...v0.0.5) (2026-11-15)
 
 ### Features
