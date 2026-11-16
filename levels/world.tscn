@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="5_hud"]
 [ext_resource type="Script" path="res://ui/screen_fade.gd" id="6_fade"]
 [ext_resource type="Script" path="res://ui/menus/pause/pause_menu.gd" id="7_pause"]
+[ext_resource type="Script" path="res://levels/death_penalty.gd" id="8_penalty"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_world")
@@ -14,6 +15,10 @@ script = ExtResource("1_world")
 [node name="RoomHolder" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="DeathPenalty" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_penalty")
+player = NodePath("../Player")
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
 

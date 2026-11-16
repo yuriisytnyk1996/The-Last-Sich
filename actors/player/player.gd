@@ -1,10 +1,8 @@
 class_name Player
 extends CharacterBody2D
-## The player character.
-##
-## This script holds tuning values and shared helpers. The behaviour itself
-## (what happens when idle, running, jumping...) lives in the state nodes
-## under StateMachine, one small script per state.
+## The player character. This script holds tuning values and shared
+## helpers. The behaviour itself (what happens when idle, running,
+## jumping...) lives in the state nodes under StateMachine, one per state.
 
 ## Physics layer of one-way platforms, switched off while dropping through
 ## them or climbing a ladder.
@@ -75,6 +73,9 @@ var _dash_cooldown_timer := 0.0
 @onready var ladder_climb: PlayerLadderClimb = $LadderClimb
 @onready var flasks: PlayerFlasks = $Flasks
 @onready var parry: PlayerParry = $Parry
+@onready var wallet: PlayerWallet = $Wallet
+@onready var safe_ground: PlayerSafeGround = $SafeGround
+@onready var spirit: PlayerSpirit = $Spirit
 
 
 func _physics_process(delta: float) -> void:

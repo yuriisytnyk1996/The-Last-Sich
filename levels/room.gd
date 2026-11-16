@@ -69,6 +69,11 @@ func get_enemies() -> Array[Enemy]:
 	return enemies
 
 
+## Where the player comes back in this room when no rest point was used.
+func get_respawn_position() -> Vector2:
+	return _respawn_position
+
+
 func respawn_player() -> void:
 	player.respawn(_respawn_position)
 	get_tree().call_group(&"enemies", &"reset")

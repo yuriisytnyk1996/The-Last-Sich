@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" path="res://ui/hud/health_bar.gd" id="1_health_bar"]
 [ext_resource type="Script" path="res://ui/hud/flask_counter.gd" id="2_flasks"]
+[ext_resource type="Script" path="res://ui/hud/currency_counter.gd" id="3_currency"]
+[ext_resource type="Script" path="res://ui/hud/spirit_bar.gd" id="4_spirit"]
+[ext_resource type="Script" path="res://ui/hud/death_mark_counter.gd" id="5_marks"]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -13,10 +16,36 @@ offset_bottom = 14.0
 mouse_filter = 2
 script = ExtResource("1_health_bar")
 
+[node name="SpiritBar" type="Control" parent="."]
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 70.0
+offset_bottom = 21.0
+mouse_filter = 2
+script = ExtResource("4_spirit")
+
+[node name="DeathMarkCounter" type="Control" parent="."]
+offset_left = 74.0
+offset_top = 16.0
+offset_right = 110.0
+offset_bottom = 23.0
+mouse_filter = 2
+script = ExtResource("5_marks")
+
 [node name="FlaskCounter" type="Control" parent="."]
 offset_left = 8.0
-offset_top = 18.0
+offset_top = 25.0
 offset_right = 22.0
-offset_bottom = 27.0
+offset_bottom = 34.0
 mouse_filter = 2
 script = ExtResource("2_flasks")
+
+[node name="CurrencyCounter" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 35.0
+offset_right = 60.0
+offset_bottom = 47.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 8
+text = "0"
+script = ExtResource("3_currency")

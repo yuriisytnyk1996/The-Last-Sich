@@ -25,7 +25,7 @@ func get_save_data() -> Dictionary
 func apply_save_data(data: Dictionary) -> void
 ```
 
-- **Global systems** live for the whole run. They call `SaveManager.register(self)` and have a `save_id`, which is their key under `global`. They're dropped automatically when they leave the tree. `World` is the first one: it saves the last rest point.
+- **Global systems** live for the whole run. They call `SaveManager.register(self)` and have a `save_id`, which is their key under `global`. They're dropped automatically when they leave the tree. `World` saves the last rest point, `PlayerWallet` the player's currency and `DeathPenalty` the death marks (see [Death penalty](/systems/death-penalty)).
 - **Room objects** are any nodes in the `persistent` group inside a room. Their key is their node path inside the room, under that room's scene path in `rooms`.
 
 The flow:
@@ -34,6 +34,7 @@ The flow:
 2. **Room unloads.** Before `World` frees a room, `SaveManager.store_room(room)` writes every persistent node's data into the snapshot. This is in memory only.
 3. **Room loads.** Right after the room is added to the tree (so `_ready()` has run) and before the player enters, `SaveManager.restore_room(room)` hands each persistent node its stored data.
 4. **Rest.** On `Events.rested`, `World` remembers the rest point and calls `SaveManager.save_game(room)`. That stores the current room, collects every global system's data and writes the snapshot to disk.
+5. **Death.** After the player respawns, `World` saves the same way, so a death mark can't be undone by quitting.
 
 Rooms you visited since the last rest are in the snapshot, so they are written too when you rest. Dying doesn't roll the snapshot back: what you changed in a room stays changed.
 
@@ -106,7 +107,7 @@ Values go through JSON, so keep data to strings, numbers, booleans, arrays and d
 ## Known limitations
 
 - One slot, no slot selection. That comes with the main menu.
-- Only resting saves. Quitting between rests loses what you did since the last rest.
+- Only resting and dying save. Quitting between them loses what you did since, including currency earned.
 - The player's health isn't saved: loading puts you on a rest point, which heals you to full anyway.
 - No play time or other slot details for a load screen yet.
 - No migration between format versions: a version bump throws old saves away.

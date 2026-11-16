@@ -46,10 +46,13 @@ The-Last-Sich/
 │   │   ├── player.tscn           Player scene
 │   │   ├── player.gd             Tuning values and shared helpers
 │   │   ├── player_damage.gd      Hit reactions, hurt and death tuning
-│   │   ├── abilities/            Movement and healing pieces with their own tuning
+│   │   ├── abilities/            Movement, healing, spirit and currency pieces with their own tuning
 │   │   │   ├── drop_through.gd   Down + jump through one-way platforms
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
 │   │   │   ├── flasks.gd         Healing flask charges
+│   │   │   ├── wallet.gd         Currency the player carries, saved
+│   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
+│   │   │   ├── spirit.gd         Spirit, filled by landing hits
 │   │   │   └── parry.gd          Parry and riposte tuning
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
@@ -93,11 +96,16 @@ The-Last-Sich/
 │   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── killed_enemies.gd         Keeps killed enemies dead across rooms until the player rests or dies
+│   ├── death_penalty.gd          Death marks: leaves them on death, applies the penalty, recovers them, saved
+│   ├── death_mark_list.gd        The marks and their links, as plain data
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
 │   │   ├── door.tscn             Door entered by pressing interact
 │   │   ├── rest_point.gd         Checkpoint: heal, reset enemies, set the respawn
 │   │   ├── rest_point.tscn       Rest point scene
+│   │   ├── death_mark.gd         A death mark, recovered with interact
+│   │   ├── death_mark.tscn       Its scene
+│   │   ├── spikes.gd             Instant death when stepped in
 │   │   └── ladder.gd             Climbable ladder
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room): a Room with Deco, Layout and Logic
@@ -142,7 +150,10 @@ The-Last-Sich/
 │   ├── hud/
 │   │   ├── hud.tscn              Gameplay HUD layer, instanced in the world scene
 │   │   ├── health_bar.gd         Player health bar
-│   │   └── flask_counter.gd      Player healing flask pips
+│   │   ├── flask_counter.gd      Player healing flask pips
+│   │   ├── currency_counter.gd   Currency the player carries
+│   │   ├── spirit_bar.gd         Spirit, with the part locked by death marks
+│   │   └── death_mark_counter.gd One pip per death mark
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/

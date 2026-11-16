@@ -62,7 +62,7 @@ Defined in `project.godot` under `[layer_names]`:
 | 3 | `enemies` | Enemy bodies. Nothing masks this layer, so the player and other enemies pass through them |
 | 4 | `player_attacks` | Player hitboxes. Enemy hurtboxes mask this layer |
 | 5 | `enemy_attacks` | Enemy attack and contact hitboxes. The player's hurtbox masks this layer |
-| 6 | `hazards` | Kill zones, spikes. The kill zone masks `player` and `enemies` |
+| 6 | `hazards` | Kill zones, spikes. The kill zone masks `player` and `enemies`, spikes mask `player` |
 | 7 | `platforms` | One-way platforms. Bodies and floor probes mask it together with `world`; the player turns it off to drop through |
 
 ## Definition of done

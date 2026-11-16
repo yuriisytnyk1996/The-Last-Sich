@@ -188,6 +188,7 @@ Set on the enemy's root node. Raider values are the defaults.
 | `corpse_time` | 0.5 | How long the body stays before fading (s) |
 | `fade_time` | 0.4 | Fade-out length (s) |
 | `stays_dead` | On | Killed, it stays dead across room changes until the player rests or dies. Off: back every time its room loads |
+| `currency_reward` | 10 | Currency the player earns for the kill (not again when laid dead on room load). See [Currency](/systems/currency) |
 
 ### EnemyAttackState
 

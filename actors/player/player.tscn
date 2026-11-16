@@ -28,6 +28,9 @@
 [ext_resource type="Script" path="res://actors/player/abilities/parry.gd" id="26_parry"]
 [ext_resource type="Script" path="res://actors/player/states/parry.gd" id="27_parry_state"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/riposte.gd" id="28_riposte"]
+[ext_resource type="Script" path="res://actors/player/abilities/wallet.gd" id="29_wallet"]
+[ext_resource type="Script" path="res://actors/player/abilities/safe_ground.gd" id="30_safe_ground"]
+[ext_resource type="Script" path="res://actors/player/abilities/spirit.gd" id="31_spirit"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -281,3 +284,12 @@ script = ExtResource("12_hurt")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("13_dead")
+
+[node name="Wallet" type="Node" parent="."]
+script = ExtResource("29_wallet")
+
+[node name="SafeGround" type="Node" parent="."]
+script = ExtResource("30_safe_ground")
+
+[node name="Spirit" type="Node" parent="."]
+script = ExtResource("31_spirit")

@@ -52,6 +52,10 @@
 - [x] Rooms split into Deco, Layout and Logic sub-scenes, so art and level design can be edited apart
 - [x] Killed enemies stay dead across room changes until the player rests or dies (`stays_dead` to opt out)
 - [x] Parry and riposte: a timed guard deflects parryable melee swings and stuns the attacker, then attack within a short window for an invincible heavy counter-slash; a mistimed guard leaves the player open
+- [x] Currency: enemies give currency on death, shown in the HUD and saved
+- [x] Spirit: a resource filled by landing hits (double for heavy hits), shown as a bar under health; empty on load, not refilled by resting
+- [x] Death penalty: every death leaves a death mark (up to 5) on the last safe ground; each lowers max spirit, spirit gain and currency gain; marks left close together link; press interact at a mark to recover it and its links, healing a third of max health and half of max spirit; the game saves on death
+- [x] Spikes kill instantly when stepped in, but never when only brushed mid-jump
 
 ## Next
 
@@ -63,6 +67,9 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Terrain tile art with autotiling
 - [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
 - [ ] Audio
+- [ ] Shops to spend currency
+- [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
+- [ ] Spirit abilities that spend spirit
 
 ## Last
 
@@ -86,4 +93,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Brown rectangle for doors, a triangle for the interact prompt
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
+- Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

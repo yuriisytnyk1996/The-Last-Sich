@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/death_mark.gd" id="1_mark"]
+
+[sub_resource type="RectangleShape2D" id="shape_mark"]
+size = Vector2(20, 28)
+
+[node name="DeathMark" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_mark")
+press_interact = true
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("shape_mark")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Glow" type="ColorRect" parent="Visual"]
+offset_left = -6.0
+offset_top = -22.0
+offset_right = 6.0
+mouse_filter = 2
+color = Color(0.55, 0.25, 0.6, 0.35)
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -3.0
+offset_top = -18.0
+offset_right = 3.0
+mouse_filter = 2
+color = Color(0.2, 0.1, 0.25, 1)
+
+[node name="Bar" type="ColorRect" parent="Visual"]
+offset_left = -6.0
+offset_top = -14.0
+offset_right = 6.0
+offset_bottom = -11.0
+mouse_filter = 2
+color = Color(0.2, 0.1, 0.25, 1)
+
+[node name="Prompt" type="Polygon2D" parent="."]
+position = Vector2(0, -30)
+color = Color(0.95, 0.92, 0.8, 1)
+polygon = PackedVector2Array(-4, 3, 4, 3, 0, -3)

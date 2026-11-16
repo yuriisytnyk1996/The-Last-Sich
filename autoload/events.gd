@@ -27,6 +27,27 @@ signal player_flasks_changed(current: int, maximum: int)
 @warning_ignore("unused_signal")
 signal player_flasks_empty
 
+## An enemy was killed and the player earned `amount` currency.
+## `PlayerWallet` adds it.
+@warning_ignore("unused_signal")
+signal currency_earned(amount: int)
+
+## The currency the player carries changed (also sent once when the
+## player spawns). Drives the HUD.
+@warning_ignore("unused_signal")
+signal player_currency_changed(amount: int)
+
+## The player's spirit changed: a hit filled it, or a death mark lowered
+## its maximum. `full_maximum` is the maximum without death marks, so the
+## HUD can show the locked part. Also sent once when the player spawns.
+@warning_ignore("unused_signal")
+signal player_spirit_changed(current: float, maximum: float, full_maximum: float)
+
+## The number of death marks waiting to be recovered changed (also sent
+## once on start). Drives the HUD.
+@warning_ignore("unused_signal")
+signal death_marks_changed(count: int)
+
 ## The player used a rest point. The world makes it the respawn point.
 @warning_ignore("unused_signal")
 signal rested(rest_point: Node2D)

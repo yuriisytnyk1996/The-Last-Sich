@@ -11,7 +11,8 @@ extends Node2D
 ##
 ## The world is a global save system (see `SaveManager`): it saves the
 ## last rest point, and on start it loads the save and wakes the player
-## there. Resting writes the save to disk.
+## there. Resting writes the save to disk, and so does dying, so quitting
+## can't undo the death penalty (see `DeathPenalty`).
 
 @export_file("*.tscn") var start_room := "res://levels/rooms/test_room.tscn"
 
@@ -28,6 +29,7 @@ var _rest_path: NodePath
 @onready var player: Player = $Player
 @onready var fade: ScreenFade = $ScreenFade
 @onready var pause_menu: PauseMenu = $PauseMenu
+@onready var death_penalty: DeathPenalty = $DeathPenalty
 
 
 func _ready() -> void:
@@ -72,10 +74,18 @@ func _on_rested(rest_point: Node2D) -> void:
 
 func _on_player_died() -> void:
 	_killed.clear()
+	death_penalty.drop(room)
 	if _rest_room == "":
 		room.respawn_player()
+		death_penalty.place_in(room)
+		SaveManager.save_game(room)
 	else:
-		_transition(_respawn_at_rest_point)
+		_transition(_respawn_after_death)
+
+
+func _respawn_after_death() -> void:
+	_respawn_at_rest_point()
+	SaveManager.save_game(room)
 
 
 ## Freezes everything and fades to black, runs `change`, then fades back
@@ -103,6 +113,8 @@ func _load_room(room_path: String, exit_name: StringName) -> void:
 	SaveManager.restore_room(room)
 	_killed.watch(room)
 	room.enter(player, exit_name)
+	player.safe_ground.enter_room(room.scene_file_path)
+	death_penalty.place_in(room)
 	player.camera.reset_smoothing.call_deferred()
 	var rest_point := _current_rest_point()
 	if rest_point:

@@ -33,7 +33,8 @@ Only hurtboxes detect (`monitoring = true`, `monitorable = false`). Hitboxes are
 | Enemy attack `Hitbox` | `enemy_attacks` (5) | none |
 | Enemy `Hurtbox` | none | `player_attacks` (4) |
 | Player `Hurtbox` | none | `enemy_attacks` (5), `hazards` (6) |
-| Hazard `Hitbox` (spikes) | `hazards` (6) | none |
+| Hazard `Hitbox` | `hazards` (6) | none |
+| `Spikes` | `hazards` (6) | `player` (2) |
 
 This also prevents actors from hitting themselves: the player's hurtbox will never look at `player_attacks`.
 
@@ -152,11 +153,17 @@ A hurtbox with `invincibility_time` above 0 ignores every hit for that long afte
 
 ## Hazards
 
-A hazard is a `Hitbox` that is always on: `active_on_start` and **`continuous`** enabled, on the `hazards` layer.
+### Spikes
+
+Spikes (`levels/objects/spikes.gd`) aren't a `Hitbox`: they kill the player instantly, like a pit, and the death leaves a [death mark](/systems/death-penalty) like any other. To keep them fair, they only kill when the player really steps in: the player's centre must be within the spikes' width and their feet at least `sink_depth` (2 px) below the top. Brushing a corner or the side mid-jump does nothing, so spikes can always be jumped over. The player stops dead where they stand. Spikes stay on the `hazards` layer so [safe ground](/systems/death-penalty#safe-ground) keeps away from them. Enemies ignore them.
+
+### Damaging hazards
+
+A damaging hazard is a `Hitbox` that is always on: `active_on_start` and **`continuous`** enabled, on the `hazards` layer.
 
 Hurtboxes normally react only to *new* contacts. Without `continuous`, a player who lands in spikes and stays there would be hit once and then never again. When a hurtbox's invincibility ends, it checks what it still overlaps, and a `continuous` hitbox it is still inside hits it again. Attack swings must not be `continuous`, or one swing could hit a target with invincibility frames twice.
 
-The test room's spikes push straight up with `knockback_force` 0. The player turns that into "away from the spikes' centre". Enemy contact damage works the same way, see [Enemies](/systems/enemies#contact-damage).
+A hazard that pushes straight up with `knockback_force` 0 pushes the player away from its centre instead. Enemy contact damage works the same way, see [Enemies](/systems/enemies#contact-damage).
 
 ## Training dummy
 
@@ -288,7 +295,9 @@ Its health is set on its `Health` child node.
 
 **A new player attack:** add a hitbox under `Visual/Attacks`, a script in `actors/player/states/attacks/` that extends `PlayerAttackState` (override `move()` for different movement), a state node pointing its `hitbox` at the new hitbox, a name constant in `PlayerState`, and a rule in `PlayerState.attack_state()`.
 
-**A hazard (spikes):** a `Hitbox` on the `hazards` layer with `active_on_start` and `continuous` enabled.
+**Spikes:** an `Area2D` with the `Spikes` script and a `RectangleShape2D` child named `Shape`, on the `hazards` layer with mask `player`, sitting on the ground.
+
+**A damaging hazard:** a `Hitbox` on the `hazards` layer with `active_on_start` and `continuous` enabled.
 
 ## Known limitations
 

@@ -44,6 +44,9 @@ Feedback:
 | `ui/hud/health_bar.gd` | Health bar drawing and animation |
 | `ui/hud/flask_counter.gd` | Healing flask pips |
 | `actors/player/abilities/flasks.gd` | Reports the player's flasks to `Events` |
+| `ui/hud/currency_counter.gd` | Currency number |
+| `ui/hud/spirit_bar.gd` | Spirit bar with the locked part |
+| `ui/hud/death_mark_counter.gd` | Death mark pips |
 | `actors/player/player_damage.gd` | Forwards player health to `Events` |
 
 ## Tuning
@@ -79,9 +82,33 @@ On the `FlaskCounter` node:
 | `flash_color` | `#fff2c8` | Flask that was just drunk |
 | `warning_color` | `#b8323a` | Frames while shaking (no flasks left) |
 
+### Spirit bar and death marks
+
+`SpiritBar` (`ui/hud/spirit_bar.gd`) sits right under the health bar. It is as wide as spirit without death marks (`full_maximum × pixels_per_point`). The part death marks take away is drawn in `locked_color` at the right end, so every death visibly shortens what can be filled. It listens to `Events.player_spirit_changed(current, maximum, full_maximum)`. See [Spirit](/systems/spirit).
+
+`DeathMarkCounter` (`ui/hud/death_mark_counter.gd`) draws one small purple pip per death mark to the right of the spirit bar, nothing while there are none. It listens to `Events.death_marks_changed(count)`. See [Death penalty](/systems/death-penalty).
+
+| Value | Default | Effect |
+|---|---|---|
+| `SpiritBar.pixels_per_point` | 2.0 | Bar width per point of spirit (px) |
+| `SpiritBar.bar_height` | 3 | Inner bar height (px) |
+| `SpiritBar.border` | 1 | Frame thickness (px) |
+| `SpiritBar.frame_color` | `#1a1018` | Outline |
+| `SpiritBar.empty_color` | `#2a2440` | Spirit not yet filled |
+| `SpiritBar.fill_color` | `#6f7fd8` | Current spirit |
+| `SpiritBar.locked_color` | `#4a2050` | Spirit locked by death marks |
+| `DeathMarkCounter.pip_size` | (3, 5) | Inner size of one pip (px) |
+| `DeathMarkCounter.spacing` | 1 | Gap between pips (px) |
+| `DeathMarkCounter.pip_color` | `#8a3a90` | Pip |
+| `DeathMarkCounter.frame_color` | `#1a1018` | Pip outline |
+
+### Currency counter
+
+`CurrencyCounter` (`ui/hud/currency_counter.gd`) is a `Label` under the flasks showing the currency the player carries. It listens to `Events.player_currency_changed(amount)` and flashes `flash_color` for `flash_time` when the amount goes up. Tuning is on the [Currency](/systems/currency#tuning) page.
+
 ## Extending
 
-- **New HUD widget** (currency, ability charges): add a `Control` under `HUD` in `ui/hud/hud.tscn`, add a global signal to `Events` for the value it shows, and have the owning system emit it. Send the starting value deferred, the same way as health.
+- **New HUD widget** (ability charges): add a `Control` under `HUD` in `ui/hud/hud.tscn`, add a global signal to `Events` for the value it shows, and have the owning system emit it. Send the starting value deferred, the same way as health.
 - **Another bar** (a boss bar, for example): reuse the same layered approach, driven by its own signal.
 
 ## Known limitations

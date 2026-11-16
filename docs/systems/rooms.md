@@ -64,6 +64,8 @@ The player can use a door only from **Idle** or **Run**, on the ground (`Player.
 
 While the player is inside an interact area, its `Prompt` child (any `CanvasItem`, optional) is shown. Subclasses override `_activate(player)`. The area doesn't import `Player`: it calls `can_interact()` on whatever body enters, so other bodies are ignored.
 
+**Blocking.** Every interaction area joins the `interaction_areas` group. Another area on the same spot can call `block()` on it to go first, and `unblock()` when it's done; blocks from several areas add up. While blocked, an area hides its prompt and ignores interact. The press that unblocks it never sets it off in the same physics frame, so one press does one thing. `get_bounds()` gives an area's rectangle in global coordinates for overlap checks. [Death marks](/systems/death-penalty#recovering) use this to go before doors and rest points.
+
 ## Files
 
 | File | Role |
@@ -109,7 +111,7 @@ The parts are drawn in that order: Deco behind, then Layout, then Logic. Art tha
 | `Background` | Deco | `ColorRect` | No | Placeholder backdrop the size of `bounds` |
 | `Terrain` | Layout | `TileMapLayer` | Yes | Ground and walls, see [Terrain](#terrain) |
 | `Ladder` nodes | Layout | `Ladder` | No | Ladders |
-| `Hazards` | Layout | `Node2D` holding hazard `Hitbox`es | No | Spikes and other static hazards |
+| `Hazards` | Layout | `Node2D` holding `Spikes` and hazard `Hitbox`es | No | Spikes and other static hazards |
 | `KillZone` | Layout | `Area2D` (layer `hazards`, mask `player` and `enemies`) | No | Bottomless pit: kills the player or an enemy on contact, ignoring health |
 | `SpawnPoint` | Logic | `Marker2D` | Yes | Where the player starts when the room is the start room |
 | `Exits` | Logic | `Node2D` holding `RoomExit` areas and door instances | No | Ways to other rooms. Each exit has a `Shape` and a `Landing` marker |
@@ -159,7 +161,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - A low step (2 tiles high) on the left, then a mid ledge 2 tiles above it
 - A one-way bridge (lighter colour) over the pit, level with the mid ledge
 - A step block on the right side with a high ledge 2 tiles above it
-- Spikes (red) on the right ground, under `Hazards`: a continuous `Hitbox` on the `hazards` layer that deals 1 damage. See [Combat](/systems/combat#hazards)
+- Spikes (red, 40 px wide) on the right ground, under `Hazards`: instant death when stepped in, easy to jump over. See [Combat](/systems/combat#spikes)
 - Two raiders under `Enemies`: `RaiderGround` patrols the right ground between the step and the right wall, `RaiderLedge` patrols the high ledge and shows ledge turning. See [Enemies](/systems/enemies)
 
 ## Test cave layout

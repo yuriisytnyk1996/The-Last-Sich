@@ -5,7 +5,8 @@ extends RefCounted
 ##
 ## Kept in memory only and never saved: the `World` clears it whenever the
 ## player rests or dies, which brings every enemy back. The game only saves
-## at rest points, so a saved game never has killed enemies to remember.
+## when the player rests or dies, so a saved game never has killed enemies
+## to remember.
 
 ## "room scene path::node path inside the room" -> true
 var _killed := {}

@@ -40,12 +40,16 @@ extends Node
 ## Once killed, stays dead when the player leaves the room and comes back,
 ## until they rest or die. Off: back every time the room loads.
 @export var stays_dead := true
+## Currency the player earns for the kill.
+@export var currency_reward := 10
 
 ## Resolved for the current hit, read by the Hurt state. Signed x speed.
 var knockback := 0.0
 var stagger_time := 0.0
 
 var _staggers := 0
+## Laid dead on room load: killed earlier, so no reward this time.
+var _lying_dead := false
 var _since_hit := 0.0
 
 @onready var enemy := owner as Enemy
@@ -68,11 +72,13 @@ func reset() -> void:
 	enemy.health.reset()
 	enemy.hurtbox.clear_invincibility()
 	reset_poise()
+	_lying_dead = false
 
 
 ## Already dead when the room loads: killed earlier and not back yet.
 ## Skips the fade. `Enemy.reset()` brings it back as usual.
 func lie_dead() -> void:
+	_lying_dead = true
 	enemy.health.kill()
 	enemy.modulate.a = 0.0
 
@@ -130,3 +136,5 @@ func stun(hurtbox: Hurtbox) -> void:
 
 func _on_died() -> void:
 	enemy.state_machine.transition_to(EnemyState.DEAD)
+	if not _lying_dead:
+		Events.currency_earned.emit(currency_reward)
