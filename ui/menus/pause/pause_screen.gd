@@ -4,10 +4,17 @@ extends MenuScreen
 
 const MAIN_MENU := "res://ui/menus/main_menu/main_menu.tscn"
 
+var _map: WorldMap
+
+
+func _init(map: WorldMap) -> void:
+	_map = map
+
 
 func _build() -> void:
 	add_title("Paused")
 	add_button("Resume", go_back)
+	add_button("Map", func() -> void: menu.push(MapScreen.new(_map)))
 	add_button("Options", func() -> void: menu.push(OptionsScreen.new()))
 	add_button("Quit to main menu", _confirm_quit)
 

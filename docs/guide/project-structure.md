@@ -170,7 +170,11 @@ The-Last-Sich/
 │   │   │   └── title_screen.gd   Continue, New game, Options, Quit
 │   │   ├── pause/
 │   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
-│   │   │   └── pause_screen.gd   Resume, Options, Quit to main menu
+│   │   │   └── pause_screen.gd   Resume, Map, Options, Quit to main menu
+│   │   ├── map/
+│   │   │   ├── map_screen.gd     Map page: zone name, map view, legend
+│   │   │   ├── map_view.gd       Draws the map, pans and zooms
+│   │   │   └── map_cell_painter.gd One cell's fill, walls and door gaps
 │   │   ├── skills/
 │   │   │   └── skills_screen.gd  Skill shrine page: list, description, learn
 │   │   └── options/

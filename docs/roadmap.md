@@ -66,6 +66,7 @@
 - [x] Lunge: attack during a dash for a thrust that runs through enemies; faster, longer and stronger per level
 - [x] Dive: down + hold attack in the air to plunge and hit around the landing; wider landing, then a shockwave from high up
 - [x] Ranged bolt: a new `ranged` button throws a bolt for spirit; it returns, then bursts at the turn
+- [x] World map: rooms placed on a grid of map cells, cells revealed as the player walks through them and saved; walls with door gaps from room exits, zone colours, marks for rest points, shrines, inner doors and death marks; opened from the pause menu or with M / Back, pan and two zoom levels
 
 ## Next
 
@@ -79,6 +80,7 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Shops to spend currency
 - [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
 - [ ] Spirit abilities that spend spirit
+- [ ] Map: completion percentage, marks placed by the player, items that reveal a zone
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -97,6 +99,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
 - Plain rectangles for the HUD health bar and flask pips
+- Flat-colour cells, walls and square marks on the world map
 - Translucent rectangle for the healing aura instead of a drinking animation
 - Drawn rails and rungs for ladders
 - Post, crossbar and flame rectangles for rest points

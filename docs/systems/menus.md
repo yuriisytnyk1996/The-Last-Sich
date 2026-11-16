@@ -13,8 +13,10 @@ main_menu.tscn (main scene)
 
 world.tscn
 └── PauseMenu (Escape / Start) ── PauseScreen ── Resume
+                                            ├─ Map ──► MapScreen (see Map)
                                             ├─ Options ──► (same OptionsScreen)
                                             └─ Quit to main menu ──► main_menu.tscn
+└── PauseMenu (M / Back) ── MapScreen (straight to the map)
 └── SkillShrine (interact) ── PausingMenu ── SkillsScreen ── learn a skill (see Skills)
 ```
 

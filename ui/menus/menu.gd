@@ -41,6 +41,11 @@ func is_open() -> bool:
 	return not _stack.is_empty()
 
 
+## The screen on top, or null when closed.
+func top_screen() -> MenuScreen:
+	return null if _stack.is_empty() else _stack.back()
+
+
 func push(screen: MenuScreen) -> void:
 	if is_open():
 		var top := _stack.back() as MenuScreen
