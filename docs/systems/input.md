@@ -10,8 +10,8 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 |---|---|---|---|
 | `move_left` | A | Left stick left, D-pad left | `Player.get_move_axis()` |
 | `move_right` | D | Left stick right, D-pad right | `Player.get_move_axis()` |
-| `move_up` | W | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); held, grabs and climbs ladders |
-| `move_down` | S | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held on top of a ladder, climbs down it; held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`) |
+| `move_up` | W | Left stick up, D-pad up | Up attack (`PlayerState.attack_state()`); held, grabs and climbs ladders; while hanging from a ledge, climbs onto it |
+| `move_down` | S | Left stick down, D-pad down | Crouch attack (`PlayerState.attack_state()`); held on top of a ladder, climbs down it; held with jump, drops through one-way platforms (`PlayerDropThrough.wants()`); while hanging from a ledge, lets go |
 | `jump` | Space | A / Cross | Jump buffer, variable jump height |
 | `attack` | J | X / Square | Attack buffer, `Player.wants_attack()` |
 | `parry` | K | Left shoulder | `PlayerParry.wants()`: raise the guard in Idle or Run, on the ground only |

@@ -11,6 +11,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/player_damage.gd` | `PlayerDamage`: reacts to hits (knockback, which state), hurt and death tuning, reports health to `Events` |
 | `actors/player/abilities/drop_through.gd` | `PlayerDropThrough`: down + jump through one-way platforms |
 | `actors/player/abilities/ladder_climb.gd` | `PlayerLadderClimb`: finds ladders to grab, climbing tuning |
+| `actors/player/abilities/ledge_grab.gd` | `PlayerLedgeGrab`: finds ledges to grab, hang and climb tuning |
 | `actors/player/abilities/flasks.gd` | `PlayerFlasks`: healing flask charges, drinking and refilling, reports them to `Events` |
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, when a parry starts, success feedback |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
@@ -35,12 +36,14 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── HurtFeedback             flash, hit-stop 0.1 s, shake 0.6
 ├── DropThrough              PlayerDropThrough: down + jump through one-way platforms
 ├── LadderClimb              PlayerLadderClimb: finds ladders, climbing tuning
+├── LedgeGrab                PlayerLedgeGrab: finds ledges, hang and climb tuning
 ├── Flasks                   PlayerFlasks: healing flask charges
 ├── Parry                    PlayerParry: parry and riposte tuning
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
-    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── HardLanding  ├── Heal
+    ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── LedgeHang  ├── LedgeClimb
+    ├── HardLanding  ├── Heal
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
     └── Hurt  └── Dead
 ```
@@ -52,9 +55,11 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), an attack (attack buffered), Heal (heal pressed), Run (move input) |
 | **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, an attack, Heal, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), an attack, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
+| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Ground only. Fixed horizontal speed, no gravity | Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
+| **LedgeHang** | Hangs from a ledge by the hands: no gravity, no movement. See [Ledge grab](#ledge-grab) | LedgeClimb (up or jump, after `climb_delay`), Fall (down) |
+| **LedgeClimb** | Pulls up onto the ledge: straight up beside the wall, then sideways onto the top. No input | Idle/Run (standing on the top) |
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **Heal** | Drinks a healing flask: the flask is used and the health restored at once, then the player slows to a stop and stands still for `drink_time`. See [Healing flasks](#healing-flasks) | Idle/Run (time is up), Fall (ground gone) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
@@ -99,15 +104,37 @@ Dropping uses up the jump press and coyote time, so the player can't jump straig
 
 ### Climbing ladders
 
-A [ladder](/systems/rooms#ladders) is grabbed by holding up over it (on the ground or in the air), or by holding down while standing on its top. "Over it" means within `grab_reach` of its centre, with the feet between its top and bottom; grabbing up also needs the ladder to go on above the feet. The player snaps to the ladder's centre and enters **Climb**.
+A [ladder](/systems/rooms#ladders) is grabbed by holding up over it (on the ground or in the air), or by holding down while standing on its top. "Over it" means within `grab_reach` of its centre, with the ladder somewhere between the feet and `grab_height` above them; grabbing up also needs the ladder to go on above the feet. The player snaps to the ladder's centre and enters **Climb**. A ladder that hangs in the air is caught by the upper body while jumping at it, and the feet are pulled up onto its bottom.
+
+In the air, a lighter push is enough (`air_grab_threshold` instead of `grab_threshold`), so a diagonal held while jumping at a ladder still catches it.
 
 - **Up / down** move at `climb_speed`. With no input the player hangs still.
 - **Reaching the top** puts the feet exactly on the ladder's top, on the plank there, and enters Idle. **Reaching the ground** while climbing down enters Idle. **Going past the bottom** of a ladder that hangs in the air lets go (Fall).
-- **Jump** is a full jump off the ladder: straight up, or sideways at `run_speed` if a direction is held. Holding up while jumping still jumps. **Down + jump** just lets go and falls. Either way the ladder can't be grabbed again for `regrab_delay`, so holding up doesn't snap you straight back on; after that, holding up over the ladder grabs it again.
+- **Jump** is a full jump off the ladder: straight up, or sideways at `run_speed` if a direction is held. No ladder can be grabbed while that jump still rises, so holding up doesn't snap you straight back on. Once it peaks, holding up over a ladder grabs it again. With up held and no direction, this makes jump a hop up the ladder.
+- **Down + jump** just lets go and falls. The ladder can't be grabbed again for `regrab_delay`.
+
+Holding up next to a ladder that stands on the ground grabs it at once. So holding up and then pressing jump is a jump off the ladder, and the player catches it again at the top of the jump.
 - One-way platforms are off while climbing (`set_platforms_enabled(false)`), so the player passes through the plank at the top and any planks the ladder crosses.
 - A hit knocks the player off into Hurt as usual.
 
 Ladders can continue into another room through a [vertical exit](/systems/rooms#vertical-exits). The Climb state keeps going after the room changes: its ladder was freed with the old room, so it looks up the ladder at the new position (`PlayerLadderClimb.refind()`) and carries on. Ladders are found by position through the `ladders` group, not by physics, so this works on the very first frame of the new room.
+
+### Ledge grab
+
+Falling past the top of a solid wall while facing it grabs the ledge (**LedgeHang**). Nothing is placed by hand: `PlayerLedgeGrab.wants_grab()` checks the tiles each frame of Fall.
+
+1. Only while moving down, not on the floor, and with down not held. It doesn't work for `regrab_delay` after dropping off a ledge.
+2. A ray at hand height (`hand_height` above the feet, plus `snap_window`) looks `grab_reach` px ahead of the body for a wall on the `world` layer. One-way planks are never grabbed.
+3. A ray down just inside the wall finds its top within `snap_window` of the hands. If the point it starts from is already solid, the wall goes on above the hands and there is no ledge.
+4. The body's shape must fit standing on the top, so ledges under a low ceiling aren't grabbed.
+
+The player snaps to hang with the hands on the corner and the body against the wall, facing it.
+
+- **Up or jump** climbs (after `climb_delay`, so a held up still shows the hang). **LedgeClimb** moves the body up beside the wall in `climb_rise_time`, then onto the top in `climb_over_time`. The path is L-shaped, so the body never cuts into the wall. It then ends in Idle or Run.
+- **Down** lets go into Fall, and no ledge can be grabbed for `regrab_delay`.
+- A hit knocks the player off into Hurt as usual.
+
+With a 52 px jump and 28 px hands, walls up to about 5 tiles (80 px) can be climbed from the ground; a lower wall is usually just landed on.
 
 ### Hard landing
 
@@ -198,8 +225,24 @@ Climbing values are on the **`LadderClimb`** child node (`PlayerLadderClimb`):
 |---|---|---|
 | `climb_speed` | 80 | Climbing speed up and down (px/s) |
 | `grab_reach` | 8 | How far from a ladder's centre the player can grab it (px) |
-| `grab_threshold` | 0.5 | Vertical input needed to grab a ladder |
-| `regrab_delay` | 0.5 | Time after jumping off or letting go before a ladder can be grabbed again (s) |
+| `grab_height` | 24 | How far above the feet a ladder can still be grabbed (px); the feet are pulled up onto a ladder that ends above them |
+| `grab_threshold` | 0.5 | Vertical input needed to grab a ladder from the ground |
+| `air_grab_threshold` | 0.25 | Vertical input needed to grab a ladder in the air |
+| `regrab_delay` | 0.5 | Time after letting go (down + jump, or off the bottom) before a ladder can be grabbed again (s). After a jump off, grabbing is blocked until the jump peaks instead |
+
+Ledge values are on the **`LedgeGrab`** child node (`PlayerLedgeGrab`):
+
+| Value | Default | Effect |
+|---|---|---|
+| `hand_height` | 28 | Hands above the feet (px); the ledge top is held at this height |
+| `grab_reach` | 4 | How far in front of the body a wall is still grabbed (px) |
+| `snap_window` | 8 | How far above or below the hands a ledge top can be and still be caught (px) |
+| `input_threshold` | 0.5 | Vertical input needed to climb up or drop down |
+| `climb_delay` | 0.1 | Hang time before up or jump climbs (s) |
+| `climb_rise_time` | 0.15 | Time to pull the body up beside the wall (s) |
+| `climb_over_time` | 0.08 | Time to step onto the top (s) |
+| `regrab_delay` | 0.25 | Time after dropping off before a ledge can be grabbed again (s) |
+| `body` | `../CollisionShape2D` | The body shape, to check there is room on top |
 
 The drop-through value is on the **`DropThrough`** child node (`PlayerDropThrough`):
 
@@ -233,6 +276,9 @@ Used by states and other systems:
 | `wants_jump()` / `has_coyote_time()` / `consume_jump()` | Jump buffer and coyote logic |
 | `set_platforms_enabled(enabled)` | Turns collision with one-way platforms on or off (drop-through, climbing) |
 | `ladder_climb.wants_grab_up()` / `wants_grab_down()` | Up over a ladder, or down on its top; stores the ladder for the Climb state |
+| `ladder_climb.jump_off()` / `let_go()` | Blocks grabbing until the jump peaks, or for `regrab_delay` |
+| `ledge_grab.wants_grab()` | Falling past a ledge the player faces; stores the corner for LedgeHang |
+| `ledge_grab.hang_position()` / `stand_position()` | Where the feet go while hanging, and once on top |
 | `drop_through.wants()` / `drop_through.start()` | Down + jump on a one-way platform, drop timer (on `PlayerDropThrough`) |
 | `wants_dash()` / `start_dash()` | Dash press on the ground, cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
@@ -250,3 +296,4 @@ Used by states and other systems:
 - No drinking animation or sounds (drinking, empty flask): a placeholder aura stands in for the animation.
 - The number of flasks and how much they heal can't be upgraded yet.
 - No combos or movement attacks yet (planned as upgrades).
+- No hang or climb-up animation for ledges. A ladder caught by the upper body pulls the feet up in one frame (up to `grab_height`).

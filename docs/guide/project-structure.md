@@ -49,6 +49,7 @@ The-Last-Sich/
 │   │   ├── abilities/            Movement, healing, spirit and currency pieces with their own tuning
 │   │   │   ├── drop_through.gd   Down + jump through one-way platforms
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
+│   │   │   ├── ledge_grab.gd     Finds ledges to grab, hang and climb tuning
 │   │   │   ├── flasks.gd         Healing flask charges
 │   │   │   ├── wallet.gd         Currency the player carries, saved
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
@@ -62,6 +63,8 @@ The-Last-Sich/
 │   │       ├── fall.gd
 │   │       ├── dash.gd
 │   │       ├── climb.gd          On a ladder
+│   │       ├── ledge_hang.gd     Hanging from a ledge
+│   │       ├── ledge_climb.gd    Pulling up onto a ledge
 │   │       ├── hard_landing.gd   Stuck in place after a long fall
 │   │       ├── heal.gd           Drinking a healing flask
 │   │       ├── parry.gd          Guard up, deflects parryable hits

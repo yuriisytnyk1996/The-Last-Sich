@@ -33,14 +33,15 @@ func bottom() -> float:
 
 
 ## The ladder `feet` are on: within `reach` of its centre and between its
-## top and bottom.
-static func find_at(tree: SceneTree, feet: Vector2, reach: float) -> Ladder:
+## top and bottom. With `body_height`, a ladder that ends above the feet
+## still counts while it reaches that far up the body.
+static func find_at(tree: SceneTree, feet: Vector2, reach: float, body_height := 0.0) -> Ladder:
 	for node in tree.get_nodes_in_group(&"ladders"):
 		var ladder := node as Ladder
 		if (
 			absf(feet.x - ladder.global_position.x) <= reach
 			and feet.y >= ladder.top() - 1.0
-			and feet.y <= ladder.bottom() + 1.0
+			and feet.y - body_height <= ladder.bottom() + 1.0
 		):
 			return ladder
 	return null

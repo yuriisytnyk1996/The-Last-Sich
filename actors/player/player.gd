@@ -71,6 +71,7 @@ var _dash_cooldown_timer := 0.0
 @onready var damage: PlayerDamage = $Damage
 @onready var drop_through: PlayerDropThrough = $DropThrough
 @onready var ladder_climb: PlayerLadderClimb = $LadderClimb
+@onready var ledge_grab: PlayerLedgeGrab = $LedgeGrab
 @onready var flasks: PlayerFlasks = $Flasks
 @onready var parry: PlayerParry = $Parry
 @onready var wallet: PlayerWallet = $Wallet

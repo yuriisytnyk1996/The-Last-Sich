@@ -56,6 +56,8 @@
 - [x] Spirit: a resource filled by landing hits (double for heavy hits), shown as a bar under health; empty on load, not refilled by resting
 - [x] Death penalty: every death leaves a death mark (up to 5) on the last safe ground; each lowers max spirit, spirit gain and currency gain; marks left close together link; press interact at a mark to recover it and its links, healing a third of max health and half of max spirit; the game saves on death
 - [x] Spikes kill instantly when stepped in, but never when only brushed mid-jump
+- [x] Ledge grab: falling past a wall top while facing it hangs from the ledge; up or jump climbs onto it, down lets go. Works on any solid tile corner with room on top
+- [x] Ladder grab fixes: a jump off a ladder blocks grabbing only until it peaks (holding up then jump catches the ladder at the top of the jump), ladders hanging in the air are caught by the upper body, and a lighter push grabs in the air
 
 ## Next
 
@@ -94,4 +96,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
 - Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency
+- No hang or climb-up animation for ledges, the placeholder body just moves
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

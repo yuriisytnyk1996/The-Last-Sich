@@ -20,6 +20,8 @@ func physics_update(delta: float) -> void:
 		finished.emit(JUMP)
 	elif player.ladder_climb.wants_grab_up():
 		finished.emit(CLIMB)
+	elif player.ledge_grab.wants_grab():
+		finished.emit(LEDGE_HANG)
 	elif player.wants_attack():
 		finished.emit(attack_state())
 	elif player.is_on_floor():

@@ -31,6 +31,9 @@
 [ext_resource type="Script" path="res://actors/player/abilities/wallet.gd" id="29_wallet"]
 [ext_resource type="Script" path="res://actors/player/abilities/safe_ground.gd" id="30_safe_ground"]
 [ext_resource type="Script" path="res://actors/player/abilities/spirit.gd" id="31_spirit"]
+[ext_resource type="Script" path="res://actors/player/abilities/ledge_grab.gd" id="32_ledge_grab"]
+[ext_resource type="Script" path="res://actors/player/states/ledge_hang.gd" id="33_ledge_hang"]
+[ext_resource type="Script" path="res://actors/player/states/ledge_climb.gd" id="34_ledge_climb"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -216,6 +219,10 @@ script = ExtResource("20_drop")
 [node name="LadderClimb" type="Node" parent="."]
 script = ExtResource("21_ladder")
 
+[node name="LedgeGrab" type="Node" parent="." node_paths=PackedStringArray("body")]
+script = ExtResource("32_ledge_grab")
+body = NodePath("../CollisionShape2D")
+
 [node name="Flasks" type="Node" parent="."]
 script = ExtResource("24_flasks")
 
@@ -251,6 +258,12 @@ script = ExtResource("7_dash")
 
 [node name="Climb" type="Node" parent="StateMachine"]
 script = ExtResource("22_climb")
+
+[node name="LedgeHang" type="Node" parent="StateMachine"]
+script = ExtResource("33_ledge_hang")
+
+[node name="LedgeClimb" type="Node" parent="StateMachine"]
+script = ExtResource("34_ledge_climb")
 
 [node name="HardLanding" type="Node" parent="StateMachine"]
 script = ExtResource("23_hard")

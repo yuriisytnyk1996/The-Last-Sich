@@ -14,6 +14,8 @@ func enter(_previous_state: StringName) -> void:
 	_ladder = player.ladder_climb.ladder
 	player.velocity = Vector2.ZERO
 	player.global_position.x = _ladder.global_position.x
+	# Grabbed in the air below its bottom: pull the feet up onto it.
+	player.global_position.y = minf(player.global_position.y, _ladder.bottom())
 	player.consume_jump()
 	player.set_platforms_enabled(false)
 
@@ -59,11 +61,12 @@ func _find_ladder_again() -> bool:
 
 
 func _jump_off() -> void:
-	player.ladder_climb.let_go()
 	if player.get_vertical_axis() >= player.ladder_climb.grab_threshold:
+		player.ladder_climb.let_go()
 		player.consume_jump()
 		finished.emit(FALL)
 		return
+	player.ladder_climb.jump_off()
 	var axis := player.get_move_axis()
 	if axis != 0.0:
 		player.set_facing(axis)
