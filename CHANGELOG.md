@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.8](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.7...v0.0.8) (2026-11-16)
+
+### Features
+
+* **enemies:** add the musketeer, a ranged enemy ([42750ba](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/42750ba329411de1bd5308796d8fc1a288790fe2))
+* **environment:** add breakables, moving platforms, elevators, traps and zones ([762bb98](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/762bb98561b614654f7fa5639cc30c08244d6077))
+* **input:** add a map button ([01a4068](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/01a406873d96823e87fb6147b8e91d3328714007))
+* **map:** reveal map cells as the player explores ([4a4c757](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/4a4c7578754e57b0650120187fdae3c8e5cf3a95))
+* **player:** add ledge grab and fix ladder grabbing ([3bbaffc](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/3bbaffc2ae712c39eb558f784e86dcb814371708))
+* **rendering:** smooth motion with physics interpolation ([575de45](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/575de45e6bb51bf6efcbb94731b378e48af1eabd))
+* **skills:** add debug unlock all and lock all ([5c08cab](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/5c08cab17462d6b54d7d089ca2e62f0ce1132f67))
+* **skills:** add skill shrine and ground combo finishers ([d070db9](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/d070db9f52505c5bea41443b88ec77e86309f2b0))
+* **skills:** add the full skill tree with tiers ([631e88c](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/631e88c9066b6d3b5f811bb17fd5630b07e4487b))
+* **ui:** add a map page to the pause menu ([25adf80](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/25adf8033ea414782ee880972a5e443e04c03fb4))
+
+### Bug Fixes
+
+* **enemies:** make the musketeer hold its ground and fire only when it can aim ([22448b0](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/22448b0f150f619bfe3c671ff2eb20b82bd65c72))
+* **player:** don't grab ledges of low steps ([b02a19e](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/b02a19ec9b3c3c6add0561998d946dd7b53ad82b))
+
 ## [0.0.7](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.6...v0.0.7) (2026-11-16)
 
 ### Features
