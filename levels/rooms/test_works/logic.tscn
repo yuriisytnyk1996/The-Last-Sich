@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="1_exit"]
 [ext_resource type="PackedScene" path="res://levels/objects/breakables/crate.tscn" id="2_crate"]
 [ext_resource type="PackedScene" path="res://levels/objects/breakables/breakable_wall.tscn" id="3_wall"]
+[ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="20_pickup"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/wolf_fang.tres" id="21_wolf_fang"]
+[ext_resource type="Resource" path="res://actors/player/items/keepsakes/leather_pouch.tres" id="22_leather_pouch"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -44,3 +47,13 @@ position = Vector2(1008, 320)
 position = Vector2(1048, 320)
 currency = 30
 stays_broken = true
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="WolfFang" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(160, 320)
+item = ExtResource("21_wolf_fang")
+
+[node name="LeatherPouch" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(1080, 320)
+item = ExtResource("22_leather_pouch")

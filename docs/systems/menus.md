@@ -13,6 +13,7 @@ main_menu.tscn (main scene)
 
 world.tscn
 └── PauseMenu (Escape / Start) ── PauseScreen ── Resume
+                                            ├─ Inventory ──► InventoryScreen (see Inventory)
                                             ├─ Map ──► MapScreen (see Map)
                                             ├─ Options ──► (same OptionsScreen)
                                             └─ Quit to main menu ──► main_menu.tscn
@@ -52,7 +53,8 @@ world.tscn
 | `ui/menus/pausing_menu.gd` | `PausingMenu`: a menu that pauses the tree while open and unpauses a frame after closing; can free itself on close |
 | `ui/menus/pause/pause_menu.gd` | `PauseMenu`: a `PausingMenu` that opens the pause screen and closes on `pause` |
 | `ui/menus/skills/skills_screen.gd` | `SkillsScreen`: the skill shrine's page, see [Skills](/systems/skills) |
-| `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Options, Quit to main menu |
+| `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Inventory, Map, Options, Quit to main menu |
+| `ui/menus/inventory/inventory_screen.gd` | `InventoryScreen`: owned items by kind, wear and take off (see [Inventory](/systems/inventory)) |
 | `ui/menus/options/` | The options pages, see [Options](/systems/options) |
 
 ## Tuning

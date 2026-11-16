@@ -57,10 +57,18 @@ The-Last-Sich/
 │   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
 │   │   │   ├── wallet.gd         Currency the player carries, spent on skills, saved
 │   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
+│   │   │   ├── inventory.gd      Owned and worn items, slots, saved
+│   │   │   ├── item_effects.gd   Starts and stops the effects of carried and worn items
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
 │   │   │   ├── spirit.gd         Spirit, filled by landing hits
 │   │   │   ├── area_effects.gd   Combines the wind and mud zones the player is in
 │   │   │   └── parry.gd          Parry and riposte tuning (windows from stats)
+│   │   ├── items/                Items the player carries
+│   │   │   ├── item.gd           Item resource: id, text, kind, price, effects
+│   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect
+│   │   │   ├── charms/           One .tres per charm
+│   │   │   ├── blades/           One .tres per blade
+│   │   │   └── keepsakes/        One .tres per keepsake
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
 │   │   │   ├── combo/            combo_1/2/3.tres: the combo finishers
@@ -151,6 +159,7 @@ The-Last-Sich/
 │   │   ├── tier_relic.tscn       Its scene
 │   │   ├── spikes.gd             Instant death when stepped in
 │   │   ├── ladder.gd             Climbable ladder
+│   │   ├── items/                Item pickups (item_pickup.gd / .tscn)
 │   │   ├── breakables/           Breakable crate and cracked wall (breakable.gd, crate.tscn, breakable_wall.tscn)
 │   │   ├── platforms/            Moving platform, elevator and its call lever
 │   │   ├── traps/                Timed spike and fire traps, turret and its bolt
@@ -190,7 +199,9 @@ The-Last-Sich/
 │   │   │   └── title_screen.gd   Continue, New game, Options, Quit
 │   │   ├── pause/
 │   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
-│   │   │   └── pause_screen.gd   Resume, Map, Options, Quit to main menu
+│   │   │   └── pause_screen.gd   Resume, Inventory, Map, Options, Quit to main menu
+│   │   ├── inventory/
+│   │   │   └── inventory_screen.gd Inventory page: owned items by kind, wear and take off
 │   │   ├── map/
 │   │   │   ├── map_screen.gd     Map page: zone name, map view, legend
 │   │   │   ├── map_view.gd       Draws the map, pans and zooms
@@ -210,7 +221,8 @@ The-Last-Sich/
 │   │   ├── flask_counter.gd      Player healing flask pips
 │   │   ├── currency_counter.gd   Currency the player carries
 │   │   ├── spirit_bar.gd         Spirit, with the part locked by death marks
-│   │   └── death_mark_counter.gd One pip per death mark
+│   │   ├── death_mark_counter.gd One pip per death mark
+│   │   └── item_toast.gd         Names a newly obtained item
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/

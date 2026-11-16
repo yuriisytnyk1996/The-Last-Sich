@@ -68,6 +68,24 @@
 [ext_resource type="PackedScene" path="res://actors/player/attacks/dive_shockwave.tscn" id="dive_shockwave"]
 [ext_resource type="Script" path="res://actors/player/abilities/area_effects.gd" id="area_effects"]
 [ext_resource type="Script" path="res://actors/player/player_stats.gd" id="player_stats"]
+[ext_resource type="Script" path="res://actors/player/abilities/inventory.gd" id="inventory"]
+[ext_resource type="Script" path="res://actors/player/abilities/item_effects.gd" id="item_effects"]
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item_script"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/iron_cross.tres" id="item_iron_cross"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/wolf_fang.tres" id="item_wolf_fang"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/clay_amulet.tres" id="item_clay_amulet"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/bitter_root.tres" id="item_bitter_root"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/healer_knot.tres" id="item_healer_knot"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/red_sash.tres" id="item_red_sash"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/brass_bell.tres" id="item_brass_bell"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/hunter_tally.tres" id="item_hunter_tally"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/war_drum.tres" id="item_war_drum"]
+[ext_resource type="Resource" path="res://actors/player/items/blades/heavy_edge.tres" id="item_heavy_edge"]
+[ext_resource type="Resource" path="res://actors/player/items/blades/thirsting_edge.tres" id="item_thirsting_edge"]
+[ext_resource type="Resource" path="res://actors/player/items/blades/guarding_edge.tres" id="item_guarding_edge"]
+[ext_resource type="Resource" path="res://actors/player/items/keepsakes/leather_pouch.tres" id="item_leather_pouch"]
+[ext_resource type="Resource" path="res://actors/player/items/keepsakes/stitched_pouch.tres" id="item_stitched_pouch"]
+[ext_resource type="Resource" path="res://actors/player/items/keepsakes/spare_gourd.tres" id="item_spare_gourd"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -667,3 +685,10 @@ burst_scene = ExtResource("bolt_burst")
 
 [node name="AreaEffects" type="Node" parent="."]
 script = ExtResource("area_effects")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("inventory")
+all = Array[ExtResource("item_script")]([ExtResource("item_iron_cross"), ExtResource("item_wolf_fang"), ExtResource("item_clay_amulet"), ExtResource("item_bitter_root"), ExtResource("item_healer_knot"), ExtResource("item_red_sash"), ExtResource("item_brass_bell"), ExtResource("item_hunter_tally"), ExtResource("item_war_drum"), ExtResource("item_heavy_edge"), ExtResource("item_thirsting_edge"), ExtResource("item_guarding_edge"), ExtResource("item_leather_pouch"), ExtResource("item_stitched_pouch"), ExtResource("item_spare_gourd")])
+
+[node name="ItemEffects" type="Node" parent="."]
+script = ExtResource("item_effects")

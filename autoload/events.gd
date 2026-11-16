@@ -56,3 +56,11 @@ signal rested(rest_point: Node2D)
 ## `room_path` and places the player at the exit named `exit_name` there.
 @warning_ignore("unused_signal")
 signal room_change_requested(room_path: String, exit_name: StringName)
+
+## An enemy died. Item effects that react to kills listen to this.
+@warning_ignore("unused_signal")
+signal enemy_killed
+
+## The player got an item (a pickup, a shop). The HUD names it.
+@warning_ignore("unused_signal")
+signal item_obtained(item: Item)

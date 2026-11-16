@@ -78,6 +78,7 @@ var _dash_cooldown_timer := 0.0
 @onready var spirit: PlayerSpirit = $Spirit
 @onready var skills: PlayerSkills = $Skills
 @onready var area_effects: PlayerAreaEffects = $AreaEffects
+@onready var inventory: PlayerInventory = $Inventory
 
 
 func _physics_process(delta: float) -> void:

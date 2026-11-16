@@ -5,15 +5,18 @@ extends MenuScreen
 const MAIN_MENU := "res://ui/menus/main_menu/main_menu.tscn"
 
 var _map: WorldMap
+var _inventory: PlayerInventory
 
 
-func _init(map: WorldMap) -> void:
+func _init(map: WorldMap, inventory: PlayerInventory) -> void:
 	_map = map
+	_inventory = inventory
 
 
 func _build() -> void:
 	add_title("Paused")
 	add_button("Resume", go_back)
+	add_button("Inventory", func() -> void: menu.push(InventoryScreen.new(_inventory)))
 	add_button("Map", func() -> void: menu.push(MapScreen.new(_map)))
 	add_button("Options", func() -> void: menu.push(OptionsScreen.new()))
 	add_button("Quit to main menu", _confirm_quit)

@@ -11,6 +11,7 @@ const SPIRIT_PER_HIT := &"spirit_per_hit"
 const PARRY_WINDOW := &"parry_window"
 const RIPOSTE_WINDOW := &"riposte_window"
 const DASH_COOLDOWN := &"dash_cooldown"
+const CHARM_SLOTS := &"charm_slots"
 
 @export_group("Health")
 @export var max_health := 100.0
@@ -44,6 +45,10 @@ const DASH_COOLDOWN := &"dash_cooldown"
 ## Seconds before the next dash (s).
 @export var dash_cooldown := 0.4
 
+@export_group("Items")
+## Charms the player can wear at once. Pouches add more.
+@export var charm_slots := 3.0
+
 
 func _define_stats() -> void:
 	define(MAX_HEALTH, max_health, 1.0, 500.0)
@@ -59,3 +64,4 @@ func _define_stats() -> void:
 	define(PARRY_WINDOW, parry_window, 0.05)
 	define(RIPOSTE_WINDOW, riposte_window, 0.05)
 	define(DASH_COOLDOWN, dash_cooldown, 0.0)
+	define(CHARM_SLOTS, charm_slots, 0.0, 8.0)

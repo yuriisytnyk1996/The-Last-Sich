@@ -22,6 +22,8 @@ export default {
         'save',
         'currency',
         'skills',
+        'inventory',
+        'shops',
         'spirit',
         'death-penalty',
         'map',

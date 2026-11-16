@@ -5,10 +5,11 @@ extends PausingMenu
 ## on the map page on "map" (M / Back), and "map" closes that page again.
 
 @export var world_map: WorldMap
+@export var inventory: PlayerInventory
 
 
 func open() -> void:
-	open_screen(PauseScreen.new(world_map))
+	open_screen(PauseScreen.new(world_map, inventory))
 
 
 func open_map() -> void:

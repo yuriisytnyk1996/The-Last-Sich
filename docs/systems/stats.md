@@ -32,6 +32,7 @@ StatModifier (max_health +20, FLAT) ──add_modifier(.., &"iron_ring")──�
 | `parry_window` | `PlayerStats.PARRY_WINDOW` | `PlayerParry` | Seconds the guard is up |
 | `riposte_window` | `PlayerStats.RIPOSTE_WINDOW` | `PlayerParry` | Seconds to press attack after a parry |
 | `dash_cooldown` | `PlayerStats.DASH_COOLDOWN` | `Player.start_dash()` | Seconds before the next dash |
+| `charm_slots` | `PlayerStats.CHARM_SLOTS` | `PlayerInventory` | Charms worn at once. Fewer takes off the last charms worn, see [Inventory](/systems/inventory) |
 
 ### Damage and resistance
 
@@ -78,6 +79,7 @@ Base values, on the player's **`Stats`** child node (`PlayerStats`):
 | Timing | `parry_window` | 0.25 | 0.05 and up | Seconds the guard is up after the press |
 | Timing | `riposte_window` | 0.5 | 0.05 and up | After a parry, seconds to press attack for a riposte |
 | Timing | `dash_cooldown` | 0.4 | 0 and up | Seconds before the next dash |
+| Items | `charm_slots` | 3 | 0 to 8 | Charms worn at once |
 
 Base values on each enemy's **`Stats`** node (`EnemyStats`):
 

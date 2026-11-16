@@ -106,6 +106,10 @@ On the `FlaskCounter` node:
 
 `CurrencyCounter` (`ui/hud/currency_counter.gd`) is a `Label` under the flasks showing the currency the player carries. It listens to `Events.player_currency_changed(amount)` and flashes `flash_color` for `flash_time` when the amount goes up. Tuning is on the [Currency](/systems/currency#tuning) page.
 
+### Item toast
+
+`ItemToast` (`ui/hud/item_toast.gd`) is a `Label` near the bottom centre. On `Events.item_obtained(item)` it shows `"Found: <title>"` for `show_time` (2 s), then fades out over `fade_time` (0.5 s). Its tween keeps running while a menu pauses the game, so a purchase is named too. See [Inventory](/systems/inventory).
+
 ## Extending
 
 - **New HUD widget** (ability charges): add a `Control` under `HUD` in `ui/hud/hud.tscn`, add a global signal to `Events` for the value it shows, and have the owning system emit it. Send the starting value deferred, the same way as health.

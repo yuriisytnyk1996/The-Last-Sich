@@ -73,6 +73,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="PauseMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("world_map")]
+[node name="PauseMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("world_map", "inventory")]
 script = ExtResource("7_pause")
 world_map = NodePath("../WorldMap")
+inventory = NodePath("../Player/Inventory")

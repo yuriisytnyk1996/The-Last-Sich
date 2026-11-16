@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
+[ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+
+[sub_resource type="Resource" id="mod_1"]
+script = ExtResource("mod")
+stat = &"damage"
+kind = 1
+value = 0.1
+
+[sub_resource type="Resource" id="effect_2"]
+script = ExtResource("stat")
+trigger = 1
+modifiers = Array[ExtResource("mod")]([SubResource("mod_1")])
+
+[resource]
+script = ExtResource("item")
+id = &"wolf_fang"
+title = "Wolf fang"
+description = "A fang from a steppe wolf, bound in wire. Damage +10%."
+kind = 0
+price = 400
+effects = Array[ExtResource("effect")]([SubResource("effect_2")])

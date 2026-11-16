@@ -138,3 +138,4 @@ func _on_died() -> void:
 	enemy.state_machine.transition_to(EnemyState.DEAD)
 	if not _lying_dead:
 		Events.currency_earned.emit(currency_reward)
+		Events.enemy_killed.emit()

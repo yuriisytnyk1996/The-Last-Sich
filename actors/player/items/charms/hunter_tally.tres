@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/restore_effect.gd" id="restore"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("restore")
+trigger = 3
+what = 0
+amount = 5
+
+[resource]
+script = ExtResource("item")
+id = &"hunter_tally"
+title = "Hunter's tally"
+description = "A stick with a notch for every kill. Each kill heals 5."
+kind = 0
+price = 400
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])

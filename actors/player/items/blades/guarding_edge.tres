@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
+[ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+
+[sub_resource type="Resource" id="mod_1"]
+script = ExtResource("mod")
+stat = &"parry_window"
+kind = 0
+value = 0.1
+
+[sub_resource type="Resource" id="mod_2"]
+script = ExtResource("mod")
+stat = &"riposte_window"
+kind = 0
+value = 0.25
+
+[sub_resource type="Resource" id="mod_3"]
+script = ExtResource("mod")
+stat = &"max_health"
+kind = 0
+value = -10.0
+
+[sub_resource type="Resource" id="effect_4"]
+script = ExtResource("stat")
+trigger = 1
+modifiers = Array[ExtResource("mod")]([SubResource("mod_1"), SubResource("mod_2"), SubResource("mod_3")])
+
+[resource]
+script = ExtResource("item")
+id = &"guarding_edge"
+title = "Guarding edge"
+description = "A wide guard made for parrying. Parry window +0.1 s and riposte window +0.25 s, but maximum health -10."
+kind = 1
+price = 500
+effects = Array[ExtResource("effect")]([SubResource("effect_4")])
