@@ -9,6 +9,9 @@ extends Area2D
 
 ## Emitted when a Hurtbox accepts a hit from this hitbox.
 signal hit_landed(hurtbox: Hurtbox)
+## Emitted when a parrying Hurtbox deflects this hitbox. The attacker
+## listens to this to get stunned.
+signal parried(hurtbox: Hurtbox)
 
 ## How hard the receiver reacts. LIGHT: damage and flash, no knockback or
 ## stagger. NORMAL: stagger and knockback. HEAVY: longer stagger, more
@@ -31,6 +34,9 @@ const FEEDBACK_SCALE: Dictionary[Reaction, float] = {
 ## Keeps hurting a hurtbox that stays inside it, each time that hurtbox's
 ## invincibility ends. For hazards and contact damage, not for swings.
 @export var continuous := false
+## A parrying hurtbox can deflect this hit. For telegraphed melee swings,
+## not for contact damage, hazards or projectiles.
+@export var parryable := false
 
 var _active := false
 var _has_hit := false
@@ -65,6 +71,11 @@ func has_hit() -> bool:
 func register_hit(hurtbox: Hurtbox) -> void:
 	_has_hit = true
 	hit_landed.emit(hurtbox)
+
+
+## Called by the Hurtbox that parried this hit. No damage is dealt.
+func register_parry(hurtbox: Hurtbox) -> void:
+	parried.emit(hurtbox)
 
 
 ## Multiplier for hit-stop and camera shake, from `reaction`.

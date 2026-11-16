@@ -74,6 +74,7 @@ var _dash_cooldown_timer := 0.0
 @onready var drop_through: PlayerDropThrough = $DropThrough
 @onready var ladder_climb: PlayerLadderClimb = $LadderClimb
 @onready var flasks: PlayerFlasks = $Flasks
+@onready var parry: PlayerParry = $Parry
 
 
 func _physics_process(delta: float) -> void:
@@ -94,9 +95,6 @@ func _physics_process(delta: float) -> void:
 		_attack_buffer_timer = maxf(_attack_buffer_timer - delta, 0.0)
 
 	_dash_cooldown_timer = maxf(_dash_cooldown_timer - delta, 0.0)
-
-
-# --- Helpers used by the states ---
 
 
 func get_move_axis() -> float:

@@ -9,6 +9,8 @@ extends Node
 ## Poise: after `max_staggers` staggers in a row the enemy stops flinching
 ## and strikes back as soon as the player is in reach. The count resets
 ## after `poise_recovery` without being hit, or when an attack finishes.
+##
+## A parried attack stuns the enemy for `stun_time` (see `stun()`).
 
 @export_group("Hurt")
 ## Seconds without control after a normal hit.
@@ -23,6 +25,12 @@ extends Node
 @export var max_staggers := 3
 ## Seconds without being hit before the stagger count resets.
 @export var poise_recovery := 1.5
+
+@export_group("Stun")
+## Seconds an enemy stays stunned after its attack is parried.
+@export var stun_time := 1.0
+## Speed it is pushed away from the player when parried (px/s).
+@export var stun_knockback := 100.0
 
 @export_group("Death")
 ## Seconds the body stays before it starts fading.
@@ -109,6 +117,15 @@ func _strike_back(direction: float) -> void:
 	var state := enemy.state_machine.state.name
 	if state != EnemyState.ATTACK and enemy.is_target_in_attack_range():
 		enemy.state_machine.transition_to(EnemyState.ATTACK)
+
+
+## Its attack was parried by `hurtbox`: pushed back and helpless for a moment.
+func stun(hurtbox: Hurtbox) -> void:
+	var direction := signf(enemy.global_position.x - hurtbox.global_position.x)
+	if direction == 0.0:
+		direction = float(-enemy.facing)
+	knockback = direction * stun_knockback
+	enemy.state_machine.transition_to(EnemyState.STUNNED)
 
 
 func _on_died() -> void:

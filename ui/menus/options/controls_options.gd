@@ -10,6 +10,7 @@ const LABELS := {
 	&"move_down": "Down / crouch",
 	&"jump": "Jump",
 	&"attack": "Attack",
+	&"parry": "Parry",
 	&"dash": "Dash",
 	&"heal": "Heal",
 	&"interact": "Interact",

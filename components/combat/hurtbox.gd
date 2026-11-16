@@ -8,10 +8,16 @@ extends Area2D
 ## (knockback, flashing, sounds).
 
 signal hurt(hitbox: Hitbox)
+## A `parryable` hitbox arrived while `parrying` was on. No damage taken.
+signal parried(hitbox: Hitbox)
 
 @export var health: Health
 ## Seconds of immunity after a hit. 0 means every new hit counts.
 @export var invincibility_time := 0.0
+
+## While on, `parryable` hitboxes are deflected instead of landing, even
+## during invincibility. Other hitboxes hit as usual.
+var parrying := false
 
 var _invincible_left := 0.0
 
@@ -54,9 +60,13 @@ func _recheck_continuous_hitboxes() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	var hitbox := area as Hitbox
-	if hitbox == null or is_invincible():
+	if hitbox == null or (health and health.is_dead()):
 		return
-	if health and health.is_dead():
+	if parrying and hitbox.parryable:
+		parried.emit(hitbox)
+		hitbox.register_parry(self)
+		return
+	if is_invincible():
 		return
 
 	_invincible_left = invincibility_time

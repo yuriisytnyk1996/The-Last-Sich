@@ -13,6 +13,8 @@ const HEAL := &"Heal"
 const SIDE_ATTACK := &"SideAttack"
 const UP_ATTACK := &"UpAttack"
 const CROUCH_ATTACK := &"CrouchAttack"
+const PARRY := &"Parry"
+const RIPOSTE := &"Riposte"
 const HURT := &"Hurt"
 const DEAD := &"Dead"
 

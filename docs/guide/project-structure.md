@@ -49,7 +49,8 @@ The-Last-Sich/
 │   │   ├── abilities/            Movement and healing pieces with their own tuning
 │   │   │   ├── drop_through.gd   Down + jump through one-way platforms
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
-│   │   │   └── flasks.gd         Healing flask charges
+│   │   │   ├── flasks.gd         Healing flask charges
+│   │   │   └── parry.gd          Parry and riposte tuning
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
@@ -60,13 +61,15 @@ The-Last-Sich/
 │   │       ├── climb.gd          On a ladder
 │   │       ├── hard_landing.gd   Stuck in place after a long fall
 │   │       ├── heal.gd           Drinking a healing flask
+│   │       ├── parry.gd          Guard up, deflects parryable hits
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       └── attacks/          One script per attack direction
 │   │           ├── player_attack_state.gd   Shared swing timing
 │   │           ├── side_attack.gd
 │   │           ├── up_attack.gd
-│   │           └── crouch_attack.gd
+│   │           ├── crouch_attack.gd
+│   │           └── riposte.gd    Counter-attack after a parry
 │   ├── enemies/
 │   │   ├── enemy.gd              Shared enemy base: tuning, movement and sensing helpers
 │   │   ├── enemy_damage.gd       Enemy hit reactions, hurt and death tuning
@@ -75,6 +78,7 @@ The-Last-Sich/
 │   │   │   ├── patrol.gd
 │   │   │   ├── chase.gd
 │   │   │   ├── hurt.gd
+│   │   │   ├── stunned.gd        Helpless after a parried attack
 │   │   │   ├── dead.gd
 │   │   │   └── enemy_attack_state.gd   Shared telegraphed attack timing
 │   │   └── raider/

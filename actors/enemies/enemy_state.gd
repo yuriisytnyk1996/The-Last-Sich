@@ -7,6 +7,7 @@ const PATROL := &"Patrol"
 const CHASE := &"Chase"
 const ATTACK := &"Attack"
 const HURT := &"Hurt"
+const STUNNED := &"Stunned"
 const DEAD := &"Dead"
 
 @onready var enemy := owner as Enemy

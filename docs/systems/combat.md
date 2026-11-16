@@ -92,6 +92,31 @@ The miss check uses `Hitbox.has_hit()`, which is reset each time the hitbox turn
 
 Positions are relative to the player's feet, facing right.
 
+## Parry and riposte
+
+Parrying turns an enemy's swing into an opening. Press **parry** on the ground, in Idle or Run, and the player raises a guard for a short window:
+
+```
+Idle / Run ──parry──► Parry: GUARD (parry_window)
+                        │ parryable hit lands ──► SUCCESS: no damage, attacker stunned, invincible
+                        │                           ├─ attack within riposte_window ──► Riposte
+                        │                           └─ window over ──► Idle / Run
+                        └ nothing caught ──► FAILED: stuck for fail_recovery ──► Idle / Run
+```
+
+1. The **Parry** state turns on `Hurtbox.parrying` for `parry_window`. The player is planted and shows a placeholder `Guard` bar.
+2. A hitbox with **`parryable`** on that reaches a parrying hurtbox is deflected: the hurtbox emits `parried(hitbox)` and calls `hitbox.register_parry()`, which emits the hitbox's own `parried(hurtbox)`. No damage, no `hurt`, no invincibility check.
+3. The player turns to the attacker, becomes invincible, and gets a hit-stop, camera shake and rumble (`PlayerParry.play_feedback()`).
+4. The attacker's `EnemyAttackState` hears `parried` and calls `EnemyDamage.stun()`: the enemy is pushed back and goes **Stunned** for `stun_time`. See [Enemies](/systems/enemies#stun).
+5. Pressing attack within `riposte_window` starts the **Riposte**: a short lunge into a heavy slash (3 damage, HEAVY reaction), invincible from start to finish. Without the press the player returns to Idle or Run.
+6. After a parry or riposte ends, invincibility lasts `grace_time` more.
+
+A guard that catches nothing leaves the player stuck in place for `fail_recovery`, open to the attack they mistimed. That is the cost of parrying: pressing too early is punished as much as not pressing at all.
+
+**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and (later) projectiles are not, and still hit during the guard. The raider's `Slash` is parryable.
+
+The parry check runs before the invincibility check, so a guard raised while still blinking from an earlier hit can still parry.
+
 ## Reactions
 
 Each hitbox has a `reaction` that tells the receiver how hard to react. The hitbox only carries the label; each actor decides what it means.
@@ -152,6 +177,9 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground |
 | `actors/player/states/attacks/up_attack.gd` | Up slash |
 | `actors/player/states/attacks/crouch_attack.gd` | Low slash (ground only) |
+| `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, `wants()`, success feedback |
+| `actors/player/states/parry.gd` | Guard, success and failed phases |
+| `actors/player/states/attacks/riposte.gd` | Lunging heavy slash after a parry |
 | `actors/training_dummy/training_dummy.tscn` | Dummy scene |
 | `actors/training_dummy/training_dummy.gd` | Hit reaction, break and rebuild |
 
@@ -167,6 +195,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `reaction` | NORMAL | How hard the receiver reacts: LIGHT, NORMAL or HEAVY. See [Reactions](#reactions) |
 | `active_on_start` | false | On for hazards that always hurt |
 | `continuous` | false | Hits a hurtbox again when its invincibility ends while still inside. For hazards |
+| `parryable` | false | A parrying hurtbox deflects this hit instead of taking it. For telegraphed melee swings |
 
 ### Hurtbox
 
@@ -214,7 +243,33 @@ Set on the `Player` node, group **Attack**.
 | `attack_buffer_time` | 0.12 | How early an attack press is remembered (s) |
 | `attack_vertical_threshold` | 0.75 | How far up or down the stick must be held for an up or crouch attack |
 
-All three attacks share the timing. Damage and knockback are set per attack on the hitboxes under `Visual/Attacks` in `player.tscn`.
+The three basic attacks share this timing. The riposte has its own, see [Parry and riposte tuning](#parry-and-riposte-1). Damage and knockback are set per attack on the hitboxes under `Visual/Attacks` in `player.tscn`.
+
+### Parry and riposte
+
+Set on the player's **`Parry`** child node (`PlayerParry`).
+
+| Group | Value | Default | Effect |
+|---|---|---|---|
+| Timing | `parry_window` | 0.25 | How long the guard is up after the press (s) |
+| Timing | `fail_recovery` | 0.35 | Time stuck in place after a guard that caught nothing (s) |
+| Timing | `riposte_window` | 0.5 | Time after a parry to press attack for a riposte (s) |
+| Timing | `grace_time` | 0.3 | Invincibility after a parry or riposte ends (s) |
+| Feedback | `hit_stop` | 0.12 | Freeze on a successful parry (s) |
+| Feedback | `shake` | 0.35 | Camera trauma on a successful parry |
+| Feedback | `rumble` | 0.6 | Gamepad rumble strength on a successful parry |
+| Feedback | `rumble_time` | 0.15 | Rumble length (s) |
+
+Set on the **`Riposte`** state node:
+
+| Value | Default | Effect |
+|---|---|---|
+| `startup` | 0.06 | Wind-up before the hitbox turns on (s). The player lunges forward during it |
+| `active` | 0.12 | How long the hitbox is on (s) |
+| `recovery` | 0.3 | Time after the hitbox turns off (s) |
+| `lunge_speed` | 160 | Forward speed during the wind-up (px/s) |
+
+The `Visual/Attacks/Riposte` hitbox at (18, -16), 28×20, deals 3 damage with a HEAVY reaction and `knockback_force` 180.
 
 ### Training dummy
 
@@ -240,5 +295,7 @@ Its health is set on its `Health` child node.
 - A hurtbox without invincibility only reacts to *new* contacts, so a `continuous` hitbox only repeats against hurtboxes that have invincibility frames.
 - No combos, charged attacks or movement attacks (dash attack, dive attack). These are planned as upgrades once an upgrade system exists.
 - No crouch state yet: the crouch attack doesn't lower the player's body, it only swings low.
-- All three attacks share one set of timings.
+- The three basic attacks share one set of timings.
+- Parrying is ground only, and only from Idle or Run: it can't cancel an attack, a dash or a hurt stagger.
+- No parry sound or guard animation, and the riposte isn't a special finishing move: it is a strong slash.
 - Placeholder rectangles for the slash and the dummy.

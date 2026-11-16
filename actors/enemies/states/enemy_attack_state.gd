@@ -6,6 +6,7 @@ extends EnemyState
 ##
 ## A hit during the wind-up interrupts the attack. Once the hitbox is out
 ## the attack is committed: hits still deal damage but don't stagger.
+## A `parryable` hitbox that gets parried stuns the enemy instead.
 
 enum Phase { STARTUP, ACTIVE, RECOVERY }
 
@@ -22,6 +23,10 @@ enum Phase { STARTUP, ACTIVE, RECOVERY }
 
 var _phase := Phase.STARTUP
 var _time_left := 0.0
+
+
+func _ready() -> void:
+	hitbox.parried.connect(_on_parried)
 
 
 func enter(_previous_state: StringName) -> void:
@@ -71,6 +76,10 @@ func _next_phase() -> void:
 		Phase.RECOVERY:
 			enemy.damage.reset_poise()
 			finished.emit(alert_state())
+
+
+func _on_parried(hurtbox: Hurtbox) -> void:
+	enemy.damage.stun(hurtbox)
 
 
 func _show_telegraph(shown: bool) -> void:

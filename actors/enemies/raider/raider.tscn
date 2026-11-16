@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://actors/enemies/raider/states/saber_slash.gd" id="10_slash"]
 [ext_resource type="Script" path="res://actors/enemies/states/hurt.gd" id="11_hurt"]
 [ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="12_dead"]
+[ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="13_stunned"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(14, 28)
@@ -62,6 +63,15 @@ offset_bottom = -32.0
 mouse_filter = 2
 color = Color(2.5, 2.2, 0.8, 1)
 
+[node name="StunMark" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -5.0
+offset_top = -38.0
+offset_right = 5.0
+offset_bottom = -34.0
+mouse_filter = 2
+color = Color(0.7, 0.85, 1.6, 1)
+
 [node name="FloorProbe" type="RayCast2D" parent="Visual"]
 position = Vector2(10, -4)
 target_position = Vector2(0, 12)
@@ -80,6 +90,7 @@ collision_layer = 16
 collision_mask = 0
 monitoring = false
 script = ExtResource("2_hitbox")
+parryable = true
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Slash"]
 shape = SubResource("slash_shape")
@@ -150,6 +161,10 @@ telegraph = NodePath("../../Visual/Telegraph")
 
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("11_hurt")
+
+[node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("mark")]
+script = ExtResource("13_stunned")
+mark = NodePath("../../Visual/StunMark")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("12_dead")

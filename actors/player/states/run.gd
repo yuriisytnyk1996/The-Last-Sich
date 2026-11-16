@@ -17,6 +17,8 @@ func physics_update(delta: float) -> void:
 		finished.emit(JUMP)
 	elif player.wants_dash():
 		finished.emit(DASH)
+	elif player.parry.wants():
+		finished.emit(PARRY)
 	elif player.wants_attack():
 		finished.emit(attack_state())
 	elif player.flasks.wants():

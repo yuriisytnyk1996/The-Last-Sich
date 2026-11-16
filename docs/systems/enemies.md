@@ -10,6 +10,7 @@ Patrol ──sees player──► Chase ──in range, off cooldown, on floor�
   └──── player lost ──────┘  └────────── recovery ends ───────────────┘
 
 any state ──NORMAL / HEAVY hit (if staggerable)──► Hurt ──► Chase or Patrol
+Attack ──swing parried──► Stunned ──► Chase or Patrol
 any state ──health 0──► Dead ──Enemy.reset()──► Patrol
 ```
 
@@ -72,6 +73,16 @@ Without a limit, a player who keeps swinging could keep a lone enemy staggered f
 
 So the player gets a few free hits, then has to dodge the counterattack.
 
+### Stun
+
+An attack whose hitbox is `parryable` can be [parried](/systems/combat#parry-and-riposte). `EnemyAttackState` connects to its hitbox's `parried` signal and calls `EnemyDamage.stun(hurtbox)`:
+
+1. The enemy is pushed away from the player at `stun_knockback` and enters **Stunned**. Leaving the attack turns its hitbox and telegraph off, as an interrupted attack always does.
+2. It stands helpless for `stun_time`, with a placeholder `StunMark` above its head. Poise is restored, so any hit staggers it, and the player's riposte lands in full.
+3. Afterwards it goes back to Chase or Patrol, like after Hurt.
+
+Only the raider's `Slash` is parryable so far. Contact damage never is.
+
 ### Finding the player
 
 Enemies find the player through the `player` group and know whether it is alive from `Events.player_health_changed`. Nothing in `actors/enemies/` references the `Player` class, so enemies stay independent of the player's code.
@@ -104,16 +115,17 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 ├── Visual                       flipped with facing
 │   ├── Body, Eye                placeholder rectangles
 │   ├── Telegraph                glint shown during the wind-up
+│   ├── StunMark                 placeholder bar above the head while stunned
 │   ├── FloorProbe (RayCast2D)   (10, -4) → 12 px down, ledge check, mask: world, platforms
 │   ├── SightRay (RayCast2D)     (4, -22) at the eye, line of sight, mask: world
-│   └── Attacks/Slash (Hitbox)   (18, -14), 24×16, layer enemy_attacks
+│   └── Attacks/Slash (Hitbox)   (18, -14), 24×16, layer enemy_attacks, parryable
 ├── Health                       max_health 3
 ├── Hurtbox                      14×26, mask player_attacks
 ├── Contact (Hitbox)             10×22, always on, continuous
 ├── Damage (EnemyDamage)
 ├── HurtFeedback                 hit_stop 0.05, shake 0.3
 └── StateMachine
-    ├── Patrol, Chase, Hurt, Dead   shared states
+    ├── Patrol, Chase, Hurt, Stunned, Dead   shared states
     └── Attack                      SaberSlash
 ```
 
@@ -128,6 +140,7 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 | `actors/enemies/states/patrol.gd` | Walk, turn at walls and ledges, spot the player |
 | `actors/enemies/states/chase.gd` | Run at the player, start attacks, give up when out of range or out of sight |
 | `actors/enemies/states/hurt.gd` | Knockback and stagger |
+| `actors/enemies/states/stunned.gd` | Pushed back and helpless after a parried attack |
 | `actors/enemies/states/dead.gd` | Combat off, darken and fade |
 | `actors/enemies/states/enemy_attack_state.gd` | `EnemyAttackState`: telegraphed startup, active, recovery, cooldown |
 | `actors/enemies/raider/raider.tscn` | Raider scene |
@@ -170,6 +183,8 @@ Set on the enemy's root node. Raider values are the defaults.
 | `heavy_knockback` | 180 | Slide-back speed after a HEAVY hit (px/s) |
 | `max_staggers` | 3 | Staggers in a row before poise breaks. 0: never staggered |
 | `poise_recovery` | 1.5 | Time without being hit before the stagger count resets (s) |
+| `stun_time` | 1.0 | How long the enemy stays stunned after a parried attack (s) |
+| `stun_knockback` | 100 | Push-back speed when parried (px/s) |
 | `corpse_time` | 0.5 | How long the body stays before fading (s) |
 | `fade_time` | 0.4 | Fade-out length (s) |
 | `stays_dead` | On | Killed, it stays dead across room changes until the player rests or dies. Off: back every time its room loads |
@@ -188,7 +203,9 @@ Set on the attack state node.
 | `cooldown` | 0.6 | Time after the attack before the next one (s) |
 | `lunge_speed` | 120 | `SaberSlash` only: forward speed while the blade is out (px/s) |
 
-The slash and contact hitboxes use the `Hitbox` defaults: 1 damage, NORMAL reaction.
+The slash and contact hitboxes use the `Hitbox` defaults: 1 damage, NORMAL reaction. The slash has `parryable` on.
+
+The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stunned).
 
 ## Extending
 

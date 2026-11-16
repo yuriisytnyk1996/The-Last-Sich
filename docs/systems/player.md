@@ -12,6 +12,7 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/abilities/drop_through.gd` | `PlayerDropThrough`: down + jump through one-way platforms |
 | `actors/player/abilities/ladder_climb.gd` | `PlayerLadderClimb`: finds ladders to grab, climbing tuning |
 | `actors/player/abilities/flasks.gd` | `PlayerFlasks`: healing flask charges, drinking and refilling, reports them to `Events` |
+| `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, when a parry starts, success feedback |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -24,8 +25,9 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 │   ├── HealAura (ColorRect) placeholder glow behind the body while drinking a flask
 │   ├── Body (ColorRect)     placeholder
 │   ├── Eye (ColorRect)      placeholder, shows facing direction
+│   ├── Guard (ColorRect)    placeholder bar in front, shown while the parry guard is up
 │   └── Attacks (Node2D)     one Hitbox per attack, layer: player_attacks
-│       ├── Side  ├── Up  └── Crouch   each with a Shape and a placeholder Slash
+│       ├── Side  ├── Up  ├── Crouch  └── Riposte   each with a Shape and a placeholder Slash
 ├── Health                   5 hit points
 ├── Hurtbox (Area2D)         10×26, mask: enemy_attacks, hazards
 ├── InvincibilityBlink       blinks Visual while the hurtbox is invincible
@@ -34,11 +36,12 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── DropThrough              PlayerDropThrough: down + jump through one-way platforms
 ├── LadderClimb              PlayerLadderClimb: finds ladders, climbing tuning
 ├── Flasks                   PlayerFlasks: healing flask charges
+├── Parry                    PlayerParry: parry and riposte tuning
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
     ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── HardLanding  ├── Heal
-    ├── SideAttack  ├── UpAttack  ├── CrouchAttack
+    ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
     └── Hurt  └── Dead
 ```
 
@@ -46,8 +49,8 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, an attack (attack buffered), Heal (heal pressed), Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, an attack, Heal, Idle (no move input) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), an attack (attack buffered), Heal (heal pressed), Run (move input) |
+| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, an attack, Heal, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), an attack, Fall (once moving down) |
 | **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Ground only. Fixed horizontal speed, no gravity | Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
@@ -55,6 +58,8 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **Heal** | Drinks a healing flask: the flask is used and the health restored at once, then the player slows to a stop and stands still for `drink_time`. See [Healing flasks](#healing-flasks) | Idle/Run (time is up), Fall (ground gone) |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
+| **Parry** | Planted guard for `parry_window`. A parryable hit is deflected and stuns the attacker; a guard that catches nothing leaves the player stuck for `fail_recovery`. See [Combat](/systems/combat#parry-and-riposte) | Riposte (attack after a parry), Idle/Run (time is up), Fall (ground gone) |
+| **Riposte** | Invincible lunge into a heavy slash after a parry | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
 
@@ -210,6 +215,8 @@ Healing values are on the **`Flasks`** child node (`PlayerFlasks`):
 | `heal_amount` | 2 | Health restored by one flask |
 | `drink_time` | 0.5 | Seconds the player stands still while drinking |
 
+Parry and riposte values are on the **`Parry`** child node (`PlayerParry`) and the **`Riposte`** state node, see [Combat](/systems/combat#parry-and-riposte-1).
+
 Maximum health is set on the `Health` child node (`max_health`, default 5). Flash, hit-stop and shake are on the `HurtFeedback` node, see [Combat](/systems/combat#hurtfeedback).
 
 ## Public helpers
@@ -229,6 +236,7 @@ Used by states and other systems:
 | `drop_through.wants()` / `drop_through.start()` | Down + jump on a one-way platform, drop timer (on `PlayerDropThrough`) |
 | `wants_dash()` / `start_dash()` | Dash press on the ground, cooldown |
 | `wants_attack()` / `consume_attack()` | Attack buffer |
+| `parry.wants()` / `parry.play_feedback()` | Parry pressed on the ground; freeze, shake and rumble on a successful parry (on `PlayerParry`) |
 | `flasks.wants()` / `flasks.drink()` / `flasks.refill()` | Heal pressed with a flask left and health missing; use one and heal; fill them all (on `PlayerFlasks`) |
 | `can_interact()` | Interact just pressed, on the ground, in Idle or Run: used by doors and other [interaction areas](/systems/rooms#interaction-areas) |
 | `set_camera_limits(bounds)` | Called by the room |

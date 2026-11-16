@@ -21,7 +21,7 @@ func enter(_previous_state: StringName) -> void:
 	player.consume_attack()
 	_started_on_floor = player.is_on_floor()
 	_phase = Phase.STARTUP
-	_time_left = player.attack_startup
+	_time_left = startup_time()
 
 
 func exit() -> void:
@@ -46,13 +46,27 @@ func physics_update(delta: float) -> void:
 		Phase.STARTUP:
 			hitbox.set_active(true)
 			_phase = Phase.ACTIVE
-			_time_left = player.attack_active
+			_time_left = active_time()
 		Phase.ACTIVE:
 			hitbox.set_active(false)
 			_phase = Phase.RECOVERY
-			_time_left = player.attack_recovery
+			_time_left = recovery_time()
 		Phase.RECOVERY:
 			finished.emit(ground_state() if player.is_on_floor() else FALL)
+
+
+## Phase lengths. The basic swings share the Player's attack timing;
+## special attacks override these.
+func startup_time() -> float:
+	return player.attack_startup
+
+
+func active_time() -> float:
+	return player.attack_active
+
+
+func recovery_time() -> float:
+	return player.attack_recovery
 
 
 ## Default movement, facing locked. A swing started on the ground plants

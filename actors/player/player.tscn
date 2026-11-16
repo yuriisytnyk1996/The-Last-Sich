@@ -25,6 +25,9 @@
 [ext_resource type="Script" path="res://actors/player/states/hard_landing.gd" id="23_hard"]
 [ext_resource type="Script" path="res://actors/player/abilities/flasks.gd" id="24_flasks"]
 [ext_resource type="Script" path="res://actors/player/states/heal.gd" id="25_heal"]
+[ext_resource type="Script" path="res://actors/player/abilities/parry.gd" id="26_parry"]
+[ext_resource type="Script" path="res://actors/player/states/parry.gd" id="27_parry_state"]
+[ext_resource type="Script" path="res://actors/player/states/attacks/riposte.gd" id="28_riposte"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -37,6 +40,9 @@ size = Vector2(24, 20)
 
 [sub_resource type="RectangleShape2D" id="crouch_attack_shape"]
 size = Vector2(22, 10)
+
+[sub_resource type="RectangleShape2D" id="riposte_shape"]
+size = Vector2(28, 20)
 
 [sub_resource type="RectangleShape2D" id="hurtbox_shape"]
 size = Vector2(10, 26)
@@ -76,6 +82,15 @@ offset_right = 5.0
 offset_bottom = -23.0
 mouse_filter = 2
 color = Color(0.15, 0.1, 0.1, 1)
+
+[node name="Guard" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = 7.0
+offset_top = -32.0
+offset_right = 10.0
+offset_bottom = -4.0
+mouse_filter = 2
+color = Color(0.6, 0.8, 1, 0.85)
 
 [node name="Attacks" type="Node2D" parent="Visual"]
 
@@ -139,6 +154,29 @@ offset_bottom = 5.0
 mouse_filter = 2
 color = Color(0.95, 0.92, 0.8, 0.6)
 
+[node name="Riposte" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(18, -16)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 3
+knockback_force = 180.0
+knockback_direction = Vector2(1, 0)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Riposte"]
+shape = SubResource("riposte_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/Riposte"]
+offset_left = -14.0
+offset_top = -10.0
+offset_right = 14.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(1, 0.85, 0.5, 0.7)
+
 [node name="Health" type="Node" parent="."]
 script = ExtResource("14_health")
 
@@ -177,6 +215,9 @@ script = ExtResource("21_ladder")
 
 [node name="Flasks" type="Node" parent="."]
 script = ExtResource("24_flasks")
+
+[node name="Parry" type="Node" parent="."]
+script = ExtResource("26_parry")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)
@@ -226,6 +267,14 @@ hitbox = NodePath("../../Visual/Attacks/Up")
 [node name="CrouchAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("11_crouch_attack")
 hitbox = NodePath("../../Visual/Attacks/Crouch")
+
+[node name="Parry" type="Node" parent="StateMachine" node_paths=PackedStringArray("guard")]
+script = ExtResource("27_parry_state")
+guard = NodePath("../../Visual/Guard")
+
+[node name="Riposte" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("28_riposte")
+hitbox = NodePath("../../Visual/Attacks/Riposte")
 
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("12_hurt")

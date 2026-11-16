@@ -51,6 +51,7 @@
 - [x] Gamepad rumble on hits
 - [x] Rooms split into Deco, Layout and Logic sub-scenes, so art and level design can be edited apart
 - [x] Killed enemies stay dead across room changes until the player rests or dies (`stays_dead` to opt out)
+- [x] Parry and riposte: a timed guard deflects parryable melee swings and stuns the attacker, then attack within a short window for an invincible heavy counter-slash; a mistimed guard leaves the player open
 
 ## Next
 
@@ -85,3 +86,4 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Brown rectangle for doors, a triangle for the interact prompt
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
+- Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash
