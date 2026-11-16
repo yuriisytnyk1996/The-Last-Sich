@@ -16,6 +16,7 @@ const LABELS := {
 	&"interact": "Interact",
 	&"ranged": "Ranged",
 	&"map": "Map",
+	&"inventory": "Inventory",
 }
 const NAME_WIDTH := 88.0
 

@@ -21,6 +21,9 @@ const BLADE_SLOTS := 1
 @export var all: Array[Item] = []
 
 var save_id := &"inventory"
+## The last item added and not yet looked at. The inventory page opens
+## on it (`take_newest()`).
+var newest: Item
 var _owned: Array[StringName] = []
 var _worn: Array[StringName] = []
 
@@ -66,6 +69,24 @@ func slot_count(kind: Item.Kind) -> int:
 	return 0
 
 
+## The newest item, once: later calls return null until another is added.
+func take_newest() -> Item:
+	var item := newest
+	newest = null
+	return item
+
+
+## Most slots of a kind there can ever be. The inventory page shows the
+## ones not opened yet as locked.
+func max_slots(kind: Item.Kind) -> int:
+	match kind:
+		Item.Kind.CHARM:
+			return PlayerStats.MAX_CHARM_SLOTS
+		Item.Kind.BLADE:
+			return BLADE_SLOTS
+	return 0
+
+
 func has_free_slot(kind: Item.Kind) -> bool:
 	return worn_of(kind).size() < slot_count(kind)
 
@@ -75,6 +96,7 @@ func add(item: Item) -> bool:
 	if item == null or owns(item):
 		return false
 	_owned.append(item.id)
+	newest = item
 	changed.emit()
 	Events.item_obtained.emit(item)
 	return true

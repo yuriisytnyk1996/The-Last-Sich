@@ -18,6 +18,7 @@ world.tscn
                                             ├─ Options ──► (same OptionsScreen)
                                             └─ Quit to main menu ──► main_menu.tscn
 └── PauseMenu (M / Back) ── MapScreen (straight to the map)
+└── PauseMenu (I) ── InventoryScreen (straight to the inventory)
 └── SkillShrine (interact) ── PausingMenu ── SkillsScreen ── learn a skill (see Skills)
 └── ShopItem (interact) ── PausingMenu ── BuyScreen ── buy the item (see Shops)
 ```
@@ -56,7 +57,7 @@ world.tscn
 | `ui/menus/skills/skills_screen.gd` | `SkillsScreen`: the skill shrine's page, see [Skills](/systems/skills) |
 | `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Inventory, Map, Options, Quit to main menu |
 | `ui/menus/shop/buy_screen.gd` | `BuyScreen`: a shop stand's item, price and buy (see [Shops](/systems/shops)) |
-| `ui/menus/inventory/inventory_screen.gd` | `InventoryScreen`: owned items by kind, wear and take off (see [Inventory](/systems/inventory)) |
+| `ui/menus/inventory/` | `InventoryScreen` and its parts: tabs, worn row and grid, details (see [Inventory](/systems/inventory#inventory-page)) |
 | `ui/menus/options/` | The options pages, see [Options](/systems/options) |
 
 ## Tuning

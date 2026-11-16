@@ -54,6 +54,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("map"):
 		pause_menu.open_map()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("inventory"):
+		pause_menu.open_inventory()
+		get_viewport().set_input_as_handled()
 
 
 func get_save_data() -> Dictionary:

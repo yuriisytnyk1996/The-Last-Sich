@@ -1,10 +1,10 @@
 # Inventory
 
-Items the player carries: charms worn in slots for passive bonuses, a blade that trades one strength for another, and keepsakes that work just by being carried. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the pause menu's inventory page, and saved.
+Items the player carries: charms worn in slots for passive bonuses, a blade that trades one strength for another, and keepsakes that work just by being carried. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the inventory page, and saved.
 
 ## How it works
 
-1. Every item is an `Item` resource (`actors/player/items/<kind>s/<id>.tres`) with an `id`, a title and description for the menus, a `kind`, a shop `price` and a list of `effects`.
+1. Every item is an `Item` resource (`actors/player/items/<kind>s/<id>.tres`) with an `id`, a title, description and optional `icon` for the menus, a `kind`, a shop `price` and a list of `effects`.
 2. The player's `Inventory` node (`PlayerInventory`, `actors/player/abilities/inventory.gd`) lists every item in `all`, remembers which ones are owned and which are worn, and enforces the slots. Every change emits `changed`.
 3. `PlayerInventory.add(item)` gives the player an item and emits `Events.item_obtained(item)`. The HUD's `ItemToast` names it for a moment ("Found: Wolf fang").
 4. The player's `ItemEffects` node (`PlayerItemEffects`, `actors/player/abilities/item_effects.gd`) runs the effects:
@@ -12,7 +12,33 @@ Items the player carries: charms worn in slots for passive bonuses, a blade that
    - **Event effects** (`ON_HIT`, `ON_KILL`, `ON_HURT`) of worn items start when the event happens. With a `duration` they stop again once it runs out; a new event restarts the clock instead of stacking.
    - Each effect runs under its own source, `item:<id>:<index>`, so its stat modifiers come off with `Stats.remove_source()`.
 5. `ItemPickup` (`levels/objects/items/item_pickup.tscn`) is an item lying in a room. Interact takes it, once; its room remembers that through the `persistent` group.
-6. The pause menu's **Inventory** page (`InventoryScreen`) lists owned items of one kind at a time. Left and right on the top row switch between charms, blades and keepsakes. Choosing a charm or blade wears it or takes it off. The focused item's description shows below.
+6. The **inventory page** (`InventoryScreen`) shows the items, see below.
+
+### Inventory page
+
+Opened with `inventory` (I) or from the pause menu's **Inventory** button. The same key closes it; back closes it or returns to the pause menu.
+
+```
+              Charms
+     < Q   Charms   Blades   Keepsakes   E >
+ Worn                              ┌─────────────────┐
+ [■][■][ ][ ][ ][x][x][x]          │       ◆         │
+ Carried                           │   Iron cross    │
+ [■][■][■][■][■][■][■][■]          │  Charm · Worn   │
+ [■][ ][ ][ ][ ][ ][ ][ ]          │  description…   │
+ [ ][ ][ ][ ][ ][ ][ ][ ]          └─────────────────┘
+ Currency 1234          Accept: Take off    Back: Close
+```
+
+- **Tabs** (`InventoryTabs`): one per kind. `menu_tab_prev` and `menu_tab_next` (Q / E, shoulder buttons) step through them and wrap; tabs can be clicked. The open tab is lit and underlined, and its name is the page title.
+- **Worn row**: every slot the kind can ever have (`PlayerInventory.max_slots()`: 8 charms, 1 blade). Open slots show the worn items in order; slots not opened yet are dark and crossed. The row can't be focused; it lights the slot of the item focused in the grid. Keepsakes have no worn row.
+- **Grid** (`InventoryGrid`): the owned items of the kind in `all` order, 8 per row, padded with empty cells to at least 3 rows. Worn items have a gold back and frame. The focused cell has a bright frame with corner ticks.
+- **Details** (`ItemDetails`): the focused item drawn large, its name, kind and "Worn", and its description. Empty for an empty cell.
+- **Footer**: the currency, then hints for the focused item: "Accept: Wear", "Accept: Take off" or "No free slot", and "Back: Close".
+- **Accept** on a charm wears it in the first free slot or takes it off; on a blade it replaces the worn one. Keepsakes do nothing.
+- The page opens on the tab and cell of the **newest item** (`PlayerInventory.take_newest()`) when one was added since the last look, else on the tab and cell used last.
+
+Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a steel blade for blades, a leather pouch for keepsakes, with the first letter of the title in the corner of small icons. An item with an `icon` texture shows that instead.
 
 ### Kinds and slots
 
@@ -68,7 +94,7 @@ The test works room holds the wolf fang (near the start) and the leather pouch (
 
 ### Debug
 
-In debug builds the inventory page has a **Debug: get all items** button (`PlayerInventory.add_all()`). It adds every item without the HUD toast; they are saved like normal items the next time the game saves.
+In debug builds the inventory page footer has a **Debug: get all** button (mouse only) (`PlayerInventory.add_all()`). It adds every item without the HUD toast; they are saved like normal items the next time the game saves.
 
 ## Files
 
@@ -82,7 +108,12 @@ In debug builds the inventory page has a **Debug: get all items** button (`Playe
 | `actors/player/abilities/inventory.gd` | `PlayerInventory`: every item, owned, worn, slots, saved |
 | `actors/player/abilities/item_effects.gd` | `PlayerItemEffects`: starts and stops effects |
 | `levels/objects/items/item_pickup.gd` / `.tscn` | `ItemPickup`: an item to pick up once |
-| `ui/menus/inventory/inventory_screen.gd` | `InventoryScreen`: the pause menu's inventory page |
+| `ui/menus/inventory/inventory_screen.gd` | `InventoryScreen`: the inventory page, tab keys, wear and take off |
+| `ui/menus/inventory/inventory_tabs.gd` | `InventoryTabs`: the tab bar |
+| `ui/menus/inventory/inventory_grid.gd` | `InventoryGrid`: worn row and item grid for one kind |
+| `ui/menus/inventory/item_cell.gd` | `ItemCell`: one square, with its frame per state |
+| `ui/menus/inventory/item_details.gd` | `ItemDetails`: the focused item's panel |
+| `ui/menus/inventory/item_icon.gd` | `ItemIcon`: the item's icon, or a placeholder shape |
 | `ui/hud/item_toast.gd` | `ItemToast`: names a new item in the HUD |
 
 ## Tuning
@@ -91,6 +122,8 @@ In debug builds the inventory page has a **Debug: get all items** button (`Playe
 |---|---|---|
 | `PlayerStats.charm_slots` | 3 | Charm slots at the start (stat range 0 to 8) |
 | `PlayerInventory.BLADE_SLOTS` | 1 | Blades worn at once (constant) |
+| `PlayerStats.MAX_CHARM_SLOTS` | 8 | Most charm slots there can be; the worn row shows this many (constant) |
+| `InventoryGrid.COLUMNS` / `MIN_ROWS` | 8 / 3 | Grid size (constants) |
 | `ItemToast.show_time` | 2.0 | Seconds the item name stays fully visible |
 | `ItemToast.fade_time` | 0.5 | Seconds it takes to fade out |
 | `Item.price` / effect values | per item | See the item table |
@@ -108,4 +141,6 @@ In debug builds the inventory page has a **Debug: get all items** button (`Playe
 
 - Hits from projectiles and blasts spawned after the player is ready don't set off `ON_HIT` effects, the same as for spirit.
 - Event effects that are running when their item is taken off keep going until their duration runs out.
-- Plain text rows in the default menu style: no item icons. Pickups are gold diamonds with no pickup animation.
+- Placeholder shapes instead of item icons, no menu sounds or cursor animation. Pickups are gold diamonds with no pickup animation.
+- The grid grows instead of scrolling, which is fine for a few dozen items per kind.
+- The worn row is display only: a charm is taken off by choosing it in the grid.

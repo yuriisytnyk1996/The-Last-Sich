@@ -203,7 +203,12 @@ The-Last-Sich/
 │   │   ├── shop/
 │   │   │   └── buy_screen.gd     Shop stand page: item, price, buy
 │   │   ├── inventory/
-│   │   │   └── inventory_screen.gd Inventory page: owned items by kind, wear and take off
+│   │   │   ├── inventory_screen.gd Inventory page: tabs, worn row, grid, details
+│   │   │   ├── inventory_tabs.gd The tab bar
+│   │   │   ├── inventory_grid.gd Worn row and item grid for one kind
+│   │   │   ├── item_cell.gd      One square of the grid or worn row
+│   │   │   ├── item_details.gd   The focused item's panel
+│   │   │   └── item_icon.gd      Item icon, or a placeholder shape
 │   │   ├── map/
 │   │   │   ├── map_screen.gd     Map page: zone name, map view, legend
 │   │   │   ├── map_view.gd       Draws the map, pans and zooms

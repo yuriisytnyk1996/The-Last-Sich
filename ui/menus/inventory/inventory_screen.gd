@@ -1,18 +1,32 @@
 class_name InventoryScreen
 extends MenuScreen
-## The pause menu's inventory page. A kind row (charms, blades, keepsakes)
-## picks which owned items are listed, with the slots in use. Choosing a
-## charm or blade wears it or takes it off; a blade replaces the one
-## worn. The focused item's description shows below the list.
+## The inventory page. A tab per item kind (stepped with `menu_tab_prev`
+## and `menu_tab_next`), the worn slots and a grid of owned items on the
+## left (`InventoryGrid`), the focused item on the right (`ItemDetails`),
+## the player's currency and the button hints at the bottom.
+##
+## Accept on a charm or blade wears it in the first free slot or takes it
+## off; a blade replaces the one worn. The page opens on the newest item
+## when there is one, else on the tab and cell used last.
 
 const KINDS: Array[Item.Kind] = [Item.Kind.CHARM, Item.Kind.BLADE, Item.Kind.KEEPSAKE]
-const LIST_WIDTH := 240.0
+## The page is drawn on its own backdrop, this far around its content (px).
+const MARGIN := Vector2(16, 10)
+const BACKDROP := Color(0.06, 0.05, 0.06, 0.97)
+const BACKDROP_BORDER := Color(0.35, 0.3, 0.26)
+
+## Tab and grid cell to come back to, kept between openings.
+static var _last_tab := 0
+static var _last_cell := 0
 
 var _inventory: PlayerInventory
-var _kind := Item.Kind.CHARM
-var _slots: Label
-var _list := VBoxContainer.new()
-var _info: Label
+var _tab := 0
+var _tabs: InventoryTabs
+var _title: Label
+var _grid: InventoryGrid
+var _details := ItemDetails.new()
+var _currency := Label.new()
+var _hints := Label.new()
 
 
 func _init(inventory: PlayerInventory) -> void:
@@ -20,71 +34,122 @@ func _init(inventory: PlayerInventory) -> void:
 
 
 func _build() -> void:
-	add_title("Inventory")
+	add_theme_constant_override(&"separation", 4)
+	_title = add_title("")
 	var names := PackedStringArray()
 	for kind in KINDS:
 		names.append(Item.kind_name(kind) + "s")
-	add_option("Show", names, 0, _on_kind_changed)
-	_slots = add_text("")
+	_tabs = InventoryTabs.new(names)
+	_tabs.tab_chosen.connect(_switch_tab)
+	add_child(_tabs)
 	add_gap(2)
-	_list.add_theme_constant_override("separation", 1)
-	add_child(_list)
-	add_gap()
-	_info = add_text("")
-	_info.custom_minimum_size.x = LIST_WIDTH
-	add_gap()
-	if OS.is_debug_build():
-		add_button("Debug: get all items", _debug_add_all)
-	add_button("Back", go_back)
-	_refresh()
+	var body := HBoxContainer.new()
+	body.add_theme_constant_override(&"separation", 12)
+	_grid = InventoryGrid.new(_inventory)
+	_grid.item_focused.connect(_on_item_focused)
+	_grid.item_pressed.connect(_on_item_pressed)
+	body.add_child(_grid)
+	body.add_child(_details)
+	add_child(body)
+	add_gap(2)
+	add_child(_footer())
+	var newest := _inventory.take_newest()
+	if newest:
+		_last_tab = KINDS.find(newest.kind)
+		_open_tab(_last_tab)
+		_last_cell = _grid.index_of(newest)
+	else:
+		_open_tab(_last_tab)
+	_currency.text = "Currency  %d" % _inventory.player.wallet.amount
 
 
-func _on_kind_changed(index: int) -> void:
-	_kind = KINDS[index]
-	_refresh()
+func _draw() -> void:
+	var rect := Rect2(-MARGIN, size + MARGIN * 2.0)
+	draw_rect(rect, BACKDROP)
+	draw_rect(rect.grow(-0.5), BACKDROP_BORDER, false, 1.0)
 
 
-func _refresh() -> void:
-	for child in _list.get_children():
-		_list.remove_child(child)
-		child.queue_free()
-	var items := _inventory.owned_of(_kind)
-	var slots := _inventory.slot_count(_kind)
-	_slots.text = "Worn: %d / %d" % [_inventory.worn_of(_kind).size(), slots] if slots > 0 else " "
-	if items.is_empty():
-		var empty := Label.new()
-		empty.text = "Nothing yet."
-		empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_list.add_child(empty)
-	for item in items:
-		var row := Button.new()
-		row.text = item.title + ("   [worn]" if _inventory.is_worn(item) else "")
-		row.custom_minimum_size.x = LIST_WIDTH
-		row.pressed.connect(_on_item_pressed.bind(item))
-		row.focus_entered.connect(_show_info.bind(item))
-		_list.add_child(row)
-	_info.text = " "
+func focus_first() -> void:
+	_grid.focus_cell(_last_cell)
 
 
-func _show_info(item: Item, note := "") -> void:
-	_info.text = item.description + ("\n" + note if note != "" else "")
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
+	var step := 0
+	if event.is_action_pressed("menu_tab_prev"):
+		step = -1
+	elif event.is_action_pressed("menu_tab_next"):
+		step = 1
+	if step != 0:
+		_switch_tab(wrapi(_tab + step, 0, KINDS.size()))
+		get_viewport().set_input_as_handled()
+
+
+func _switch_tab(index: int) -> void:
+	_open_tab(index)
+	_grid.focus_cell(0)
+
+
+func _open_tab(index: int) -> void:
+	_tab = index
+	_last_tab = index
+	_title.text = Item.kind_name(KINDS[index]) + "s"
+	_tabs.select(index)
+	_grid.show_kind(KINDS[index])
+	_details.show_item(null, false)
+	_update_hints(null)
+
+
+func _on_item_focused(item: Item) -> void:
+	_last_cell = _grid.focused_index()
+	_details.show_item(item, item != null and _inventory.is_worn(item))
+	_update_hints(item)
 
 
 func _on_item_pressed(item: Item) -> void:
-	if not item.is_equipable():
+	if item == null or not item.is_equipable():
 		return
-	var note := ""
 	if _inventory.is_worn(item):
 		_inventory.take_off(item)
 	elif not _inventory.wear(item):
-		note = "No free slot. Take another charm off first."
-	var index := _inventory.owned_of(_kind).find(item)
-	_refresh()
-	var row := _list.get_child(index) as Button
-	row.grab_focus()
-	_show_info(item, note)
+		_hints.text = "No free slot. Take a charm off first."
+		return
+	_grid.refresh()
+	_on_item_focused(item)
+
+
+func _update_hints(item: Item) -> void:
+	var action := ""
+	if item and item.is_equipable():
+		if _inventory.is_worn(item):
+			action = "Accept: Take off    "
+		elif item.kind == Item.Kind.CHARM and not _inventory.has_free_slot(item.kind):
+			action = "No free slot    "
+		else:
+			action = "Accept: Wear    "
+	_hints.text = action + "Back: Close"
+
+
+func _footer() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	_currency.theme_type_variation = &"HeaderLabel"
+	_currency.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_hints.theme_type_variation = &"HeaderLabel"
+	_hints.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(_currency)
+	if OS.is_debug_build():
+		var debug := Button.new()
+		debug.text = "Debug: get all"
+		debug.focus_mode = Control.FOCUS_NONE
+		debug.theme_type_variation = &"HeaderLabel"
+		debug.add_theme_font_size_override(&"font_size", 8)
+		debug.pressed.connect(_debug_add_all)
+		row.add_child(debug)
+	row.add_child(_hints)
+	return row
 
 
 func _debug_add_all() -> void:
 	_inventory.add_all()
-	_refresh()
+	_open_tab(_tab)

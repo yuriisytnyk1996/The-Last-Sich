@@ -12,6 +12,8 @@ const PARRY_WINDOW := &"parry_window"
 const RIPOSTE_WINDOW := &"riposte_window"
 const DASH_COOLDOWN := &"dash_cooldown"
 const CHARM_SLOTS := &"charm_slots"
+## Most charm slots the player can ever have.
+const MAX_CHARM_SLOTS := 8
 
 @export_group("Health")
 @export var max_health := 100.0
@@ -64,4 +66,4 @@ func _define_stats() -> void:
 	define(PARRY_WINDOW, parry_window, 0.05)
 	define(RIPOSTE_WINDOW, riposte_window, 0.05)
 	define(DASH_COOLDOWN, dash_cooldown, 0.0)
-	define(CHARM_SLOTS, charm_slots, 0.0, 8.0)
+	define(CHARM_SLOTS, charm_slots, 0.0, MAX_CHARM_SLOTS)

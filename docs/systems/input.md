@@ -20,6 +20,8 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 | `interact` | E | B / Circle | `Player.can_interact()`: use doors, rest points and skill shrines, in Idle or Run |
 | `ranged` | L | Right stick click | `PlayerRangedAttack.wants()`: press and let go to throw a spirit bolt (with the skill) |
 | `map` | M | Back / Select | `World` opens the pause menu on the [map](/systems/map); closes it again |
+| `inventory` | I | — | `World` opens the pause menu on the [inventory](/systems/inventory#inventory-page); closes it again. No gamepad button by default (Start → Inventory); one can be bound in Controls |
+| `menu_tab_prev`, `menu_tab_next` | Q, E | Left shoulder, right shoulder | Menus only: step through the tabs of the [inventory page](/systems/inventory#inventory-page). Not rebindable; they share keys with gameplay actions, which don't run while a menu is open |
 | `pause` | Escape | Start | `World` opens the [pause menu](/systems/menus); closes it again |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
 
