@@ -67,6 +67,18 @@ The editor's embedded Game view is slightly smaller than 1280×720 (for example 
 | Snap 2D transforms to pixel | On | Sprites and camera land on whole pixels, no jitter |
 | Snap 2D vertices to pixel | On | Same for polygons and lines |
 
+## Smooth motion on high refresh rate screens
+
+Physics runs at 60 ticks per second, but many screens refresh at 120 Hz or more. Without help, bodies move only on every second frame while the screen keeps drawing, which looks like stutter, worst when the player and a chasing enemy move at the same time.
+
+| Setting | Value | Why |
+|---|---|---|
+| Physics interpolation (`physics/common/physics_interpolation`) | On | Draws bodies between their last two physics positions, so motion is smooth at any refresh rate |
+| Physics jitter fix (`physics/common/physics_jitter_fix`) | 0 | Not needed with interpolation, and it fights it |
+| Player camera `process_callback` | Physics | The camera follows on the physics tick and is interpolated like everything else |
+
+**Teleports:** after moving a node instantly (respawn, room load, `Enemy.reset()`, spawning a blast), call `reset_physics_interpolation()` on it. Otherwise it is drawn sliding from its old position for one frame. Nodes positioned before `add_child()` don't need it.
+
 ## Asset guidelines
 
 - Draw at 1× for the 640×360 base resolution. The player is about 12×30 px.

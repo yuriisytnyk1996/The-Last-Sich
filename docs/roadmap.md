@@ -4,6 +4,7 @@
 
 - [x] Project settings for pixel art (640×360, integer scaling, nearest filtering, pixel snapping)
 - [x] Renderers: Forward+ on desktop, Mobile on phones, 2D HDR
+- [x] Physics interpolation: smooth motion on 120 Hz+ screens
 - [x] Input map for keyboard and gamepad
 - [x] `Events` signal bus
 - [x] Reusable state machine

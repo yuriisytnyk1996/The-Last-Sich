@@ -165,6 +165,7 @@ func set_combat_enabled(enabled: bool) -> void:
 ## Back to the spawn point, alive and patrolling.
 func reset() -> void:
 	global_position = _spawn_position
+	reset_physics_interpolation()
 	velocity = Vector2.ZERO
 	set_facing(start_facing)
 	_attack_cooldown = 0.0

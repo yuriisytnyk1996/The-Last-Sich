@@ -506,6 +506,7 @@ script = ExtResource("26_parry")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)
+process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 

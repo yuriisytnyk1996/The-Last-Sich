@@ -187,6 +187,7 @@ func set_camera_limits(bounds: Rect2i) -> void:
 
 func respawn(at: Vector2) -> void:
 	global_position = at
+	reset_physics_interpolation()
 	velocity = Vector2.ZERO
 	drop_through.reset()
 	ladder_climb.reset()

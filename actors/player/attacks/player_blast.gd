@@ -16,6 +16,7 @@ static func spawn(scene: PackedScene, parent: Node, at: Vector2) -> PlayerBlast:
 	var blast := scene.instantiate() as PlayerBlast
 	parent.add_child(blast)
 	blast.global_position = at
+	blast.reset_physics_interpolation()
 	return blast
 
 
