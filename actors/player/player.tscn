@@ -35,12 +35,37 @@
 [ext_resource type="Script" path="res://actors/player/states/ledge_hang.gd" id="33_ledge_hang"]
 [ext_resource type="Script" path="res://actors/player/states/ledge_climb.gd" id="34_ledge_climb"]
 [ext_resource type="Script" path="res://actors/player/abilities/skills.gd" id="35_skills"]
-[ext_resource type="Resource" path="res://actors/player/skills/combo_1.tres" id="36_combo_1"]
-[ext_resource type="Resource" path="res://actors/player/skills/combo_2.tres" id="37_combo_2"]
-[ext_resource type="Resource" path="res://actors/player/skills/combo_3.tres" id="38_combo_3"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/combo_strike.gd" id="39_combo_strike"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/combo_heavy.gd" id="40_combo_heavy"]
 [ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="41_player_skill"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo/combo_1.tres" id="50_combo_1"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo/combo_2.tres" id="51_combo_2"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo/combo_3.tres" id="52_combo_3"]
+[ext_resource type="Resource" path="res://actors/player/skills/charged/charged_1.tres" id="53_charged_1"]
+[ext_resource type="Resource" path="res://actors/player/skills/charged/charged_2.tres" id="54_charged_2"]
+[ext_resource type="Resource" path="res://actors/player/skills/charged/charged_3.tres" id="55_charged_3"]
+[ext_resource type="Resource" path="res://actors/player/skills/lunge/lunge_1.tres" id="56_lunge_1"]
+[ext_resource type="Resource" path="res://actors/player/skills/lunge/lunge_2.tres" id="57_lunge_2"]
+[ext_resource type="Resource" path="res://actors/player/skills/lunge/lunge_3.tres" id="58_lunge_3"]
+[ext_resource type="Resource" path="res://actors/player/skills/dive/dive_1.tres" id="59_dive_1"]
+[ext_resource type="Resource" path="res://actors/player/skills/dive/dive_2.tres" id="60_dive_2"]
+[ext_resource type="Resource" path="res://actors/player/skills/dive/dive_3.tres" id="61_dive_3"]
+[ext_resource type="Resource" path="res://actors/player/skills/ranged/ranged_1.tres" id="62_ranged_1"]
+[ext_resource type="Resource" path="res://actors/player/skills/ranged/ranged_2.tres" id="63_ranged_2"]
+[ext_resource type="Resource" path="res://actors/player/skills/ranged/ranged_3.tres" id="64_ranged_3"]
+[ext_resource type="Script" path="res://actors/player/skills/charged/charged_attack.gd" id="charged_attack"]
+[ext_resource type="Script" path="res://actors/player/skills/lunge/lunge_attack.gd" id="lunge_attack"]
+[ext_resource type="Script" path="res://actors/player/skills/dive/dive_attack.gd" id="dive_attack"]
+[ext_resource type="Script" path="res://actors/player/skills/ranged/ranged_attack.gd" id="ranged_attack"]
+[ext_resource type="Script" path="res://actors/player/states/skills/charge.gd" id="st_charge"]
+[ext_resource type="Script" path="res://actors/player/states/skills/charged_slash.gd" id="st_charged_slash"]
+[ext_resource type="Script" path="res://actors/player/states/skills/lunge.gd" id="st_lunge"]
+[ext_resource type="Script" path="res://actors/player/states/skills/dive.gd" id="st_dive"]
+[ext_resource type="Script" path="res://actors/player/states/skills/ranged.gd" id="st_ranged"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/ranged_bolt.tscn" id="ranged_bolt"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/charged_wave.tscn" id="charged_wave"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/bolt_burst.tscn" id="bolt_burst"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/dive_shockwave.tscn" id="dive_shockwave"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -68,6 +93,21 @@ size = Vector2(26, 40)
 
 [sub_resource type="RectangleShape2D" id="finisher_down_shape"]
 size = Vector2(64, 12)
+
+[sub_resource type="RectangleShape2D" id="charged_slash_shape"]
+size = Vector2(44, 30)
+
+[sub_resource type="RectangleShape2D" id="lunge_shape"]
+size = Vector2(26, 20)
+
+[sub_resource type="RectangleShape2D" id="dive_plunge_shape"]
+size = Vector2(16, 12)
+
+[sub_resource type="RectangleShape2D" id="dive_landing_shape"]
+size = Vector2(40, 14)
+
+[sub_resource type="RectangleShape2D" id="dive_landing_wide_shape"]
+size = Vector2(72, 16)
 
 [sub_resource type="RectangleShape2D" id="hurtbox_shape"]
 size = Vector2(10, 26)
@@ -116,6 +156,15 @@ offset_right = 10.0
 offset_bottom = -4.0
 mouse_filter = 2
 color = Color(0.6, 0.8, 1, 0.85)
+
+[node name="ChargeGlow" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -8.0
+offset_top = -34.0
+offset_right = 8.0
+offset_bottom = -30.0
+mouse_filter = 2
+color = Color(1, 0.9, 0.5, 1)
 
 [node name="Attacks" type="Node2D" parent="Visual"]
 
@@ -294,6 +343,121 @@ offset_bottom = 6.0
 mouse_filter = 2
 color = Color(1, 0.55, 0.4, 0.7)
 
+[node name="ChargedSlash" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(22, -16)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 4
+knockback_force = 240.0
+knockback_direction = Vector2(1, 0)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/ChargedSlash"]
+shape = SubResource("charged_slash_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/ChargedSlash"]
+offset_left = -22.0
+offset_top = -15.0
+offset_right = 22.0
+offset_bottom = 15.0
+mouse_filter = 2
+color = Color(1, 0.85, 0.5, 0.7)
+
+[node name="Lunge" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(14, -16)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 2
+knockback_force = 180.0
+knockback_direction = Vector2(1, 0)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Lunge"]
+shape = SubResource("lunge_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/Lunge"]
+offset_left = -13.0
+offset_top = -10.0
+offset_right = 13.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(1, 0.85, 0.5, 0.7)
+
+[node name="DivePlunge" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(0, 4)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 2
+knockback_force = 140.0
+knockback_direction = Vector2(0, -1)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/DivePlunge"]
+shape = SubResource("dive_plunge_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/DivePlunge"]
+offset_left = -8.0
+offset_top = -6.0
+offset_right = 8.0
+offset_bottom = 6.0
+mouse_filter = 2
+color = Color(1, 0.85, 0.5, 0.7)
+
+[node name="DiveLanding" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(0, -6)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 3
+knockback_force = 160.0
+knockback_direction = Vector2(0, -1)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/DiveLanding"]
+shape = SubResource("dive_landing_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/DiveLanding"]
+offset_left = -20.0
+offset_top = -7.0
+offset_right = 20.0
+offset_bottom = 7.0
+mouse_filter = 2
+color = Color(1, 0.85, 0.5, 0.7)
+
+[node name="DiveLandingWide" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(0, -7)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 3
+knockback_force = 180.0
+knockback_direction = Vector2(0, -1)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/DiveLandingWide"]
+shape = SubResource("dive_landing_wide_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/DiveLandingWide"]
+offset_left = -36.0
+offset_top = -8.0
+offset_right = 36.0
+offset_bottom = 8.0
+mouse_filter = 2
+color = Color(1, 0.85, 0.5, 0.7)
+
 [node name="Health" type="Node" parent="."]
 script = ExtResource("14_health")
 
@@ -434,6 +598,31 @@ startup = 0.14
 active = 0.1
 recovery = 0.4
 
+[node name="Charge" type="Node" parent="StateMachine" node_paths=PackedStringArray("glow")]
+script = ExtResource("st_charge")
+glow = NodePath("../../Visual/ChargeGlow")
+
+[node name="ChargedSlash" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("st_charged_slash")
+hitbox = NodePath("../../Visual/Attacks/ChargedSlash")
+startup = 0.05
+active = 0.14
+recovery = 0.35
+lunge_speed = 60.0
+
+[node name="Lunge" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("st_lunge")
+hitbox = NodePath("../../Visual/Attacks/Lunge")
+
+[node name="Dive" type="Node" parent="StateMachine" node_paths=PackedStringArray("plunge_hitbox", "landing_hitbox", "wide_landing_hitbox")]
+script = ExtResource("st_dive")
+plunge_hitbox = NodePath("../../Visual/Attacks/DivePlunge")
+landing_hitbox = NodePath("../../Visual/Attacks/DiveLanding")
+wide_landing_hitbox = NodePath("../../Visual/Attacks/DiveLandingWide")
+
+[node name="Ranged" type="Node" parent="StateMachine"]
+script = ExtResource("st_ranged")
+
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("12_hurt")
 
@@ -451,4 +640,20 @@ script = ExtResource("31_spirit")
 
 [node name="Skills" type="Node" parent="."]
 script = ExtResource("35_skills")
-all = Array[ExtResource("41_player_skill")]([ExtResource("36_combo_1"), ExtResource("37_combo_2"), ExtResource("38_combo_3")])
+all = Array[ExtResource("41_player_skill")]([ExtResource("50_combo_1"), ExtResource("51_combo_2"), ExtResource("52_combo_3"), ExtResource("53_charged_1"), ExtResource("54_charged_2"), ExtResource("55_charged_3"), ExtResource("56_lunge_1"), ExtResource("57_lunge_2"), ExtResource("58_lunge_3"), ExtResource("59_dive_1"), ExtResource("60_dive_2"), ExtResource("61_dive_3"), ExtResource("62_ranged_1"), ExtResource("63_ranged_2"), ExtResource("64_ranged_3")])
+
+[node name="Charged" type="Node" parent="Skills"]
+script = ExtResource("charged_attack")
+wave_scene = ExtResource("charged_wave")
+
+[node name="Lunge" type="Node" parent="Skills"]
+script = ExtResource("lunge_attack")
+
+[node name="Dive" type="Node" parent="Skills"]
+script = ExtResource("dive_attack")
+shockwave_scene = ExtResource("dive_shockwave")
+
+[node name="Ranged" type="Node" parent="Skills"]
+script = ExtResource("ranged_attack")
+bolt_scene = ExtResource("ranged_bolt")
+burst_scene = ExtResource("bolt_burst")

@@ -16,6 +16,9 @@ func enter(_previous_state: StringName) -> void:
 
 
 func physics_update(delta: float) -> void:
+	if player.skills.lunge.wants():
+		finished.emit(LUNGE)
+		return
 	_time_left -= delta
 	player.move_and_slide()
 	if not player.is_on_floor():

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="3_exit"]
 [ext_resource type="PackedScene" path="res://actors/enemies/raider/raider.tscn" id="4_raider"]
+[ext_resource type="PackedScene" path="res://levels/objects/tier_relic.tscn" id="90_relic"]
 
 [sub_resource type="RectangleShape2D" id="shape_ladder_exit"]
 size = Vector2(16, 8)
@@ -52,3 +53,6 @@ position = Vector2(0, 44)
 
 [node name="Raider" parent="Enemies" instance=ExtResource("4_raider")]
 position = Vector2(300, 432)
+
+[node name="TierRelic" parent="." instance=ExtResource("90_relic")]
+position = Vector2(640, 432)

@@ -1,6 +1,6 @@
 # Spirit
 
-Spirit is a resource the player builds up by fighting. It will pay for spirit abilities later. Death marks lower both its maximum and how fast it fills, see [Death penalty](/systems/death-penalty).
+Spirit is a resource the player builds up by fighting. The [ranged bolt](/systems/skills) spends it. Death marks lower both its maximum and how fast it fills, see [Death penalty](/systems/death-penalty).
 
 ## How it works
 
@@ -36,11 +36,10 @@ Spirit is earned in fights, not handed out:
 
 ## Extending
 
-- **A spirit ability:** check `spirit.current`, then lower it and send the change. Add a `spend(amount) -> bool` to `PlayerSpirit` with the first one.
+- **A spirit ability:** call `spirit.spend(amount)` and only go ahead when it returns true, as `PlayerRangedAttack` does.
 - **Max spirit upgrades:** raise `full_max`, then assign `max_factor` again (its setter announces the change), and the bar grows with it.
 - **Other gains** (finishing moves, items): call `add()`.
 
 ## Known limitations
 
-- Nothing spends spirit yet.
 - Placeholder bar: plain rectangles.

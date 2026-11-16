@@ -21,6 +21,10 @@ func physics_update(delta: float) -> void:
 
 	if player.ladder_climb.wants_grab_up():
 		finished.emit(CLIMB)
+	elif player.skills.ranged.wants():
+		finished.emit(RANGED)
+	elif player.skills.dive.wants():
+		finished.emit(DIVE)
 	elif player.wants_attack():
 		finished.emit(attack_state())
 	elif player.velocity.y >= 0.0:

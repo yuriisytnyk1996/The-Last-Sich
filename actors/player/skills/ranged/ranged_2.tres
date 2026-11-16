@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerSkill" format=3]
+
+[ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="1_skill"]
+[ext_resource type="Resource" path="res://actors/player/skills/ranged/ranged_1.tres" id="2_parent"]
+
+[resource]
+script = ExtResource("1_skill")
+id = &"ranged_2"
+title = "Returning bolt"
+description = "The bolt flies back to you, hitting again on the way."
+tier = 3
+cost = 400
+parent = ExtResource("2_parent")

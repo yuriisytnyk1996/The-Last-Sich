@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerSkill" format=3]
+
+[ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="1_skill"]
+
+[resource]
+script = ExtResource("1_skill")
+id = &"lunge_1"
+title = "Lunge"
+description = "Press attack during a dash to lunge forward through enemies with a piercing thrust."
+tier = 1
+cost = 150

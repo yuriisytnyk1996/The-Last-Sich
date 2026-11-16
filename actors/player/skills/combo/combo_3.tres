@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PlayerSkill" format=3]
 
 [ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="1_skill"]
-[ext_resource type="Resource" path="res://actors/player/skills/combo_2.tres" id="2_parent"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo/combo_2.tres" id="2_parent"]
 
 [resource]
 script = ExtResource("1_skill")

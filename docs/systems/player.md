@@ -15,7 +15,8 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/abilities/flasks.gd` | `PlayerFlasks`: healing flask charges, drinking and refilling, reports them to `Events` |
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, when a parry starts, success feedback |
 | `actors/player/abilities/skills.gd` | `PlayerSkills`: learned skills, see [Skills](/systems/skills) |
-| `actors/player/skills/` | `PlayerSkill` resource and one `.tres` per skill |
+| `actors/player/skills/` | `PlayerSkill` resource, one folder per skill line with its `.tres` files and ability script |
+| `actors/player/attacks/` | Player projectiles and blasts (bolt, wave, burst, shockwave) |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -31,7 +32,8 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 │   ├── Guard (ColorRect)    placeholder bar in front, shown while the parry guard is up
 │   └── Attacks (Node2D)     one Hitbox per attack, layer: player_attacks
 │       ├── Side  ├── Up  ├── Crouch  ├── Riposte   each with a Shape and a placeholder Slash
-│       └── ComboHeavy  ├── Finisher  ├── FinisherUp  └── FinisherDown
+│       ├── ComboHeavy  ├── Finisher  ├── FinisherUp  ├── FinisherDown
+│       └── ChargedSlash  ├── Lunge  ├── DivePlunge  ├── DiveLanding  └── DiveLandingWide
 ├── Health                   5 hit points
 ├── Hurtbox (Area2D)         10×26, mask: enemy_attacks, hazards
 ├── InvincibilityBlink       blinks Visual while the hurtbox is invincible
@@ -49,6 +51,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
     ├── HardLanding  ├── Heal
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
     ├── ComboHeavy  ├── ComboFinisher  ├── ComboFinisherUp  ├── ComboFinisherDown
+    ├── Charge  ├── ChargedSlash  ├── Lunge  ├── Dive  ├── Ranged
     └── Hurt  └── Dead
 ```
 
@@ -56,11 +59,11 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), an attack (attack buffered), Heal (heal pressed), Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, an attack, Heal, Idle (no move input) |
-| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), an attack, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
-| **Dash** | Ground only. Fixed horizontal speed, no gravity | Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), Ranged (ranged let go, with the skill), an attack (attack buffered), Heal (heal pressed), Run (move input) |
+| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, Ranged, an attack, Heal, Idle (no move input) |
+| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), Ranged, Dive (down + attack held, with the skill), an attack, Fall (once moving down) |
+| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), Ranged, Dive, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
+| **Dash** | Ground only. Fixed horizontal speed, no gravity | Lunge (attack, with the skill), Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
 | **LedgeHang** | Hangs from a ledge by the hands: no gravity, no movement. See [Ledge grab](#ledge-grab) | LedgeClimb (up or jump, after `climb_delay`), Fall (down) |
 | **LedgeClimb** | Pulls up onto the ledge: straight up beside the wall, then sideways onto the top. No input | Idle/Run (standing on the top) |
@@ -71,6 +74,11 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **Riposte** | Invincible lunge into a heavy slash after a parry | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **ComboHeavy** | Heavy last swing of the ground combo, steps forward | Idle/Run, Fall, a finisher (attack with a combo skill learned), another attack (re-swing after a miss) |
 | **ComboFinisher / Up / Down** | Combo finishers learned as [skills](/systems/skills): forward lunge, rising hop, two-sided slam | Idle/Run, Fall, another attack (re-swing after a miss) |
+| **Charge** | Planted, attack held after a ground side slash, glows when full. See [Combat](/systems/combat#skill-attacks) | ChargedSlash (let go when full), Idle/Run (let go early), Fall |
+| **ChargedSlash** | Heavy charged slash, a wave at level 3 | Idle/Run, Fall, another attack (re-swing after a miss) |
+| **Lunge** | Thrust forward from a dash, ignores contact damage | Idle/Run, Fall, another attack (re-swing after a miss) |
+| **Dive** | Hang, plunge, land with a hit around, recover. Invincible until it lands | Idle/Run, Fall |
+| **Ranged** | Throw a spirit bolt, stopped on the ground or hanging in the air | Idle/Run, Fall |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
 
@@ -301,5 +309,4 @@ Used by states and other systems:
 - No death animation yet.
 - No drinking animation or sounds (drinking, empty flask): a placeholder aura stands in for the animation.
 - The number of flasks and how much they heal can't be upgraded yet.
-- No charged or movement attacks yet (planned as skills).
 - No hang or climb-up animation for ledges. A ladder caught by the upper body pulls the feet up in one frame (up to `grab_height`).

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/tier_relic.gd" id="1_relic"]
+
+[sub_resource type="RectangleShape2D" id="shape_relic"]
+size = Vector2(14, 20)
+
+[node name="TierRelic" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_relic")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("shape_relic")
+
+[node name="Visual" type="Polygon2D" parent="."]
+position = Vector2(0, -14)
+color = Color(0.45, 0.8, 1, 1)
+polygon = PackedVector2Array(0, -7, 5, 0, 0, 7, -5, 0)

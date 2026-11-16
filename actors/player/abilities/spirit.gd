@@ -1,7 +1,7 @@
 class_name PlayerSpirit
 extends Node
-## Spirit: a resource the player fills by landing hits, for spirit
-## abilities later.
+## Spirit: a resource the player fills by landing hits and spends on
+## skills such as the ranged attack.
 ##
 ## Every hit an attack lands adds `per_hit`, multiplied for heavy hits.
 ## Death marks lower both the maximum (`max_factor`) and the gain
@@ -46,6 +46,16 @@ func add(amount: float) -> void:
 		return
 	current = minf(current + amount, get_max())
 	_announce()
+
+
+## Takes `amount` away if there is enough. Returns false and changes
+## nothing otherwise.
+func spend(amount: float) -> bool:
+	if amount < 0.0 or amount > current:
+		return false
+	current -= amount
+	_announce()
+	return true
 
 
 func _on_hit_landed(_hurtbox: Hurtbox, hitbox: Hitbox) -> void:

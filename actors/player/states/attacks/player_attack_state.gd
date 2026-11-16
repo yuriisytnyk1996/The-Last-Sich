@@ -35,6 +35,9 @@ func physics_update(delta: float) -> void:
 	move(delta)
 	player.move_and_slide()
 
+	if not _started_on_floor and player.skills.dive.wants():
+		finished.emit(DIVE)
+		return
 	if _phase == Phase.RECOVERY and player.wants_attack():
 		var next := chain_state()
 		if next != &"":
@@ -50,12 +53,13 @@ func physics_update(delta: float) -> void:
 			hitbox.set_active(true)
 			_phase = Phase.ACTIVE
 			_time_left = active_time()
+			on_hitbox_on()
 		Phase.ACTIVE:
 			hitbox.set_active(false)
 			_phase = Phase.RECOVERY
 			_time_left = recovery_time()
 		Phase.RECOVERY:
-			finished.emit(ground_state() if player.is_on_floor() else FALL)
+			finished.emit(end_state())
 
 
 ## The attack to go into when attack is pressed during recovery, or empty
@@ -63,6 +67,16 @@ func physics_update(delta: float) -> void:
 ## and a swing that hit plays out. Combo attacks override this.
 func chain_state() -> StringName:
 	return attack_state() if not hitbox.has_hit() else &""
+
+
+## The state to go to when the swing ends.
+func end_state() -> StringName:
+	return ground_state() if player.is_on_floor() else FALL
+
+
+## Called as the hitbox turns on, for attacks that fire something.
+func on_hitbox_on() -> void:
+	pass
 
 
 ## Phase lengths. The basic swings share the Player's attack timing;

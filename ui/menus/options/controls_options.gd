@@ -14,6 +14,7 @@ const LABELS := {
 	&"dash": "Dash",
 	&"heal": "Heal",
 	&"interact": "Interact",
+	&"ranged": "Ranged",
 }
 const NAME_WIDTH := 88.0
 

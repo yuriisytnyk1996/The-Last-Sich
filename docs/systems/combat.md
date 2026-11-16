@@ -96,6 +96,20 @@ With `combo_2` or `combo_3`, any other direction still gives the forward finishe
 
 `ComboHeavy` and the finishers share `PlayerComboStrike` (`combo_strike.gd`): its own startup, active and recovery times, a forward step during the wind-up on the ground (`lunge_speed`) and an upward hop when it starts on the ground (`rise_speed`). Facing is locked.
 
+### Skill attacks
+
+Four more attacks come from [skills](/systems/skills). Each line has an ability node under the player's `Skills` node that decides when the attack starts and how strong it is from the learned level, and a state in `actors/player/states/skills/`.
+
+**Charged slash** (`PlayerChargedAttack`, states Charge and ChargedSlash). Keep holding attack through a ground side slash: when the swing ends it goes into **Charge**, planted. After `charge_time` (level 1) or `swift_charge_time` (level 2+) the charge is full and a glow shows above the head. Letting go when full releases the **ChargedSlash**, a wide heavy slash with a small step forward; letting go earlier cancels back to Idle. At level 3 the slash also sends a `ChargedWave` along the ground.
+
+**Lunge** (`PlayerLungeAttack`, state Lunge). Attack pressed during a dash turns it into a thrust that drives forward with its hitbox on the whole way, hitting every enemy it passes. Speed, length and damage come from the level. While it lasts the player's hurtbox ignores `continuous` hitboxes (contact damage), so it runs through enemies; swings and hazards still hit. Leaving the ground stops the drive.
+
+**Dive** (`PlayerDiveAttack`, state Dive). In the air, not rising, with down held and attack held for `hold_time`, and at least `min_height` of air below: the player hangs for a moment, plunges straight down (`DivePlunge` hitbox on) and lands with `DiveLanding` (`DiveLandingWide` from level 2) on for a moment, a shake and a rumble. At level 3, a dive that started `shockwave_height` or more above the ground adds a `DiveShockwave`. Invincible from the start until it lands, and it never ends in a hard landing. Pressing down + attack in the air first gives a side slash; holding on turns it into the dive.
+
+**Ranged bolt** (`PlayerRangedAttack`, state Ranged). Pressing and letting go of the `ranged` button in Idle, Run, Jump or Fall throws a `RangedBolt` for `spirit_cost` spirit, if there is enough and no bolt is flying. On the ground the player stops; in the air they hang still until the bolt is out. The bolt flies straight and vanishes; at level 2 it slows down, turns and flies back to the player, able to hit again; at level 3 it also bursts (`BoltBurst`) where it turns.
+
+Projectiles and blasts live in `actors/player/attacks/`. `PlayerProjectile` (a `Hitbox` that flies; the bolt and the wave) is added next to the player, ends on a wall (`world` layer) and is removed on a room change. `PlayerBlast` (a `Hitbox` that hits once and frees itself; the burst and the shockwave) can shake the camera.
+
 ### Other rules
 
 - Attack presses are **buffered** for `attack_buffer_time`. Pressing attack just before a swing or a landing ends still starts the next swing.
@@ -113,6 +127,11 @@ With `combo_2` or `combo_3`, any other direction still gives the forward finishe
 | `Visual/Attacks/Finisher` | (20, -16) | 36×26 | (1, 0) |
 | `Visual/Attacks/FinisherUp` | (12, -34) | 26×40 | (0.4, -1) |
 | `Visual/Attacks/FinisherDown` | (0, -6) | 64×12 | (0, -1), pushes away from the player |
+| `Visual/Attacks/ChargedSlash` | (22, -16) | 44×30 | (1, 0) |
+| `Visual/Attacks/Lunge` | (14, -16) | 26×20 | (1, 0) |
+| `Visual/Attacks/DivePlunge` | (0, 4) | 16×12 | (0, -1) |
+| `Visual/Attacks/DiveLanding` | (0, -6) | 40×14 | (0, -1) |
+| `Visual/Attacks/DiveLandingWide` | (0, -7) | 72×16 | (0, -1) |
 
 Positions are relative to the player's feet, facing right.
 
@@ -207,6 +226,14 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground, chains the ground combo |
 | `actors/player/states/attacks/combo_strike.gd` | `PlayerComboStrike`: heavy combo swing with its own timing, lunge and hop |
 | `actors/player/states/attacks/combo_heavy.gd` | ComboHeavy: the heavy end of the chain, picks the finisher from the learned combo skill |
+| `actors/player/states/skills/charge.gd` | Charge: planted, attack held, full after the charge time |
+| `actors/player/states/skills/charged_slash.gd` | ChargedSlash: heavy slash, fires the wave at level 3 |
+| `actors/player/states/skills/lunge.gd` | Lunge: thrust forward, ignores contact damage |
+| `actors/player/states/skills/dive.gd` | Dive: hang, plunge, land, recover |
+| `actors/player/states/skills/ranged.gd` | Ranged: throw the bolt |
+| `actors/player/attacks/player_projectile.gd` | `PlayerProjectile`: flying hitbox, straight or returning, bursts at the turn |
+| `actors/player/attacks/player_blast.gd` | `PlayerBlast`: one-off hitbox that frees itself, optional shake |
+| `actors/player/attacks/*.tscn` | `RangedBolt`, `ChargedWave`, `BoltBurst`, `DiveShockwave` |
 | `actors/player/states/attacks/up_attack.gd` | Up slash |
 | `actors/player/states/attacks/crouch_attack.gd` | Low slash (ground only) |
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, `wants()`, success feedback |
@@ -292,6 +319,54 @@ Set on each state node under `StateMachine`:
 
 `PlayerComboStrike` defaults are 0.08 / 0.12 / 0.28 with no lunge or hop. Every combo hitbox has the heavy reaction.
 
+### Skill attacks
+
+`PlayerChargedAttack` (`Skills/Charged`):
+
+| Value | Default | Effect |
+|---|---|---|
+| `charge_time` | 1.5 | Seconds to a full charge at level 1 |
+| `swift_charge_time` | 0.75 | Seconds to a full charge at level 2 and 3 |
+| `wave_offset` | (16, -10) | Where the wave starts, facing right |
+
+ChargedSlash state: `startup` 0.05, `active` 0.14, `recovery` 0.35, `lunge_speed` 60. Hitbox damage 4, knockback 240, heavy.
+
+`PlayerLungeAttack` (`Skills/Lunge`), per level 1 / 2 / 3:
+
+| Value | Default | Effect |
+|---|---|---|
+| `speeds` | 260 / 320 / 380 | Forward speed (px/s) |
+| `durations` | 0.25 / 0.32 / 0.4 | Seconds the hitbox is on and the thrust drives |
+| `damages` | 2 / 3 / 5 | Damage, written onto the Lunge hitbox |
+
+Lunge state: `startup` 0.03, `recovery` 0.2. Hitbox knockback 180, heavy.
+
+`PlayerDiveAttack` (`Skills/Dive`) and the Dive state:
+
+| Value | Default | Effect |
+|---|---|---|
+| `hold_time` | 0.18 | Seconds attack must be held with down |
+| `min_height` | 40 | Air needed below the feet to dive (px) |
+| `shockwave_height` | 96 | Level 3: height for the shockwave (px) |
+| `Dive.hang_time` | 0.12 | Hang before the plunge (s) |
+| `Dive.plunge_speed` | 480 | Fall speed of the plunge (px/s) |
+| `Dive.land_time` | 0.1 | Seconds the landing hitbox is on |
+| `Dive.recover_time` | 0.25 | Planted after landing (s) |
+| `Dive.land_shake` | 0.6 | Camera shake on landing |
+
+Hitbox damage: plunge 2, landing 3, wide landing 3, shockwave 4 (heavy, shake 0.8).
+
+`PlayerRangedAttack` (`Skills/Ranged`) and the Ranged state:
+
+| Value | Default | Effect |
+|---|---|---|
+| `spirit_cost` | 6 | Spirit per bolt |
+| `bolt_offset` | (12, -18) | Where the bolt starts, facing right |
+| `Ranged.fire_delay` | 0.1 | Seconds before the bolt leaves |
+| `Ranged.cast_time` | 0.3 | Length of the throw (s) |
+
+`PlayerProjectile` defaults (the bolt uses them): `start_speed` 120, `max_speed` 280, `acceleration` 900, `lifetime` 0.4, `turn_time` 0.15, `catch_distance` 12, `catch_height` 16. The wave overrides `start_speed` 160, `max_speed` 320, `lifetime` 0.45. Damage: bolt 2, wave 3 (heavy), burst 2 (shake 0.3). `PlayerBlast.duration` defaults to 0.15 (shockwave 0.2).
+
 ### Parry and riposte
 
 Set on the player's **`Parry`** child node (`PlayerParry`).
@@ -342,8 +417,9 @@ Its health is set on its `Health` child node.
 ## Known limitations
 
 - A hurtbox without invincibility only reacts to *new* contacts, so a `continuous` hitbox only repeats against hurtboxes that have invincibility frames.
-- The ground combo is the only upgradeable attack. Charged attacks and movement attacks (dash attack, dive attack) are planned as further skills.
-- The combo finishers are placeholder rectangles with no animation.
+- The combo finishers, charged slash, lunge, dive and projectiles are placeholder rectangles with no animation or sound.
+- Projectiles fly through one-way platforms and are only stopped by solid tiles.
+- The charge can't be cancelled into a dash or parry; only letting go or a hit ends it.
 - No crouch state yet: the crouch attack doesn't lower the player's body, it only swings low.
 - The three basic attacks share one set of timings.
 - Parrying is ground only, and only from Idle or Run: it can't cancel an attack, a dash or a hurt stagger.

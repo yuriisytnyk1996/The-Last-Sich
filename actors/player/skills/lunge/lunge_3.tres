@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerSkill" format=3]
+
+[ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="1_skill"]
+[ext_resource type="Resource" path="res://actors/player/skills/lunge/lunge_2.tres" id="2_parent"]
+
+[resource]
+script = ExtResource("1_skill")
+id = &"lunge_3"
+title = "Piercing lunge"
+description = "The lunge goes further still and hits much harder."
+tier = 4
+cost = 600
+parent = ExtResource("2_parent")

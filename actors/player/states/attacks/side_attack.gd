@@ -39,6 +39,13 @@ func move(delta: float) -> void:
 		player.set_facing(axis)
 
 
+## Attack still held at the end of a ground slash: charge (with the skill).
+func end_state() -> StringName:
+	if _started_on_floor and player.skills.charged.wants():
+		return CHARGE
+	return super.end_state()
+
+
 func chain_state() -> StringName:
 	if not _started_on_floor or not player.is_on_floor() or attack_state() != SIDE_ATTACK:
 		return super.chain_state()

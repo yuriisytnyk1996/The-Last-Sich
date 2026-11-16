@@ -58,7 +58,15 @@ The-Last-Sich/
 │   │   │   └── parry.gd          Parry and riposte tuning
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
-│   │   │   └── combo_1/2/3.tres  The combo finisher skills
+│   │   │   ├── combo/            combo_1/2/3.tres: the combo finishers
+│   │   │   ├── charged/          charged_1/2/3.tres, charged_attack.gd
+│   │   │   ├── lunge/            lunge_1/2/3.tres, lunge_attack.gd
+│   │   │   ├── dive/             dive_1/2/3.tres, dive_attack.gd
+│   │   │   └── ranged/           ranged_1/2/3.tres, ranged_attack.gd
+│   │   ├── attacks/              Projectiles and blasts
+│   │   │   ├── player_projectile.gd   Flying hitbox: bolt and wave
+│   │   │   ├── player_blast.gd   One-off hitbox: burst and shockwave
+│   │   │   └── *.tscn            ranged_bolt, charged_wave, bolt_burst, dive_shockwave
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
@@ -74,12 +82,20 @@ The-Last-Sich/
 │   │       ├── parry.gd          Guard up, deflects parryable hits
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
-│   │       └── attacks/          One script per attack direction
-│   │           ├── player_attack_state.gd   Shared swing timing
-│   │           ├── side_attack.gd
-│   │           ├── up_attack.gd
-│   │           ├── crouch_attack.gd
-│   │           └── riposte.gd    Counter-attack after a parry
+│   │       ├── attacks/          One script per attack
+│   │       │   ├── player_attack_state.gd   Shared swing timing, combo and charge hooks
+│   │       │   ├── side_attack.gd   Also chains the ground combo
+│   │       │   ├── up_attack.gd
+│   │       │   ├── crouch_attack.gd
+│   │       │   ├── riposte.gd    Counter-attack after a parry
+│   │       │   ├── combo_strike.gd   Heavy combo swing with its own timing
+│   │       │   └── combo_heavy.gd    End of the ground combo, picks the finisher
+│   │       └── skills/           States of the skill attacks
+│   │           ├── charge.gd     Charging the charged slash
+│   │           ├── charged_slash.gd
+│   │           ├── lunge.gd      Thrust out of a dash
+│   │           ├── dive.gd       Hang, plunge, land
+│   │           └── ranged.gd     Throwing the spirit bolt
 │   ├── enemies/
 │   │   ├── enemy.gd              Shared enemy base: tuning, movement and sensing helpers
 │   │   ├── enemy_damage.gd       Enemy hit reactions, hurt and death tuning
@@ -114,6 +130,8 @@ The-Last-Sich/
 │   │   ├── death_mark.tscn       Its scene
 │   │   ├── skill_shrine.gd       Opens the skill menu with interact
 │   │   ├── skill_shrine.tscn     Skill shrine scene
+│   │   ├── tier_relic.gd         Raises the skill tier once when touched
+│   │   ├── tier_relic.tscn       Its scene
 │   │   ├── spikes.gd             Instant death when stepped in
 │   │   └── ladder.gd             Climbable ladder
 │   ├── rooms/

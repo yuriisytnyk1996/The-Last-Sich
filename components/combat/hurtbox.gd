@@ -18,6 +18,15 @@ signal parried(hitbox: Hitbox)
 ## While on, `parryable` hitboxes are deflected instead of landing, even
 ## during invincibility. Other hitboxes hit as usual.
 var parrying := false
+## While on, `continuous` hitboxes (contact damage) pass through without a
+## hit, so a lunge can run through an enemy. Turning it off checks the
+## ones still overlapping.
+var ignore_continuous := false:
+	set(value):
+		var was := ignore_continuous
+		ignore_continuous = value
+		if was and not value and not is_invincible():
+			_recheck_continuous_hitboxes.call_deferred()
 
 var _invincible_left := 0.0
 
@@ -66,7 +75,7 @@ func _on_area_entered(area: Area2D) -> void:
 		parried.emit(hitbox)
 		hitbox.register_parry(self)
 		return
-	if is_invincible():
+	if is_invincible() or (ignore_continuous and hitbox.continuous):
 		return
 
 	_invincible_left = invincibility_time

@@ -22,6 +22,7 @@ const ACTIONS: Array[StringName] = [
 	&"dash",
 	&"heal",
 	&"interact",
+	&"ranged",
 ]
 ## Keys that keep their job: back / pause, fullscreen and the debug save
 ## reset.
