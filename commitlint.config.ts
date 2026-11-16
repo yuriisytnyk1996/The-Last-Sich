@@ -22,6 +22,7 @@ export default {
         'skills',
         'spirit',
         'death-penalty',
+        'map',
         'state-machine',
         'events',
         'docs',
