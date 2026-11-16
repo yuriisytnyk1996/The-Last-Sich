@@ -140,7 +140,8 @@ Falling past the top of a solid wall while facing it grabs the ledge (**LedgeHan
 1. Only while moving down, not on the floor, and with down not held. It doesn't work for `regrab_delay` after dropping off a ledge.
 2. A ray at hand height (`hand_height` above the feet, plus `snap_window`) looks `grab_reach` px ahead of the body for a wall on the `world` layer. One-way planks are never grabbed.
 3. A ray down just inside the wall finds its top within `snap_window` of the hands. If the point it starts from is already solid, the wall goes on above the hands and there is no ledge.
-4. The body's shape must fit standing on the top, so ledges under a low ceiling aren't grabbed.
+4. There must be at least `min_drop` of air (no ground or platform) under the feet in the hanging position. So a wall has to be at least `hand_height` + `min_drop` (44 px, about 3 tiles) tall to be a ledge; lower steps, which a jump clears anyway, are never grabbed.
+5. The body's shape must fit standing on the top, so ledges under a low ceiling aren't grabbed.
 
 The player snaps to hang with the hands on the corner and the body against the wall, facing it.
 
@@ -148,7 +149,7 @@ The player snaps to hang with the hands on the corner and the body against the w
 - **Down** lets go into Fall, and no ledge can be grabbed for `regrab_delay`.
 - A hit knocks the player off into Hurt as usual.
 
-With a 52 px jump and 28 px hands, walls up to about 5 tiles (80 px) can be climbed from the ground; a lower wall is usually just landed on.
+With a 52 px jump and 28 px hands, walls from 3 to about 5 tiles (48 to 80 px) can be climbed from the ground; 1 and 2 tile steps are just landed on.
 
 ### Hard landing
 
@@ -251,6 +252,7 @@ Ledge values are on the **`LedgeGrab`** child node (`PlayerLedgeGrab`):
 | `hand_height` | 28 | Hands above the feet (px); the ledge top is held at this height |
 | `grab_reach` | 4 | How far in front of the body a wall is still grabbed (px) |
 | `snap_window` | 8 | How far above or below the hands a ledge top can be and still be caught (px) |
+| `min_drop` | 16 | Air needed under the feet while hanging (px); shorter walls aren't ledges |
 | `input_threshold` | 0.5 | Vertical input needed to climb up or drop down |
 | `climb_delay` | 0.1 | Hang time before up or jump climbs (s) |
 | `climb_rise_time` | 0.15 | Time to pull the body up beside the wall (s) |

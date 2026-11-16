@@ -5,10 +5,13 @@ extends Node
 ##
 ## A ledge is the top corner of a solid wall (the `world` layer, never
 ## one-way planks) that the player falls past while facing it, with room
-## above to stand. Nothing is placed by hand: any wall top in the tiles works.
+## above to stand, and with at least `min_drop` of air under the feet while
+## hanging, so low steps that a jump clears are never grabbed. Nothing is
+## placed by hand: any wall top in the tiles works.
 
-## Physics layer of solid ground and walls.
+## Physics layers of solid ground and walls, and of one-way platforms.
 const WORLD_LAYER := 1
+const PLATFORMS_LAYER := 7
 
 ## Hands above the feet (px). The ledge top is held at this height.
 @export var hand_height := 28.0
@@ -17,6 +20,9 @@ const WORLD_LAYER := 1
 ## How far above or below the hands the ledge top can be and still be
 ## caught in one frame (px). Covers the distance fallen per frame.
 @export var snap_window := 8.0
+## Air needed under the feet while hanging (px). Walls shorter than
+## `hand_height` + this aren't ledges.
+@export var min_drop := 16.0
 ## Vertical input needed to climb up or drop down (0 to 1).
 @export_range(0.0, 1.0) var input_threshold := 0.5
 ## Hanging this long before up or jump climbs (s), so a held up doesn't
@@ -87,7 +93,16 @@ func _find_ledge(direction: int) -> bool:
 		return false
 	corner = Vector2(wall.position.x, top.position.y)
 	side = direction
-	return _fits_on_top(space)
+	return _has_drop_below(space) and _fits_on_top(space)
+
+
+## Nothing solid (ground or a platform) within `min_drop` under the
+## hanging feet.
+func _has_drop_below(space: PhysicsDirectSpaceState2D) -> bool:
+	var feet := hang_position()
+	var query := _ray(feet, feet + Vector2(0.0, min_drop))
+	query.collision_mask |= 1 << (PLATFORMS_LAYER - 1)
+	return space.intersect_ray(query).is_empty()
 
 
 ## The body has room to stand on the ledge.
