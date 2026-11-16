@@ -1,6 +1,6 @@
 # Currency
 
-The player earns currency by killing enemies and spends it on [skills](/systems/skills) at skill shrines. It will also pay for shops and paid cleanse points later (see [Roadmap](/roadmap)). Death marks lower how much each kill gives, see [Death penalty](/systems/death-penalty).
+The player earns currency by killing enemies and spends it on [skills](/systems/skills) at skill shrines and on items at [shops](/systems/shops). It will also pay for paid cleanse points later (see [Roadmap](/roadmap)). Death marks lower how much each kill gives, see [Death penalty](/systems/death-penalty).
 
 ## How it works
 

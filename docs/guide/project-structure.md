@@ -55,7 +55,7 @@ The-Last-Sich/
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
 │   │   │   ├── ledge_grab.gd     Finds ledges to grab, hang and climb tuning
 │   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
-│   │   │   ├── wallet.gd         Currency the player carries, spent on skills, saved
+│   │   │   ├── wallet.gd         Currency the player carries, spent on skills and shops, saved
 │   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
 │   │   │   ├── inventory.gd      Owned and worn items, slots, saved
 │   │   │   ├── item_effects.gd   Starts and stops the effects of carried and worn items
@@ -159,7 +159,7 @@ The-Last-Sich/
 │   │   ├── tier_relic.tscn       Its scene
 │   │   ├── spikes.gd             Instant death when stepped in
 │   │   ├── ladder.gd             Climbable ladder
-│   │   ├── items/                Item pickups (item_pickup.gd / .tscn)
+│   │   ├── items/                Item pickups and shop stands (item_pickup, shop_item)
 │   │   ├── breakables/           Breakable crate and cracked wall (breakable.gd, crate.tscn, breakable_wall.tscn)
 │   │   ├── platforms/            Moving platform, elevator and its call lever
 │   │   ├── traps/                Timed spike and fire traps, turret and its bolt
@@ -200,6 +200,8 @@ The-Last-Sich/
 │   │   ├── pause/
 │   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
 │   │   │   └── pause_screen.gd   Resume, Inventory, Map, Options, Quit to main menu
+│   │   ├── shop/
+│   │   │   └── buy_screen.gd     Shop stand page: item, price, buy
 │   │   ├── inventory/
 │   │   │   └── inventory_screen.gd Inventory page: owned items by kind, wear and take off
 │   │   ├── map/

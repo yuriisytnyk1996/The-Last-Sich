@@ -4,6 +4,12 @@
 [ext_resource type="PackedScene" path="res://levels/objects/rest_point.tscn" id="4_rest"]
 [ext_resource type="PackedScene" path="res://levels/objects/skill_shrine.tscn" id="5_shrine"]
 [ext_resource type="PackedScene" path="res://levels/objects/tier_relic.tscn" id="90_relic"]
+[ext_resource type="PackedScene" path="res://levels/objects/items/shop_item.tscn" id="6_stand"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/iron_cross.tres" id="7_iron_cross"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/hunter_tally.tres" id="8_hunter_tally"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/red_sash.tres" id="9_red_sash"]
+[ext_resource type="Resource" path="res://actors/player/items/blades/heavy_edge.tres" id="10_heavy_edge"]
+[ext_resource type="Resource" path="res://actors/player/items/keepsakes/spare_gourd.tres" id="11_spare_gourd"]
 
 [node name="Logic" type="Node2D"]
 
@@ -26,3 +32,25 @@ arrival_facing = 1
 
 [node name="TierRelic" parent="." instance=ExtResource("90_relic")]
 position = Vector2(560, 320)
+
+[node name="Shop" type="Node2D" parent="."]
+
+[node name="IronCross" parent="Shop" instance=ExtResource("6_stand")]
+position = Vector2(144, 320)
+item = ExtResource("7_iron_cross")
+
+[node name="HunterTally" parent="Shop" instance=ExtResource("6_stand")]
+position = Vector2(184, 320)
+item = ExtResource("8_hunter_tally")
+
+[node name="RedSash" parent="Shop" instance=ExtResource("6_stand")]
+position = Vector2(224, 320)
+item = ExtResource("9_red_sash")
+
+[node name="HeavyEdge" parent="Shop" instance=ExtResource("6_stand")]
+position = Vector2(264, 320)
+item = ExtResource("10_heavy_edge")
+
+[node name="SpareGourd" parent="Shop" instance=ExtResource("6_stand")]
+position = Vector2(504, 320)
+item = ExtResource("11_spare_gourd")

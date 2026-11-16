@@ -19,6 +19,7 @@ world.tscn
                                             └─ Quit to main menu ──► main_menu.tscn
 └── PauseMenu (M / Back) ── MapScreen (straight to the map)
 └── SkillShrine (interact) ── PausingMenu ── SkillsScreen ── learn a skill (see Skills)
+└── ShopItem (interact) ── PausingMenu ── BuyScreen ── buy the item (see Shops)
 ```
 
 1. The game starts in `ui/menus/main_menu/main_menu.tscn`. **Continue** only shows when a save exists. **New game** asks first when there is a save, then deletes it. Both switch to `levels/world.tscn`, which loads the save as before (see [Save system](/systems/save-system)).
@@ -54,6 +55,7 @@ world.tscn
 | `ui/menus/pause/pause_menu.gd` | `PauseMenu`: a `PausingMenu` that opens the pause screen and closes on `pause` |
 | `ui/menus/skills/skills_screen.gd` | `SkillsScreen`: the skill shrine's page, see [Skills](/systems/skills) |
 | `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Inventory, Map, Options, Quit to main menu |
+| `ui/menus/shop/buy_screen.gd` | `BuyScreen`: a shop stand's item, price and buy (see [Shops](/systems/shops)) |
 | `ui/menus/inventory/inventory_screen.gd` | `InventoryScreen`: owned items by kind, wear and take off (see [Inventory](/systems/inventory)) |
 | `ui/menus/options/` | The options pages, see [Options](/systems/options) |
 

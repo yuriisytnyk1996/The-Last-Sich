@@ -72,6 +72,7 @@
 - [x] Stats: named player stats (max health, flasks, damage, per-element resistances, spirit, parry and riposte windows, dash cooldown) with flat and percent modifiers added and removed by source, plus timed modifiers. Health, Flasks, Spirit, Parry, the dash and every player hitbox read from them. Hits carry an element (normal, contact, fire, poison)
 - [x] Health and damage on a 100-point scale (player 100, basic hit 20, raider 60, musketeer 40); enemies have their own stats (health, damage multiplier, resistances)
 - [x] Inventory: items made of effects (stat modifiers or a one-time restore) set off while carried, while worn, on a hit, on a kill or on being hurt, with an optional low-health condition, chance and duration. Charms in slots (a stat, raised by pouches), one blade with a trade-off, keepsakes that work while carried. Item pickups in rooms, an inventory page in the pause menu, a HUD toast for new items, saved. 15 items
+- [x] Shops: stands that sell one item each for currency, a buy page with the price and the player's currency, sold stands stay empty (saved), shop marks on the map. Test shop in the test house
 
 ## Next
 
@@ -83,7 +84,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
 - [ ] Attack speed, run speed and critical hits as stats
-- [ ] Shops to spend currency
 - [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
 - [ ] Spirit abilities that spend spirit
 - [ ] Map: completion percentage, marks placed by the player, items that reveal a zone

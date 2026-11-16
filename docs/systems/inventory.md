@@ -1,6 +1,6 @@
 # Inventory
 
-Items the player carries: charms worn in slots for passive bonuses, a blade that trades one strength for another, and keepsakes that work just by being carried. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms, listed on the pause menu's inventory page, and saved.
+Items the player carries: charms worn in slots for passive bonuses, a blade that trades one strength for another, and keepsakes that work just by being carried. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the pause menu's inventory page, and saved.
 
 ## How it works
 
@@ -60,7 +60,7 @@ Two effects exist:
 | Stitched pouch | Keepsake | 900 | Charm slots +1 |
 | Spare gourd | Keepsake | 800 | Flasks +1 |
 
-The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The rest are only reachable through the debug button for now.
+The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge and spare gourd are sold at the test house [shop](/systems/shops). The rest are only reachable through the debug button for now.
 
 ### Saving
 
@@ -100,6 +100,7 @@ In debug builds the inventory page has a **Debug: get all items** button (`Playe
 - **A new item:** create an `Item` `.tres` in the folder of its kind, give it a unique `id`, add effects, and add it to `Inventory.all` on the player scene (the inventory page lists items in that order). Never rename an `id` that has been saved.
 - **A new effect type:** extend `ItemEffect` and override `start()` and `stop()`. `start()` gets the player and the effect's source.
 - **A new trigger:** add it to `ItemEffect.Trigger`, connect the event in `PlayerItemEffects._ready()` and call `_fire()` with it.
+- **Selling an item:** place a `ShopItem` stand, see [Shops](/systems/shops).
 - **Giving an item from a script** (a boss reward, a chest): `player.inventory.add(item)`.
 - **Checking for an item** (a key for a door): `player.inventory.owns(item)`.
 

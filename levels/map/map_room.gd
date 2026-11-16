@@ -8,7 +8,7 @@ extends RefCounted
 ## player has been in are known, and the map only draws those.
 
 enum Side { NORTH, SOUTH, WEST, EAST }
-enum Mark { REST_POINT, SHRINE, DOOR, DEATH_MARK }
+enum Mark { REST_POINT, SHRINE, DOOR, DEATH_MARK, SHOP }
 
 ## An exit this close to an edge of `bounds` (px) is a door in that edge.
 const EDGE_MARGIN := 24
@@ -46,6 +46,8 @@ static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
 			map_room.add_mark(cell, Mark.REST_POINT)
 		elif node is SkillShrine:
 			map_room.add_mark(cell, Mark.SHRINE)
+		elif node is ShopItem and not Mark.SHOP in map_room.marks.get(cell, []):
+			map_room.add_mark(cell, Mark.SHOP)
 	return map_room
 
 

@@ -9,6 +9,7 @@ const LEGEND := [
 	["You", MapView.PLAYER_COLOR],
 	["Rest point", MapView.MARK_COLORS[MapRoom.Mark.REST_POINT]],
 	["Shrine", MapView.MARK_COLORS[MapRoom.Mark.SHRINE]],
+	["Shop", MapView.MARK_COLORS[MapRoom.Mark.SHOP]],
 	["Door", MapView.MARK_COLORS[MapRoom.Mark.DOOR]],
 	["Death mark", MapView.MARK_COLORS[MapRoom.Mark.DEATH_MARK]],
 ]
