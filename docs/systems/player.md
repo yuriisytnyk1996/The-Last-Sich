@@ -311,4 +311,5 @@ Used by states and other systems:
 - No death animation yet.
 - No drinking animation or sounds (drinking, empty flask): a placeholder aura stands in for the animation.
 - The number of flasks and how much they heal can't be upgraded yet.
+- Ledges are found automatically on every wall top that passes the checks; there is no way to turn one off or force one by hand yet (planned as optional ledge markers, see [Roadmap](/roadmap)).
 - No hang or climb-up animation for ledges. A ladder caught by the upper body pulls the feet up in one frame (up to `grab_height`).

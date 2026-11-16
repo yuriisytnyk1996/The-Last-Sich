@@ -78,6 +78,7 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Shops to spend currency
 - [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
 - [ ] Spirit abilities that spend spirit
+- [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
 
