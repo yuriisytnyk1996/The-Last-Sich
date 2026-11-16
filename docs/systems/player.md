@@ -14,6 +14,8 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/abilities/ledge_grab.gd` | `PlayerLedgeGrab`: finds ledges to grab, hang and climb tuning |
 | `actors/player/abilities/flasks.gd` | `PlayerFlasks`: healing flask charges, drinking and refilling, reports them to `Events` |
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, when a parry starts, success feedback |
+| `actors/player/abilities/skills.gd` | `PlayerSkills`: learned skills, see [Skills](/systems/skills) |
+| `actors/player/skills/` | `PlayerSkill` resource and one `.tres` per skill |
 | `actors/player/states/player_state.gd` | `PlayerState`: base class with a typed `player` reference and state name constants |
 | `actors/player/states/*.gd` | One script per state |
 
@@ -28,7 +30,8 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 │   ├── Eye (ColorRect)      placeholder, shows facing direction
 │   ├── Guard (ColorRect)    placeholder bar in front, shown while the parry guard is up
 │   └── Attacks (Node2D)     one Hitbox per attack, layer: player_attacks
-│       ├── Side  ├── Up  ├── Crouch  └── Riposte   each with a Shape and a placeholder Slash
+│       ├── Side  ├── Up  ├── Crouch  ├── Riposte   each with a Shape and a placeholder Slash
+│       └── ComboHeavy  ├── Finisher  ├── FinisherUp  └── FinisherDown
 ├── Health                   5 hit points
 ├── Hurtbox (Area2D)         10×26, mask: enemy_attacks, hazards
 ├── InvincibilityBlink       blinks Visual while the hurtbox is invincible
@@ -45,6 +48,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
     ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── LedgeHang  ├── LedgeClimb
     ├── HardLanding  ├── Heal
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
+    ├── ComboHeavy  ├── ComboFinisher  ├── ComboFinisherUp  ├── ComboFinisherDown
     └── Hurt  └── Dead
 ```
 
@@ -62,9 +66,11 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **LedgeClimb** | Pulls up onto the ledge: straight up beside the wall, then sideways onto the top. No input | Idle/Run (standing on the top) |
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **Heal** | Drinks a healing flask: the flask is used and the health restored at once, then the player slows to a stop and stands still for `drink_time`. See [Healing flasks](#healing-flasks) | Idle/Run (time is up), Fall (ground gone) |
-| **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
+| **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss), SideAttack or ComboHeavy (ground combo, see [Combat](/systems/combat#ground-combo)) |
 | **Parry** | Planted guard for `parry_window`. A parryable hit is deflected and stuns the attacker; a guard that catches nothing leaves the player stuck for `fail_recovery`. See [Combat](/systems/combat#parry-and-riposte) | Riposte (attack after a parry), Idle/Run (time is up), Fall (ground gone) |
 | **Riposte** | Invincible lunge into a heavy slash after a parry | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
+| **ComboHeavy** | Heavy last swing of the ground combo, steps forward | Idle/Run, Fall, a finisher (attack with a combo skill learned), another attack (re-swing after a miss) |
+| **ComboFinisher / Up / Down** | Combo finishers learned as [skills](/systems/skills): forward lunge, rising hop, two-sided slam | Idle/Run, Fall, another attack (re-swing after a miss) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
 
@@ -295,5 +301,5 @@ Used by states and other systems:
 - No death animation yet.
 - No drinking animation or sounds (drinking, empty flask): a placeholder aura stands in for the animation.
 - The number of flasks and how much they heal can't be upgraded yet.
-- No combos or movement attacks yet (planned as upgrades).
+- No charged or movement attacks yet (planned as skills).
 - No hang or climb-up animation for ledges. A ladder caught by the upper body pulls the feet up in one frame (up to `grab_height`).

@@ -19,6 +19,7 @@ export default {
         'audio',
         'save',
         'currency',
+        'skills',
         'spirit',
         'death-penalty',
         'state-machine',

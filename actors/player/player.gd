@@ -4,8 +4,7 @@ extends CharacterBody2D
 ## helpers. The behaviour itself (what happens when idle, running,
 ## jumping...) lives in the state nodes under StateMachine, one per state.
 
-## Physics layer of one-way platforms, switched off while dropping through
-## them or climbing a ladder.
+## Physics layer of one-way platforms, off while dropping through or climbing.
 const PLATFORMS_LAYER := 7
 
 @export_group("Run")
@@ -77,6 +76,7 @@ var _dash_cooldown_timer := 0.0
 @onready var wallet: PlayerWallet = $Wallet
 @onready var safe_ground: PlayerSafeGround = $SafeGround
 @onready var spirit: PlayerSpirit = $Spirit
+@onready var skills: PlayerSkills = $Skills
 
 
 func _physics_process(delta: float) -> void:

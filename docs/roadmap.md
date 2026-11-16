@@ -58,6 +58,8 @@
 - [x] Spikes kill instantly when stepped in, but never when only brushed mid-jump
 - [x] Ledge grab: falling past a wall top while facing it hangs from the ledge; up or jump climbs onto it, down lets go. Works on any solid tile corner with room on top
 - [x] Ladder grab fixes: a jump off a ladder blocks grabbing only until it peaks (holding up then jump catches the ladder at the top of the jump), ladders hanging in the air are caught by the upper body, and a lighter push grabs in the air
+- [x] Skills: upgrades learned at a skill shrine with currency, each with a tier, a cost and a parent skill; learned skills are saved
+- [x] Ground combo: side swings that hit chain into more swings and a heavy swing; skills add a forward, a rising (up) and a slam (down) finisher
 
 ## Next
 
@@ -67,7 +69,8 @@ Nothing picked yet. The next item comes from Later.
 
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
-- [ ] Upgrade system, then upgrade attacks: combos, charged attack, dash attack, dive attack
+- [ ] More skills: charged attack, dash attack, dive attack
+- [ ] Progression that raises the skill tier (`PlayerSkills.max_tier`)
 - [ ] Audio
 - [ ] Shops to spend currency
 - [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
@@ -97,4 +100,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
 - Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency
 - No hang or climb-up animation for ledges, the placeholder body just moves
+- Grey rectangles with a blue gem for the skill shrine, plain text rows for the skill menu, coloured rectangles for the combo swings
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

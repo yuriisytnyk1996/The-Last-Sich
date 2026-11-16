@@ -46,6 +46,7 @@ export default defineConfig({
           { text: 'Rest points', link: '/systems/rest-points' },
           { text: 'Spirit', link: '/systems/spirit' },
           { text: 'Currency', link: '/systems/currency' },
+          { text: 'Skills', link: '/systems/skills' },
           { text: 'Death penalty', link: '/systems/death-penalty' },
           { text: 'Save system', link: '/systems/save-system' },
           { text: 'Input', link: '/systems/input' },

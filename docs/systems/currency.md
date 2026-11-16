@@ -1,6 +1,6 @@
 # Currency
 
-The player earns currency by killing enemies. It will pay for shops and paid cleanse points later (see [Roadmap](/roadmap)). Death marks lower how much each kill gives, see [Death penalty](/systems/death-penalty).
+The player earns currency by killing enemies and spends it on [skills](/systems/skills) at skill shrines. It will also pay for shops and paid cleanse points later (see [Roadmap](/roadmap)). Death marks lower how much each kill gives, see [Death penalty](/systems/death-penalty).
 
 ## How it works
 
@@ -10,7 +10,7 @@ The player earns currency by killing enemies. It will pay for shops and paid cle
 
 An enemy that is laid dead on room load (killed earlier, see [Enemies](/systems/enemies)) gives no reward a second time. Enemies that fall into pits still pay out.
 
-`PlayerWallet.add()` adds an amount as is, without `gain_factor`.
+`PlayerWallet.add()` adds an amount as is, without `gain_factor`. `PlayerWallet.spend(value)` takes an amount away and returns true, or returns false and changes nothing when the wallet holds less.
 
 The wallet is a global save system (`wallet`, see [Save system](/systems/save-system)), written when the player rests or dies.
 
@@ -35,10 +35,9 @@ The gain factor per number of death marks is tuned on `DeathPenalty`, see [Death
 
 ## Extending
 
-- **Spending (shops, paid cleanse):** add `spend(value) -> bool` to `PlayerWallet`.
+- **Spending (shops, paid cleanse):** call `wallet.spend(value)` and only go ahead when it returns true.
 - **Other income** (chests, quest rewards): emit `Events.currency_earned`, or call `wallet.add()` for an amount that ignores death marks.
 
 ## Known limitations
 
-- Nothing to spend currency on yet.
 - The HUD number is the default font, with no icon.

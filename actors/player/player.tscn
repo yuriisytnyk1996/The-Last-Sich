@@ -34,6 +34,13 @@
 [ext_resource type="Script" path="res://actors/player/abilities/ledge_grab.gd" id="32_ledge_grab"]
 [ext_resource type="Script" path="res://actors/player/states/ledge_hang.gd" id="33_ledge_hang"]
 [ext_resource type="Script" path="res://actors/player/states/ledge_climb.gd" id="34_ledge_climb"]
+[ext_resource type="Script" path="res://actors/player/abilities/skills.gd" id="35_skills"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo_1.tres" id="36_combo_1"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo_2.tres" id="37_combo_2"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo_3.tres" id="38_combo_3"]
+[ext_resource type="Script" path="res://actors/player/states/attacks/combo_strike.gd" id="39_combo_strike"]
+[ext_resource type="Script" path="res://actors/player/states/attacks/combo_heavy.gd" id="40_combo_heavy"]
+[ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="41_player_skill"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -49,6 +56,18 @@ size = Vector2(22, 10)
 
 [sub_resource type="RectangleShape2D" id="riposte_shape"]
 size = Vector2(28, 20)
+
+[sub_resource type="RectangleShape2D" id="combo_heavy_shape"]
+size = Vector2(28, 22)
+
+[sub_resource type="RectangleShape2D" id="finisher_shape"]
+size = Vector2(36, 26)
+
+[sub_resource type="RectangleShape2D" id="finisher_up_shape"]
+size = Vector2(26, 40)
+
+[sub_resource type="RectangleShape2D" id="finisher_down_shape"]
+size = Vector2(64, 12)
 
 [sub_resource type="RectangleShape2D" id="hurtbox_shape"]
 size = Vector2(10, 26)
@@ -183,6 +202,98 @@ offset_bottom = 10.0
 mouse_filter = 2
 color = Color(1, 0.85, 0.5, 0.7)
 
+[node name="ComboHeavy" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(18, -16)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 2
+knockback_force = 170.0
+knockback_direction = Vector2(1, 0)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/ComboHeavy"]
+shape = SubResource("combo_heavy_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/ComboHeavy"]
+offset_left = -14.0
+offset_top = -11.0
+offset_right = 14.0
+offset_bottom = 11.0
+mouse_filter = 2
+color = Color(0.95, 0.75, 0.6, 0.65)
+
+[node name="Finisher" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(20, -16)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 3
+knockback_force = 220.0
+knockback_direction = Vector2(1, 0)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Finisher"]
+shape = SubResource("finisher_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/Finisher"]
+offset_left = -18.0
+offset_top = -13.0
+offset_right = 18.0
+offset_bottom = 13.0
+mouse_filter = 2
+color = Color(1, 0.55, 0.4, 0.7)
+
+[node name="FinisherUp" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(12, -34)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 3
+knockback_force = 200.0
+knockback_direction = Vector2(0.4, -1)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/FinisherUp"]
+shape = SubResource("finisher_up_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/FinisherUp"]
+offset_left = -13.0
+offset_top = -20.0
+offset_right = 13.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(1, 0.55, 0.4, 0.7)
+
+[node name="FinisherDown" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(0, -6)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("9_hitbox")
+damage = 3
+knockback_force = 160.0
+knockback_direction = Vector2(0, -1)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/FinisherDown"]
+shape = SubResource("finisher_down_shape")
+disabled = true
+
+[node name="Slash" type="ColorRect" parent="Visual/Attacks/FinisherDown"]
+offset_left = -32.0
+offset_top = -6.0
+offset_right = 32.0
+offset_bottom = 6.0
+mouse_filter = 2
+color = Color(1, 0.55, 0.4, 0.7)
+
 [node name="Health" type="Node" parent="."]
 script = ExtResource("14_health")
 
@@ -292,6 +403,37 @@ guard = NodePath("../../Visual/Guard")
 script = ExtResource("28_riposte")
 hitbox = NodePath("../../Visual/Attacks/Riposte")
 
+[node name="ComboHeavy" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("40_combo_heavy")
+hitbox = NodePath("../../Visual/Attacks/ComboHeavy")
+startup = 0.1
+active = 0.12
+recovery = 0.3
+lunge_speed = 120.0
+
+[node name="ComboFinisher" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("39_combo_strike")
+hitbox = NodePath("../../Visual/Attacks/Finisher")
+startup = 0.12
+active = 0.14
+recovery = 0.35
+lunge_speed = 180.0
+
+[node name="ComboFinisherUp" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("39_combo_strike")
+hitbox = NodePath("../../Visual/Attacks/FinisherUp")
+startup = 0.06
+active = 0.16
+recovery = 0.3
+rise_speed = 260.0
+
+[node name="ComboFinisherDown" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("39_combo_strike")
+hitbox = NodePath("../../Visual/Attacks/FinisherDown")
+startup = 0.14
+active = 0.1
+recovery = 0.4
+
 [node name="Hurt" type="Node" parent="StateMachine"]
 script = ExtResource("12_hurt")
 
@@ -306,3 +448,7 @@ script = ExtResource("30_safe_ground")
 
 [node name="Spirit" type="Node" parent="."]
 script = ExtResource("31_spirit")
+
+[node name="Skills" type="Node" parent="."]
+script = ExtResource("35_skills")
+all = Array[ExtResource("41_player_skill")]([ExtResource("36_combo_1"), ExtResource("37_combo_2"), ExtResource("38_combo_3")])

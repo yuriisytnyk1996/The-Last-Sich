@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerSkill" format=3]
+
+[ext_resource type="Script" path="res://actors/player/skills/player_skill.gd" id="1_skill"]
+[ext_resource type="Resource" path="res://actors/player/skills/combo_2.tres" id="2_parent"]
+
+[resource]
+script = ExtResource("1_skill")
+id = &"combo_3"
+title = "Crushing blow"
+description = "Hold down when pressing attack after the heavy combo swing to slam the ground on both sides."
+tier = 3
+cost = 500
+parent = ExtResource("2_parent")

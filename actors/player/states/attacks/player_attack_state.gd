@@ -5,7 +5,8 @@ extends PlayerState
 ## during the swing.
 ##
 ## A swing that missed can be cut short: pressing attack during recovery
-## starts the next swing right away. A swing that hit plays out in full.
+## starts the next swing right away. A swing that hit plays out in full,
+## unless the attack chains into a combo (see `chain_state()`).
 
 enum Phase { STARTUP, ACTIVE, RECOVERY }
 
@@ -34,9 +35,11 @@ func physics_update(delta: float) -> void:
 	move(delta)
 	player.move_and_slide()
 
-	if _phase == Phase.RECOVERY and player.wants_attack() and not hitbox.has_hit():
-		finished.emit(attack_state())
-		return
+	if _phase == Phase.RECOVERY and player.wants_attack():
+		var next := chain_state()
+		if next != &"":
+			finished.emit(next)
+			return
 
 	_time_left -= delta
 	if _time_left > 0.0:
@@ -53,6 +56,13 @@ func physics_update(delta: float) -> void:
 			_time_left = recovery_time()
 		Phase.RECOVERY:
 			finished.emit(ground_state() if player.is_on_floor() else FALL)
+
+
+## The attack to go into when attack is pressed during recovery, or empty
+## to let this swing play out. By default a missed swing re-swings at once
+## and a swing that hit plays out. Combo attacks override this.
+func chain_state() -> StringName:
+	return attack_state() if not hitbox.has_hit() else &""
 
 
 ## Phase lengths. The basic swings share the Player's attack timing;

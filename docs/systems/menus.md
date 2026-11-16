@@ -15,11 +15,12 @@ world.tscn
 └── PauseMenu (Escape / Start) ── PauseScreen ── Resume
                                             ├─ Options ──► (same OptionsScreen)
                                             └─ Quit to main menu ──► main_menu.tscn
+└── SkillShrine (interact) ── PausingMenu ── SkillsScreen ── learn a skill (see Skills)
 ```
 
 1. The game starts in `ui/menus/main_menu/main_menu.tscn`. **Continue** only shows when a save exists. **New game** asks first when there is a save, then deletes it. Both switch to `levels/world.tscn`, which loads the save as before (see [Save system](/systems/save-system)).
 2. In the world, the `pause` action opens the `PauseMenu`. `World._unhandled_input()` opens it, and the world doesn't run while the tree is paused, so the menu can't open during a room transition or on top of itself.
-3. The pause menu pauses the tree. Closing it (Resume, back on the first page, or `pause` again from any page) unpauses one frame later, so the press that closed it isn't also read as a jump or an attack.
+3. The pause menu pauses the tree (it is a `PausingMenu`, like the skill shrine's menu). Closing it (Resume, back on the first page, or `pause` again from any page) unpauses one frame later, so the press that closed it isn't also read as a jump or an attack.
 4. **Quit to main menu** asks first, because the game only saves at rest points: the next Continue starts from the last rest point.
 
 ### Menu and screens
@@ -46,7 +47,9 @@ world.tscn
 | `ui/menus/menu_theme.tres` | Menu theme |
 | `ui/menus/main_menu/main_menu.tscn`, `main_menu.gd` | Main scene: background, version label, the title screen |
 | `ui/menus/main_menu/title_screen.gd` | `TitleScreen`: Continue, New game, Options, Quit |
-| `ui/menus/pause/pause_menu.gd` | `PauseMenu`: pauses the tree, closes on `pause` |
+| `ui/menus/pausing_menu.gd` | `PausingMenu`: a menu that pauses the tree while open and unpauses a frame after closing; can free itself on close |
+| `ui/menus/pause/pause_menu.gd` | `PauseMenu`: a `PausingMenu` that opens the pause screen and closes on `pause` |
+| `ui/menus/skills/skills_screen.gd` | `SkillsScreen`: the skill shrine's page, see [Skills](/systems/skills) |
 | `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Options, Quit to main menu |
 | `ui/menus/options/` | The options pages, see [Options](/systems/options) |
 
@@ -75,7 +78,7 @@ func _build() -> void:
 
 Open it from another page with `menu.push(ExtrasScreen.new())`.
 
-**Another menu** (a shop, a map screen): instance a `Menu` (or a subclass like `PauseMenu`) and `push()` its first page.
+**Another menu** (a shop, a map screen): instance a `Menu` and `push()` its first page. For an in-game menu that pauses the game, instance a `PausingMenu` and call `open_screen()`; set `free_on_close` when it is made on the spot, as `SkillShrine` does.
 
 ## Known limitations
 

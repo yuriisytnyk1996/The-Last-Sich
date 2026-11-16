@@ -51,10 +51,14 @@ The-Last-Sich/
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
 │   │   │   ├── ledge_grab.gd     Finds ledges to grab, hang and climb tuning
 │   │   │   ├── flasks.gd         Healing flask charges
-│   │   │   ├── wallet.gd         Currency the player carries, saved
+│   │   │   ├── wallet.gd         Currency the player carries, spent on skills, saved
+│   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
 │   │   │   ├── spirit.gd         Spirit, filled by landing hits
 │   │   │   └── parry.gd          Parry and riposte tuning
+│   │   ├── skills/               Upgrades learned at skill shrines
+│   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
+│   │   │   └── combo_1/2/3.tres  The combo finisher skills
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
@@ -108,6 +112,8 @@ The-Last-Sich/
 │   │   ├── rest_point.tscn       Rest point scene
 │   │   ├── death_mark.gd         A death mark, recovered with interact
 │   │   ├── death_mark.tscn       Its scene
+│   │   ├── skill_shrine.gd       Opens the skill menu with interact
+│   │   ├── skill_shrine.tscn     Skill shrine scene
 │   │   ├── spikes.gd             Instant death when stepped in
 │   │   └── ladder.gd             Climbable ladder
 │   ├── rooms/
@@ -135,14 +141,17 @@ The-Last-Sich/
 │   │   ├── menu_screen.gd        Base page with row helpers
 │   │   ├── option_row.gd         Left/right value row
 │   │   ├── confirm_screen.gd     Yes/no question
+│   │   ├── pausing_menu.gd       Menu that pauses the game while open
 │   │   ├── menu_theme.tres       Menu fonts, colours, focus marker
 │   │   ├── main_menu/
 │   │   │   ├── main_menu.tscn    Main scene: the title screen
 │   │   │   ├── main_menu.gd
 │   │   │   └── title_screen.gd   Continue, New game, Options, Quit
 │   │   ├── pause/
-│   │   │   ├── pause_menu.gd     Pauses the game while open
+│   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
 │   │   │   └── pause_screen.gd   Resume, Options, Quit to main menu
+│   │   ├── skills/
+│   │   │   └── skills_screen.gd  Skill shrine page: list, description, learn
 │   │   └── options/
 │   │       ├── options_screen.gd Options hub
 │   │       ├── video_options.gd

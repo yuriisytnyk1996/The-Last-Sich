@@ -73,9 +73,28 @@ Whether the swing counts as a ground or an air swing is decided when it starts. 
 
 ### Re-swing after a miss
 
-If a swing **missed**, pressing attack during its recovery cuts the recovery short and starts the next swing immediately (in whatever direction is held then). A swing that **hit** plays out its full recovery. This keeps whiffing cheap to correct, while landing hits keeps its rhythm. Combos will later chain from hits.
+If a swing **missed**, pressing attack during its recovery cuts the recovery short and starts the next swing immediately (in whatever direction is held then). A swing that **hit** plays out its full recovery. This keeps whiffing cheap to correct, while landing hits keeps its rhythm.
 
-The miss check uses `Hitbox.has_hit()`, which is reset each time the hitbox turns on.
+The miss check uses `Hitbox.has_hit()`, which is reset each time the hitbox turns on. What happens on a press during recovery is decided by `PlayerAttackState.chain_state()`: the default is the re-swing above, and combo attacks override it.
+
+### Ground combo
+
+Ground side swings chain into a combo:
+
+1. A ground **SideAttack** that hit, with attack pressed during its recovery, goes straight into another SideAttack. The chain has started.
+2. Inside a chain every side swing chains on the next press, hit or not, so one miss doesn't drop the combo.
+3. A swing that hits once `heavy_after_hits` (2) swings of the chain have hit goes into **ComboHeavy** instead: a slower swing that steps forward and hits harder, with a heavy reaction.
+4. Without a combo skill the chain ends with the heavy swing. With one learned (see [Skills](/systems/skills)), attack during its recovery goes into a finisher, picked by the best combo skill and the stick at the press:
+
+| Skill | Stick | Finisher |
+|---|---|---|
+| `combo_1` | any | **ComboFinisher**: a long forward lunge into a wide heavy slash |
+| `combo_2` | up | **ComboFinisherUp**: hops the player up with a tall rising slash that knocks up and forward |
+| `combo_3` | down | **ComboFinisherDown**: a planted slam that hits both sides along the ground and knocks enemies up |
+
+With `combo_2` or `combo_3`, any other direction still gives the forward finisher. A chain only continues while the player stays on the ground and keeps pressing attack without up or down; an up or crouch swing starts over. Air side swings never chain.
+
+`ComboHeavy` and the finishers share `PlayerComboStrike` (`combo_strike.gd`): its own startup, active and recovery times, a forward step during the wind-up on the ground (`lunge_speed`) and an upward hop when it starts on the ground (`rise_speed`). Facing is locked.
 
 ### Other rules
 
@@ -90,6 +109,10 @@ The miss check uses `Hitbox.has_hit()`, which is reset each time the hitbox turn
 | `Visual/Attacks/Side` | (16, -16) | 22×18 | (1, 0) |
 | `Visual/Attacks/Up` | (2, -40) | 24×20 | (0, -1) |
 | `Visual/Attacks/Crouch` | (16, -6) | 22×10 | (1, 0) |
+| `Visual/Attacks/ComboHeavy` | (18, -16) | 28×22 | (1, 0) |
+| `Visual/Attacks/Finisher` | (20, -16) | 36×26 | (1, 0) |
+| `Visual/Attacks/FinisherUp` | (12, -34) | 26×40 | (0.4, -1) |
+| `Visual/Attacks/FinisherDown` | (0, -6) | 64×12 | (0, -1), pushes away from the player |
 
 Positions are relative to the player's feet, facing right.
 
@@ -181,7 +204,9 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `components/combat/invincibility_blink.gd` | `InvincibilityBlink`: blinks a visual while a hurtbox is invincible |
 | `components/combat/hurt_feedback.gd` | `HurtFeedback`: flash, hit-stop, camera shake and rumble on every accepted hit |
 | `actors/player/states/attacks/player_attack_state.gd` | `PlayerAttackState`: swing phases, re-swing, planted on the ground / air control in the air |
-| `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground |
+| `actors/player/states/attacks/side_attack.gd` | Side slash, turns around on the ground, chains the ground combo |
+| `actors/player/states/attacks/combo_strike.gd` | `PlayerComboStrike`: heavy combo swing with its own timing, lunge and hop |
+| `actors/player/states/attacks/combo_heavy.gd` | ComboHeavy: the heavy end of the chain, picks the finisher from the learned combo skill |
 | `actors/player/states/attacks/up_attack.gd` | Up slash |
 | `actors/player/states/attacks/crouch_attack.gd` | Low slash (ground only) |
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, `wants()`, success feedback |
@@ -250,7 +275,22 @@ Set on the `Player` node, group **Attack**.
 | `attack_buffer_time` | 0.12 | How early an attack press is remembered (s) |
 | `attack_vertical_threshold` | 0.75 | How far up or down the stick must be held for an up or crouch attack |
 
-The three basic attacks share this timing. The riposte has its own, see [Parry and riposte tuning](#parry-and-riposte-1). Damage and knockback are set per attack on the hitboxes under `Visual/Attacks` in `player.tscn`.
+The three basic attacks share this timing. The combo swings and the riposte have their own, see [Parry and riposte tuning](#parry-and-riposte-1). Damage and knockback are set per attack on the hitboxes under `Visual/Attacks` in `player.tscn`.
+
+### Ground combo
+
+`SideAttack.heavy_after_hits` = 2: hits in one chain that lead into ComboHeavy.
+
+Set on each state node under `StateMachine`:
+
+| State | `startup` | `active` | `recovery` | `lunge_speed` | `rise_speed` | Hitbox damage | Knockback |
+|---|---|---|---|---|---|---|---|
+| ComboHeavy | 0.1 | 0.12 | 0.3 | 120 | 0 | 2 | 170 |
+| ComboFinisher | 0.12 | 0.14 | 0.35 | 180 | 0 | 3 | 220 |
+| ComboFinisherUp | 0.06 | 0.16 | 0.3 | 0 | 260 | 3 | 200 |
+| ComboFinisherDown | 0.14 | 0.1 | 0.4 | 0 | 0 | 3 | 160 |
+
+`PlayerComboStrike` defaults are 0.08 / 0.12 / 0.28 with no lunge or hop. Every combo hitbox has the heavy reaction.
 
 ### Parry and riposte
 
@@ -302,7 +342,8 @@ Its health is set on its `Health` child node.
 ## Known limitations
 
 - A hurtbox without invincibility only reacts to *new* contacts, so a `continuous` hitbox only repeats against hurtboxes that have invincibility frames.
-- No combos, charged attacks or movement attacks (dash attack, dive attack). These are planned as upgrades once an upgrade system exists.
+- The ground combo is the only upgradeable attack. Charged attacks and movement attacks (dash attack, dive attack) are planned as further skills.
+- The combo finishers are placeholder rectangles with no animation.
 - No crouch state yet: the crouch attack doesn't lower the player's body, it only swings low.
 - The three basic attacks share one set of timings.
 - Parrying is ground only, and only from Idle or Run: it can't cancel an attack, a dash or a hurt stagger.

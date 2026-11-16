@@ -31,6 +31,16 @@ func add(value: int) -> void:
 	_announce()
 
 
+## Takes `value` away if there is enough. Returns false and changes nothing
+## otherwise.
+func spend(value: int) -> bool:
+	if value < 0 or value > amount:
+		return false
+	amount -= value
+	_announce()
+	return true
+
+
 func get_save_data() -> Dictionary:
 	return {"amount": amount}
 

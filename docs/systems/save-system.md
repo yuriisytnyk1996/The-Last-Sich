@@ -25,7 +25,7 @@ func get_save_data() -> Dictionary
 func apply_save_data(data: Dictionary) -> void
 ```
 
-- **Global systems** live for the whole run. They call `SaveManager.register(self)` and have a `save_id`, which is their key under `global`. They're dropped automatically when they leave the tree. `World` saves the last rest point, `PlayerWallet` the player's currency and `DeathPenalty` the death marks (see [Death penalty](/systems/death-penalty)).
+- **Global systems** live for the whole run. They call `SaveManager.register(self)` and have a `save_id`, which is their key under `global`. They're dropped automatically when they leave the tree. `World` saves the last rest point, `PlayerWallet` the player's currency, `PlayerSkills` the learned skills (see [Skills](/systems/skills)) and `DeathPenalty` the death marks (see [Death penalty](/systems/death-penalty)).
 - **Room objects** are any nodes in the `persistent` group inside a room. Their key is their node path inside the room, under that room's scene path in `rooms`.
 
 The flow:
