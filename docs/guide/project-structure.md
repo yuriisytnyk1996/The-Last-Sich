@@ -158,6 +158,8 @@ The-Last-Sich/
 │   │   ├── rest_point.tscn       Rest point scene
 │   │   ├── death_mark.gd         A death mark, recovered with interact
 │   │   ├── death_mark.tscn       Its scene
+│   │   ├── cleanse_point.gd      Pay to clear every death mark
+│   │   ├── cleanse_point.tscn    Cleanse point scene
 │   │   ├── skill_shrine.gd       Opens the skill menu with interact
 │   │   ├── skill_shrine.tscn     Skill shrine scene
 │   │   ├── tier_relic.gd         Raises the skill tier once when touched
@@ -210,7 +212,8 @@ The-Last-Sich/
 │   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
 │   │   │   └── pause_screen.gd   Resume, Inventory, Map, Options, Quit to main menu
 │   │   ├── shop/
-│   │   │   └── buy_screen.gd     Shop stand page: item, price, buy
+│   │   │   ├── buy_screen.gd     Shop stand page: item, price, buy
+│   │   │   └── cleanse_screen.gd Cleanse point page: marks, price, cleanse
 │   │   ├── inventory/
 │   │   │   ├── inventory_screen.gd Inventory page: tabs, worn row, grid, details
 │   │   │   ├── inventory_tabs.gd The tab bar

@@ -51,7 +51,17 @@ Recovering a mark:
 1. The mark and every mark linked to it are removed, and the factors go back up.
 2. The player heals `recover_heal` × max health (rounded, at least 1) and gains `recover_spirit` × max spirit (using the new, higher maximum).
 
-`DeathPenalty.clear()` removes every mark at once. It is there for paid cleanse points.
+### Paid cleanse
+
+A **cleanse point** (`CleansePoint`, `levels/objects/cleanse_point.tscn`) clears every mark at once for currency, so the player doesn't have to walk back to each one. It is a press-interact `InteractionArea`:
+
+1. Pressing interact pauses the game and opens a `PausingMenu` with a `CleanseScreen` (`ui/menus/shop/cleanse_screen.gd`), the same way a [shop stand](/systems/shops) opens its buy page.
+2. The screen shows the number of marks, the price (`price_per_mark` × marks) and the player's currency. **Leave** is focused first. **Cleanse** is disabled and reads "Not enough currency" when the wallet holds less than the price. With no marks it only says so and offers Leave.
+3. **Cleanse** calls `PlayerWallet.spend()`, then `DeathPenalty.clear()`: every mark and marker is removed and the factors go back to full. Unlike recovering a mark by hand, there is **no heal or spirit bonus**.
+
+The point finds the penalty through the `death_penalty` group (`DeathPenalty.GROUP`), since the penalty lives in the `World`, not the room. It can be used any number of times and saves nothing of its own: the cleared marks and the spent currency reach the disk with the next save (rest or death), like a shop purchase. The [map](/systems/map) marks it with a pale blue square.
+
+The test house has one, between the rest point and the skill shrine.
 
 ### Saving
 
@@ -75,6 +85,8 @@ Recovering a mark:
 | `levels/death_mark_list.gd` | `DeathMarkList`: the marks, linking, recovery, save data |
 | `levels/objects/death_mark.gd` | `DeathMark`: interact-to-recover area |
 | `levels/objects/death_mark.tscn` | Death mark scene (placeholder post) |
+| `levels/objects/cleanse_point.gd` / `.tscn` | `CleansePoint`: pay to clear every mark |
+| `ui/menus/shop/cleanse_screen.gd` | `CleanseScreen`: marks, price, currency, cleanse or leave |
 | `actors/player/abilities/safe_ground.gd` | `PlayerSafeGround`: remembers the last safe spot and its room |
 | `levels/objects/spikes.gd` | Instant-death spikes, see [Combat](/systems/combat#spikes) |
 | `ui/hud/death_mark_counter.gd` | HUD pips |
@@ -91,6 +103,7 @@ Recovering a mark:
 | `DeathPenalty.currency_gain_factor` | see table | Currency gain per number of marks |
 | `DeathPenalty.recover_heal` | 0.33 | Part of max health healed on recovery |
 | `DeathPenalty.recover_spirit` | 0.5 | Part of max spirit given on recovery |
+| `CleansePoint.price_per_mark` | 150 | Currency per mark cleared at a cleanse point |
 | `PlayerSafeGround.edge_margin` | 12 | Ground must be under each side this far from the feet (px) |
 | `PlayerSafeGround.probe_depth` | 4 | How far below the feet the ground may be (px) |
 | `PlayerSafeGround.hazard_margin` | 24 | No hazard within this distance sideways (px) |
@@ -98,7 +111,7 @@ Recovering a mark:
 
 ## Extending
 
-- **Paid cleanse point:** an `InteractionArea` that checks the price (for example a base price × number of marks), takes it from the wallet and calls `DeathPenalty.clear()`.
+- **A new cleanse point:** place `cleanse_point.tscn` in a room's Logic scene. Set `price_per_mark` for one that is cheaper or dearer than usual.
 - **Rooms without marks or with a fixed mark spot** (boss arenas, where walking back means refighting): add a room setting and have `drop()` read it.
 - **An item that prevents marks:** a flag on `DeathPenalty` that makes `drop()` return early.
 - **Spots that must never count** (moving or crumbling platforms): check for them in `PlayerSafeGround._is_safe()`.
@@ -107,4 +120,5 @@ Recovering a mark:
 
 - Placeholder look for the marks, no sound or effect on recovery.
 - No map marker showing where the marks are.
-- The factor tables are a first guess and need playtesting.
+- The factor tables and the cleanse price are a first guess and need playtesting.
+- A cleanse point is a grey basin with a pale strip of water, with no sound or effect.

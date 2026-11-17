@@ -13,6 +13,8 @@ extends Node
 ## on every room load. A global save system (see `SaveManager`).
 
 const MARK_SCENE := preload("res://levels/objects/death_mark.tscn")
+## Room objects find the penalty through this group (see `CleansePoint`).
+const GROUP := &"death_penalty"
 
 @export var player: Player
 
@@ -41,6 +43,7 @@ var _markers: Array[DeathMark] = []
 
 
 func _ready() -> void:
+	add_to_group(GROUP)
 	SaveManager.register(self)
 	_apply.call_deferred()
 
@@ -57,7 +60,13 @@ func drop(current_room: Room) -> void:
 	_apply()
 
 
-## Removes every mark at once (a paid cleanse, later).
+## The number of marks waiting to be recovered, linked ones included.
+func count() -> int:
+	return _marks.count()
+
+
+## Removes every mark at once (a paid cleanse, see `CleansePoint`). No
+## recovery bonus.
 func clear() -> void:
 	_marks.clear()
 	_remove_markers()

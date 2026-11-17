@@ -1,14 +1,15 @@
 class_name MapRoom
 extends RefCounted
 ## One room as the world map sees it: a rectangle of map cells, the doors
-## on its edges and the marks inside it (rest points, shrines, inner doors).
+## on its edges and the marks inside it (rest points, shrines, shops,
+## cleanse points, inner doors).
 ##
 ## Rooms are only loaded one at a time, so `WorldMap` scans each room when
 ## it loads (`scan()`) and keeps the result in the save. Only rooms the
 ## player has been in are known, and the map only draws those.
 
 enum Side { NORTH, SOUTH, WEST, EAST }
-enum Mark { REST_POINT, SHRINE, DOOR, DEATH_MARK, SHOP }
+enum Mark { REST_POINT, SHRINE, DOOR, DEATH_MARK, SHOP, CLEANSE }
 
 ## An exit this close to an edge of `bounds` (px) is a door in that edge.
 const EDGE_MARGIN := 24
@@ -46,6 +47,8 @@ static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
 			map_room.add_mark(cell, Mark.REST_POINT)
 		elif node is SkillShrine:
 			map_room.add_mark(cell, Mark.SHRINE)
+		elif node is CleansePoint:
+			map_room.add_mark(cell, Mark.CLEANSE)
 		elif node is ShopItem and not Mark.SHOP in map_room.marks.get(cell, []):
 			map_room.add_mark(cell, Mark.SHOP)
 	return map_room

@@ -75,6 +75,7 @@
 - [x] Shops: stands that sell one item each for currency, a buy page with the price and the player's currency, sold stands stay empty (saved), shop marks on the map. Test shop in the test house
 
 - [x] Ability-gated traversal: unlocks given by items (`UnlockEffect`); wall cling (hold attack in the air facing a marked climb wall) and wall jump, a basic move from the start; reveal platforms shown by the seer's lantern, a relic (new item kind, 3 slots, worn from the inventory); levers that toggle or unlock gates (one-shot shortcuts, key-locked levers, locked gates); chests with an item and currency; hidden areas behind false walls that fade when entered. All saved. New test vault room east of the test works
+- [x] Paid cleanse points: pay currency (a price per mark) to clear every death mark at once without walking back, no recovery bonus; map mark; one in the test house
 
 ## Next
 
@@ -86,7 +87,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
 - [ ] Attack speed, run speed and critical hits as stats
-- [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
 - [ ] Spirit abilities that spend spirit
 - [ ] Map: completion percentage, marks placed by the player, items that reveal a zone
 - [ ] Gates opened by attacks or pressure plates; feedback for a lever pulled without its key; map marks for chests, levers and secrets
@@ -115,6 +115,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Brown rectangle for doors, a triangle for the interact prompt
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
+- Grey basin with a pale strip for the cleanse point
 - Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency
 - No hang or climb-up animation for ledges, the placeholder body just moves
 - Grey rectangles with a blue gem for the skill shrine, blue diamonds for tier relics, plain text cells for the skill menu, coloured rectangles for the combo, charged, lunge and dive hitboxes, the projectiles and the blasts, a bar above the head for a full charge

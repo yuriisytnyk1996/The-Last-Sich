@@ -26,6 +26,7 @@ const MARK_COLORS := {
 	MapRoom.Mark.DOOR: Color(0.62, 0.42, 0.25),
 	MapRoom.Mark.DEATH_MARK: Color(0.9, 0.15, 0.15),
 	MapRoom.Mark.SHOP: Color(0.95, 0.8, 0.35),
+	MapRoom.Mark.CLEANSE: Color(0.85, 0.9, 1),
 }
 ## One cell on screen (px), per zoom level. Same shape as a map cell.
 const ZOOMS: Array[Vector2] = [Vector2(32, 18), Vector2(16, 9)]

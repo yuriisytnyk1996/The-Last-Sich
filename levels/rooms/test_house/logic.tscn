@@ -10,6 +10,7 @@
 [ext_resource type="Resource" path="res://actors/player/items/charms/red_sash.tres" id="9_red_sash"]
 [ext_resource type="Resource" path="res://actors/player/items/blades/heavy_edge.tres" id="10_heavy_edge"]
 [ext_resource type="Resource" path="res://actors/player/items/keepsakes/spare_gourd.tres" id="11_spare_gourd"]
+[ext_resource type="PackedScene" path="res://levels/objects/cleanse_point.tscn" id="12_cleanse"]
 
 [node name="Logic" type="Node2D"]
 
@@ -21,6 +22,9 @@ position = Vector2(320, 320)
 
 [node name="SkillShrine" parent="." instance=ExtResource("5_shrine")]
 position = Vector2(448, 320)
+
+[node name="CleansePoint" parent="." instance=ExtResource("12_cleanse")]
+position = Vector2(384, 320)
 
 [node name="Exits" type="Node2D" parent="."]
 
