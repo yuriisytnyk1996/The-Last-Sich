@@ -7,9 +7,9 @@ Travel takes the player from one rest point to any other they have found, so a l
 ### Kneeling
 
 1. The player rests at a [rest point](/systems/rest-points) as usual: health, flasks, enemies and the save are handled first.
-2. If they have the `rest_travel` unlock (`PlayerUnlocks.REST_TRAVEL`), the rest point then sends `Events.travel_offered`. The Chumak's whip grants this unlock while carried (an `UnlockEffect` with an `OWNED` trigger, see [Traversal](/systems/traversal#unlocks)).
+2. If they have the `rest_travel` unlock (`PlayerUnlocks.REST_TRAVEL`), the rest point then puts the player in the **Kneel** state (`actors/player/states/kneel.gd`). The player stops, can't be hit (the hurtbox is off, so there is no invincibility blink) and goes down on one knee (placeholder: the visual squashes toward the feet to `kneel_height`). The game keeps running for `kneel_time`, so the HUD shows health (and flasks, spirit) refilling before anything pauses. Then Kneel sends `Events.travel_offered`. The Chumak's whip grants this unlock while carried (an `UnlockEffect` with an `OWNED` trigger, see [Traversal](/systems/traversal#unlocks)).
 3. `World` opens the pause menu on a `KneelScreen` (`ui/menus/rest/kneel_screen.gd`): a small panel at the bottom of the screen such as "M: travel    Escape: rise". It names the real keys: the bound `map` key and Escape on keyboard, or the bound `map` button and B on a gamepad (`BindingButton.key_name()` / `button_name()`). It shows gamepad names when a gamepad is connected and switches to whichever device was used last. The game is paused, but the screen has no tint (`MenuScreen.backdrop` off), so the player stays in view.
-4. **Back** or **interact** closes the menu: the player rises and plays on. **Map** (M / Back) opens the travel map on top of the prompt.
+4. **Back** or **interact** closes the menu: the player takes `rise_time` to get up, then plays on. **Map** (M / Back) opens the travel map on top of the prompt.
 
 Without the unlock, resting works exactly as before and no prompt shows.
 
@@ -38,6 +38,7 @@ The travel map is the [map](/systems/map) page in travel mode (`MapScreen.new(ma
 | File | Role |
 |---|---|
 | `levels/objects/rest_point.gd` | Sends `Events.travel_offered` after a rest when travel is unlocked |
+| `actors/player/states/kneel.gd` | Kneel state: holds the player still with the hurtbox off, opens the prompt after `kneel_time`, rises after it closes |
 | `ui/menus/rest/kneel_screen.gd` | `KneelScreen`: the kneel prompt. Map opens the travel map, back or interact rises |
 | `ui/menus/map/map_travel.gd` | `MapTravel`: targets, cone search, glide, cursor pulse, whether travel is possible |
 | `ui/menus/map/map_view.gd` | Hands move input and cursor drawing to `MapTravel` in travel mode; sends `travel_chosen` |
@@ -59,6 +60,14 @@ The travel map is the [map](/systems/map) page in travel mode (`MapScreen.new(ma
 | `speed` | `400` | Glide speed of the view (screen px/s) |
 | `cursor_size` | `8` | Side of the cursor square (px) at rest. It doubles mid-glide |
 
+The Kneel state (on the player's `StateMachine/Kneel` node) has its own values:
+
+| Value | Default | Effect |
+|---|---|---|
+| `kneel_time` | 0.8 | Seconds to go down on one knee, with the game running; the prompt opens when it ends |
+| `rise_time` | 0.3 | Seconds to get up after the prompt closes |
+| `kneel_height` | 0.65 | Height of the player's visual while kneeling, as a fraction of standing height |
+
 The Chumak's whip costs 600 at the test house [shop](/systems/shops).
 
 ## Extending
@@ -69,6 +78,6 @@ The Chumak's whip costs 600 at the test house [shop](/systems/shops).
 
 ## Known limitations
 
-- No kneeling animation and no sounds for the prompt, the glide or a push with no target.
+- The kneel is a placeholder squash of the visual, not an animation. No sounds for the prompt, the glide or a push with no target.
 - Travel opens on every rest once unlocked. A rest point has no "first lit" state of its own.
 - The cursor is a plain square drawn in code.

@@ -99,6 +99,7 @@ The-Last-Sich/
 │   │       ├── wall_jump.gd      Kicking off a climb wall (extends the jump)
 │   │       ├── hard_landing.gd   Stuck in place after a long fall
 │   │       ├── heal.gd           Drinking a healing flask
+│   │       ├── kneel.gd          Kneeling at a rest point before the travel prompt
 │   │       ├── parry.gd          Guard up, deflects parryable hits
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn

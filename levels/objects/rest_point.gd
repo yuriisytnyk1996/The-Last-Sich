@@ -9,8 +9,9 @@ extends InteractionArea
 ## lights it whenever its room is loaded.
 ##
 ## Once the player can travel (`PlayerUnlocks.REST_TRAVEL`), resting also
-## makes them kneel (`Events.travel_offered`): a prompt offers the travel
-## map, from which they can go to any rest point they have found.
+## makes them kneel (the player's Kneel state): the heal shows on the HUD
+## first, then a prompt (`Events.travel_offered`) offers the travel map,
+## from which they can go to any rest point they have found.
 
 @onready var flame: CanvasItem = $Visual/Flame
 
@@ -35,7 +36,7 @@ func _activate(player: Node2D) -> void:
 	get_tree().call_group(&"enemies", &"reset")
 	Events.rested.emit(self)
 	if resting.unlocks.has(PlayerUnlocks.REST_TRAVEL):
-		Events.travel_offered.emit()
+		resting.state_machine.transition_to(PlayerState.KNEEL)
 
 
 func _on_rested(rest_point: Node2D) -> void:

@@ -15,7 +15,7 @@ A rest point is a checkpoint. Pressing interact at one heals the player to full,
 
 Resting also saves the game: `World` writes the remembered rest point to disk, and on the next start the player wakes up on it. See [Save system](/systems/save-system).
 
-Once the player can travel (the Chumak's whip), resting also makes them kneel: a prompt offers the travel map, from which they can go to any rest point they have found. See [Travel](/systems/travel).
+Once the player can travel (the Chumak's whip), resting also makes them kneel: the heal plays out on the HUD while the game is still running, then a prompt offers the travel map, from which they can go to any rest point they have found. See [Travel](/systems/travel).
 
 ## Files
 
@@ -50,5 +50,5 @@ A rest point has no values of its own. `press_interact` comes from `InteractionA
 
 ## Known limitations
 
-- No resting or kneeling animation. Without travel the player keeps control the whole time.
+- No resting animation. The kneel (with travel) is a placeholder squash. Without travel the player keeps control the whole time.
 - Placeholder rectangles for the post and flame.

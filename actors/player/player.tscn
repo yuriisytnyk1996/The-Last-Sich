@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://actors/player/states/hard_landing.gd" id="23_hard"]
 [ext_resource type="Script" path="res://actors/player/abilities/flasks.gd" id="24_flasks"]
 [ext_resource type="Script" path="res://actors/player/states/heal.gd" id="25_heal"]
+[ext_resource type="Script" path="res://actors/player/states/kneel.gd" id="st_kneel"]
 [ext_resource type="Script" path="res://actors/player/abilities/parry.gd" id="26_parry"]
 [ext_resource type="Script" path="res://actors/player/states/parry.gd" id="27_parry_state"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/riposte.gd" id="28_riposte"]
@@ -589,6 +590,9 @@ script = ExtResource("23_hard")
 [node name="Heal" type="Node" parent="StateMachine" node_paths=PackedStringArray("aura")]
 script = ExtResource("25_heal")
 aura = NodePath("../../Visual/HealAura")
+
+[node name="Kneel" type="Node" parent="StateMachine"]
+script = ExtResource("st_kneel")
 
 [node name="SideAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("8_side_attack")
