@@ -25,6 +25,7 @@ Idle / Run ──duma pressed──► can sing? ──no──► Events.spirit
 5. The aura flashes and fades during `recovery`, then the player is back in Idle or Run. A hit before the cast point interrupts the cast and nothing is spent. Walking off a ledge drops into Fall.
 6. While the longest lasting effect runs, the duma is **running** (`PlayerDumas.is_running()`). Each frame `Events.duma_time_changed(fraction_left)` reports the time left, and the [HUD](/systems/hud#spirit-bar-and-death-marks) draws it as a line under the spirit bar. A duma with only instant effects never runs.
 7. Death ends a running duma at once (`PlayerDumas.end()`, on `Health.died`), stopping its effects.
+8. **Swapping while one runs:** the running duma is the one sung, not the one worn. Wearing another duma, or taking every duma off, doesn't stop it: its effects (a sabre ring, heavy strikes) keep going until their time runs out, and `duma` still does nothing until then. The newly worn duma can be sung once it ends. `PlayerItemEffects` stops `ON_USE` effects by their timer whatever is worn.
 
 ### Duma effects
 
