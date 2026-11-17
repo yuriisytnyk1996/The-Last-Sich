@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.14](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.13...v0.0.14) (2026-11-17)
+
+### Features
+
+* **inventory:** add a lore page for items and hide the mouse cursor ([fad2323](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/fad2323d3962596a20f72ad159599156f588a8eb))
+* **map:** show the explored percentage on the map page ([c47a1ea](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/c47a1ea8a08b102b276f496e93de19d32c31d95d))
+* **player:** kneel at rest points before the travel prompt ([b7ef8d7](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/b7ef8d77e99d2ef185e6d71e682b15a6a9a81ca2))
+* **stats:** add attack speed, run speed and critical hits as stats ([3fabbd4](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/3fabbd4c4e4572fc7d02f100abe2ba53466af6bd))
+* **traversal:** add pressure plates that open gates ([7e075f0](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/7e075f09d111598c4ff8a2bfaa3035430ce1d934))
+
+### Bug Fixes
+
+* **rooms:** move the hare foot pickup out of the test room block ([efcf15a](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/efcf15ab1977660d9d89033afe8fdd320b674064))
+
 ## [0.0.13](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.12...v0.0.13) (2026-11-17)
 
 ### Features
