@@ -62,7 +62,7 @@ position = Vector2(260, 320)
 [node name="Items" type="Node2D" parent="."]
 
 [node name="HareFoot" parent="Items" instance=ExtResource("20_pickup")]
-position = Vector2(320, 320)
+position = Vector2(464, 320)
 item = ExtResource("21_hare_foot")
 
 [node name="QuickBracer" parent="Items" instance=ExtResource("20_pickup")]
