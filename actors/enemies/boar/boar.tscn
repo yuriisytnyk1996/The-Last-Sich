@@ -1,0 +1,203 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://actors/enemies/enemy.gd" id="1_root"]
+[ext_resource type="Script" path="res://actors/enemies/enemy_stats.gd" id="2_stats"]
+[ext_resource type="Script" path="res://components/combat/hitbox.gd" id="3_hitbox"]
+[ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="4_hurtbox"]
+[ext_resource type="Script" path="res://components/combat/health.gd" id="5_health"]
+[ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="6_feedback"]
+[ext_resource type="Script" path="res://actors/enemies/enemy_damage.gd" id="7_damage"]
+[ext_resource type="Script" path="res://components/state_machine/state_machine.gd" id="8_fsm"]
+[ext_resource type="Script" path="res://actors/enemies/states/patrol.gd" id="9_patrol"]
+[ext_resource type="Script" path="res://actors/enemies/states/chase.gd" id="10_chase"]
+[ext_resource type="Script" path="res://actors/enemies/boar/states/charge.gd" id="11_attack"]
+[ext_resource type="Script" path="res://actors/enemies/states/hurt.gd" id="12_hurt"]
+[ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="13_stunned"]
+[ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="14_dead"]
+
+[sub_resource type="RectangleShape2D" id="body_shape"]
+size = Vector2(24, 18)
+
+[sub_resource type="RectangleShape2D" id="attack_shape"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="hurtbox_shape"]
+size = Vector2(24, 16)
+
+[sub_resource type="RectangleShape2D" id="contact_shape"]
+size = Vector2(20, 14)
+
+[node name="Boar" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 65
+floor_snap_length = 4.0
+script = ExtResource("1_root")
+start_facing = -1
+patrol_speed = 30.0
+chase_speed = 55.0
+sight_range = 220.0
+lose_range = 280.0
+turn_delay = 0.5
+attack_range = 150.0
+attack_needs_sight = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("body_shape")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -12.0
+offset_top = -18.0
+offset_right = 12.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.4, 0.3, 0.22, 1)
+
+[node name="Snout" type="ColorRect" parent="Visual"]
+offset_left = 12.0
+offset_top = -12.0
+offset_right = 16.0
+offset_bottom = -5.0
+mouse_filter = 2
+color = Color(0.5, 0.38, 0.3, 1)
+
+[node name="Eye" type="ColorRect" parent="Visual"]
+offset_left = 7.0
+offset_top = -15.0
+offset_right = 10.0
+offset_bottom = -12.0
+mouse_filter = 2
+color = Color(0.95, 0.4, 0.3, 1)
+
+[node name="Telegraph" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -2.0
+offset_top = -30.0
+offset_right = 2.0
+offset_bottom = -22.0
+mouse_filter = 2
+color = Color(2.5, 2.2, 0.8, 1)
+
+[node name="StunMark" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -5.0
+offset_top = -28.0
+offset_right = 5.0
+offset_bottom = -24.0
+mouse_filter = 2
+color = Color(0.7, 0.85, 1.6, 1)
+
+[node name="FloorProbe" type="RayCast2D" parent="Visual"]
+position = Vector2(16, -4)
+target_position = Vector2(0, 12)
+collision_mask = 65
+
+[node name="SightRay" type="RayCast2D" parent="Visual"]
+position = Vector2(9, -13)
+enabled = false
+target_position = Vector2(0, 0)
+
+[node name="Attacks" type="Node2D" parent="Visual"]
+
+[node name="Gore" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(16, -9)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hitbox")
+damage = 30
+knockback_force = 220.0
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Gore"]
+shape = SubResource("attack_shape")
+disabled = true
+
+[node name="AttackRect" type="ColorRect" parent="Visual/Attacks/Gore"]
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+mouse_filter = 2
+color = Color(0.95, 0.6, 0.4, 0.6)
+
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("2_stats")
+max_health = 90.0
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("stats")]
+script = ExtResource("5_health")
+stats = NodePath("../Stats")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("4_hurtbox")
+health = NodePath("../Health")
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -8)
+shape = SubResource("hurtbox_shape")
+
+[node name="Contact" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_hitbox")
+element = 1
+knockback_force = 0.0
+knockback_direction = Vector2(0, -1)
+active_on_start = true
+continuous = true
+
+[node name="Shape" type="CollisionShape2D" parent="Contact"]
+position = Vector2(0, -7)
+shape = SubResource("contact_shape")
+
+[node name="Damage" type="Node" parent="."]
+script = ExtResource("7_damage")
+hurt_knockback = 50.0
+heavy_knockback = 90.0
+max_staggers = 2
+stun_time = 1.6
+currency_reward = 20
+
+[node name="HurtFeedback" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "flash_target")]
+script = ExtResource("6_feedback")
+hurtbox = NodePath("../Hurtbox")
+flash_target = NodePath("../Visual")
+hit_stop = 0.05
+shake = 0.3
+rumble = 0.3
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_fsm")
+initial_state = NodePath("Patrol")
+
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("9_patrol")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("10_chase")
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox", "telegraph")]
+script = ExtResource("11_attack")
+hitbox = NodePath("../../Visual/Attacks/Gore")
+telegraph = NodePath("../../Visual/Telegraph")
+startup = 0.7
+active = 1.0
+recovery = 0.6
+cooldown = 1.2
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("12_hurt")
+
+[node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("mark")]
+script = ExtResource("13_stunned")
+mark = NodePath("../../Visual/StunMark")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("14_dead")

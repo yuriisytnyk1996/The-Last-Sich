@@ -12,6 +12,9 @@ signal hit_landed(hurtbox: Hurtbox)
 ## Emitted when a parrying Hurtbox deflects this hitbox. The attacker
 ## listens to this to get stunned.
 signal parried(hurtbox: Hurtbox)
+## Emitted when a Hurtbox's guard (a shield) blocks this hitbox. No damage
+## is dealt. A projectile listens to this to stop.
+signal blocked(hurtbox: Hurtbox)
 
 ## How hard the receiver reacts. LIGHT: damage and flash, no knockback or
 ## stagger. NORMAL: stagger and knockback. HEAVY: longer stagger, more
@@ -96,6 +99,11 @@ func register_hit(hurtbox: Hurtbox) -> void:
 ## Called by the Hurtbox that parried this hit. No damage is dealt.
 func register_parry(hurtbox: Hurtbox) -> void:
 	parried.emit(hurtbox)
+
+
+## Called by the Hurtbox whose guard blocked this hit. No damage is dealt.
+func register_block(hurtbox: Hurtbox) -> void:
+	blocked.emit(hurtbox)
 
 
 ## Decides whether the next hit is critical, from the attacker's

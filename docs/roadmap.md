@@ -86,6 +86,8 @@
 - [x] Map completion: the map page shows the percentage of the world's cells explored, counted against a generated map catalog of every room (`pnpm map:catalog`, checked by the pre-commit hook)
 - [x] Item lore: every item has a lore text, read on a lore page opened with R / Y from the inventory. The mouse cursor is hidden from the start (F10 shows it in debug builds)
 
+- [x] Three more enemies: the shieldbearer (a raised shield blocks hits from the front; heavy hits break the guard, hits from behind land), the boar (charges in a straight line once it can see the player, crashes into walls and is dazed, stops at ledges) and the crow (flies, hovers above the player and swoops at it, loses it under cover). New `Hurtbox.guard` for blocking, `attack_needs_sight` on enemies, and a test barracks room behind a second door in the test room
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -128,6 +130,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - No hang or climb-up animation for ledges, the placeholder body just moves
 - Grey rectangles with a blue gem for the skill shrine, blue diamonds for tier relics, plain text cells for the skill menu, coloured rectangles for the combo, charged, lunge and dive hitboxes, the projectiles and the blasts, a bar above the head for a full charge
 - Coloured rectangles for the musketeer and its barrel, a thin line for its aim, a small rectangle for the musket ball
+- Coloured rectangles for the shieldbearer, its shield and the block flash, the boar and the crow, and for their thrust, gore and talon hitboxes
 - Brown boxes for crates, a grey block with a dark line for the cracked wall, no break debris
 - Flat rectangles for moving platforms, elevators and their levers
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts

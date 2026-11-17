@@ -1,0 +1,30 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://levels/objects/door.tscn" id="1_door"]
+[ext_resource type="PackedScene" path="res://actors/enemies/shieldbearer/shieldbearer.tscn" id="2_shieldbearer"]
+[ext_resource type="PackedScene" path="res://actors/enemies/boar/boar.tscn" id="3_boar"]
+[ext_resource type="PackedScene" path="res://actors/enemies/crow/crow.tscn" id="4_crow"]
+
+[node name="Logic" type="Node2D"]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(64, 320)
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="Door" parent="Exits" instance=ExtResource("1_door")]
+position = Vector2(64, 320)
+target_room = "res://levels/rooms/test_room.tscn"
+target_exit = &"BarracksDoor"
+arrival_facing = 1
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Shieldbearer" parent="Enemies" instance=ExtResource("2_shieldbearer")]
+position = Vector2(400, 320)
+
+[node name="Boar" parent="Enemies" instance=ExtResource("3_boar")]
+position = Vector2(880, 320)
+
+[node name="Crow" parent="Enemies" instance=ExtResource("4_crow")]
+position = Vector2(1104, 176)

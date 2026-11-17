@@ -66,5 +66,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		menu.push(MapScreen.new(_map, true))
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(&"interact"):
-		go_back()
+		# Handled first: going back takes this screen out of the tree.
 		get_viewport().set_input_as_handled()
+		go_back()

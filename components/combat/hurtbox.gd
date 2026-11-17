@@ -10,6 +10,8 @@ extends Area2D
 signal hurt(hitbox: Hitbox)
 ## A `parryable` hitbox arrived while `parrying` was on. No damage taken.
 signal parried(hitbox: Hitbox)
+## `guard` turned the hit away (a raised shield). No damage taken.
+signal blocked(hitbox: Hitbox)
 
 @export var health: Health
 ## Seconds of immunity after a hit. 0 means every new hit counts.
@@ -30,6 +32,10 @@ var ignore_continuous := false:
 		ignore_continuous = value
 		if was and not value and not is_invincible():
 			_recheck_continuous_hitboxes.call_deferred()
+
+## Optional check run before a hit lands: called with the Hitbox, returns
+## true to block it. Set by the owner, for example a raised shield.
+var guard := Callable()
 
 var _invincible_left := 0.0
 
@@ -79,6 +85,10 @@ func _on_area_entered(area: Area2D) -> void:
 		hitbox.register_parry(self)
 		return
 	if is_invincible() or (ignore_continuous and hitbox.continuous):
+		return
+	if guard.is_valid() and guard.call(hitbox):
+		blocked.emit(hitbox)
+		hitbox.register_block(self)
 		return
 
 	_invincible_left = invincibility_time

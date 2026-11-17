@@ -157,7 +157,15 @@ Idle / Run ──parry──► Parry: GUARD (parry_window)
 
 A guard that catches nothing leaves the player stuck in place for `fail_recovery`, open to the attack they mistimed. That is the cost of parrying: pressing too early is punished as much as not pressing at all.
 
-**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and projectiles (the musketeer's ball) are not, and still hit during the guard. The raider's `Slash` is parryable.
+**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and projectiles (the musketeer's ball) are not, and still hit during the guard. The raider's `Slash`, the shieldbearer's `Thrust` and the crow's `Talons` are parryable. The boar's `Gore` is not.
+
+## Blocking
+
+A hurtbox can turn hits away with a **guard**: `Hurtbox.guard` is an optional `Callable` that gets the hitbox before it lands and returns true to block it. The shieldbearer's shield sets it (see [Enemies](/systems/enemies#shieldbearer)).
+
+A blocked hit deals no damage and doesn't emit `hurt`. The hurtbox emits `blocked(hitbox)` and calls `hitbox.register_block()`, which emits the hitbox's own `blocked(hurtbox)`. The hit doesn't count as landed (`has_hit()` stays false), so it fills no spirit, sets off no on-hit item effects and doesn't chain a combo. A `PlayerProjectile` that is blocked vanishes.
+
+The guard runs after the parry and invincibility checks.
 
 The parry check runs before the invincibility check, so a guard raised while still blinking from an earlier hit can still parry.
 
@@ -278,6 +286,8 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `health` | none | `Health` node that takes the damage automatically |
 | `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `PlayerDamage.invincibility_time` |
 | `rewards_attacker` | true | Off for props: hits on it fill no spirit |
+
+`guard` (a `Callable`, not exported) is set from code. See [Blocking](#blocking).
 
 ### HurtFeedback
 
@@ -441,3 +451,4 @@ Its health is set on its `Health` child node.
 - Parrying is ground only, and only from Idle or Run: it can't cancel an attack, a dash or a hurt stagger.
 - No parry sound or guard animation, and the riposte isn't a special finishing move: it is a strong slash.
 - Placeholder rectangles for the slash and the dummy.
+- A blocked hit has no recoil on the attacker and no block sound: only the shield flashes.

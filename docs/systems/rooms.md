@@ -163,6 +163,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - Ground on both sides of a pit, with a kill zone in the pit
 - Walls at both edges, with a gap at the bottom of the right wall: the `East` exit leads to the test cave
 - A door (`HouseDoor`) near the start, leading to the test house
+- A second door (`BarracksDoor`) on the ground just left of the pit, leading to the test barracks
 - A low step (2 tiles high) on the left, then a mid ledge 2 tiles above it
 - A one-way bridge (lighter colour) over the pit, level with the mid ledge
 - A step block on the right side with a high ledge 2 tiles above it
@@ -181,6 +182,18 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 ## Test house layout
 
 `levels/rooms/test_house.tscn` is a closed 640×360 room behind the test room's door. It has a `Door` back to the test room, a [rest point](/systems/rest-points) in the middle and a one-way plank 2 tiles above the floor.
+
+## Test barracks layout
+
+`levels/rooms/test_barracks.tscn` is a closed 1280×360 room behind the test room's `BarracksDoor`, for testing the newer enemies. It sits above the test room on the map (`map_cell` (0, -2)). From left to right:
+
+- The `Door` back to the test room, at the spawn point.
+- A low wall (2 tiles), then the **shieldbearer**'s stretch: it patrols between this wall and the next, so there is room to jump over it.
+- A second low wall, the boar's crash wall and the player's cover: standing behind it blocks the boar's sight, so it can't charge.
+- The **boar**'s run: long flat ground, so a charge from the right reaches the wall.
+- A third low wall, then the **crow**'s area: a one-way plank 2 tiles up, and a solid shelf 4 tiles up near the right wall to hide under from the crow.
+
+See [Enemies](/systems/enemies).
 
 ## Making a new room
 

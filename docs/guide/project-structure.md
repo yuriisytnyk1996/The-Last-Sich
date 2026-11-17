@@ -135,12 +135,26 @@ The-Last-Sich/
 │   │   │   ├── raider.tscn       Melee grunt
 │   │   │   └── states/
 │   │   │       └── saber_slash.gd   Lunging forward cut
-│   │   └── musketeer/
-│   │       ├── musketeer.tscn    Ranged enemy that stands and shoots
-│   │       ├── musket_ball.tscn  The shot
+│   │   ├── musketeer/
+│   │   │   ├── musketeer.tscn    Ranged enemy that stands and shoots
+│   │   │   ├── musket_ball.tscn  The shot
+│   │   │   └── states/
+│   │   │       ├── hold_range.gd      Its Chase: close in, stand and fire
+│   │   │       └── musket_shot.gd     Aim, fire, reload
+│   │   ├── shieldbearer/
+│   │   │   ├── shieldbearer.tscn     Shielded spearman
+│   │   │   └── shield_damage.gd      Its Damage: the shield blocks front hits, heavy hits break it
+│   │   ├── boar/
+│   │   │   ├── boar.tscn         Charger
+│   │   │   └── states/
+│   │   │       └── charge.gd     Straight-line charge, crashes into walls
+│   │   └── crow/
+│   │       ├── crow.tscn         Flying enemy
+│   │       ├── crow.gd           Root script: flight helpers, no gravity while alive
 │   │       └── states/
-│   │           ├── hold_range.gd      Its Chase: close in, stand and fire
-│   │           └── musket_shot.gd     Aim, fire, reload
+│   │           ├── hover.gd      Its Patrol: hover around the spawn point
+│   │           ├── pursue.gd     Its Chase: fly above the player
+│   │           └── swoop.gd      Aimed dive
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
@@ -196,7 +210,9 @@ The-Last-Sich/
 │   │   ├── test_vault.tscn       Room east of the test works with every traversal piece
 │   │   ├── test_vault/           Its parts
 │   │   ├── test_hideout.tscn     Hidden room behind the vault's secret wall
-│   │   └── test_hideout/         Its parts
+│   │   ├── test_hideout/         Its parts
+│   │   ├── test_barracks.tscn    Room behind the test room's second door, with the shieldbearer, boar and crow
+│   │   └── test_barracks/        Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)

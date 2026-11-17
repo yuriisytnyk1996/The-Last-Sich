@@ -42,6 +42,12 @@ target_room = "res://levels/rooms/test_house.tscn"
 target_exit = &"Door"
 arrival_facing = 1
 
+[node name="BarracksDoor" parent="Exits" instance=ExtResource("11_door")]
+position = Vector2(528, 320)
+target_room = "res://levels/rooms/test_barracks.tscn"
+target_exit = &"Door"
+arrival_facing = -1
+
 [node name="TrainingDummy" parent="." instance=ExtResource("5_dummy")]
 position = Vector2(200, 320)
 

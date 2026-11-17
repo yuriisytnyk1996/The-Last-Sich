@@ -40,6 +40,8 @@ extends CharacterBody2D
 @export_group("Attack")
 ## Horizontal distance to the player at which an attack starts (px).
 @export var attack_range := 30.0
+## Only starts an attack while it can see the player, so cover stops it.
+@export var attack_needs_sight := false
 
 var facing := 1
 
@@ -50,7 +52,8 @@ var _turn_cooldown := 0.0
 var _spawn_position := Vector2.ZERO
 
 @onready var visual: Node2D = $Visual
-@onready var floor_probe: RayCast2D = $Visual/FloorProbe
+## Ledge check. Optional: flying enemies have none.
+@onready var floor_probe := get_node_or_null(^"Visual/FloorProbe") as RayCast2D
 @onready var sight_ray: RayCast2D = $Visual/SightRay
 @onready var state_machine: StateMachine = $StateMachine
 @onready var stats: EnemyStats = $Stats
@@ -100,7 +103,7 @@ func turn_around() -> void:
 func is_path_blocked() -> bool:
 	if is_on_wall() and signf(get_wall_normal().x) == -facing:
 		return true
-	return is_on_floor() and not floor_probe.is_colliding()
+	return is_on_floor() and floor_probe != null and not floor_probe.is_colliding()
 
 
 # --- Senses ---
@@ -153,8 +156,9 @@ func face_target() -> void:
 # --- Attack and lifecycle ---
 
 
+## Off cooldown, and in sight if `attack_needs_sight` is on.
 func can_attack() -> bool:
-	return _attack_cooldown <= 0.0
+	return _attack_cooldown <= 0.0 and (not attack_needs_sight or can_see_target())
 
 
 func start_attack_cooldown(seconds: float) -> void:

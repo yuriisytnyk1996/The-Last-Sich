@@ -1,9 +1,12 @@
 # Enemies
 
-Enemies share one base class (`Enemy`), one damage handler (`EnemyDamage`) and a set of shared states. A specific enemy is a scene that wires these together and adds its own attack. There are two so far:
+Enemies share one base class (`Enemy`), one damage handler (`EnemyDamage`) and a set of shared states. A specific enemy is a scene that wires these together and adds its own attack. There are five so far:
 
 - **Raider:** a melee grunt that patrols, chases the player and swings a saber.
 - **Musketeer:** a ranged enemy that stands its ground, aims and fires a musket ball, then reloads. See [Musketeer](#musketeer).
+- **Shieldbearer:** a slow spearman whose shield blocks hits from the front. Break its guard with a heavy hit, or get behind it. See [Shieldbearer](#shieldbearer).
+- **Boar:** a charger that runs in a straight line once it sees the player, and crashes into walls. See [Boar](#boar).
+- **Crow:** a flying enemy that hovers above the player and swoops down at them. See [Crow](#crow).
 
 ## How it works
 
@@ -133,6 +136,63 @@ Chase (HoldRange) ──can aim, off cooldown, on floor──► Attack (MusketS
 
 A hit during the wind-up interrupts the shot, like any enemy attack. A musketeer on a raised block can't see a player standing close to the foot of the block (the block's edge blocks the sight ray), so it walks to the edge and shoots down.
 
+## Shieldbearer
+
+A slow melee enemy with a shield. It uses the shared `Enemy` root script and the shared states. Its attack node uses `EnemyAttackState` itself (a planted spear thrust with a long reach, parryable), and its `Damage` node is `ShieldDamage`, which extends `EnemyDamage`.
+
+While it patrols, chases or attacks, the shield is up. `ShieldDamage` sets the hurtbox's [guard](/systems/combat#blocking):
+
+| Hit | Result |
+|---|---|
+| From the front, LIGHT or NORMAL | **Blocked:** no damage, no stagger, the shield flashes. The hit doesn't count as landed: no spirit, no combo chain. Bolts stop on it |
+| From the front, HEAVY | **Guard break:** the hit lands, and the enemy is stunned for `stun_time` with its shield down, as after a parry |
+| From behind | Lands as on any enemy: damage, stagger, poise |
+| Any hit while Hurt or Stunned | Lands: the shield is down |
+
+"From the front" means the hit pushes the enemy backwards (`Hitbox.push_direction()` is the opposite of its facing), so a swing from right behind it that reaches past its middle still counts as from behind.
+
+Ways through: a heavy attack (combo finisher, charged slash, lunge, dive, riposte), a parried thrust (Stunned, then a riposte), or getting behind it. It turns slowly (`turn_delay` 0.5), so jumping over it gives a window to hit its back. A patrolling shieldbearer can't see behind itself, so sneaking up on it works too. Hits from behind stagger it and turn it around, and after `max_staggers` it strikes back.
+
+## Boar
+
+A charger. It uses the shared states with `Charge` as its `Attack`, and has `attack_needs_sight` on: it only charges at a player it can see, so standing behind a wall or a low block stops it.
+
+```
+Chase ──in attack_range, sees the player, off cooldown──► Charge
+  wind-up (paws the ground) ──► run at charge_speed, can't turn
+     ├─ wall ──► crash: bounces back, camera shake, Stunned (stun_time)
+     ├─ ledge ──► stops at the edge, recovery
+     └─ active runs out ──► skid to a stop (recovery)
+```
+
+1. **Wind-up.** It faces the player, stands and shows its telegraph. A hit here interrupts it.
+2. **Charge.** It runs ahead for up to `active` seconds, with a HEAVY, unparryable `Gore` hitbox. It doesn't follow the player: jump over it or step onto something.
+3. **Wall.** It crashes, bounces back at `crash_bounce` and is dazed for `stun_time` (the Stunned state), the best opening.
+4. **Ledge.** It stops dead at the edge and never runs off. A skid in recovery stops at ledges too.
+5. **Recovery.** A skid with low friction, then the cooldown.
+
+It has heavy poise: `max_staggers` 2 and short knockback. After two staggers it charges back at once if the player is within its long `attack_range`.
+
+## Crow
+
+A flying enemy. It has its own root script, `Crow` (extends `Enemy`), and its own Patrol (`Hover`), Chase (`Pursue`) and Attack (`Swoop`). Hurt, Stunned and Dead are shared.
+
+- **No gravity while alive.** `Crow.apply_gravity()` only eases its vertical speed to 0. Dead, it falls to the ground like any body.
+- **Collision:** mask `world` only, so it flies through one-way platforms. Walls, floors and solid ceilings stop it.
+- **No ledges:** it has no `FloorProbe`. `is_path_blocked()` only checks walls, `can_reach_target()` is true at any height, and `is_target_in_attack_range()` measures the straight-line distance to the player's body.
+
+```
+Hover ──sees the player──► Pursue ──sees the player, in attack_range, off cooldown──► Swoop
+  ▲                          │                                                          │
+  └── out of sight / range ──┘ ◄──────────────────────── recovery ends ─────────────────┘
+```
+
+1. **Hover** flies back and forth up to `patrol_distance` from its spawn point, bobbing by `bob_height`. Past the edge it turns back, so after a chase it flies home. It sees like any enemy (front only, `close_range` behind), with a tall `sight_height`, so it spots players far below.
+2. **Pursue** flies to a point `hover_height` above the player's feet and `hover_distance` to the side it is on. It gives up after `lose_sight_time` out of sight: hide under a solid ledge or behind a wall.
+3. **Swoop.** Wind-up: it rises slowly and tracks the player, freezing its aim `aim_lock` before the dive. Active: it dives in a straight line at `swoop_speed` with parryable `Talons`, stopping early when it hits terrain. Recovery: it drifts back up, the opening to hit it.
+
+A parried swoop stuns it in the air. It has low health (30) and `max_staggers` 2.
+
 ## Scene layout
 
 ```
@@ -172,6 +232,12 @@ Musketeer (CharacterBody2D, Enemy)
     └── Attack               MusketShot
 ```
 
+The shieldbearer has the raider's layout with `Visual/Shield` and `Visual/Spark` (placeholders), `Visual/Attacks/Thrust` (28×8 at (24, -16), parryable) instead of `Slash`, a `ShieldDamage` script on `Damage` and the plain `EnemyAttackState` script on `Attack`.
+
+The boar has a low, wide body (24×18), `Visual/Attacks/Gore` (14×14 at (16, -9), 30 damage, HEAVY, 220 knockback, not parryable) and the `Charge` script on `Attack`.
+
+The crow's origin is the middle of its body, not its feet. It has no `FloorProbe`, a 12×10 body on mask `world`, `Visual/Attacks/Talons` (14×10, parryable) and the `Hover`, `Pursue` and `Swoop` scripts on `Patrol`, `Chase` and `Attack`.
+
 `musket_ball.tscn` is an `EnemyProjectile` on `enemy_attacks`, mask `world`, 6×4, 20 damage (scaled by the musketeer's `damage` stat), 120 knockback along its flight.
 
 ## Files
@@ -195,6 +261,15 @@ Musketeer (CharacterBody2D, Enemy)
 | `actors/enemies/musketeer/musket_ball.tscn` | The musket ball |
 | `actors/enemies/musketeer/states/hold_range.gd` | Musketeer's Chase: close in, stand and fire, never back away |
 | `actors/enemies/musketeer/states/musket_shot.gd` | `MusketShot`: aim, fire, reload; `can_aim()` |
+| `actors/enemies/shieldbearer/shieldbearer.tscn` | Shieldbearer scene |
+| `actors/enemies/shieldbearer/shield_damage.gd` | `ShieldDamage`: blocks front hits, guard break on HEAVY hits |
+| `actors/enemies/boar/boar.tscn` | Boar scene |
+| `actors/enemies/boar/states/charge.gd` | Boar attack: straight charge, wall crash, ledge stop |
+| `actors/enemies/crow/crow.tscn` | Crow scene |
+| `actors/enemies/crow/crow.gd` | `Crow`: flight helpers, no gravity while alive |
+| `actors/enemies/crow/states/hover.gd` | Crow's Patrol: hover around the spawn point |
+| `actors/enemies/crow/states/pursue.gd` | Crow's Chase: fly above the player, swoop when in range |
+| `actors/enemies/crow/states/swoop.gd` | Crow attack: aimed dive, climbs back up |
 
 ## Tuning
 
@@ -222,6 +297,7 @@ Set on the enemy's root node. Raider values are the defaults.
 | `turn_dead_zone` | 12 | How far to one side the player must be before it turns (px) |
 | `turn_delay` | 0.3 | Time after turning towards the player before it can turn again (s) |
 | `attack_range` | 30 | Horizontal distance at which an attack starts (px) |
+| `attack_needs_sight` | Off | Only starts an attack while it can see the player, so cover stops it |
 
 ### EnemyDamage
 
@@ -280,6 +356,83 @@ Set on the musketeer's root node, attack node and ball. Values that differ from 
 | Ball | `speed` | 260 | Flight speed (px/s), `EnemyProjectile` default |
 | Ball | `lifetime` | 1.5 | Vanishes after this if it hits nothing (s), `EnemyProjectile` default |
 
+### Shieldbearer
+
+| Node | Value | Shieldbearer | Effect |
+|---|---|---|---|
+| Root | `patrol_speed` | 25 | |
+| Root | `chase_speed` | 45 | |
+| Root | `turn_delay` | 0.5 | Slow to turn, so a jump over it opens its back |
+| Root | `attack_range` | 40 | |
+| Stats | `max_health` | 80 | |
+| Damage | `stun_time` | 1.4 | Stunned after a guard break or a parried thrust (s) |
+| Damage | `currency_reward` | 20 | |
+| Damage | `shield` | none | Placeholder shown while the shield is up (`Visual/Shield`) |
+| Damage | `spark` | none | Flash shown on a block (`Visual/Spark`) |
+| Damage | `spark_time` | 0.08 | How long the block flash stays (s) |
+| Attack | `startup` | 0.55 | |
+| Attack | `active` | 0.15 | |
+| Attack | `recovery` | 0.6 | |
+| Attack | `cooldown` | 0.9 | |
+
+### Boar
+
+| Node | Value | Boar | Effect |
+|---|---|---|---|
+| Root | `patrol_speed` | 30 | |
+| Root | `chase_speed` | 55 | |
+| Root | `sight_range` | 220 | |
+| Root | `lose_range` | 280 | |
+| Root | `turn_delay` | 0.5 | |
+| Root | `attack_range` | 150 | Charges from this far |
+| Root | `attack_needs_sight` | On | No charge at a player behind cover |
+| Stats | `max_health` | 90 | |
+| Damage | `hurt_knockback` | 50 | |
+| Damage | `heavy_knockback` | 90 | |
+| Damage | `max_staggers` | 2 | |
+| Damage | `stun_time` | 1.6 | Dazed after crashing into a wall (s) |
+| Damage | `currency_reward` | 20 | |
+| Attack | `startup` | 0.7 | Pawing the ground (s) |
+| Attack | `active` | 1.0 | Longest charge (s) |
+| Attack | `recovery` | 0.6 | The skid (s) |
+| Attack | `cooldown` | 1.2 | |
+| Attack | `charge_speed` | 220 | Charge speed (px/s) |
+| Attack | `charge_acceleration` | 900 | How fast it reaches charge speed (px/s²) |
+| Attack | `crash_bounce` | 90 | Bounce-back speed off a wall (px/s) |
+| Attack | `crash_shake` | 0.35 | Camera shake on a crash |
+| Attack | `skid_friction` | 350 | Friction in the skid (px/s²) |
+
+### Crow
+
+| Node | Value | Crow | Effect |
+|---|---|---|---|
+| Root | `patrol_speed` | 35 | Hover speed (px/s) |
+| Root | `chase_speed` | 75 | Pursuit speed (px/s) |
+| Root | `acceleration` | 400 | Steering (px/s²) |
+| Root | `friction` | 500 | Also how fast vertical drift stops (px/s²) |
+| Root | `sight_range` | 160 | |
+| Root | `sight_height` | 160 | Sees the player far below |
+| Root | `close_range` | 32 | |
+| Root | `lose_range` | 260 | |
+| Root | `turn_dead_zone` | 8 | |
+| Root | `attack_range` | 110 | Straight-line distance to the player's body (px) |
+| Root | `patrol_distance` | 64 | Hover range left and right of the spawn point (px) |
+| Root | `bob_height` | 6 | Up-and-down bob while hovering (px) |
+| Root | `bob_speed` | 1.2 | Bob cycles per second |
+| Root | `hover_height` | 56 | Height above the player's feet while pursuing (px) |
+| Root | `hover_distance` | 40 | Distance to the side of the player while pursuing (px) |
+| Stats | `max_health` | 30 | |
+| Damage | `hurt_knockback` | 120 | |
+| Damage | `max_staggers` | 2 | |
+| Damage | `currency_reward` | 8 | |
+| Attack | `startup` | 0.55 | |
+| Attack | `active` | 0.4 | Longest dive (s) |
+| Attack | `recovery` | 0.7 | |
+| Attack | `cooldown` | 1.0 | |
+| Attack | `swoop_speed` | 230 | Dive speed (px/s) |
+| Attack | `aim_lock` | 0.15 | The aim freezes this long before the dive (s) |
+| Attack | `rise_speed` | 25 | Upward drift in the wind-up and recovery (px/s) |
+
 The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stunned).
 
 ## Extending
@@ -290,7 +443,7 @@ The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stun
 
 **A ranged attack:** extend `EnemyAttackState`, leave `hitbox` empty and spawn an `EnemyProjectile` scene in `_on_active()`, as `MusketShot` does.
 
-**A new behaviour (flying, guarding):** add a state script in the enemy's own `states/` folder and a node for it under `StateMachine`. If two enemies need it, move it up to `actors/enemies/states/`. If the enemy needs extra data or helpers, give it a root script that extends `Enemy`.
+**A new behaviour:** add a state script in the enemy's own `states/` folder and a node for it under `StateMachine`, as the crow does. If two enemies need it, move it up to `actors/enemies/states/`. If the enemy needs extra data or helpers, give it a root script that extends `Enemy`.
 
 **An enemy that ignores staggers:** set `max_staggers` to 0 on its `Damage` node, or override `can_be_staggered()` in its states.
 
@@ -298,8 +451,11 @@ The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stun
 
 - Sight is a single ray to the player's mid-body. A player whose head pokes over a wall, with the middle of the body hidden, isn't seen.
 - A chasing enemy doesn't search for the player: when sight is lost it keeps running at the player's position until `lose_sight_time` runs out.
-- Enemies don't jump, drop down or climb. A player standing on a step or ledge they can't reach is safe from melee, but not from a musketeer.
+- Ground enemies don't jump, drop down or climb. A player standing on a step or ledge they can't reach is safe from melee, but not from a musketeer or a crow.
+- The crow flies straight at its pursuit point with no pathfinding. A wall between it and the player stops it until it loses sight and flies home.
+- A wall right in front of the `FloorProbe` reads as a ledge (the ray starts inside the tile), so a boar standing against a wall stops instead of crashing.
+- A boar charge that runs into the shieldbearer or another enemy passes through it: enemies don't collide with each other.
 - The musket ball flies straight, aimed at where the player was when the aim froze. It doesn't lead a moving target.
 - Several enemies overlap freely because enemy bodies don't collide with each other.
 - One attack per enemy. Enemies with several attacks will need a state that picks between them.
-- Placeholder rectangles for the body, the glint, the slash, the barrel, the aim line and the ball. No animations.
+- Placeholder rectangles for the bodies, the glint, the slash, the barrel, the aim line, the ball, the shield and the new hitboxes. No animations.

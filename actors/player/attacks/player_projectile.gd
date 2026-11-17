@@ -6,7 +6,7 @@ extends Hitbox
 ## or, when launched as returning, slows to a stop, can burst there
 ## (`burst_scene`), then flies back to the player and vanishes on reaching
 ## them. It hits every enemy it passes once per flight. A wall (`world`
-## layer, set as the mask) ends it. A room change removes it.
+## layer, set as the mask) or a shield ends it. A room change removes it.
 
 enum Flight { OUT, TURN, BACK }
 
@@ -35,6 +35,7 @@ func _ready() -> void:
 	super()
 	monitoring = true
 	body_entered.connect(_on_body_entered)
+	blocked.connect(_on_blocked)
 	Events.room_change_requested.connect(_on_room_change_requested)
 
 
@@ -100,6 +101,11 @@ func _fly_toward_thrower(delta: float) -> void:
 
 
 func _on_body_entered(_body: Node2D) -> void:
+	queue_free()
+
+
+## A shield turned it away.
+func _on_blocked(_hurtbox: Hurtbox) -> void:
 	queue_free()
 
 
