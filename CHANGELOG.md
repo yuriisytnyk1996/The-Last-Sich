@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.13](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.12...v0.0.13) (2026-11-17)
+
+### Features
+
+* **travel:** add travel between rest points and spirit refills at rest ([202c23f](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/202c23ff89162be32585c08106c871a2e7a6abc3))
+
 ## [0.0.12](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.11...v0.0.12) (2026-11-17)
 
 ### Features
