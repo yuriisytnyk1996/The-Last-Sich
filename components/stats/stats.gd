@@ -21,6 +21,10 @@ const NORMAL_RESIST := &"normal_resist"
 const CONTACT_RESIST := &"contact_resist"
 const FIRE_RESIST := &"fire_resist"
 const POISON_RESIST := &"poison_resist"
+## Chance (0 to 1) that one of this actor's hits is critical.
+const CRIT_CHANCE := &"crit_chance"
+## Damage multiplier of a critical hit.
+const CRIT_DAMAGE := &"crit_damage"
 
 var _base: Dictionary[StringName, float] = {}
 var _range: Dictionary[StringName, Vector2] = {}

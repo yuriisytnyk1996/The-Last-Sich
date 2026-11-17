@@ -81,6 +81,9 @@ Three effects exist:
 | Brass bell | Charm | 300 | Spirit per hit +1 |
 | Hunter's tally | Charm | 400 | Heal 5 on each kill |
 | War drum | Charm | 450 | Damage +20% for 5 s after a kill |
+| Hare foot | Charm | 350 | Run speed +15% |
+| Quick bracer | Charm | 450 | Attack speed +20% |
+| Raven eye | Charm | 500 | Critical hit chance +0.15 |
 | Heavy edge | Blade | 600 | Damage +30%, dash cooldown +0.3 s |
 | Thirsting edge | Blade | 600 | 30% chance to heal 3 on a hit, damage -10% |
 | Guarding edge | Blade | 500 | Parry window +0.1 s, riposte window +0.25 s, max health -10 |
@@ -91,7 +94,7 @@ Three effects exist:
 | Icon lamp | Keepsake | 500 | Rest points fill [spirit](/systems/spirit); respawn with it full |
 | Seer's lantern | Relic | 1000 | Shows reveal platforms while worn |
 
-The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The rest are only reachable through the debug button for now.
+The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The rest are only reachable through the debug button for now.
 
 ### Saving
 

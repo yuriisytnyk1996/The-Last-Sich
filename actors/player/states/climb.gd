@@ -70,5 +70,5 @@ func _jump_off() -> void:
 	var axis := player.get_move_axis()
 	if axis != 0.0:
 		player.set_facing(axis)
-	player.velocity.x = axis * player.run_speed
+	player.velocity.x = axis * player.get_run_speed()
 	finished.emit(JUMP)

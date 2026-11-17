@@ -9,6 +9,10 @@ extends PlayerState
 ## unless the attack chains into a combo (see `chain_state()`). A swing
 ## started in the air turns into a wall cling if attack is still held when
 ## it reaches a climb wall.
+##
+## `PlayerStats.ATTACK_SPEED` shortens the startup and recovery of every
+## swing. The active window stays as it is, so a swing reaches as far and
+## a lunge travels as far at any attack speed.
 
 enum Phase { STARTUP, ACTIVE, RECOVERY }
 
@@ -24,7 +28,7 @@ func enter(_previous_state: StringName) -> void:
 	player.consume_attack()
 	_started_on_floor = player.is_on_floor()
 	_phase = Phase.STARTUP
-	_time_left = startup_time()
+	_time_left = startup_time() / _attack_speed()
 
 
 func exit() -> void:
@@ -63,7 +67,7 @@ func physics_update(delta: float) -> void:
 		Phase.ACTIVE:
 			hitbox.set_active(false)
 			_phase = Phase.RECOVERY
-			_time_left = recovery_time()
+			_time_left = recovery_time() / _attack_speed()
 		Phase.RECOVERY:
 			finished.emit(end_state())
 
@@ -106,5 +110,9 @@ func move(delta: float) -> void:
 	if _started_on_floor:
 		player.velocity.x = 0.0
 		return
-	var target := player.get_move_axis() * player.run_speed
+	var target := player.get_move_axis() * player.get_run_speed()
 	player.velocity.x = move_toward(player.velocity.x, target, player.air_acceleration * delta)
+
+
+func _attack_speed() -> float:
+	return player.stats.get_value(PlayerStats.ATTACK_SPEED, 1.0)

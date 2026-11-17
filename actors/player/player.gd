@@ -8,7 +8,7 @@ extends CharacterBody2D
 const PLATFORMS_LAYER := 7
 
 @export_group("Run")
-@export var run_speed := 140.0
+## The top speed is a stat: `PlayerStats.RUN_SPEED`, read by `get_run_speed()`.
 @export var acceleration := 1200.0
 @export var friction := 1400.0
 @export var air_acceleration := 900.0
@@ -129,11 +129,17 @@ func move_horizontally(delta: float, accel: float, decel: float) -> void:
 	var axis := get_move_axis()
 	var wind := area_effects.wind_speed()
 	if axis != 0.0:
-		var target := axis * run_speed * area_effects.speed_factor() + wind
+		var target := axis * get_run_speed() * area_effects.speed_factor() + wind
 		velocity.x = move_toward(velocity.x, target, accel * delta)
 		set_facing(axis)
 	else:
 		velocity.x = move_toward(velocity.x, wind, decel * delta)
+
+
+## Top running speed, from the stats. Also the speed kept after a dash
+## and the air speed of a swing.
+func get_run_speed() -> float:
+	return stats.get_value(PlayerStats.RUN_SPEED)
 
 
 ## Launch speed of a jump. Mud lowers it.

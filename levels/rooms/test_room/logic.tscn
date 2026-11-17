@@ -6,6 +6,10 @@
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="10_exit"]
 [ext_resource type="PackedScene" path="res://levels/objects/door.tscn" id="11_door"]
 [ext_resource type="PackedScene" path="res://levels/objects/tier_relic.tscn" id="90_relic"]
+[ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="20_pickup"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/hare_foot.tres" id="21_hare_foot"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/quick_bracer.tres" id="22_quick_bracer"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/raven_eye.tres" id="23_raven_eye"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -54,3 +58,17 @@ position = Vector2(944, 288)
 
 [node name="TierRelic" parent="." instance=ExtResource("90_relic")]
 position = Vector2(260, 320)
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="HareFoot" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(320, 320)
+item = ExtResource("21_hare_foot")
+
+[node name="QuickBracer" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(368, 320)
+item = ExtResource("22_quick_bracer")
+
+[node name="RavenEye" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(416, 320)
+item = ExtResource("23_raven_eye")

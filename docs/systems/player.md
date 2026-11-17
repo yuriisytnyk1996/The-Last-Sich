@@ -64,7 +64,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | State | Does | Leaves to |
 |---|---|---|
 | **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), Ranged (ranged let go, with the skill), an attack (attack buffered), Heal (heal pressed), Run (move input) |
-| **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, Ranged, an attack, Heal, Idle (no move input) |
+| **Run** | Gravity, accelerates toward the `run_speed` stat | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, Ranged, an attack, Heal, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), WallCling (attack held, facing a climb wall), Ranged, Dive (down + attack held, with the skill), an attack, Fall (once moving down) |
 | **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), WallCling (attack held, facing a climb wall), Ranged, Dive, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Ground only. Fixed horizontal speed, no gravity | Lunge (attack, with the skill), Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
@@ -130,7 +130,7 @@ In the air, a lighter push is enough (`air_grab_threshold` instead of `grab_thre
 
 - **Up / down** move at `climb_speed`. With no input the player hangs still.
 - **Reaching the top** puts the feet exactly on the ladder's top, on the plank there, and enters Idle. **Reaching the ground** while climbing down enters Idle. **Going past the bottom** of a ladder that hangs in the air lets go (Fall).
-- **Jump** is a full jump off the ladder: straight up, or sideways at `run_speed` if a direction is held. No ladder can be grabbed while that jump still rises, so holding up doesn't snap you straight back on. Once it peaks, holding up over a ladder grabs it again. With up held and no direction, this makes jump a hop up the ladder.
+- **Jump** is a full jump off the ladder: straight up, or sideways at the run speed if a direction is held. No ladder can be grabbed while that jump still rises, so holding up doesn't snap you straight back on. Once it peaks, holding up over a ladder grabs it again. With up held and no direction, this makes jump a hop up the ladder.
 - **Down + jump** just lets go and falls. The ladder can't be grabbed again for `regrab_delay`.
 
 Holding up next to a ladder that stands on the ground grabs it at once. So holding up and then pressing jump is a jump off the ladder, and the player catches it again at the top of the jump.
@@ -171,7 +171,7 @@ The distance is counted from where the Fall state starts: the top of a jump, wal
 
 A fixed-speed horizontal burst along the ground in the input direction (or facing direction if there's no input). The cooldown prevents spamming.
 
-Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't start while jumping, falling or climbing a ladder, and if jump and dash are pressed in the same frame, the jump wins. A dash that runs off a ledge ends at once; the player keeps `run_speed` and falls with normal air control.
+Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't start while jumping, falling or climbing a ladder, and if jump and dash are pressed in the same frame, the jump wins. A dash that runs off a ledge ends at once; the player keeps the run speed and falls with normal air control.
 
 ### Healing flasks
 
@@ -203,11 +203,10 @@ Flasks aren't saved: loading a save puts the player on a rest point, which refil
 
 ## Tuning
 
-Select the `Player` node in `player.tscn` and edit values in the Inspector.
+Select the `Player` node in `player.tscn` and edit values in the Inspector. The top running speed is the `run_speed` [stat](/systems/stats) (140 px/s) on the `Stats` child, read with `get_run_speed()`, so items can change it.
 
 | Group | Value | Default | Effect |
 |---|---|---|---|
-| Run | `run_speed` | 140 | Top horizontal speed (px/s) |
 | Run | `acceleration` | 1200 | How fast the player reaches top speed on the ground |
 | Run | `friction` | 1400 | How fast the player stops on the ground |
 | Run | `air_acceleration` | 900 | Horizontal control in the air |

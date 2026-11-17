@@ -1,6 +1,6 @@
 # Stats
 
-Stats are the named numbers that items, skills and effects are allowed to change: max health, flasks, damage, resistances, spirit, parry timing, dash cooldown. Each stat has a base value plus modifiers tagged with the source that added them. Code that uses a stat reads the final value instead of its own `@export`, so a new upgrade only adds a modifier and nothing else needs wiring.
+Stats are the named numbers that items, skills and effects are allowed to change: max health, flasks, damage, attack speed, critical hits, resistances, spirit, run speed, parry timing, dash cooldown. Each stat has a base value plus modifiers tagged with the source that added them. Code that uses a stat reads the final value instead of its own `@export`, so a new upgrade only adds a modifier and nothing else needs wiring.
 
 ## How it works
 
@@ -24,6 +24,10 @@ StatModifier (max_health +20, FLAT) ──add_modifier(.., &"iron_ring")──�
 |---|---|---|---|
 | `max_health` | `Stats.MAX_HEALTH` | `Health` (when its `stats` is set) | Maximum health. A higher maximum leaves current health as it is, a lower one cuts it |
 | `damage` | `Stats.DAMAGE` | `Hitbox.get_damage()` through `attacker_stats` | Multiplier for every hit the actor deals |
+| `crit_chance` | `Stats.CRIT_CHANCE` | `Hitbox.roll_critical()` through `attacker_stats` | Chance that a hit is critical. Only the player defines it, so enemies and hazards never crit |
+| `crit_damage` | `Stats.CRIT_DAMAGE` | `Hitbox.get_damage()` through `attacker_stats` | Damage multiplier of a critical hit |
+| `attack_speed` | `PlayerStats.ATTACK_SPEED` | `PlayerAttackState` | Divides the startup and recovery of every swing. The active window stays, so reach and lunge distance don't change |
+| `run_speed` | `PlayerStats.RUN_SPEED` | `Player.get_run_speed()` | Top running speed; also the speed kept after a dash, a ladder jump and the air speed of a swing |
 | `normal_resist`, `contact_resist`, `fire_resist`, `poison_resist` | `Stats.*_RESIST` | `Health.take_hit()` | Fraction of damage of that [element](/systems/combat#elements) ignored |
 | `flask_count` | `PlayerStats.FLASK_COUNT` | `PlayerFlasks` | Flasks when full. Fewer takes flasks away, more adds empty ones the next refill fills |
 | `flask_heal` | `PlayerStats.FLASK_HEAL` | `PlayerFlasks` | Health restored by one flask |
@@ -38,8 +42,16 @@ StatModifier (max_health +20, FLAT) ──add_modifier(.., &"iron_ring")──�
 
 A hit's damage goes through two steps:
 
-1. **Attacker:** `Hitbox.get_damage()` is `damage × attacker_stats.damage`, rounded, at least 1 unless it comes out at 0. Without `attacker_stats` the base damage is used. `PlayerStats` sets itself as `attacker_stats` on every hitbox under the player when it is ready. Projectiles and blasts are spawned later, so `PlayerProjectile.launch()` takes the stats from a `Player` thrower and `PlayerBlast.spawn()` takes them as an argument.
+1. **Attacker:** `Hitbox.get_damage()` is `damage × attacker_stats.damage`, times `attacker_stats.crit_damage` on a critical hit, rounded, at least 1 unless it comes out at 0. Without `attacker_stats` the base damage is used. `PlayerStats` sets itself as `attacker_stats` on every hitbox under the player when it is ready. Projectiles and blasts are spawned later, so `PlayerProjectile.launch()` takes the stats from a `Player` thrower and `PlayerBlast.spawn()` takes them as an argument.
 2. **Receiver:** `Health.take_hit(hitbox)` lowers the damage by the receiver's resistance to the hit's element: `round(damage × (1 − resist))`, at least 1. A resistance of 1 or more blocks the hit completely. A `Health` without `stats` takes the full damage. `Hurtbox` calls `take_hit()` for every hit it accepts.
+
+### Critical hits
+
+For every hit it accepts, the `Hurtbox` calls `hitbox.roll_critical()` first, before `hurt` is emitted and the damage is read. That sets `Hitbox.critical` from the attacker's `crit_chance`; a hitbox without `attacker_stats` never crits. Everything that reacts to the hit reads the same roll:
+
+- `get_damage()` multiplies by `crit_damage` (×1.5 by default).
+- `feedback_scale()` is ×1.5 (`Hitbox.CRIT_FEEDBACK_SCALE`), so hit-stop, shake and rumble are stronger.
+- `HurtFeedback` flashes the target in `crit_flash_color` (gold) instead of `flash_color`.
 
 Death-mark penalties stay as factors on `PlayerSpirit` and `PlayerWallet` (`max_factor`, `gain_factor`), not modifiers. The HUD needs the maximum without them to draw the locked part of the spirit bar.
 
@@ -70,12 +82,16 @@ Base values, on the player's **`Stats`** child node (`PlayerStats`):
 | Health | `flask_count` | 2 | 0 to 10 | Flasks carried when all are full |
 | Health | `flask_heal` | 40 | 0 and up | Health restored by one flask |
 | Offense | `damage` | 1.0 | 0 and up | Multiplier for every player hitbox and projectile |
+| Offense | `attack_speed` | 1.0 | 0.25 to 3 | Divides swing startup and recovery. 1.2 is 20 % faster |
+| Offense | `crit_chance` | 0.05 | 0 to 1 | Chance a hit is critical |
+| Offense | `crit_damage` | 1.5 | 1 and up | Damage multiplier of a critical hit |
 | Defense | `normal_resist` | 0 | 0 to 1 | Fraction of NORMAL damage ignored |
 | Defense | `contact_resist` | 0 | 0 to 1 | Fraction of CONTACT damage ignored |
 | Defense | `fire_resist` | 0 | 0 to 1 | Fraction of FIRE damage ignored |
 | Defense | `poison_resist` | 0 | 0 to 1 | Fraction of POISON damage ignored |
 | Spirit | `max_spirit` | 30 | 0 and up | Maximum spirit without death marks |
 | Spirit | `spirit_per_hit` | 2 | 0 and up | Spirit per landed hit |
+| Movement | `run_speed` | 140 | 0 and up | Top running speed (px/s) |
 | Timing | `parry_window` | 0.25 | 0.05 and up | Seconds the guard is up after the press |
 | Timing | `riposte_window` | 0.5 | 0.05 and up | After a parry, seconds to press attack for a riposte |
 | Timing | `dash_cooldown` | 0.4 | 0 and up | Seconds before the next dash |
@@ -99,4 +115,5 @@ Base values on each enemy's **`Stats`** node (`EnemyStats`):
 ## Known limitations
 
 - Modifiers aren't saved. Whatever adds them (items, skills, [upgrades](/systems/upgrades)) has to add them again after a load.
-- Attack speed, run speed and critical hits aren't stats yet.
+- Attack speed doesn't change the charge time of the charged slash or the dive, which aren't `PlayerAttackState` phases.
+- Critical hits have no number or sound of their own, only the gold flash and stronger feedback.

@@ -11,6 +11,8 @@ const SPIRIT_PER_HIT := &"spirit_per_hit"
 const PARRY_WINDOW := &"parry_window"
 const RIPOSTE_WINDOW := &"riposte_window"
 const DASH_COOLDOWN := &"dash_cooldown"
+const ATTACK_SPEED := &"attack_speed"
+const RUN_SPEED := &"run_speed"
 const CHARM_SLOTS := &"charm_slots"
 ## Most charm slots the player can ever have.
 const MAX_CHARM_SLOTS := 8
@@ -25,6 +27,12 @@ const MAX_CHARM_SLOTS := 8
 @export_group("Offense")
 ## Multiplier for the damage of every player hitbox and projectile.
 @export var damage := 1.0
+## Multiplier for how fast swings wind up and recover. 1.2 is 20 % faster.
+@export var attack_speed := 1.0
+## Chance (0 to 1) that a hit is critical.
+@export_range(0.0, 1.0) var crit_chance := 0.05
+## Damage multiplier of a critical hit.
+@export var crit_damage := 1.5
 
 @export_group("Defense")
 ## Fraction of damage ignored, per hit element (0 to 1).
@@ -38,6 +46,10 @@ const MAX_CHARM_SLOTS := 8
 @export var max_spirit := 30.0
 ## Spirit gained per landed hit.
 @export var spirit_per_hit := 2.0
+
+@export_group("Movement")
+## Top running speed (px/s).
+@export var run_speed := 140.0
 
 @export_group("Timing")
 ## Seconds the parry guard is up after the press (s).
@@ -57,6 +69,10 @@ func _define_stats() -> void:
 	define(FLASK_COUNT, flask_count, 0.0, 10.0)
 	define(FLASK_HEAL, flask_heal, 0.0)
 	define(DAMAGE, damage, 0.0)
+	define(ATTACK_SPEED, attack_speed, 0.25, 3.0)
+	define(CRIT_CHANCE, crit_chance, 0.0, 1.0)
+	define(CRIT_DAMAGE, crit_damage, 1.0)
+	define(RUN_SPEED, run_speed, 0.0)
 	define(NORMAL_RESIST, normal_resist, 0.0, 1.0)
 	define(CONTACT_RESIST, contact_resist, 0.0, 1.0)
 	define(FIRE_RESIST, fire_resist, 0.0, 1.0)

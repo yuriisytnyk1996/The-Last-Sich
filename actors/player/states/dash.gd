@@ -22,8 +22,8 @@ func physics_update(delta: float) -> void:
 	_time_left -= delta
 	player.move_and_slide()
 	if not player.is_on_floor():
-		player.velocity.x = player.facing * player.run_speed
+		player.velocity.x = player.facing * player.get_run_speed()
 		finished.emit(FALL)
 	elif _time_left <= 0.0:
-		player.velocity.x = player.facing * player.run_speed
+		player.velocity.x = player.facing * player.get_run_speed()
 		finished.emit(ground_state())

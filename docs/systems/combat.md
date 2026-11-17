@@ -60,6 +60,7 @@ Each attack is its own state in `actors/player/states/attacks/` with its own hit
 | Active | `attack_active` | On |
 | Recovery | `attack_recovery` | Off. The commitment that makes attacking a decision |
 
+The `attack_speed` [stat](/systems/stats) divides the startup and recovery of every attack state (combo strikes, lunge and riposte included). The active window is left alone, so a faster swing reaches as far.
 ### Movement during attacks
 
 | Attack | Movement | Facing |
@@ -164,6 +165,8 @@ The parry check runs before the invincibility check, so a guard raised while sti
 
 Each hitbox has a `reaction` that tells the receiver how hard to react. The hitbox only carries the label; each actor decides what it means.
 
+A [critical hit](/systems/stats#critical-hits) multiplies the scale below by another 1.5.
+
 | Reaction | Player | Enemies | Hit-stop and shake (`feedback_scale()`) |
 |---|---|---|---|
 | `LIGHT` | Damage, flash and invincibility only. No stagger, no knockback, keeps doing what they were doing | Damage and flash only | ×0.5 |
@@ -228,7 +231,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 
 | File | Role |
 |---|---|
-| `components/combat/hitbox.gd` | `Hitbox`: damage, element and knockback, `get_damage()`, `set_active()`, `has_hit()`, `hit_landed` |
+| `components/combat/hitbox.gd` | `Hitbox`: damage, element and knockback, `roll_critical()`, `get_damage()`, `set_active()`, `has_hit()`, `hit_landed` |
 | `components/combat/hurtbox.gd` | `Hurtbox`: detects hitboxes, invincibility, emits `hurt` |
 | `components/combat/health.gd` | `Health`: hit points, `take_hit()` with resistances, maximum from stats, `health_changed` and `died` |
 | `components/combat/invincibility_blink.gd` | `InvincibilityBlink`: blinks a visual while a hurtbox is invincible |
@@ -283,6 +286,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `hurtbox` | none | Hurtbox to listen to |
 | `flash_target` | none | Node that flashes. None means no flash |
 | `flash_color` | (3, 3, 3) | Flash colour, above 1 overbrightens |
+| `crit_flash_color` | (3, 2.2, 0.6) | Flash colour of a [critical hit](/systems/stats#critical-hits) |
 | `flash_time` | 0.12 | Fade back from the flash (s) |
 | `hit_stop` | 0 | Freeze length (s) at NORMAL. Player 0.1, dummy 0.05 |
 | `shake` | 0 | Camera trauma at NORMAL (0 to 1). Player 0.6, dummy 0.3 |

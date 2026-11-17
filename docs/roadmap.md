@@ -81,6 +81,7 @@
 - [x] Map secrets and player marks: a secret (`Breakable.map_hides`) keeps the cells, door gaps and marks behind it off the map until it breaks; the current room is scanned again before it unloads, when the map opens and on save. The player places their own marks on visited cells (chest, question, enemy, person, three pins; one per cell; attack on the map page), saved. A hidden test hideout room behind the vault's secret wall
 - [x] Travel between rest points: with the Chumak's whip (keepsake, test house shop), resting makes the player kneel and offers the travel map; the cursor hops between found rest points (cone search, eased glide, pulsing cursor) and attack travels there with a fade, making it the respawn point. Second rest point in the test cave
 - [x] Spirit at rest points: the Icon lamp (keepsake, test house shop) makes resting fill spirit and death respawn it full; without it, death now empties spirit. Spirit still starts empty on load
+- [x] Attack speed, run speed and critical hits as stats: attack speed shortens swing startup and recovery, run speed drives running, crit chance and crit damage roll per hit with a gold flash and stronger feedback. Three charms (hare foot, quick bracer, raven eye) in the test room
 
 ## Next
 
@@ -91,7 +92,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
-- [ ] Attack speed, run speed and critical hits as stats
 - [ ] Spirit abilities that spend spirit
 - [ ] Map: completion percentage, items that reveal a zone
 - [ ] Gates opened by attacks or pressure plates; feedback for a lever pulled without its key

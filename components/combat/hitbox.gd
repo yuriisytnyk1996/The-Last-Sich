@@ -26,6 +26,8 @@ const FEEDBACK_SCALE: Dictionary[Reaction, float] = {
 	Reaction.NORMAL: 1.0,
 	Reaction.HEAVY: 2.0,
 }
+## A critical hit makes hit-stop, shake and rumble this much stronger.
+const CRIT_FEEDBACK_SCALE := 1.5
 const RESIST_STATS: Dictionary[Element, StringName] = {
 	Element.NORMAL: Stats.NORMAL_RESIST,
 	Element.CONTACT: Stats.CONTACT_RESIST,
@@ -52,6 +54,9 @@ const RESIST_STATS: Dictionary[Element, StringName] = {
 ## Stats of whoever deals this hit. Their `Stats.DAMAGE` scales `damage`.
 ## Optional: without it the base damage is dealt.
 var attacker_stats: Stats
+## The hit being dealt is critical. Rolled by the Hurtbox for each hit it
+## accepts (`roll_critical()`), before anything reads the damage.
+var critical := false
 
 var _active := false
 var _has_hit := false
@@ -93,20 +98,31 @@ func register_parry(hurtbox: Hurtbox) -> void:
 	parried.emit(hurtbox)
 
 
+## Decides whether the next hit is critical, from the attacker's
+## `Stats.CRIT_CHANCE`. Without attacker stats (hazards) it never is.
+func roll_critical() -> void:
+	var chance := attacker_stats.get_value(Stats.CRIT_CHANCE) if attacker_stats else 0.0
+	critical = chance > 0.0 and randf() < chance
+
+
 ## Damage this hit deals before the receiver's resistance. Rounded, and
-## never below 1 unless the scaled damage is 0.
+## never below 1 unless the scaled damage is 0. A critical hit is
+## multiplied by the attacker's `Stats.CRIT_DAMAGE`.
 func get_damage() -> int:
 	var scaled := float(damage)
 	if attacker_stats:
 		scaled *= attacker_stats.get_value(Stats.DAMAGE, 1.0)
+		if critical:
+			scaled *= attacker_stats.get_value(Stats.CRIT_DAMAGE, 1.0)
 	if scaled <= 0.0:
 		return 0
 	return maxi(roundi(scaled), 1)
 
 
-## Multiplier for hit-stop and camera shake, from `reaction`.
+## Multiplier for hit-stop and camera shake, from `reaction`, stronger
+## for a critical hit.
 func feedback_scale() -> float:
-	return FEEDBACK_SCALE[reaction]
+	return FEEDBACK_SCALE[reaction] * (CRIT_FEEDBACK_SCALE if critical else 1.0)
 
 
 func get_knockback() -> Vector2:

@@ -11,6 +11,8 @@ extends Node
 ## Node that flashes. Colours above 1 overbrighten thanks to 2D HDR.
 @export var flash_target: CanvasItem
 @export var flash_color := Color(3.0, 3.0, 3.0)
+## Flash colour of a critical hit.
+@export var crit_flash_color := Color(3.0, 2.2, 0.6)
 @export var flash_time := 0.12
 ## Freeze length (s). 0 turns it off.
 @export var hit_stop := 0.0
@@ -30,18 +32,18 @@ func _ready() -> void:
 
 func _on_hurt(hitbox: Hitbox) -> void:
 	var scale := hitbox.feedback_scale()
-	_flash()
+	_flash(crit_flash_color if hitbox.critical else flash_color)
 	HitStop.freeze(hit_stop * scale)
 	if shake > 0.0:
 		Events.camera_shake_requested.emit(shake * scale)
 	Rumble.play(rumble * scale, rumble_time * scale)
 
 
-func _flash() -> void:
+func _flash(color: Color) -> void:
 	if flash_target == null:
 		return
 	if _tween:
 		_tween.kill()
-	flash_target.modulate = flash_color
+	flash_target.modulate = color
 	_tween = create_tween()
 	_tween.tween_property(flash_target, "modulate", Color.WHITE, flash_time)
