@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.15](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.14...v0.0.15) (2026-11-17)
+
+### Features
+
+* **enemies:** add shieldbearer, boar and crow ([158018c](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/158018c5eea1d17d9f6045513018eb6c92449707))
+
 ## [0.0.14](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.13...v0.0.14) (2026-11-17)
 
 ### Features

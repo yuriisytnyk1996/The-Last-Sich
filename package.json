@@ -1,6 +1,6 @@
 {
   "name": "the-last-sich",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "type": "module",
   "description": "Dev tooling for The Last Sich: docs site, commit linting and releases",
