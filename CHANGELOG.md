@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.12](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.11...v0.0.12) (2026-11-17)
+
+### Features
+
+* **death-penalty:** add paid cleanse points ([69a1dfe](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/69a1dfe9b2cbe8634e3243a9b293cb322a1f90cc))
+* **map:** hide secrets until found and let the player place marks ([37e1f14](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/37e1f146f03ba87710ae1f92229ffab643f42741))
+* **stats:** add upgrade shrines for max health and max spirit ([3643783](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/36437837e690ceff1870c477d9bebe7ed4365b66))
+* **traversal:** add secret walls broken by attacks from one side ([0c3f051](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/0c3f051ed7fbc31f5eb68ee40de5232e7d94987f))
+
 ## [0.0.11](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.10...v0.0.11) (2026-11-17)
 
 ### Features
