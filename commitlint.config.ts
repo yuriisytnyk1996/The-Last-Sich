@@ -15,6 +15,7 @@ export default {
         'stats',
         'rooms',
         'environment',
+        'traversal',
         'ui',
         'input',
         'rendering',

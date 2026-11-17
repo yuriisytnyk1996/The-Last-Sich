@@ -71,6 +71,7 @@ var _dash_cooldown_timer := 0.0
 @onready var drop_through: PlayerDropThrough = $DropThrough
 @onready var ladder_climb: PlayerLadderClimb = $LadderClimb
 @onready var ledge_grab: PlayerLedgeGrab = $LedgeGrab
+@onready var wall_jump: PlayerWallJump = $WallJump
 @onready var flasks: PlayerFlasks = $Flasks
 @onready var parry: PlayerParry = $Parry
 @onready var wallet: PlayerWallet = $Wallet
@@ -79,6 +80,7 @@ var _dash_cooldown_timer := 0.0
 @onready var skills: PlayerSkills = $Skills
 @onready var area_effects: PlayerAreaEffects = $AreaEffects
 @onready var inventory: PlayerInventory = $Inventory
+@onready var unlocks: PlayerUnlocks = $Unlocks
 
 
 func _physics_process(delta: float) -> void:

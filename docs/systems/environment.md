@@ -1,6 +1,6 @@
 # Environment
 
-Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, elevators, timed traps, turrets, and wind, mud and poison zones. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
+Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, hidden areas) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
 
 ## How it works
 
@@ -57,7 +57,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 `levels/rooms/test_works.tscn` is a 1280×720 room east of the [test cave](/systems/rooms#test-cave-layout), through a new `East` exit in the cave's right wall. It has two floors:
 
 - **Upper floor** (y 320), left to right: two crates by the entrance, a wind zone blowing left, a 4-tile gap down to the lower floor, a row of three spike traps striking in a wave, the cracked wall with a crate worth 30 behind it, and the elevator with a call lever.
-- **Lower floor** (y 672), right to left from the elevator: the lower call lever, a mud pool, two fire traps, a pit (with a `KillZone`) crossed by a sideways moving platform, a poison cloud, and a vertical moving platform that rises through the upper floor's gap back to the top. A turret on the left wall fires along the lower floor while the player is near.
+- **Lower floor** (y 672), right to left from the elevator: the lower call lever, a mud pool, two fire traps, a pit (with a `KillZone`) crossed by a sideways moving platform, a poison cloud, and a vertical moving platform that rises through the upper floor's gap back to the top. A turret on the left wall fires along the lower floor while the player is near. An `East` doorway at the bottom of the right wall leads to the [test vault](/systems/traversal#test-vault-layout).
 
 ## Files
 

@@ -22,6 +22,8 @@ func physics_update(delta: float) -> void:
 		finished.emit(CLIMB)
 	elif player.ledge_grab.wants_grab():
 		finished.emit(LEDGE_HANG)
+	elif player.wall_jump.wants_grab():
+		finished.emit(WALL_CLING)
 	elif player.skills.ranged.wants():
 		finished.emit(RANGED)
 	elif player.skills.dive.wants():

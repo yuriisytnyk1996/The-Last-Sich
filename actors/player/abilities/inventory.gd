@@ -5,9 +5,9 @@ extends Node
 ## Every item in the game is listed in `all`. `add()` gives one to the
 ## player (pickups, shops) and announces it through `Events.item_obtained`.
 ## Charms and blades are worn in slots: as many charm slots as the
-## `PlayerStats.CHARM_SLOTS` stat, one blade slot. Keepsakes are never
-## worn. What items do is up to `PlayerItemEffects`, which listens to
-## `changed`.
+## `PlayerStats.CHARM_SLOTS` stat, one blade slot, `RELIC_SLOTS` relic
+## slots. Keepsakes are never worn. What items do is up to
+## `PlayerItemEffects`, which listens to `changed`.
 ##
 ## A global save system (see `SaveManager`): owned and worn ids are
 ## written to disk whenever the game saves.
@@ -16,6 +16,7 @@ extends Node
 signal changed
 
 const BLADE_SLOTS := 1
+const RELIC_SLOTS := 3
 
 ## Every item, in the order the inventory page lists them.
 @export var all: Array[Item] = []
@@ -66,6 +67,8 @@ func slot_count(kind: Item.Kind) -> int:
 			return roundi(player.stats.get_value(PlayerStats.CHARM_SLOTS))
 		Item.Kind.BLADE:
 			return BLADE_SLOTS
+		Item.Kind.RELIC:
+			return RELIC_SLOTS
 	return 0
 
 
@@ -84,6 +87,8 @@ func max_slots(kind: Item.Kind) -> int:
 			return PlayerStats.MAX_CHARM_SLOTS
 		Item.Kind.BLADE:
 			return BLADE_SLOTS
+		Item.Kind.RELIC:
+			return RELIC_SLOTS
 	return 0
 
 
@@ -102,8 +107,8 @@ func add(item: Item) -> bool:
 	return true
 
 
-## Wears an owned item. A blade replaces the one worn; a charm needs a
-## free slot. Returns false when it can't be worn.
+## Wears an owned item. A blade replaces the one worn; a charm or relic
+## needs a free slot. Returns false when it can't be worn.
 func wear(item: Item) -> bool:
 	if not owns(item) or not item.is_equipable() or is_worn(item):
 		return false

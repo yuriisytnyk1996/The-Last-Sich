@@ -45,6 +45,7 @@ export default defineConfig({
           { text: 'HUD', link: '/systems/hud' },
           { text: 'Rooms', link: '/systems/rooms' },
           { text: 'Environment', link: '/systems/environment' },
+          { text: 'Traversal', link: '/systems/traversal' },
           { text: 'Rest points', link: '/systems/rest-points' },
           { text: 'Map', link: '/systems/map' },
           { text: 'Spirit', link: '/systems/spirit' },

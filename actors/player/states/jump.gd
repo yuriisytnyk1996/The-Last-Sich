@@ -1,4 +1,7 @@
+class_name PlayerJumpState
 extends PlayerState
+## Rising after a jump. Releasing the button early cuts the jump short.
+## Subclasses (WallJump) change how the input steers through `_steer()`.
 
 var _jump_cut := false
 
@@ -16,11 +19,13 @@ func physics_update(delta: float) -> void:
 		_jump_cut = true
 
 	player.apply_gravity(delta)
-	player.move_horizontally(delta, player.air_acceleration, player.air_acceleration)
+	_steer(delta)
 	player.move_and_slide()
 
 	if player.ladder_climb.wants_grab_up():
 		finished.emit(CLIMB)
+	elif player.wall_jump.wants_grab():
+		finished.emit(WALL_CLING)
 	elif player.skills.ranged.wants():
 		finished.emit(RANGED)
 	elif player.skills.dive.wants():
@@ -29,3 +34,7 @@ func physics_update(delta: float) -> void:
 		finished.emit(attack_state())
 	elif player.velocity.y >= 0.0:
 		finished.emit(FALL)
+
+
+func _steer(delta: float) -> void:
+	player.move_horizontally(delta, player.air_acceleration, player.air_acceleration)

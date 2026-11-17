@@ -12,6 +12,8 @@ The player is a `CharacterBody2D` driven by a [state machine](/architecture/stat
 | `actors/player/abilities/drop_through.gd` | `PlayerDropThrough`: down + jump through one-way platforms |
 | `actors/player/abilities/ladder_climb.gd` | `PlayerLadderClimb`: finds ladders to grab, climbing tuning |
 | `actors/player/abilities/ledge_grab.gd` | `PlayerLedgeGrab`: finds ledges to grab, hang and climb tuning |
+| `actors/player/abilities/wall_jump.gd` | `PlayerWallJump`: finds climbable walls, wall jump tuning, see [Traversal](/systems/traversal#wall-jump) |
+| `actors/player/abilities/unlocks.gd` | `PlayerUnlocks`: traversal unlocks given by items (seeing reveal platforms), see [Traversal](/systems/traversal#unlocks) |
 | `actors/player/abilities/flasks.gd` | `PlayerFlasks`: healing flask charges, drinking and refilling, reports them to `Events` |
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, when a parry starts, success feedback |
 | `actors/player/abilities/skills.gd` | `PlayerSkills`: learned skills, see [Skills](/systems/skills) |
@@ -42,12 +44,14 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── DropThrough              PlayerDropThrough: down + jump through one-way platforms
 ├── LadderClimb              PlayerLadderClimb: finds ladders, climbing tuning
 ├── LedgeGrab                PlayerLedgeGrab: finds ledges, hang and climb tuning
+├── WallJump                 PlayerWallJump: finds climbable walls, wall jump tuning
 ├── Flasks                   PlayerFlasks: healing flask charges
 ├── Parry                    PlayerParry: parry and riposte tuning
 ├── Camera2D                 smoothed, limited by the room's bounds
 │   └── CameraShake          shakes on Events.camera_shake_requested
 └── StateMachine
     ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── LedgeHang  ├── LedgeClimb
+    ├── WallCling  ├── WallJump
     ├── HardLanding  ├── Heal
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
     ├── ComboHeavy  ├── ComboFinisher  ├── ComboFinisherUp  ├── ComboFinisherDown
@@ -61,15 +65,17 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 |---|---|---|
 | **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), Ranged (ranged let go, with the skill), an attack (attack buffered), Heal (heal pressed), Run (move input) |
 | **Run** | Gravity, accelerates toward `run_speed` | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, Ranged, an attack, Heal, Idle (no move input) |
-| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), Ranged, Dive (down + attack held, with the skill), an attack, Fall (once moving down) |
-| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), Ranged, Dive, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
+| **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), WallCling (attack held, facing a climb wall), Ranged, Dive (down + attack held, with the skill), an attack, Fall (once moving down) |
+| **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), WallCling (attack held, facing a climb wall), Ranged, Dive, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Ground only. Fixed horizontal speed, no gravity | Lunge (attack, with the skill), Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
 | **Climb** | On a ladder: up and down move along it, no gravity, no attacks, one-way platforms off. See [Climbing ladders](#climbing-ladders) | Idle (reached the top or the ground), Jump (jump, straight up or to the side held), Fall (down + jump, or off the bottom) |
 | **LedgeHang** | Hangs from a ledge by the hands: no gravity, no movement. See [Ledge grab](#ledge-grab) | LedgeClimb (up or jump, after `climb_delay`), Fall (down) |
 | **LedgeClimb** | Pulls up onto the ledge: straight up beside the wall, then sideways onto the top. No input | Idle/Run (standing on the top) |
+| **WallCling** | Against a climb wall: slides a little, then holds still. See [Traversal](/systems/traversal#wall-jump) | WallJump (jump), Fall (down, or off the wall), Idle/Run (landed) |
+| **WallJump** | A Jump with a small push away from the wall (`kick_push`), steered as usual | Same as Jump |
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **Heal** | Drinks a healing flask: the flask is used and the health restored at once, then the player slows to a stop and stands still for `drink_time`. See [Healing flasks](#healing-flasks) | Idle/Run (time is up), Fall (ground gone) |
-| **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss), SideAttack or ComboHeavy (ground combo, see [Combat](/systems/combat#ground-combo)) |
+| **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss), WallCling (an air swing reaching a climb wall with attack held), SideAttack or ComboHeavy (ground combo, see [Combat](/systems/combat#ground-combo)) |
 | **Parry** | Planted guard for `parry_window`. A parryable hit is deflected and stuns the attacker; a guard that catches nothing leaves the player stuck for `fail_recovery`. See [Combat](/systems/combat#parry-and-riposte) | Riposte (attack after a parry), Idle/Run (time is up), Fall (ground gone) |
 | **Riposte** | Invincible lunge into a heavy slash after a parry | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |
 | **ComboHeavy** | Heavy last swing of the ground combo, steps forward | Idle/Run, Fall, a finisher (attack with a combo skill learned), another attack (re-swing after a miss) |

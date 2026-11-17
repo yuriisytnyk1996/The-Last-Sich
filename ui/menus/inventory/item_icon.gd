@@ -2,13 +2,14 @@ class_name ItemIcon
 extends Control
 ## Draws an item's `icon`, or a placeholder until items have art: a
 ## shape per kind (a gem for charms, a blade for blades, a pouch for
-## keepsakes) with the first letter of the title in the corner (small
+## keepsakes, a lantern for relics) with the first letter of the title in the corner (small
 ## icons only, where the shapes alone look alike).
 
 const KIND_COLORS := {
 	Item.Kind.CHARM: Color(0.95, 0.78, 0.4),
 	Item.Kind.BLADE: Color(0.78, 0.84, 0.92),
 	Item.Kind.KEEPSAKE: Color(0.72, 0.52, 0.32),
+	Item.Kind.RELIC: Color(0.7, 0.85, 0.75),
 }
 const LETTER_COLOR := Color(1, 0.95, 0.85, 0.9)
 ## Icons taller than this (px) skip the letter.
@@ -46,6 +47,8 @@ func _draw() -> void:
 			_draw_blade(center, r, color)
 		Item.Kind.KEEPSAKE:
 			_draw_pouch(center, r, color)
+		Item.Kind.RELIC:
+			_draw_lantern(center, r, color)
 	if size.y > LETTER_MAX_SIZE:
 		return
 	var font := get_theme_default_font()
@@ -86,4 +89,20 @@ func _draw_pouch(c: Vector2, r: float, color: Color) -> void:
 	draw_rect(Rect2(c + Vector2(-r * 0.8, -r * 0.4), Vector2(r * 1.6, r * 1.3)), color)
 	draw_rect(
 		Rect2(c + Vector2(-r * 0.35, -r * 0.8), Vector2(r * 0.7, r * 0.4)), color.darkened(0.25)
+	)
+
+
+func _draw_lantern(c: Vector2, r: float, color: Color) -> void:
+	draw_arc(
+		c + Vector2(0, -r * 0.75), r * 0.25, PI, TAU, 8, color.darkened(0.3), maxf(r * 0.12, 1.0)
+	)
+	draw_rect(
+		Rect2(c + Vector2(-r * 0.55, -r * 0.6), Vector2(r * 1.1, r * 0.2)), color.darkened(0.3)
+	)
+	draw_rect(Rect2(c + Vector2(-r * 0.45, -r * 0.4), Vector2(r * 0.9, r * 1.1)), color)
+	draw_rect(
+		Rect2(c + Vector2(-r * 0.2, -r * 0.2), Vector2(r * 0.4, r * 0.7)), color.lightened(0.6)
+	)
+	draw_rect(
+		Rect2(c + Vector2(-r * 0.55, r * 0.7), Vector2(r * 1.1, r * 0.2)), color.darkened(0.3)
 	)

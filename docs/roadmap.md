@@ -74,6 +74,8 @@
 - [x] Inventory: items made of effects (stat modifiers or a one-time restore) set off while carried, while worn, on a hit, on a kill or on being hurt, with an optional low-health condition, chance and duration. Charms in slots (a stat, raised by pouches), one blade with a trade-off, keepsakes that work while carried. Item pickups in rooms, an inventory page (tabs per kind, worn row with locked slots, item grid, details panel; I to open), a HUD toast for new items, saved. 15 items
 - [x] Shops: stands that sell one item each for currency, a buy page with the price and the player's currency, sold stands stay empty (saved), shop marks on the map. Test shop in the test house
 
+- [x] Ability-gated traversal: unlocks given by items (`UnlockEffect`); wall cling (hold attack in the air facing a marked climb wall) and wall jump, a basic move from the start; reveal platforms shown by the seer's lantern, a relic (new item kind, 3 slots, worn from the inventory); levers that toggle or unlock gates (one-shot shortcuts, key-locked levers, locked gates); chests with an item and currency; hidden areas behind false walls that fade when entered. All saved. New test vault room east of the test works
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -87,6 +89,7 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Paid cleanse points: pay currency to clear every death mark without walking back (`DeathPenalty.clear()`)
 - [ ] Spirit abilities that spend spirit
 - [ ] Map: completion percentage, marks placed by the player, items that reveal a zone
+- [ ] Gates opened by attacks or pressure plates; feedback for a lever pulled without its key; map marks for chests, levers and secrets
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -120,4 +123,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Flat rectangles for moving platforms, elevators and their levers
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
 - Drawn tints for zones and drifting line streaks for wind
+- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, gates and chests, a terrain-coloured rectangle for the false wall; no wall cling animation
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

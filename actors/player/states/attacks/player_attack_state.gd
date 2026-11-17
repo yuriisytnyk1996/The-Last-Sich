@@ -6,7 +6,9 @@ extends PlayerState
 ##
 ## A swing that missed can be cut short: pressing attack during recovery
 ## starts the next swing right away. A swing that hit plays out in full,
-## unless the attack chains into a combo (see `chain_state()`).
+## unless the attack chains into a combo (see `chain_state()`). A swing
+## started in the air turns into a wall cling if attack is still held when
+## it reaches a climb wall.
 
 enum Phase { STARTUP, ACTIVE, RECOVERY }
 
@@ -37,6 +39,10 @@ func physics_update(delta: float) -> void:
 
 	if not _started_on_floor and player.skills.dive.wants():
 		finished.emit(DIVE)
+		return
+	# Attack still held when an air swing reaches a climb wall: grab it.
+	if not _started_on_floor and player.wall_jump.wants_grab():
+		finished.emit(WALL_CLING)
 		return
 	if _phase == Phase.RECOVERY and player.wants_attack():
 		var next := chain_state()

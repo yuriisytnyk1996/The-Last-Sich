@@ -54,6 +54,8 @@ The-Last-Sich/
 │   │   │   ├── drop_through.gd   Down + jump through one-way platforms
 │   │   │   ├── ladder_climb.gd   Finds ladders to grab, climbing tuning
 │   │   │   ├── ledge_grab.gd     Finds ledges to grab, hang and climb tuning
+│   │   │   ├── wall_jump.gd      Finds climbable walls, wall jump tuning
+│   │   │   ├── unlocks.gd        Traversal unlocks given by items (seeing reveal platforms)
 │   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
 │   │   │   ├── wallet.gd         Currency the player carries, spent on skills and shops, saved
 │   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
@@ -65,9 +67,10 @@ The-Last-Sich/
 │   │   │   └── parry.gd          Parry and riposte tuning (windows from stats)
 │   │   ├── items/                Items the player carries
 │   │   │   ├── item.gd           Item resource: id, text, kind, price, effects
-│   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect
+│   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect
 │   │   │   ├── charms/           One .tres per charm
 │   │   │   ├── blades/           One .tres per blade
+│   │   │   ├── relics/           One .tres per relic (traversal tools, worn)
 │   │   │   └── keepsakes/        One .tres per keepsake
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
@@ -84,12 +87,14 @@ The-Last-Sich/
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
 │   │       ├── run.gd
-│   │       ├── jump.gd
+│   │       ├── jump.gd           Also the base of the wall jump
 │   │       ├── fall.gd
 │   │       ├── dash.gd
 │   │       ├── climb.gd          On a ladder
 │   │       ├── ledge_hang.gd     Hanging from a ledge
 │   │       ├── ledge_climb.gd    Pulling up onto a ledge
+│   │       ├── wall_cling.gd     Clinging to a climb wall
+│   │       ├── wall_jump.gd      Kicking off a climb wall (extends the jump)
 │   │       ├── hard_landing.gd   Stuck in place after a long fall
 │   │       ├── heal.gd           Drinking a healing flask
 │   │       ├── parry.gd          Guard up, deflects parryable hits
@@ -159,7 +164,9 @@ The-Last-Sich/
 │   │   ├── tier_relic.tscn       Its scene
 │   │   ├── spikes.gd             Instant death when stepped in
 │   │   ├── ladder.gd             Climbable ladder
-│   │   ├── items/                Item pickups and shop stands (item_pickup, shop_item)
+│   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
+│   │   ├── mechanisms/           Levers and the gates they open
+│   │   ├── traversal/            Climb walls, reveal platforms, hidden areas
 │   │   ├── breakables/           Breakable crate and cracked wall (breakable.gd, crate.tscn, breakable_wall.tscn)
 │   │   ├── platforms/            Moving platform, elevator and its call lever
 │   │   ├── traps/                Timed spike and fire traps, turret and its bolt
@@ -174,7 +181,9 @@ The-Last-Sich/
 │   │   ├── test_shaft.tscn       Tall room under the test cave, reached through a hole
 │   │   ├── test_shaft/           Its parts
 │   │   ├── test_works.tscn       Two-floor room east of the test cave with every environment piece
-│   │   └── test_works/           Its parts
+│   │   ├── test_works/           Its parts
+│   │   ├── test_vault.tscn       Room east of the test works with every traversal piece
+│   │   └── test_vault/           Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)

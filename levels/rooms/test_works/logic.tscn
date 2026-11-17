@@ -32,6 +32,21 @@ shape = SubResource("shape_exit")
 [node name="Landing" type="Marker2D" parent="Exits/West"]
 position = Vector2(40, 32)
 
+[node name="East" type="Area2D" parent="Exits"]
+position = Vector2(1280, 640)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_exit")
+target_room = "res://levels/rooms/test_vault.tscn"
+target_exit = &"West"
+
+[node name="Shape" type="CollisionShape2D" parent="Exits/East"]
+shape = SubResource("shape_exit")
+
+[node name="Landing" type="Marker2D" parent="Exits/East"]
+position = Vector2(-40, 32)
+
 [node name="Breakables" type="Node2D" parent="."]
 
 [node name="Crate1" parent="Breakables" instance=ExtResource("2_crate")]

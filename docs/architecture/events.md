@@ -17,6 +17,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 | `player_died` | The player's `Dead` state (after `death_delay`; pits kill through `Health.kill()` and end up here too) | `World` (respawns at the last [rest point](/systems/rest-points), or asks the current `Room` to respawn the player and reset its enemies) | The player died and should respawn |
 | `enemy_killed` | `EnemyDamage` (an enemy died, not one restored as already dead) | `PlayerItemEffects` (`ON_KILL` item effects) | An enemy was killed |
 | `item_obtained(item)` | `PlayerInventory.add()` | `ItemToast` in the HUD | The player got `item` |
+| `player_unlocks_changed` | `PlayerUnlocks` (an unlock gained or lost) | `RevealPlatform` | The player's traversal unlocks changed, see [Traversal](/systems/traversal#unlocks) |
 | `rested(rest_point)` | `RestPoint` (the player pressed up at it) | `World` (remembers it as the respawn point and saves the game), every `RestPoint` (lights the used one) | The player rested; `rest_point` is the node |
 | `room_change_requested(room_path, exit_name)` | `RoomExit` (the player touched it, or pressed up at a door) | `World` (fades out, swaps the room, fades in) | Load `room_path` and place the player at its exit named `exit_name` |
 

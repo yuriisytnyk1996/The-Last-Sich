@@ -5,11 +5,13 @@ extends MenuScreen
 ## left (`InventoryGrid`), the focused item on the right (`ItemDetails`),
 ## the player's currency and the button hints at the bottom.
 ##
-## Accept on a charm or blade wears it in the first free slot or takes it
-## off; a blade replaces the one worn. The page opens on the newest item
+## Accept on a charm, blade or relic wears it in the first free slot or
+## takes it off; a blade replaces the one worn. The page opens on the newest item
 ## when there is one, else on the tab and cell used last.
 
-const KINDS: Array[Item.Kind] = [Item.Kind.CHARM, Item.Kind.BLADE, Item.Kind.KEEPSAKE]
+const KINDS: Array[Item.Kind] = [
+	Item.Kind.CHARM, Item.Kind.BLADE, Item.Kind.RELIC, Item.Kind.KEEPSAKE
+]
 ## The page is drawn on its own backdrop, this far around its content (px).
 const MARGIN := Vector2(16, 10)
 const BACKDROP := Color(0.06, 0.05, 0.06, 0.97)
@@ -113,7 +115,7 @@ func _on_item_pressed(item: Item) -> void:
 	if _inventory.is_worn(item):
 		_inventory.take_off(item)
 	elif not _inventory.wear(item):
-		_hints.text = "No free slot. Take a charm off first."
+		_hints.text = "No free slot. Take one off first."
 		return
 	_grid.refresh()
 	_on_item_focused(item)
@@ -124,7 +126,7 @@ func _update_hints(item: Item) -> void:
 	if item and item.is_equipable():
 		if _inventory.is_worn(item):
 			action = "Accept: Take off    "
-		elif item.kind == Item.Kind.CHARM and not _inventory.has_free_slot(item.kind):
+		elif item.kind != Item.Kind.BLADE and not _inventory.has_free_slot(item.kind):
 			action = "No free slot    "
 		else:
 			action = "Accept: Wear    "

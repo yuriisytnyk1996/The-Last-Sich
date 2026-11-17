@@ -12,7 +12,10 @@ extends Resource
 ## CHARM: worn in charm slots, as many as `PlayerStats.CHARM_SLOTS`.
 ## BLADE: one slot, usually a trade-off for the weapon.
 ## KEEPSAKE: never equipped. Works just by being carried (keys, pouches).
-enum Kind { CHARM, BLADE, KEEPSAKE }
+## RELIC: worn in `PlayerInventory.RELIC_SLOTS` slots. Traversal tools
+## (a lantern that shows hidden platforms) that work only while worn.
+## Saved as numbers in `.tres` files, so new kinds go at the end.
+enum Kind { CHARM, BLADE, KEEPSAKE, RELIC }
 
 ## Saved to disk. Never rename one that has shipped.
 @export var id := &""
@@ -31,4 +34,4 @@ func is_equipable() -> bool:
 
 
 static func kind_name(of: Kind) -> String:
-	return ["Charm", "Blade", "Keepsake"][of]
+	return ["Charm", "Blade", "Keepsake", "Relic"][of]

@@ -1,0 +1,159 @@
+# Traversal
+
+Ways through the world and places locked behind something the player finds later: walls marked for climbing with the wall jump, platforms they can only see with the right item, gates opened by a lever on the far side, chests and secret alcoves. Finding an item opens up rooms that were already visited, which is what makes the world worth exploring twice.
+
+## How it works
+
+### Unlocks
+
+`PlayerUnlocks` (`actors/player/abilities/unlocks.gd`, the `Unlocks` node on the player) is the list of traversal abilities the player has. Level objects ask `player.unlocks.has(PlayerUnlocks.REVEAL_PLATFORMS)`.
+
+| Unlock | Given by | Opens |
+|---|---|---|
+| `reveal_platforms` | Seer's lantern (relic, while worn) | Reveal platforms become solid and visible |
+
+Unlocks come from items. An `UnlockEffect` (`actors/player/items/effects/unlock_effect.gd`) is an [item effect](/systems/inventory#effects) that grants its unlock when it starts and revokes it when it stops. With an `OWNED` trigger it works while the item is carried; with `EQUIPPED` only while it is worn. One unlock can come from several sources and stays on while any of them holds it.
+
+Traversal tools are **relics**: they work only while worn in one of the 3 relic slots, and the player puts them on and takes them off on the Relics tab of the [inventory page](/systems/inventory#inventory-page). Taking the lantern off hides the platforms again. So finding a tool doesn't switch it on for good: the player chooses which ones to wear.
+
+Unlocks themselves are **not saved**. The inventory is, and loading it starts the item effects again, which grant the unlocks again. So there is one source of truth: the items.
+
+Every change is announced through `Events.player_unlocks_changed`, so room objects react without holding a reference to the player.
+
+### Wall jump
+
+`PlayerWallJump` (`actors/player/abilities/wall_jump.gd`) finds walls to cling to. The **WallCling** and **WallJump** states do the rest. It is a basic move, there from the start: the player drives the blade into the wall and hangs from it. No item or skill is needed.
+
+Not every wall can be climbed. Only walls marked with a `ClimbWall` work, so level design decides where the move is allowed and can't be broken by a wall the designer forgot about.
+
+1. **Grab.** In Jump, Fall or a swing started in the air, `wants_grab()` is true when attack is **held**, down isn't (down + attack is the dive), the player is inside a climb wall, and a solid wall is within `reach` in the direction they **face**. Holding attack is enough: an air swing that reaches the wall with attack still held turns into the grab, and the attack press is used up so it doesn't swing again after the kick. Two rays look for it: one from the middle of the body and one `low_probe_height` above the feet, so a wall beside the legs counts too and a jump from the floor next to a wall catches it at once. It doesn't work for `regrab_delay` after letting go or kicking off. A ledge grab goes first, so falling past a wall top still hangs from the ledge.
+2. **Cling.** The player is moved against the wall and faces it. They slide `slide_distance` down over `slide_time`, fast at first, then hold still for as long as they like. The slide stops early where the wall ends, so a grab at the very bottom edge of a wall holds instead of slipping off.
+3. **Kick off.** Jump enters **WallJump**: a normal jump with a small `kick_push` away from the wall, turned to face away from it. The input steers it like any jump, so where the player goes is up to the stick: away crosses to the far wall, toward the wall comes straight back to it.
+4. **Let go.** Down drops off (Fall). Losing the wall (leaving the climb wall, or a gate under the hands opening) also falls. Landing ends the cling.
+
+A jump pressed just before the grab is kept in the buffer, so it kicks off at once.
+
+Two ways to climb:
+
+- **One wall.** Hold toward the wall and attack, and press jump on each grab. Holding toward the wall turns the player back to face it, and once `regrab_delay` is over they grab it again, still rising: about 40 px higher per jump.
+- **A shaft.** Two climb walls facing each other. The kick already faces the player toward the far wall: hold attack and away from the wall, jump, repeat.
+
+`WallJump` extends the Jump state (`PlayerJumpState`) and only overrides `_steer()`, so the jump cut, ladder grab, dive and attacks all work as in a normal jump.
+
+### Climb walls
+
+`ClimbWall` (`levels/objects/traversal/climb_wall.gd`) is an area laid over the wall tiles. The origin is the top left corner and `size` covers the wall; the collision shape reaches `MARGIN` (8 px) further on both sides, into the air the player clings in. It registers itself with `PlayerWallJump` while the player is inside, the same way [zones](/systems/environment#zones) do. It draws placeholder notches down both faces, also in the editor. Put it in the room's `Layout`.
+
+### Reveal platforms
+
+`RevealPlatform` (`levels/objects/traversal/reveal_platform.gd`) is only there for a player who can see it. With the `reveal_platforms` unlock it fades in and turns solid; without it, it is a faint outline (`HIDDEN_ALPHA`) the player falls through. It checks the player on `Events.player_unlocks_changed` and once when the room loads. One-way on the `platforms` layer by default, solid on `world` with `one_way` off. The origin is the top centre, like a [moving platform](/systems/environment#moving-platforms).
+
+### Levers and gates
+
+`Lever` (`levels/objects/mechanisms/lever.gd`) is an [interaction area](/systems/rooms#interaction-areas). Pressing interact flips it and calls a method on every node in `targets`. A lever doesn't know what it drives: anything with that method works. `action` picks the method:
+
+| `action` | Calls | Use |
+|---|---|---|
+| `TOGGLE` (default) | `toggle()` | Open or close a gate |
+| `UNLOCK` | `unlock()` | Free a locked gate without opening it; something else opens it later |
+
+With `one_shot` (the default) it stays pulled and blocks itself, so the prompt is gone for good. With a `key` item set, the lever only moves for a player carrying that item (the key isn't used up). That is how a key-locked door works: a gate driven by a lever with a `key`.
+
+`Gate` (`levels/objects/mechanisms/gate.gd`) blocks the way with a `Body` on the `world` layer. The scene is 32×48, three tiles: enough for the player to walk through, and it leaves as much wall above as possible. `toggle()` or `set_open()` turns its collision off and folds its `Visual` up toward the top over `move_time`, with a small camera shake. `open` sets the state the room starts in. A `locked` gate ignores `toggle()` and `set_open()` until `unlock()` is called, so one lever (in `UNLOCK` mode) can free a gate that another lever operates.
+
+The typical use is a **shortcut**: a gate near the start of an area with its lever on the far side, so the player opens it on the way back and never needs to make the long trip again.
+
+Both are saved. The lever remembers being pulled; the gate remembers being open and locked. Loading a room restores each one directly and never calls `toggle()` again, so a target can't be flipped twice.
+
+### Chests
+
+`Chest` (`levels/objects/items/chest.gd`) opens once with interact. It gives its `item` through `PlayerInventory.add()` (with the HUD toast) and `currency` straight to the wallet, not scaled by the [death penalty](/systems/death-penalty), since it is a fixed treasure, not a kill reward. Opened chests stay open (saved) and block their own prompt.
+
+### Hidden areas
+
+`HiddenArea` (`levels/objects/traversal/hidden_area.gd`) hides a secret behind a false wall. Its `Cover` child is drawn like the terrain and above the player (`z_index` 10). The tiles behind it are open: the cover only hides them. When the player walks in, the cover fades out over `fade_time` and the area stops watching. Found secrets stay found (saved).
+
+### Saving
+
+Lever, gate, chest and hidden area join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
+
+## Test vault layout
+
+`levels/rooms/test_vault.tscn` is a 960×720 room east of the [test works](/systems/environment#test-works-layout), through a new `East` doorway at the bottom of the works' right wall. It walks through the whole loop:
+
+1. **Entrance** (left, ground floor): the doorway from the works.
+2. **Shaft** (x 256 to 320): two climb walls facing each other, entered through a 3-tile gap under the left one. The right wall has the 3-tile gate at its bottom, and its climb wall reaches the floor over the closed gate. Both walls start 48 px above the floor, low enough to catch with a jump from the ground, with the gate closed or open. Wall jump up to the upper floor (y 352), across the shaft or up either wall alone.
+3. **Upper floor west**: the **shortcut lever**. It opens the gate at the bottom of the shaft's right wall, so the ground floor connects both halves of the room.
+4. **Ground floor east**: a chest with the **seer's lantern**, a relic to wear from the inventory. The player drops down here from the upper floor, or walks through the opened gate.
+5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
+6. **Upper floor east**: the false wall at the end hides an alcove with a chest worth 300.
+
+The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
+
+## Files
+
+| File | Role |
+|---|---|
+| `actors/player/abilities/unlocks.gd` | `PlayerUnlocks`: unlocks held by sources, announced through `Events` |
+| `actors/player/items/effects/unlock_effect.gd` | `UnlockEffect`: item effect that grants an unlock |
+| `actors/player/items/relics/seer_lantern.tres` | The unlock item that shows reveal platforms |
+| `actors/player/abilities/wall_jump.gd` | `PlayerWallJump`: finds climbable walls, wall jump tuning |
+| `actors/player/states/wall_cling.gd` | WallCling state: slide, hold, let go |
+| `actors/player/states/attacks/player_attack_state.gd` | Air swings turn into a wall grab while attack is held |
+| `actors/player/states/wall_jump.gd` | WallJump state: jump with a small push off the wall |
+| `actors/player/states/jump.gd` | `PlayerJumpState`: the jump, with the `_steer()` hook |
+| `levels/objects/traversal/climb_wall.gd` | `ClimbWall`: marks a wall as climbable |
+| `levels/objects/traversal/reveal_platform.gd` | `RevealPlatform`: platform shown by an unlock |
+| `levels/objects/traversal/hidden_area.gd`, `.tscn` | `HiddenArea`: false wall that fades when entered |
+| `levels/objects/mechanisms/lever.gd`, `.tscn` | `Lever`: toggles its targets |
+| `levels/objects/mechanisms/gate.gd`, `.tscn` | `Gate`: blocks the way until opened |
+| `levels/objects/items/chest.gd`, `.tscn` | `Chest`: gives an item and currency once |
+| `levels/rooms/test_vault.tscn`, `test_vault/` | Test room with every piece |
+
+## Tuning
+
+| Value | Script | Default | Effect |
+|---|---|---|---|
+| `reach` | `PlayerWallJump` | 4 | How far in front of the body a wall is grabbed (px) |
+| `low_probe_height` | `PlayerWallJump` | 4 | Height of the lower wall probe above the feet (px) |
+| `let_go_threshold` | `PlayerWallJump` | 0.5 | Down needed to let go; down this far also stops a grab |
+| `slide_distance` | `PlayerWallJump` | 8 | Slide down after grabbing (px) |
+| `slide_time` | `PlayerWallJump` | 0.3 | Time of that slide (s) |
+| `regrab_delay` | `PlayerWallJump` | 0.2 | No grab after letting go or kicking off (s) |
+| `kick_push` | `PlayerWallJump` | 30 | Sideways nudge away from the wall when kicking off (px/s). The rise is a normal jump and the input steers the rest |
+| `size` | `ClimbWall` | 32×128 | The wall covered (px) |
+| `MARGIN` | `ClimbWall` | 8 | Reach past the wall on each side (px, constant) |
+| `size` | `RevealPlatform` | 32×8 | Platform size (px) |
+| `one_way` | `RevealPlatform` | true | One-way on `platforms`, or solid on `world` |
+| `fade_time` | `RevealPlatform` | 0.4 | Fade in or out (s) |
+| `HIDDEN_ALPHA` | `RevealPlatform` | 0.15 | Outline alpha while hidden (constant) |
+| `one_shot` | `Lever` | true | Stays pulled after one use |
+| `action` | `Lever` | `TOGGLE` | `TOGGLE` calls `toggle()`, `UNLOCK` calls `unlock()` on the targets |
+| `key` | `Lever` | none | Item the player must carry to pull it |
+| `up_angle` / `pulled_angle` | `Lever` | -0.6 / 0.6 | Handle angle (radians) |
+| `open` | `Gate` | false | State when first entered |
+| `locked` | `Gate` | false | Ignores `toggle()` and `set_open()` until `unlock()` |
+| `move_time` | `Gate` | 0.5 | Time to open or close (s) |
+| `move_shake` | `Gate` | 0.2 | Camera trauma when it moves |
+| `open_scale` | `Gate` | 0.1 | How much of the gate still shows when open |
+| `currency` | `Chest` | 0 | Currency inside. Secret chest in the vault: 300 |
+| `open_angle` | `Chest` | -2.0 | Lid angle when open (radians) |
+| `fade_time` | `HiddenArea` | 0.6 | Cover fade (s) |
+
+## Extending
+
+- **A new unlock:** add a constant to `PlayerUnlocks` and the name to the `@export_enum` in `UnlockEffect`, give an item an `UnlockEffect` with it, and check `player.unlocks.has()` where it matters. A room object that depends on it listens to `Events.player_unlocks_changed`, like `RevealPlatform`.
+- **A key-locked door:** a `Gate` with a `Lever` next to it whose `key` is the key item (a keepsake).
+- **A new lever target** (a bridge, a moving platform that starts): give it a `toggle()` method (and `unlock()` if it can be locked) and, if its state should last, join the `persistent` group with `get_save_data()` / `apply_save_data()`.
+- **A climbable wall:** draw the wall in the tiles, then lay a `ClimbWall` over it in `Layout` with `size` matching the tiles.
+- **A secret:** leave the passage open in the tiles, then place a `HiddenArea` over it with its shape and `Cover` the same size.
+
+## Known limitations
+
+- Placeholder art: notches for climb walls, a blue bar for reveal platforms, coloured rectangles for the lever, gate, chest and false wall. No sounds.
+- No wall cling animation; the body just stops against the wall.
+- A hit knocks the player off the wall into Hurt like anywhere else; there is no special fall-off reaction.
+- Reveal platforms show all at once; they can't reveal one by one as the player walks across them.
+- Gates can only be opened by levers or scripts, not by attacks or pressure plates.
+- A lever pulled without its key gives no feedback yet.
+- No map marks for chests, levers or secrets.
