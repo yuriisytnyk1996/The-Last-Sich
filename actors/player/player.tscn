@@ -29,6 +29,7 @@
 [ext_resource type="Script" path="res://actors/player/states/parry.gd" id="27_parry_state"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/riposte.gd" id="28_riposte"]
 [ext_resource type="Script" path="res://actors/player/abilities/wallet.gd" id="29_wallet"]
+[ext_resource type="Script" path="res://actors/player/abilities/upgrades.gd" id="29_upgrades"]
 [ext_resource type="Script" path="res://actors/player/abilities/safe_ground.gd" id="30_safe_ground"]
 [ext_resource type="Script" path="res://actors/player/abilities/spirit.gd" id="31_spirit"]
 [ext_resource type="Script" path="res://actors/player/abilities/ledge_grab.gd" id="32_ledge_grab"]
@@ -671,6 +672,9 @@ script = ExtResource("13_dead")
 
 [node name="Wallet" type="Node" parent="."]
 script = ExtResource("29_wallet")
+
+[node name="Upgrades" type="Node" parent="."]
+script = ExtResource("29_upgrades")
 
 [node name="SafeGround" type="Node" parent="."]
 script = ExtResource("30_safe_ground")

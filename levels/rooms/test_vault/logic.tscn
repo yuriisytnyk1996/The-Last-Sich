@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/lever.tscn" id="4_lever"]
 [ext_resource type="PackedScene" path="res://levels/objects/breakables/secret_wall.tscn" id="5_secret"]
 [ext_resource type="Resource" path="res://actors/player/items/relics/seer_lantern.tres" id="11_lantern"]
+[ext_resource type="PackedScene" path="res://levels/objects/stat_upgrade.tscn" id="12_upgrade"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -50,6 +51,9 @@ item = ExtResource("11_lantern")
 [node name="SecretChest" parent="Chests" instance=ExtResource("2_chest")]
 position = Vector2(912, 352)
 currency = 300
+
+[node name="HealthShrine" parent="." instance=ExtResource("12_upgrade")]
+position = Vector2(864, 352)
 
 [node name="Secrets" type="Node2D" parent="."]
 

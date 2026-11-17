@@ -65,6 +65,10 @@ signal enemy_killed
 @warning_ignore("unused_signal")
 signal item_obtained(item: Item)
 
+## The player got a permanent upgrade ("Max health"). The HUD names it.
+@warning_ignore("unused_signal")
+signal player_upgraded(what: String)
+
 ## The player gained or lost a traversal unlock (see `PlayerUnlocks`).
 ## Room objects gated by one, such as `RevealPlatform`, check again.
 @warning_ignore("unused_signal")

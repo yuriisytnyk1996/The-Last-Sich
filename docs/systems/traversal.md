@@ -91,7 +91,7 @@ Lever, gate, chest and secret wall join the `persistent` group, so the [save sys
 3. **Upper floor west**: the **shortcut lever**. It opens the gate at the bottom of the shaft's right wall, so the ground floor connects both halves of the room.
 4. **Ground floor east**: a chest with the **seer's lantern**, a relic to wear from the inventory. The player drops down here from the upper floor, or walks through the opened gate.
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
-6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300.
+6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300 and a free [health upgrade](/systems/upgrades).
 
 The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
 

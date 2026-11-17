@@ -11,6 +11,7 @@
 [ext_resource type="Resource" path="res://actors/player/items/blades/heavy_edge.tres" id="10_heavy_edge"]
 [ext_resource type="Resource" path="res://actors/player/items/keepsakes/spare_gourd.tres" id="11_spare_gourd"]
 [ext_resource type="PackedScene" path="res://levels/objects/cleanse_point.tscn" id="12_cleanse"]
+[ext_resource type="PackedScene" path="res://levels/objects/stat_upgrade.tscn" id="13_upgrade"]
 
 [node name="Logic" type="Node2D"]
 
@@ -25,6 +26,11 @@ position = Vector2(448, 320)
 
 [node name="CleansePoint" parent="." instance=ExtResource("12_cleanse")]
 position = Vector2(384, 320)
+
+[node name="SpiritOffering" parent="." instance=ExtResource("13_upgrade")]
+position = Vector2(600, 320)
+kind = 1
+price = 400
 
 [node name="Exits" type="Node2D" parent="."]
 

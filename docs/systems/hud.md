@@ -108,7 +108,7 @@ On the `FlaskCounter` node:
 
 ### Item toast
 
-`ItemToast` (`ui/hud/item_toast.gd`) is a `Label` near the bottom centre. On `Events.item_obtained(item)` it shows `"Found: <title>"` for `show_time` (2 s), then fades out over `fade_time` (0.5 s). Its tween keeps running while a menu pauses the game, so a purchase is named too. See [Inventory](/systems/inventory).
+`ItemToast` (`ui/hud/item_toast.gd`) is a `Label` near the bottom centre. On `Events.item_obtained(item)` it shows `"Found: <title>"` for `show_time` (2 s), then fades out over `fade_time` (0.5 s). Its tween keeps running while a menu pauses the game, so a purchase is named too. See [Inventory](/systems/inventory). On `Events.player_upgraded(what)` it shows `"<what> up"` ("Max health up"), see [Upgrades](/systems/upgrades).
 
 ## Extending
 

@@ -54,6 +54,7 @@ export default defineConfig({
           { text: 'Inventory', link: '/systems/inventory' },
           { text: 'Shops', link: '/systems/shops' },
           { text: 'Death penalty', link: '/systems/death-penalty' },
+          { text: 'Upgrades', link: '/systems/upgrades' },
           { text: 'Save system', link: '/systems/save-system' },
           { text: 'Input', link: '/systems/input' },
           { text: 'Menus', link: '/systems/menus' },

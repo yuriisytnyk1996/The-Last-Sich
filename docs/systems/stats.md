@@ -98,5 +98,5 @@ Base values on each enemy's **`Stats`** node (`EnemyStats`):
 
 ## Known limitations
 
-- Modifiers aren't saved. Whatever adds them (items, skills) has to add them again after a load.
+- Modifiers aren't saved. Whatever adds them (items, skills, [upgrades](/systems/upgrades)) has to add them again after a load.
 - Attack speed, run speed and critical hits aren't stats yet.

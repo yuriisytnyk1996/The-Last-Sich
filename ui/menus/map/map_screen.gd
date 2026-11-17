@@ -11,6 +11,7 @@ const LEGEND := [
 	["Shrine", MapView.MARK_COLORS[MapRoom.Mark.SHRINE]],
 	["Shop", MapView.MARK_COLORS[MapRoom.Mark.SHOP]],
 	["Cleanse", MapView.MARK_COLORS[MapRoom.Mark.CLEANSE]],
+	["Upgrade", MapView.MARK_COLORS[MapRoom.Mark.UPGRADE]],
 	["Door", MapView.MARK_COLORS[MapRoom.Mark.DOOR]],
 	["Death mark", MapView.MARK_COLORS[MapRoom.Mark.DEATH_MARK]],
 ]
