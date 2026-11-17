@@ -5,6 +5,11 @@ extends RefCounted
 ## cleanse points, paid upgrade shrines, inner doors). Free upgrade
 ## shrines are secrets and get no mark.
 ##
+## A secret (`Breakable.map_hides`, see `MapSecrets`) that is still whole
+## leaves out what is behind it: cells whose middle is in its area are
+## `hidden`, and exits and marks in its area are skipped. Once it breaks,
+## the next scan has them.
+##
 ## Rooms are only loaded one at a time, so `WorldMap` scans each room when
 ## it loads (`scan()`) and keeps the result in the save. Only rooms the
 ## player has been in are known, and the map only draws those.
@@ -27,6 +32,8 @@ var origin := Vector2.ZERO
 var doors: Dictionary[Vector2i, Array] = {}
 ## Map cell -> Array of `Mark`s.
 var marks: Dictionary[Vector2i, Array] = {}
+## Cells of `rect` behind a secret not found yet. Not on the map.
+var hidden: Array[Vector2i] = []
 
 
 static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
@@ -39,8 +46,18 @@ static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
 	)
 	map_room.rect = Rect2i(room.map_cell, cells.max(Vector2i.ONE))
 	map_room.origin = Vector2(room.bounds.position)
-	for node in room.find_children("*", "Area2D", true, false):
-		var local := room.to_local((node as Node2D).global_position)
+	var areas := room.find_children("*", "Area2D", true, false)
+	var secrets := MapSecrets.new(areas)
+	for x in map_room.rect.size.x:
+		for y in map_room.rect.size.y:
+			var middle := map_room.origin + (Vector2(x, y) + Vector2(0.5, 0.5)) * Vector2(cell_size)
+			if secrets.hides(room.to_global(middle)):
+				map_room.hidden.append(map_room.rect.position + Vector2i(x, y))
+	for node in areas:
+		var spot := (node as Node2D).global_position
+		if secrets.hides(spot):
+			continue
+		var local := room.to_local(spot)
 		var cell := map_room.cell_at(local, cell_size)
 		if node is RoomExit:
 			map_room._add_exit(cell, _edge_of(local, room.bounds))
@@ -52,7 +69,7 @@ static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
 			map_room.add_mark(cell, Mark.CLEANSE)
 		elif node is StatUpgrade and (node as StatUpgrade).price > 0:
 			map_room.add_mark(cell, Mark.UPGRADE)
-		elif node is ShopItem and not Mark.SHOP in map_room.marks.get(cell, []):
+		elif node is ShopItem:
 			map_room.add_mark(cell, Mark.SHOP)
 	return map_room
 
@@ -72,10 +89,17 @@ func has_door(cell: Vector2i, side: Side) -> bool:
 	return side in doors.get(cell, [])
 
 
+## True when `cell` is a cell of this room the map shows (not hidden).
+func covers(cell: Vector2i) -> bool:
+	return rect.has_point(cell) and not cell in hidden
+
+
+## Adds `mark` to `cell` once: a second shop in the same cell adds nothing.
 func add_mark(cell: Vector2i, mark: Mark) -> void:
 	if not marks.has(cell):
 		marks[cell] = []
-	marks[cell].append(mark)
+	if not mark in marks[cell]:
+		marks[cell].append(mark)
 
 
 func to_data() -> Dictionary:
@@ -85,6 +109,7 @@ func to_data() -> Dictionary:
 		"origin": [origin.x, origin.y],
 		"doors": _cells_to_data(doors),
 		"marks": _cells_to_data(marks),
+		"hidden": hidden.map(func(cell: Vector2i) -> Array: return [cell.x, cell.y]),
 	}
 
 
@@ -98,6 +123,13 @@ static func from_data(room_path: String, data: Dictionary) -> MapRoom:
 	map_room.origin = Vector2(float(o[0]), float(o[1]))
 	map_room.doors = _cells_from_data(data.get("doors", []))
 	map_room.marks = _cells_from_data(data.get("marks", []))
+	for cell in map_room.marks:
+		# Marks from older saves that no longer exist are dropped.
+		map_room.marks[cell] = map_room.marks[cell].filter(
+			func(m: int) -> bool: return m < Mark.size()
+		)
+	for cell: Array in data.get("hidden", []):
+		map_room.hidden.append(Vector2i(int(cell[0]), int(cell[1])))
 	return map_room
 
 

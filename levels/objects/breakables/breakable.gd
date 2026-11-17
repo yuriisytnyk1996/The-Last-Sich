@@ -26,6 +26,10 @@ enum Side { BOTH, LEFT, RIGHT }
 @export var breakable_from := Side.BOTH
 ## Seconds `Visual` takes to fade out when it breaks. 0 hides it at once.
 @export var fade_time := 0.0
+## A secret: until it breaks, the world map leaves out the cells, doors
+## and marks inside this area (px, from the breakable's origin), the way
+## a hidden passage stays off the map until found. Empty: not a secret.
+@export var map_hides := Rect2()
 ## Camera trauma when it breaks (0 to 1).
 @export var break_shake := 0.15
 
@@ -49,6 +53,11 @@ func _physics_process(_delta: float) -> void:
 	var player := get_tree().get_first_node_in_group(&"player") as Node2D
 	var left := player != null and player.global_position.x < global_position.x
 	hurtbox.monitoring = player != null and left == (breakable_from == Side.LEFT)
+
+
+## True while this secret still hides `point` (global px) from the map.
+func hides_on_map(point: Vector2) -> bool:
+	return not broken and map_hides.has_area() and map_hides.has_point(to_local(point))
 
 
 func get_save_data() -> Dictionary:

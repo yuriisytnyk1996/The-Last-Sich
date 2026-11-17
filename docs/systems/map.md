@@ -1,6 +1,6 @@
 # Map
 
-A world map that fills in as the player explores. The world is a grid of map cells; every room covers a rectangle of them, and each cell shows up on the map the first time the player stands in it. It opens from the pause menu or straight from the `map` button (M / Back).
+A world map that fills in as the player explores. The world is a grid of map cells; every room covers a rectangle of them, and each cell shows up on the map the first time the player stands in it. Secrets keep what they hide off the map until they are found, and the player can place marks of their own. It opens from the pause menu or straight from the `map` button (M / Back).
 
 ## How it works
 
@@ -16,9 +16,20 @@ Only one room is loaded at a time, so the map can't read every room up front. In
 
 1. The cell rectangle from `map_cell` and `bounds`.
 2. **Doors.** Every `RoomExit` within 24 px (`MapRoom.EDGE_MARGIN`) of a `bounds` edge is a door on that side of its cell: the wall gets a gap there. Floor holes and ceiling openings count too.
-3. **Marks.** A `RoomExit` inside the room (a pressed door) becomes a door mark. Rest points, skill shrines, cleanse points, paid upgrade shrines and shop stands become marks on their cell (one shop mark per cell).
+3. **Marks.** A `RoomExit` inside the room (a pressed door) becomes a door mark. Rest points, skill shrines, cleanse points, paid upgrade shrines and shop stands become marks on their cell. A cell holds each kind of mark once. Chests, levers and other pickups get no mark: the player marks what they want to remember (see [Player marks](#player-marks)).
+4. **Secrets.** Anything behind a secret that hasn't been found is left out (see [Secrets](#secrets)).
 
-The scan replaces what the save had for that room, so changes to a room show up the next time the player walks in. Rooms the player has never entered are unknown to the map, which is fine: it only draws revealed cells.
+The scan reads the room after its saved state is restored, so broken walls are already broken. It replaces what the save had for that room. A secret can be found while the player is in the room, so `WorldMap.refresh()` scans the current room again: before the room unloads, when the map page opens and when the game saves.
+
+### Secrets
+
+A secret is a `Breakable` with a `map_hides` area (px, from the breakable's origin), such as the [secret wall](/systems/traversal#secret-walls). Until it breaks, the scan leaves out everything in that area (`MapSecrets`, `levels/map/map_secrets.gd`):
+
+- **Cells** whose middle is in the area are `hidden`. They aren't drawn, even when revealed, and the cells next to them get a wall on that side, so a hidden part of a room looks like solid rock.
+- **Exits** in the area make no door gap and no door mark. A passage to a hidden room shows as a closed wall.
+- **Marks** in the area aren't added.
+
+When the secret breaks, the next scan has all of it: the hidden cells show once the player walks into them, and the door gap opens. The map never gives away a secret before it is found, and shows it like any other place after. Rooms the player has never entered are unknown to the map, which is fine: it only draws revealed cells.
 
 ### Revealing
 
@@ -26,28 +37,45 @@ The scan replaces what the save had for that room, so changes to a room show up 
 
 ### Drawing
 
-`MapScreen` (`ui/menus/map/map_screen.gd`) is a page of the pause menu: the zone name, a `MapView` and a legend. `MapView` draws, for each revealed cell:
+`MapScreen` (`ui/menus/map/map_screen.gd`) is a page of the pause menu: the zone name, a `MapView`, a legend of the map's own marks in two rows, and a line of controls that changes while a mark is being placed. `MapView` draws, for each revealed cell:
 
 - The fill: the zone colour, or a bright colour for the player's cell.
 - A wall on every side that isn't shared with another cell of the same room, with the middle third left open for a door (`MapCellPainter`). Cells of one room join with no line between them, so a room reads as one shape. A side next to an unrevealed cell of the same room has no wall: there is more to find there.
 - Marks: small squares for rest points (orange), skill shrines (cyan), shops (gold), cleanse points (pale blue), paid upgrade shrines (purple), inner doors (brown) and death marks still waiting to be recovered (red, from `DeathPenalty.get_shown_marks()`).
+- The player's own marks as 5×5 pixel icons on a dark backing (`MapMarkPainter`).
 - The player as a blinking dot at their exact spot, and a cursor in the middle of the view.
 
-Move (stick, D-pad, WASD or arrows) pans the view; it stops at the edge of the revealed cells. Jump switches between the two zoom levels (`MapView.ZOOMS`). Back closes the page; `map` closes it too when it was opened with `map`.
+Move (stick, D-pad, WASD or arrows) pans the view; it stops at the edge of the revealed cells. Jump switches between the two zoom levels (`MapView.ZOOMS`). Attack places or removes a mark (below). Back closes the page; `map` closes it too when it was opened with `map`.
+
+### Player marks
+
+The player can mark any cell they have been to, to remember a chest they couldn't open, a wall to try, a strong enemy or a place to come back to. `PlayerMarks` (`levels/map/player_marks.gd`) holds them, one per cell, and `WorldMap` owns and saves them.
+
+There are 7 kinds (`PlayerMarks.Kind`): **chest**, **question**, **enemy**, **person** and blue, green and red **pins**.
+
+- **Placing:** move the cursor onto a cell and press attack. A row of the 7 kinds opens at the bottom of the view (`MapMarkPicker`), with the name of the chosen one above it. Left and right choose, attack (or accept) places it, back cancels. Panning stops while the row is open.
+- **Where:** `WorldMap.can_place_mark()`: a revealed cell the map shows, with none of the map's own marks (rest point, shrine, shop, cleanse point, upgrade shrine, door) and no player mark yet. On any other cell attack does nothing.
+- **Removing:** attack on a cell with a player mark removes it. To change a mark, remove it and place another.
+
+Player marks are saved with the map, so they last until the save is deleted.
 
 ### Saving
 
-`WorldMap` is a global save system (`save_id` `world_map`). It saves every scanned room and the revealed cells. Like everything else, it reaches the disk when the game saves: at rest points and on death.
+`WorldMap` is a global save system (`save_id` `world_map`). It saves every scanned room (with its hidden cells), the revealed cells and the player's marks. Like everything else, it reaches the disk when the game saves: at rest points and on death.
 
 ## Files
 
 | File | Role |
 |---|---|
-| `levels/map/world_map.gd` | `WorldMap`: scans rooms, reveals the player's cell, saves the map. A child of `World` |
-| `levels/map/map_room.gd` | `MapRoom`: one room's cells, doors and marks; scan from a `Room`, save data |
+| `levels/map/world_map.gd` | `WorldMap`: scans rooms (again on `refresh()`), reveals the player's cell, saves the map. A child of `World` |
+| `levels/map/map_room.gd` | `MapRoom`: one room's cells, hidden cells, doors and marks; scan from a `Room`, save data |
+| `levels/map/map_secrets.gd` | `MapSecrets`: a room's secrets while scanning; says what they still hide |
+| `levels/map/player_marks.gd` | `PlayerMarks`: the marks the player placed, one per cell, save data |
 | `ui/menus/map/map_screen.gd` | `MapScreen`: the pause menu's map page with zone name and legend |
 | `ui/menus/map/map_view.gd` | `MapView`: draws the map, pans and zooms |
 | `ui/menus/map/map_cell_painter.gd` | `MapCellPainter`: one cell's fill, walls and door gaps |
+| `ui/menus/map/map_mark_painter.gd` | `MapMarkPainter`: the 5×5 icon of each player mark kind |
+| `ui/menus/map/map_mark_picker.gd` | `MapMarkPicker`: the row of mark kinds shown while placing one |
 
 ## Tuning
 
@@ -61,6 +89,7 @@ Move (stick, D-pad, WASD or arrows) pans the view; it stops at the edge of the r
 | `ZOOMS` | `MapView` | `32×18`, `16×9` | Size of one cell on screen per zoom level (px) |
 | `ZONE_COLORS` | `MapView` | Steppe, Caves, Works | Fill colour per zone name |
 | `EDGE_MARGIN` | `MapRoom` | `24` | How close to a room edge (px) an exit must be to count as a door in the wall |
+| `map_hides` | `Breakable` | empty | Area (px) a secret keeps off the map until it breaks. Vault's alcove wall: `(0, -64, 136, 64)` |
 
 ### Test rooms on the map
 
@@ -70,16 +99,24 @@ Move (stick, D-pad, WASD or arrows) pans the view; it stops at the edge of the r
 | `test_room` | (0, 0) | 4×2 | Steppe |
 | `test_cave` | (4, 0) | 3×2 | Caves |
 | `test_shaft` | (4, 2) | 3×3 | Caves |
+| `test_works` | (7, 0) | 4×4 | Works |
+| `test_vault` | (11, 0) | 3×4 | Vault |
+| `test_hideout` | (14, 0) | 2×2 | Vault |
+
+The hideout is behind the vault's secret wall: the vault's east door gap stays closed on the map until the wall is broken.
 
 ## Extending
 
 - **A new room:** set `map_cell` so it touches the rooms its exits lead to, and `map_zone`.
 - **A new zone:** give rooms the new `map_zone` name and add a colour for it to `MapView.ZONE_COLORS`.
-- **A new mark:** add it to `MapRoom.Mark`, detect it in `MapRoom.scan()`, and give it a colour in `MapView.MARK_COLORS` and a legend entry in `MapScreen.LEGEND`.
+- **A new mark:** add it to the end of `MapRoom.Mark` (saves store marks as numbers), detect it in `MapRoom.scan()`, and give it a colour in `MapView.MARK_COLORS` and a legend entry in one of the `MapScreen.LEGEND` rows.
+- **A new player mark kind:** add it to the end of `PlayerMarks.Kind` with a name in `PlayerMarks.NAMES`, and an icon and colour in `MapMarkPainter.ICONS` and `COLORS`.
+- **A secret on the map:** give any `Breakable` a `map_hides` area over what it hides: the passage behind it, the exit to a hidden room, or whole cells (their middles must be inside).
 
 ## Known limitations
 
 - No completion percentage: the map only knows the rooms the player has entered, so it can't count the cells left. That needs a list of every room.
-- No marks placed by the player, no fast travel from the map and no items that reveal a whole zone yet.
+- No fast travel from the map and no items that reveal a whole zone yet.
+- Player marks can't be placed on a cell with one of the map's own marks, and there is one per cell.
 - Cells, walls and marks are flat colours drawn in code, not art.
 - Rooms are rectangles on the map. An L-shaped room shows as its bounding rectangle.

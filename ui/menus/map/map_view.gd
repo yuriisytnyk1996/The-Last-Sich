@@ -2,11 +2,15 @@ class_name MapView
 extends Control
 ## Draws the world map from a `WorldMap`: every revealed cell filled with
 ## its zone's colour, walls on room edges with gaps for doors, marks, the
-## player (blinking) and a cursor in the middle. Move pans the view (it
-## stays over revealed cells), jump switches between two zoom levels.
+## player (blinking), the player's own marks and a cursor in the middle.
+## Move pans the view (it stays over revealed cells), jump switches between
+## two zoom levels. Attack on the cursor's cell removes the player's mark
+## there, or opens a `MapMarkPicker` to place one.
 
 ## The zone under the cursor changed ("" over an empty spot).
 signal zone_changed(zone: String)
+## The mark picker opened (true) or closed (false).
+signal picking_changed(picking: bool)
 
 const ZONE_COLORS := {
 	"Steppe": Color(0.42, 0.36, 0.2),
@@ -47,6 +51,7 @@ var _player := Vector2.ZERO
 var _limits := Rect2()
 var _blink := 0.0
 var _zone := ""
+var _picker := MapMarkPicker.new()
 
 
 func setup(map: WorldMap) -> void:
@@ -54,7 +59,9 @@ func setup(map: WorldMap) -> void:
 	for map_room: MapRoom in map.rooms.values():
 		for x in map_room.rect.size.x:
 			for y in map_room.rect.size.y:
-				_owners[map_room.rect.position + Vector2i(x, y)] = map_room
+				var cell := map_room.rect.position + Vector2i(x, y)
+				if map_room.covers(cell):
+					_owners[cell] = map_room
 	_death_cells = map.death_mark_cells()
 	_player = map.player_position()
 	center = _player
@@ -66,12 +73,21 @@ func setup(map: WorldMap) -> void:
 func _ready() -> void:
 	focus_mode = Control.FOCUS_ALL
 	clip_contents = true
+	_picker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(_picker)
+	_picker.chosen.connect(_on_mark_chosen)
+	_picker.cancelled.connect(picking_changed.emit.bind(false))
+
+
+func is_picking() -> bool:
+	return _picker.visible
 
 
 func _process(delta: float) -> void:
-	var move := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
-	move += Input.get_vector(&"ui_left", &"ui_right", &"ui_up", &"ui_down")
-	center += move.limit_length(1.0) * pan_speed * delta
+	if not is_picking():
+		var move := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
+		move += Input.get_vector(&"ui_left", &"ui_right", &"ui_up", &"ui_down")
+		center += move.limit_length(1.0) * pan_speed * delta
 	center = center.clamp(_limits.position, _limits.end)
 	_blink = fmod(_blink + delta, 1.0)
 	_update_zone()
@@ -79,9 +95,29 @@ func _process(delta: float) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"jump"):
+	if is_picking():
+		if _picker.handle_input(event):
+			accept_event()
+	elif event.is_action_pressed(&"jump"):
 		_zoom = (_zoom + 1) % ZOOMS.size()
 		accept_event()
+	elif event.is_action_pressed(&"attack"):
+		_on_mark_pressed(Vector2i(center.floor()))
+		accept_event()
+
+
+## Removes the player's mark on `cell`, or opens the picker to place one.
+func _on_mark_pressed(cell: Vector2i) -> void:
+	if _map.player_marks.has(cell):
+		_map.player_marks.remove(cell)
+	elif _map.can_place_mark(cell):
+		_picker.open()
+		picking_changed.emit(true)
+
+
+func _on_mark_chosen(kind: PlayerMarks.Kind) -> void:
+	_map.player_marks.place(Vector2i(center.floor()), kind)
+	picking_changed.emit(false)
 
 
 func _draw() -> void:
@@ -98,6 +134,11 @@ func _draw() -> void:
 		var map_room: MapRoom = _owners.get(cell)
 		if map_room:
 			_draw_marks(cell, map_room.marks.get(cell, []))
+	for cell in _map.player_marks.marks:
+		if _owners.has(cell) and _map.revealed.has(cell):
+			MapMarkPainter.draw_mark(
+				self, _map.player_marks.marks[cell], _cell_rect(cell).get_center()
+			)
 	for cell in _death_cells:
 		_draw_marks(cell, [MapRoom.Mark.DEATH_MARK])
 	if _blink < 0.6:

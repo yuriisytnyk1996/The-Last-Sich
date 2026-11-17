@@ -8,7 +8,7 @@ extends Node
 ## A child of the `World`, which calls `enter_room()` on every room load.
 ## While playing, it checks the player's cell every `reveal_interval`.
 ## A global save system (see `SaveManager`): it saves the rooms it has
-## seen and the revealed cells.
+## seen, the revealed cells and the marks the player placed.
 
 @export var player: Player
 @export var death_penalty: DeathPenalty
@@ -22,6 +22,7 @@ var save_id := &"world_map"
 ## Scene path -> `MapRoom`, for every room the player has been in.
 var rooms: Dictionary[String, MapRoom] = {}
 var revealed: Dictionary[Vector2i, bool] = {}
+var player_marks := PlayerMarks.new()
 
 var _room: Room
 var _map_room: MapRoom
@@ -49,6 +50,15 @@ func _physics_process(delta: float) -> void:
 		_reveal_player_cell()
 
 
+## Scans the current room again, so the map follows what changed in it
+## since it loaded (a secret wall broken shows what it hid).
+## Called before the room unloads, before the map opens and on save.
+func refresh() -> void:
+	if _map_room and is_instance_valid(_room) and _room.is_inside_tree():
+		_map_room = MapRoom.scan(_room, cell_size)
+		rooms[_map_room.path] = _map_room
+
+
 ## The room the player is in.
 func current_room() -> MapRoom:
 	return _map_room
@@ -59,6 +69,26 @@ func player_position() -> Vector2:
 	if not _map_room:
 		return Vector2.ZERO
 	return _map_room.map_position(_room.to_local(player.global_position), cell_size)
+
+
+## The known room that shows `cell` on the map, or null.
+func room_at(cell: Vector2i) -> MapRoom:
+	for map_room: MapRoom in rooms.values():
+		if map_room.covers(cell):
+			return map_room
+	return null
+
+
+## A player mark may go on a revealed cell with no mark of its own (rest
+## point, shop, door...) and no player mark yet.
+func can_place_mark(cell: Vector2i) -> bool:
+	var map_room := room_at(cell)
+	return (
+		revealed.has(cell)
+		and map_room != null
+		and map_room.marks.get(cell, []).is_empty()
+		and not player_marks.has(cell)
+	)
 
 
 ## Death marks waiting to be recovered, as map cells.
@@ -74,13 +104,14 @@ func death_mark_cells() -> Array[Vector2i]:
 
 
 func get_save_data() -> Dictionary:
+	refresh()
 	var saved_rooms := {}
 	for path in rooms:
 		saved_rooms[path] = rooms[path].to_data()
 	var cells := []
 	for cell in revealed:
 		cells.append([cell.x, cell.y])
-	return {"rooms": saved_rooms, "revealed": cells}
+	return {"rooms": saved_rooms, "revealed": cells, "player_marks": player_marks.to_data()}
 
 
 func apply_save_data(data: Dictionary) -> void:
@@ -94,6 +125,7 @@ func apply_save_data(data: Dictionary) -> void:
 	if cells is Array:
 		for cell: Array in cells:
 			revealed[Vector2i(int(cell[0]), int(cell[1]))] = true
+	player_marks.apply_data(data.get("player_marks"))
 
 
 func _reveal_player_cell() -> void:

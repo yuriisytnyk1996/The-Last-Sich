@@ -33,6 +33,21 @@ shape = SubResource("shape_exit")
 [node name="Landing" type="Marker2D" parent="Exits/West"]
 position = Vector2(40, 32)
 
+[node name="East" type="Area2D" parent="Exits"]
+position = Vector2(960, 320)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_exit")
+target_room = "res://levels/rooms/test_hideout.tscn"
+target_exit = &"West"
+
+[node name="Shape" type="CollisionShape2D" parent="Exits/East"]
+shape = SubResource("shape_exit")
+
+[node name="Landing" type="Marker2D" parent="Exits/East"]
+position = Vector2(-40, 32)
+
 [node name="Mechanisms" type="Node2D" parent="."]
 
 [node name="ShortcutGate" parent="Mechanisms" instance=ExtResource("3_gate")]
@@ -59,6 +74,7 @@ position = Vector2(864, 352)
 
 [node name="AlcoveWall" parent="Secrets" instance=ExtResource("5_secret")]
 position = Vector2(832, 352)
+map_hides = Rect2(0, -64, 136, 64)
 
 [node name="Cover" parent="Secrets/AlcoveWall/Visual" index="0"]
-offset_right = 112.0
+offset_right = 128.0

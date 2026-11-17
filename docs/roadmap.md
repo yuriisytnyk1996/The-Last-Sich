@@ -78,6 +78,7 @@
 - [x] Paid cleanse points: pay currency (a price per mark) to clear every death mark at once without walking back, no recovery bonus; map mark; one in the test house
 - [x] Secret walls: drawn like the terrain, broken with attacks (3 hits) from one side only, flash on every hit, then fade to show the secret behind; hits taken are saved. Breakables gain `breakable_from` and `fade_time`. Replaces the walk-in hidden areas
 - [x] Upgrades: permanent +20 max health and +15 max spirit from upgrade shrines, used once; free ones hidden as secrets, paid ones with a page to pay currency; the raised bar fills, a HUD toast names it, saved; paid shrines on the map. A health shrine in the test vault's hidden alcove, a spirit shrine in the test house
+- [x] Map secrets and player marks: a secret (`Breakable.map_hides`) keeps the cells, door gaps and marks behind it off the map until it breaks; the current room is scanned again before it unloads, when the map opens and on save. The player places their own marks on visited cells (chest, question, enemy, person, three pins; one per cell; attack on the map page), saved. A hidden test hideout room behind the vault's secret wall
 
 ## Next
 
@@ -90,8 +91,8 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Audio
 - [ ] Attack speed, run speed and critical hits as stats
 - [ ] Spirit abilities that spend spirit
-- [ ] Map: completion percentage, marks placed by the player, items that reveal a zone
-- [ ] Gates opened by attacks or pressure plates; feedback for a lever pulled without its key; map marks for chests, levers and secrets
+- [ ] Map: completion percentage, items that reveal a zone
+- [ ] Gates opened by attacks or pressure plates; feedback for a lever pulled without its key
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -110,7 +111,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Red rectangle for the spikes
 - Dark tint for the dead player instead of a death animation
 - Plain rectangles for the HUD health bar and flask pips
-- Flat-colour cells, walls and square marks on the world map
+- Flat-colour cells, walls and square marks on the world map, 5×5 pixel icons for player marks
 - Translucent rectangle for the healing aura instead of a drinking animation
 - Drawn rails and rungs for ladders
 - Post, crossbar and flame rectangles for rest points

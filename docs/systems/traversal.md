@@ -77,6 +77,7 @@ A secret is closed off by a **secret wall** (`levels/objects/breakables/secret_w
 - Its `Body` (16×64 at the origin, on the `world` layer) blocks the way in.
 - It takes 3 hits, and only from the side the player comes from (`breakable_from`, `LEFT` by default): from inside, the hurtbox is off. Every hit flashes the cover, so a player who tries the right wall gets an answer.
 - On the third hit the body opens and the cover fades out over `fade_time` (0.6 s). Hits taken so far and the broken state are saved.
+- Its `map_hides` area keeps what it hides off the [map](/systems/map#secrets) until it breaks: cells, door gaps and marks. Then the map shows them like anywhere else. The secret wall's default area is its cover (64×64).
 
 ### Saving
 
@@ -91,7 +92,7 @@ Lever, gate, chest and secret wall join the `persistent` group, so the [save sys
 3. **Upper floor west**: the **shortcut lever**. It opens the gate at the bottom of the shaft's right wall, so the ground floor connects both halves of the room.
 4. **Ground floor east**: a chest with the **seer's lantern**, a relic to wear from the inventory. The player drops down here from the upper floor, or walks through the opened gate.
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
-6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300 and a free [health upgrade](/systems/upgrades).
+6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300 and a free [health upgrade](/systems/upgrades). The alcove runs through the room's east wall into the **test hideout** (`test_hideout.tscn`, 640×360): a hidden room with a chest worth 250 on a one-way ledge. Its `map_hides` covers the alcove and the `East` exit, so the map shows a closed wall there until the wall breaks.
 
 The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
 
@@ -141,11 +142,12 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `move_time` | `Gate` | 0.5 | Time to open or close (s) |
 | `move_shake` | `Gate` | 0.2 | Camera trauma when it moves |
 | `open_scale` | `Gate` | 0.1 | How much of the gate still shows when open |
-| `currency` | `Chest` | 0 | Currency inside. Secret chest in the vault: 300 |
+| `currency` | `Chest` | 0 | Currency inside. Secret chest in the vault: 300, in the hideout: 250 |
 | `open_angle` | `Chest` | -2.0 | Lid angle when open (radians) |
 | `hits` | secret wall | 3 | Hits to break it |
 | `breakable_from` | secret wall | `LEFT` | Side the player has to stand on for hits to count |
 | `fade_time` | secret wall | 0.6 | Cover fade when it breaks (s) |
+| `map_hides` | secret wall | `(0, -64, 64, 64)` | Area kept off the map until it breaks. Vault: `(0, -64, 136, 64)` |
 
 ## Extending
 
@@ -153,7 +155,7 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 - **A key-locked door:** a `Gate` with a `Lever` next to it whose `key` is the key item (a keepsake).
 - **A new lever target** (a bridge, a moving platform that starts): give it a `toggle()` method (and `unlock()` if it can be locked) and, if its state should last, join the `persistent` group with `get_save_data()` / `apply_save_data()`.
 - **A climbable wall:** draw the wall in the tiles, then lay a `ClimbWall` over it in `Layout` with `size` matching the tiles.
-- **A secret:** leave the passage open in the tiles, place `secret_wall.tscn` in `Logic` at the bottom of the way in, size `Visual/Cover` to cover the wall and the space behind it, and set `breakable_from` to the side the player arrives from.
+- **A secret:** leave the passage open in the tiles, place `secret_wall.tscn` in `Logic` at the bottom of the way in, size `Visual/Cover` to cover the wall and the space behind it, set `breakable_from` to the side the player arrives from, and size `map_hides` over everything the map shouldn't show yet (the space behind, an exit to a hidden room).
 
 ## Known limitations
 
@@ -163,4 +165,4 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 - Reveal platforms show all at once; they can't reveal one by one as the player walks across them.
 - Gates can only be opened by levers or scripts, not by attacks or pressure plates.
 - A lever pulled without its key gives no feedback yet.
-- No map marks for chests, levers or secrets.
+- Chests and levers have no map marks of their own; the player marks them by hand ([player marks](/systems/map#player-marks)).

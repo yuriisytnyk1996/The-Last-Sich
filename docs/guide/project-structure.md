@@ -151,7 +151,9 @@ The-Last-Sich/
 │   ├── death_mark_list.gd        The marks and their links, as plain data
 │   ├── map/
 │   │   ├── world_map.gd          World map data: scans rooms, reveals cells as the player walks, saved
-│   │   └── map_room.gd           One room on the map: cells, doors, marks
+│   │   ├── map_room.gd           One room on the map: cells, hidden cells, doors, marks
+│   │   ├── map_secrets.gd        A room's secrets while scanning: what they still hide
+│   │   └── player_marks.gd       Marks the player placed on the map, saved
 │   ├── objects/                  Things placed in rooms
 │   │   ├── room_exit.gd          Edge exit or door to another room
 │   │   ├── door.tscn             Door entered by pressing interact
@@ -188,7 +190,9 @@ The-Last-Sich/
 │   │   ├── test_works.tscn       Two-floor room east of the test cave with every environment piece
 │   │   ├── test_works/           Its parts
 │   │   ├── test_vault.tscn       Room east of the test works with every traversal piece
-│   │   └── test_vault/           Its parts
+│   │   ├── test_vault/           Its parts
+│   │   ├── test_hideout.tscn     Hidden room behind the vault's secret wall
+│   │   └── test_hideout/         Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)
@@ -228,7 +232,9 @@ The-Last-Sich/
 │   │   ├── map/
 │   │   │   ├── map_screen.gd     Map page: zone name, map view, legend
 │   │   │   ├── map_view.gd       Draws the map, pans and zooms
-│   │   │   └── map_cell_painter.gd One cell's fill, walls and door gaps
+│   │   │   ├── map_cell_painter.gd One cell's fill, walls and door gaps
+│   │   │   ├── map_mark_painter.gd Icons for the player's marks
+│   │   │   └── map_mark_picker.gd The row of mark kinds shown while placing one
 │   │   ├── skills/
 │   │   │   └── skills_screen.gd  Skill shrine page: list, description, learn
 │   │   └── options/

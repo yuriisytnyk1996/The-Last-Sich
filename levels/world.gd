@@ -112,6 +112,7 @@ func _transition(change: Callable) -> void:
 
 func _load_room(room_path: String, exit_name: StringName) -> void:
 	if room:
+		world_map.refresh()
 		SaveManager.store_room(room)
 		room_holder.remove_child(room)
 		room.queue_free()
