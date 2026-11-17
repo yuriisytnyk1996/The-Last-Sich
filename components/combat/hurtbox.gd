@@ -49,7 +49,8 @@ func _physics_process(delta: float) -> void:
 	if _invincible_left <= 0.0:
 		return
 	_invincible_left = maxf(_invincible_left - delta, 0.0)
-	if _invincible_left == 0.0:
+	# Not while turned off (a dead or dormant enemy).
+	if _invincible_left == 0.0 and monitoring:
 		_recheck_continuous_hitboxes()
 
 
