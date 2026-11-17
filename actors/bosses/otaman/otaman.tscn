@@ -1,0 +1,363 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://actors/bosses/boss.gd" id="boss"]
+[ext_resource type="Script" path="res://actors/enemies/enemy_stats.gd" id="stats"]
+[ext_resource type="Script" path="res://components/combat/hitbox.gd" id="hitbox"]
+[ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="hurtbox"]
+[ext_resource type="Script" path="res://components/combat/health.gd" id="health"]
+[ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="feedback"]
+[ext_resource type="Script" path="res://actors/enemies/enemy_damage.gd" id="damage"]
+[ext_resource type="Script" path="res://components/state_machine/state_machine.gd" id="fsm"]
+[ext_resource type="Script" path="res://actors/bosses/states/dormant.gd" id="dormant"]
+[ext_resource type="Script" path="res://actors/bosses/states/roar.gd" id="roar"]
+[ext_resource type="Script" path="res://actors/bosses/states/decide.gd" id="decide"]
+[ext_resource type="Script" path="res://actors/bosses/otaman/states/saber_combo.gd" id="combo"]
+[ext_resource type="Script" path="res://actors/bosses/otaman/states/leap_slam.gd" id="leap"]
+[ext_resource type="Script" path="res://actors/bosses/otaman/states/dash_cut.gd" id="dash"]
+[ext_resource type="Script" path="res://actors/bosses/otaman/states/pistol_volley.gd" id="volley"]
+[ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="stunned"]
+[ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="dead"]
+[ext_resource type="PackedScene" path="res://actors/bosses/otaman/shockwave.tscn" id="shockwave"]
+[ext_resource type="PackedScene" path="res://actors/bosses/otaman/pistol_ball.tscn" id="ball"]
+
+[sub_resource type="RectangleShape2D" id="body_shape"]
+size = Vector2(18, 36)
+
+[sub_resource type="RectangleShape2D" id="hurtbox_shape"]
+size = Vector2(18, 34)
+
+[sub_resource type="RectangleShape2D" id="contact_shape"]
+size = Vector2(12, 28)
+
+[sub_resource type="RectangleShape2D" id="swing_shape"]
+size = Vector2(30, 20)
+
+[sub_resource type="RectangleShape2D" id="heavy_swing_shape"]
+size = Vector2(36, 26)
+
+[sub_resource type="RectangleShape2D" id="slam_shape"]
+size = Vector2(72, 16)
+
+[sub_resource type="RectangleShape2D" id="dash_shape"]
+size = Vector2(28, 14)
+
+[node name="Otaman" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 65
+floor_snap_length = 4.0
+script = ExtResource("boss")
+display_name = "The Otaman"
+start_facing = -1
+chase_speed = 60.0
+sight_range = 600.0
+sight_height = 200.0
+lose_range = 900.0
+turn_delay = 0.2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -18)
+shape = SubResource("body_shape")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -9.0
+offset_top = -36.0
+offset_right = 9.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.3, 0.2, 0.32, 1)
+
+[node name="Sash" type="ColorRect" parent="Visual"]
+offset_left = -9.0
+offset_top = -18.0
+offset_right = 9.0
+offset_bottom = -14.0
+mouse_filter = 2
+color = Color(0.75, 0.15, 0.15, 1)
+
+[node name="Forelock" type="ColorRect" parent="Visual"]
+offset_left = -3.0
+offset_top = -42.0
+offset_right = 1.0
+offset_bottom = -36.0
+mouse_filter = 2
+color = Color(0.85, 0.8, 0.7, 1)
+
+[node name="Eye" type="ColorRect" parent="Visual"]
+offset_left = 3.0
+offset_top = -31.0
+offset_right = 7.0
+offset_bottom = -28.0
+mouse_filter = 2
+color = Color(0.95, 0.85, 0.4, 1)
+
+[node name="Telegraph" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -2.0
+offset_top = -52.0
+offset_right = 2.0
+offset_bottom = -44.0
+mouse_filter = 2
+color = Color(2.5, 2.2, 0.8, 1)
+
+[node name="StunMark" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -6.0
+offset_top = -50.0
+offset_right = 6.0
+offset_bottom = -46.0
+mouse_filter = 2
+color = Color(0.7, 0.85, 1.6, 1)
+
+[node name="RoarMark" type="ColorRect" parent="Visual"]
+visible = false
+offset_left = -12.0
+offset_top = -54.0
+offset_right = 12.0
+offset_bottom = -50.0
+mouse_filter = 2
+color = Color(2.2, 0.6, 0.4, 1)
+
+[node name="FloorProbe" type="RayCast2D" parent="Visual"]
+position = Vector2(12, -4)
+target_position = Vector2(0, 12)
+collision_mask = 65
+
+[node name="SightRay" type="RayCast2D" parent="Visual"]
+position = Vector2(4, -30)
+enabled = false
+target_position = Vector2(0, 0)
+
+[node name="Muzzle" type="Marker2D" parent="Visual"]
+position = Vector2(14, -24)
+
+[node name="Attacks" type="Node2D" parent="Visual"]
+
+[node name="Swing1" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(20, -18)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("hitbox")
+damage = 15
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Swing1"]
+shape = SubResource("swing_shape")
+disabled = true
+
+[node name="Rect" type="ColorRect" parent="Visual/Attacks/Swing1"]
+offset_left = -15.0
+offset_top = -10.0
+offset_right = 15.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(0.95, 0.5, 0.45, 0.6)
+
+[node name="Swing2" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(20, -18)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("hitbox")
+damage = 15
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Swing2"]
+shape = SubResource("swing_shape")
+disabled = true
+
+[node name="Rect" type="ColorRect" parent="Visual/Attacks/Swing2"]
+offset_left = -15.0
+offset_top = -10.0
+offset_right = 15.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(0.95, 0.5, 0.45, 0.6)
+
+[node name="Swing3" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(22, -18)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("hitbox")
+damage = 25
+knockback_force = 180.0
+reaction = 2
+parryable = true
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Swing3"]
+shape = SubResource("heavy_swing_shape")
+disabled = true
+
+[node name="Rect" type="ColorRect" parent="Visual/Attacks/Swing3"]
+offset_left = -18.0
+offset_top = -13.0
+offset_right = 18.0
+offset_bottom = 13.0
+mouse_filter = 2
+color = Color(0.95, 0.4, 0.35, 0.7)
+
+[node name="Slam" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(0, -8)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("hitbox")
+damage = 30
+knockback_force = 160.0
+knockback_direction = Vector2(1, -0.5)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Slam"]
+shape = SubResource("slam_shape")
+disabled = true
+
+[node name="Rect" type="ColorRect" parent="Visual/Attacks/Slam"]
+offset_left = -36.0
+offset_top = -8.0
+offset_right = 36.0
+offset_bottom = 8.0
+mouse_filter = 2
+color = Color(1.2, 0.7, 0.4, 0.6)
+
+[node name="Dash" type="Area2D" parent="Visual/Attacks"]
+position = Vector2(16, -8)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("hitbox")
+damage = 30
+knockback_force = 160.0
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Dash"]
+shape = SubResource("dash_shape")
+disabled = true
+
+[node name="Rect" type="ColorRect" parent="Visual/Attacks/Dash"]
+offset_left = -14.0
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+mouse_filter = 2
+color = Color(0.95, 0.5, 0.45, 0.6)
+
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("stats")
+max_health = 600.0
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("stats")]
+script = ExtResource("health")
+stats = NodePath("../Stats")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("hurtbox")
+health = NodePath("../Health")
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -17)
+shape = SubResource("hurtbox_shape")
+
+[node name="Contact" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+script = ExtResource("hitbox")
+element = 1
+knockback_force = 0.0
+knockback_direction = Vector2(0, -1)
+active_on_start = true
+continuous = true
+
+[node name="Shape" type="CollisionShape2D" parent="Contact"]
+position = Vector2(0, -16)
+shape = SubResource("contact_shape")
+
+[node name="Damage" type="Node" parent="."]
+script = ExtResource("damage")
+flinches = false
+stun_time = 1.4
+corpse_time = 1.2
+fade_time = 1.0
+stays_dead = false
+currency_reward = 400
+
+[node name="HurtFeedback" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "flash_target")]
+script = ExtResource("feedback")
+hurtbox = NodePath("../Hurtbox")
+flash_target = NodePath("../Visual")
+hit_stop = 0.05
+shake = 0.25
+rumble = 0.3
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("fsm")
+initial_state = NodePath("Dormant")
+
+[node name="Dormant" type="Node" parent="StateMachine"]
+script = ExtResource("dormant")
+
+[node name="Roar" type="Node" parent="StateMachine" node_paths=PackedStringArray("mark")]
+script = ExtResource("roar")
+mark = NodePath("../../Visual/RoarMark")
+
+[node name="Decide" type="Node" parent="StateMachine"]
+script = ExtResource("decide")
+
+[node name="SaberCombo" type="Node" parent="StateMachine" node_paths=PackedStringArray("swing_hitboxes", "telegraph")]
+script = ExtResource("combo")
+swing_hitboxes = [NodePath("../../Visual/Attacks/Swing1"), NodePath("../../Visual/Attacks/Swing2"), NodePath("../../Visual/Attacks/Swing3")]
+weight = 3.0
+max_range = 50.0
+telegraph = NodePath("../../Visual/Telegraph")
+startup = 0.5
+active = 0.1
+recovery = 0.7
+cooldown = 0.3
+
+[node name="LeapSlam" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox", "telegraph")]
+script = ExtResource("leap")
+shockwave_scene = ExtResource("shockwave")
+min_range = 70.0
+max_range = 260.0
+hitbox = NodePath("../../Visual/Attacks/Slam")
+telegraph = NodePath("../../Visual/Telegraph")
+startup = 0.55
+active = 0.15
+recovery = 0.8
+cooldown = 0.3
+
+[node name="DashCut" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox", "telegraph")]
+script = ExtResource("dash")
+min_range = 60.0
+max_range = 200.0
+hitbox = NodePath("../../Visual/Attacks/Dash")
+telegraph = NodePath("../../Visual/Telegraph")
+startup = 0.6
+active = 0.5
+recovery = 0.7
+cooldown = 0.3
+
+[node name="PistolVolley" type="Node" parent="StateMachine" node_paths=PackedStringArray("muzzle", "telegraph")]
+script = ExtResource("volley")
+projectile_scene = ExtResource("ball")
+muzzle = NodePath("../../Visual/Muzzle")
+phases = 2
+weight = 1.5
+min_range = 90.0
+max_range = 400.0
+telegraph = NodePath("../../Visual/Telegraph")
+startup = 0.6
+active = 0.9
+recovery = 1.0
+cooldown = 0.3
+
+[node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("mark")]
+script = ExtResource("stunned")
+mark = NodePath("../../Visual/StunMark")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("dead")

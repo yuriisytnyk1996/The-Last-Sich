@@ -49,6 +49,7 @@ Feedback:
 | `ui/hud/currency_counter.gd` | Currency number |
 | `ui/hud/spirit_bar.gd` | Spirit bar with the locked part |
 | `ui/hud/death_mark_counter.gd` | Death mark pips |
+| `ui/hud/boss_bar.gd` | Boss name and health bar |
 | `actors/player/player_damage.gd` | Forwards player health to `Events` |
 
 ## Tuning
@@ -112,10 +113,14 @@ On the `FlaskCounter` node:
 
 `ItemToast` (`ui/hud/item_toast.gd`) is a `Label` near the bottom centre. On `Events.item_obtained(item)` it shows `"Found: <title>"` for `show_time` (2 s), then fades out over `fade_time` (0.5 s). Its tween keeps running while a menu pauses the game, so a purchase is named too. See [Inventory](/systems/inventory). On `Events.player_upgraded(what)` it shows `"<what> up"` ("Max health up"), see [Upgrades](/systems/upgrades).
 
+### Boss bar
+
+`BossBar` (`ui/hud/boss_bar.gd`) shows the boss's name and health at the bottom centre during a boss fight, under the item toast. It is hidden the rest of the time. Tuning and behaviour are on the [Bosses](/systems/bosses#boss-bar) page.
+
 ## Extending
 
 - **New HUD widget** (ability charges): add a `Control` under `HUD` in `ui/hud/hud.tscn`, add a global signal to `Events` for the value it shows, and have the owning system emit it. Send the starting value deferred, the same way as health.
-- **Another bar** (a boss bar, for example): reuse the same layered approach, driven by its own signal.
+- **Another bar:** reuse the same layered approach, driven by its own signal, as `BossBar` does.
 
 ## Known limitations
 

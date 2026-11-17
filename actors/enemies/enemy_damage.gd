@@ -21,6 +21,8 @@ extends Node
 @export var heavy_knockback := 180.0
 
 @export_group("Poise")
+## Off: NORMAL and HEAVY hits never stagger it (bosses). A parry still stuns.
+@export var flinches := true
 ## Staggers in a row before the enemy stops flinching. 0 never flinches.
 @export var max_staggers := 3
 ## Seconds without being hit before the stagger count resets.
@@ -93,7 +95,7 @@ func is_poise_broken() -> bool:
 
 
 func _on_hurt(hitbox: Hitbox) -> void:
-	if hitbox.reaction == Hitbox.Reaction.LIGHT:
+	if hitbox.reaction == Hitbox.Reaction.LIGHT or not flinches:
 		return
 	var state := enemy.state_machine.state as EnemyState
 	if state and not state.can_be_staggered():

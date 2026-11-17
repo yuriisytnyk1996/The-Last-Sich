@@ -35,7 +35,7 @@ func _ready() -> void:
 func enter(_previous_state: StringName) -> void:
 	enemy.face_target()
 	_phase = Phase.STARTUP
-	_time_left = startup
+	_time_left = startup * time_scale()
 	_show_telegraph(true)
 
 
@@ -71,15 +71,20 @@ func _next_phase() -> void:
 			_show_telegraph(false)
 			_set_hitbox_active(true)
 			_phase = Phase.ACTIVE
-			_time_left = active
+			_time_left = active * time_scale()
 			_on_active()
 		Phase.ACTIVE:
 			_set_hitbox_active(false)
 			_phase = Phase.RECOVERY
-			_time_left = recovery
+			_time_left = recovery * time_scale()
 		Phase.RECOVERY:
 			enemy.damage.reset_poise()
 			finished.emit(alert_state())
+
+
+## Multiplies startup, active and recovery. Bosses speed up per phase.
+func time_scale() -> float:
+	return 1.0
 
 
 ## Runs once when the wind-up ends and the active window starts.

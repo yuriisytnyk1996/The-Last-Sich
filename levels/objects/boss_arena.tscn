@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/boss_arena.gd" id="1_arena"]
+
+[node name="BossArena" type="Node2D"]
+script = ExtResource("1_arena")
+
+[node name="Trigger" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Gates" type="Node2D" parent="."]

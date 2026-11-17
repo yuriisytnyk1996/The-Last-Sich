@@ -154,6 +154,19 @@ The-Last-Sich/
 │   │           ├── hover.gd      Its Patrol: hover around the spawn point
 │   │           ├── pursue.gd     Its Chase: fly above the player
 │   │           └── swoop.gd      Aimed dive
+│   ├── bosses/
+│   │   ├── boss.gd               Shared boss base: phases, timing scale, boss bar health
+│   │   ├── states/               States shared by every boss
+│   │   │   ├── boss_state.gd     Base class for the shared boss states
+│   │   │   ├── boss_attack.gd    One attack pattern: phases, weight, range
+│   │   │   ├── dormant.gd        Waits for the fight
+│   │   │   ├── roar.gd           Invulnerable pause at the start and at each phase
+│   │   │   └── decide.gd         Walks in and picks the next attack
+│   │   └── otaman/
+│   │       ├── otaman.tscn       First boss: sabre and pistol
+│   │       ├── shockwave.tscn    Floor wave from the leap slam
+│   │       ├── pistol_ball.tscn  Pistol shot
+│   │       └── states/           saber_combo, leap_slam, dash_cut, pistol_volley
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
@@ -188,6 +201,8 @@ The-Last-Sich/
 │   │   ├── tier_relic.tscn       Its scene
 │   │   ├── spikes.gd             Instant death when stepped in
 │   │   ├── ladder.gd             Climbable ladder
+│   │   ├── boss_arena.gd         Boss fight: trigger, gates, reward, saved win
+│   │   ├── boss_arena.tscn       Its scene (add a trigger shape and gates)
 │   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
 │   │   ├── mechanisms/           Levers, pressure plates and the gates they open
 │   │   ├── traversal/            Climb walls, reveal platforms
@@ -211,7 +226,9 @@ The-Last-Sich/
 │   │   ├── test_hideout.tscn     Hidden room behind the vault's secret wall
 │   │   ├── test_hideout/         Its parts
 │   │   ├── test_barracks.tscn    Room behind the test room's second door, with the shieldbearer, boar and crow
-│   │   └── test_barracks/        Its parts
+│   │   ├── test_barracks/        Its parts
+│   │   ├── test_arena.tscn       Boss arena behind the barracks' east door, with the Otaman
+│   │   └── test_arena/           Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)
@@ -274,7 +291,8 @@ The-Last-Sich/
 │   │   ├── currency_counter.gd   Currency the player carries
 │   │   ├── spirit_bar.gd         Spirit, with the part locked by death marks
 │   │   ├── death_mark_counter.gd One pip per death mark
-│   │   └── item_toast.gd         Names a newly obtained item
+│   │   ├── item_toast.gd         Names a newly obtained item
+│   │   └── boss_bar.gd           Boss name and health during a boss fight
 │   └── debug/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/

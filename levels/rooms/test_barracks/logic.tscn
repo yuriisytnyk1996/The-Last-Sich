@@ -18,6 +18,12 @@ target_room = "res://levels/rooms/test_room.tscn"
 target_exit = &"BarracksDoor"
 arrival_facing = 1
 
+[node name="ArenaDoor" parent="Exits" instance=ExtResource("1_door")]
+position = Vector2(1240, 320)
+target_room = "res://levels/rooms/test_arena.tscn"
+target_exit = &"Door"
+arrival_facing = -1
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Shieldbearer" parent="Enemies" instance=ExtResource("2_shieldbearer")]

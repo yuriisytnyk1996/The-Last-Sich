@@ -1,0 +1,42 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://levels/objects/door.tscn" id="1_door"]
+[ext_resource type="PackedScene" path="res://levels/objects/rest_point.tscn" id="2_rest"]
+[ext_resource type="PackedScene" path="res://levels/objects/boss_arena.tscn" id="3_arena"]
+[ext_resource type="PackedScene" path="res://levels/objects/mechanisms/gate.tscn" id="4_gate"]
+[ext_resource type="PackedScene" path="res://actors/bosses/otaman/otaman.tscn" id="5_otaman"]
+
+[sub_resource type="RectangleShape2D" id="trigger_shape"]
+size = Vector2(720, 288)
+
+[node name="Logic" type="Node2D"]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(40, 320)
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="Door" parent="Exits" instance=ExtResource("1_door")]
+position = Vector2(40, 320)
+target_room = "res://levels/rooms/test_barracks.tscn"
+target_exit = &"ArenaDoor"
+arrival_facing = 1
+
+[node name="RestPoint" parent="." instance=ExtResource("2_rest")]
+position = Vector2(104, 320)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Otaman" parent="Enemies" instance=ExtResource("5_otaman")]
+position = Vector2(720, 320)
+
+[node name="BossArena" parent="." node_paths=PackedStringArray("boss") instance=ExtResource("3_arena")]
+boss = NodePath("../Enemies/Otaman")
+
+[node name="Shape" type="CollisionShape2D" parent="BossArena/Trigger"]
+position = Vector2(576, 176)
+shape = SubResource("trigger_shape")
+
+[node name="Gate" parent="BossArena/Gates" instance=ExtResource("4_gate")]
+position = Vector2(160, 320)
+open = true

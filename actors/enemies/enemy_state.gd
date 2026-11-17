@@ -20,4 +20,4 @@ func can_be_staggered() -> bool:
 
 ## Where to go after a hit or an attack: keep fighting or go back to patrolling.
 func alert_state() -> StringName:
-	return CHASE if enemy.can_track_target() else PATROL
+	return enemy.alert_state()

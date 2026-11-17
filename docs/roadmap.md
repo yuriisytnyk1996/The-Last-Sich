@@ -88,6 +88,8 @@
 
 - [x] Three more enemies: the shieldbearer (a raised shield blocks hits from the front; heavy hits break the guard, hits from behind land), the boar (charges in a straight line once it can see the player, crashes into walls and is dazed, stops at ledges) and the crow (flies, hovers above the player and swoops at it, loses it under cover). New `Hurtbox.guard` for blocking, `attack_needs_sight` on enemies, and a test barracks room behind a second door in the test room
 
+- [x] Bosses: a `Boss` base with phases at health thresholds (faster timings, new attacks), shared Dormant, Roar and Decide states, weighted `BossAttack`s picked by range and phase, no flinching but parries still stun; `BossArena` closes its gates when the player walks in, reopens them on a win or a death, gives an item and saves the win; a boss bar in the HUD. First boss, the Otaman: three-swing sabre combo (last swing parryable), leap slam with floor shockwaves, dash cut, and a pistol volley in phase 2. Test arena behind the test barracks' east door
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -136,4 +138,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
 - Drawn tints for zones and drifting line streaks for wind
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
+- Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

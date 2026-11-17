@@ -115,7 +115,7 @@ Enemies join the `enemies` group. Pits (the room's `KillZone`) kill enemies the 
 
 An enemy with `stays_dead` off comes back every time its room loads. Use it for enemies that should always be there, such as weak fodder near a rest point.
 
-`reset()` sends every enemy back to its spawn point and `start_facing` with full health, patrolling, dead or not.
+`reset()` sends every enemy back to its spawn point and `start_facing` with full health, patrolling, dead or not. Bosses go back to Dormant instead.
 
 ## Musketeer
 
@@ -307,6 +307,7 @@ Set on the enemy's root node. Raider values are the defaults.
 | `hurt_knockback` | 110 | Slide-back speed after a NORMAL hit (px/s) |
 | `heavy_hurt_duration` | 0.45 | Stagger after a HEAVY hit (s) |
 | `heavy_knockback` | 180 | Slide-back speed after a HEAVY hit (px/s) |
+| `flinches` | On | Off: NORMAL and HEAVY hits never stagger it (bosses). A parry still stuns |
 | `max_staggers` | 3 | Staggers in a row before poise breaks. 0: never staggered |
 | `poise_recovery` | 1.5 | Time without being hit before the stagger count resets (s) |
 | `stun_time` | 1.0 | How long the enemy stays stunned after a parried attack (s) |
@@ -445,7 +446,11 @@ The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stun
 
 **A new behaviour:** add a state script in the enemy's own `states/` folder and a node for it under `StateMachine`, as the crow does. If two enemies need it, move it up to `actors/enemies/states/`. If the enemy needs extra data or helpers, give it a root script that extends `Enemy`.
 
-**An enemy that ignores staggers:** set `max_staggers` to 0 on its `Damage` node, or override `can_be_staggered()` in its states.
+**An enemy that ignores staggers:** turn off `flinches` on its `Damage` node, or override `can_be_staggered()` in its states.
+
+**Where it goes after a hit or an attack:** `Enemy.alert_state()` (Chase or Patrol) and `Enemy.home_state()` (where `reset()` sends it, Patrol) can be overridden in a root script. Bosses use them to stay in the fight, see [Bosses](/systems/bosses).
+
+**Faster attacks:** override `time_scale()` in an `EnemyAttackState` subclass; it multiplies startup, active and recovery. `BossAttack` uses it for phases.
 
 ## Known limitations
 
@@ -457,5 +462,5 @@ The `Stunned` state node has an optional `mark` (a `CanvasItem` shown while stun
 - A boar charge that runs into the shieldbearer or another enemy passes through it: enemies don't collide with each other.
 - The musket ball flies straight, aimed at where the player was when the aim froze. It doesn't lead a moving target.
 - Several enemies overlap freely because enemy bodies don't collide with each other.
-- One attack per enemy. Enemies with several attacks will need a state that picks between them.
+- One attack per enemy. Bosses pick between several (see [Bosses](/systems/bosses)); regular enemies don't yet.
 - Placeholder rectangles for the bodies, the glint, the slash, the barrel, the aim line, the ball, the shield and the new hitboxes. No animations.

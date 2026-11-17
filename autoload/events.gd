@@ -88,3 +88,16 @@ signal player_upgraded(what: String)
 ## Room objects gated by one, such as `RevealPlatform`, check again.
 @warning_ignore("unused_signal")
 signal player_unlocks_changed
+
+## A boss fight started (`BossArena`). The HUD shows the boss bar.
+@warning_ignore("unused_signal")
+signal boss_fight_started(boss_name: String, current: int, maximum: int)
+
+## The boss in the current fight was hurt. Drives the boss bar.
+@warning_ignore("unused_signal")
+signal boss_health_changed(current: int, maximum: int)
+
+## The boss fight ended: the boss died, or the player did. The HUD hides
+## the boss bar.
+@warning_ignore("unused_signal")
+signal boss_fight_ended

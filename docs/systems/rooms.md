@@ -192,6 +192,17 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - A second low wall, the boar's crash wall and the player's cover: standing behind it blocks the boar's sight, so it can't charge.
 - The **boar**'s run: long flat ground, so a charge from the right reaches the wall.
 - A third low wall, then the **crow**'s area: a one-way plank 2 tiles up, and a solid shelf 4 tiles up near the right wall to hide under from the crow.
+- The `ArenaDoor` against the right wall, leading to the test arena.
+
+## Test arena layout
+
+`levels/rooms/test_arena.tscn` is a closed 960×360 room behind the barracks' `ArenaDoor`, for testing bosses. It sits above the barracks on the map (`map_cell` (0, -4), zone "Arena"). From left to right:
+
+- The `Door` back to the barracks, at the spawn point, and a rest point.
+- The arena gate (open until the fight starts), under a solid wall up to the ceiling so the gate is the only way in.
+- The arena floor with the `BossArena` trigger over all of it, two one-way planks 3 tiles up, and the **Otaman** near the right wall.
+
+See [Bosses](/systems/bosses).
 
 See [Enemies](/systems/enemies).
 

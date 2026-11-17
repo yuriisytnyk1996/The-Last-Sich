@@ -172,7 +172,7 @@ func set_combat_enabled(enabled: bool) -> void:
 	contact.set_active(enabled)
 
 
-## Back to the spawn point, alive and patrolling.
+## Back to the spawn point, alive and in its `home_state()`.
 func reset() -> void:
 	global_position = _spawn_position
 	reset_physics_interpolation()
@@ -181,7 +181,18 @@ func reset() -> void:
 	_attack_cooldown = 0.0
 	_turn_cooldown = 0.0
 	damage.reset()
-	state_machine.transition_to(EnemyState.PATROL)
+	state_machine.transition_to(home_state())
+
+
+## The state `reset()` returns to. Bosses wait for their fight instead.
+func home_state() -> StringName:
+	return EnemyState.PATROL
+
+
+## Where to go after a hit or an attack: keep fighting or go back to
+## patrolling. Bosses override it to stay in the fight.
+func alert_state() -> StringName:
+	return EnemyState.CHASE if can_track_target() else EnemyState.PATROL
 
 
 func _has_live_target() -> bool:
