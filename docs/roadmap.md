@@ -92,7 +92,7 @@
 
 - [x] Guard slide: a HEAVY hit caught on the parry guard deals no damage and slides the player back (distance from the hit's force), invincible, facing the attacker; a held dash at the end of the slide cancels into a dash towards the attacker. New `guard_slide` and `unblockable` hitbox flags, `guard_slid` signals for attacks that should react. Works on the Otaman's slam and dash cut and the boar's gore
 
-- [x] Dumas: songs sung for spirit, a new item kind with one slot and a `duma` button (U / left stick click). A planted cast with an aura spends the cost at the cast point, then the duma's `ON_USE` effects run; while a lasting one runs, no other can be sung and a line under the spirit bar shows its time left; the bar flashes when spirit is short. `duma_cost`, `duma_duration` and `duma_strength` stats. Seven dumas: pillars of fire forward, pillars on both sides, a thunderbolt, a three-shot volley, a stunning burst (new `Hitbox.stuns`), a ring of sabres that cuts enemies and destroys their shots, and heavy strikes. All in the test room
+- [x] Dumas: songs sung for spirit, a new item kind with one slot and a `duma` button (Q / left trigger, triggers can now be bound). A planted cast with an aura spends the cost at the cast point, then the duma's `ON_USE` effects run; while a lasting one runs, no other can be sung and a line under the spirit bar shows its time left; the bar flashes when spirit is short. `duma_cost`, `duma_duration` and `duma_strength` stats. Seven dumas: pillars of fire forward, pillars on both sides, a thunderbolt, a three-shot volley, a stunning burst (new `Hitbox.stuns`), a ring of sabres that cuts enemies and destroys their shots, and heavy strikes. All in the test room
 
 ## Next
 

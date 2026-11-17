@@ -7,6 +7,10 @@ extends Node
 ## gameplay code keeps reading action names. Stick directions on the move
 ## actions stay fixed. A key or button already used by another action is
 ## swapped: that action takes over the old one.
+##
+## The triggers count as buttons: Godot reports them as axes, so they get
+## the codes `LEFT_TRIGGER` and `RIGHT_TRIGGER` (past every real button)
+## and are bound as a `InputEventJoypadMotion` pulled past the deadzone.
 
 signal changed
 
@@ -31,7 +35,14 @@ const ACTIONS: Array[StringName] = [
 ## (save reset, unlock all skills).
 const RESERVED_KEYS: Array[Key] = [KEY_ESCAPE, KEY_F11, KEY_F8, KEY_F9]
 ## Start always pauses.
-const RESERVED_BUTTONS: Array[JoyButton] = [JOY_BUTTON_START]
+const RESERVED_BUTTONS: Array[int] = [JOY_BUTTON_START]
+## Gamepad codes for the triggers, used where a button index would be.
+const LEFT_TRIGGER := 100
+const RIGHT_TRIGGER := 101
+const TRIGGER_AXES: Dictionary[int, JoyAxis] = {
+	LEFT_TRIGGER: JOY_AXIS_TRIGGER_LEFT,
+	RIGHT_TRIGGER: JOY_AXIS_TRIGGER_RIGHT,
+}
 
 
 func _ready() -> void:
@@ -40,7 +51,7 @@ func _ready() -> void:
 		var binding: Variant = saved.get(String(action))
 		if binding is Array and binding.size() == 2:
 			_replace_key(action, int(binding[0]) as Key)
-			_replace_button(action, int(binding[1]) as JoyButton)
+			_replace_button(action, int(binding[1]))
 
 
 ## Physical key bound to `action`, or KEY_NONE.
@@ -51,11 +62,27 @@ func get_key(action: StringName) -> Key:
 	return KEY_NONE
 
 
-## Gamepad button bound to `action`, or JOY_BUTTON_INVALID.
-func get_button(action: StringName) -> JoyButton:
+## Gamepad button (or trigger code) bound to `action`, or
+## JOY_BUTTON_INVALID.
+func get_button(action: StringName) -> int:
 	for event in InputMap.action_get_events(action):
 		if event is InputEventJoypadButton:
 			return event.button_index
+		var trigger := trigger_code(event)
+		if trigger != JOY_BUTTON_INVALID:
+			return trigger
+	return JOY_BUTTON_INVALID
+
+
+## `LEFT_TRIGGER` or `RIGHT_TRIGGER` for a trigger pulled the right way,
+## else JOY_BUTTON_INVALID.
+static func trigger_code(event: InputEvent) -> int:
+	var motion := event as InputEventJoypadMotion
+	if motion == null or motion.axis_value <= 0.0:
+		return JOY_BUTTON_INVALID
+	for code: int in TRIGGER_AXES:
+		if TRIGGER_AXES[code] == motion.axis:
+			return code
 	return JOY_BUTTON_INVALID
 
 
@@ -70,7 +97,7 @@ func set_key(action: StringName, key: Key) -> void:
 	_commit()
 
 
-func set_button(action: StringName, button: JoyButton) -> void:
+func set_button(action: StringName, button: int) -> void:
 	var old := get_button(action)
 	if button == old or button in RESERVED_BUTTONS:
 		return
@@ -100,15 +127,22 @@ func _replace_key(action: StringName, key: Key) -> void:
 	InputMap.action_add_event(action, event)
 
 
-func _replace_button(action: StringName, button: JoyButton) -> void:
+func _replace_button(action: StringName, button: int) -> void:
 	for event in InputMap.action_get_events(action):
-		if event is InputEventJoypadButton:
+		if event is InputEventJoypadButton or trigger_code(event) != JOY_BUTTON_INVALID:
 			InputMap.action_erase_event(action, event)
 	if button == JOY_BUTTON_INVALID:
 		return
+	if TRIGGER_AXES.has(button):
+		var motion := InputEventJoypadMotion.new()
+		motion.device = -1
+		motion.axis = TRIGGER_AXES[button]
+		motion.axis_value = 1.0
+		InputMap.action_add_event(action, motion)
+		return
 	var event := InputEventJoypadButton.new()
 	event.device = -1
-	event.button_index = button
+	event.button_index = button as JoyButton
 	InputMap.action_add_event(action, event)
 
 

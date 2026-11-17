@@ -84,12 +84,12 @@ Volumes go from 0% to 100% in steps of 10 and are set with `AudioServer.set_bus_
 
 `autoload/input_settings.gd` (`InputSettings`). The page has one row per gameplay action, with a **Keyboard** column and a **Gamepad** column.
 
-1. Press a binding, then press the new key or gamepad button.
+1. Press a binding, then press the new key or gamepad button, or pull a trigger (LT, RT).
 2. Escape, Start, a mouse click or a press on the other device cancels.
 3. If another action already uses that key or button, the two actions **swap**, so no action is ever left unbound by accident.
 4. **Reset to defaults** (after a confirmation) reloads the bindings from `project.godot` and removes the `[controls]` section.
 
-Only the key and button events change. Stick directions on the move actions stay fixed. Reserved, and never bound to an action: Escape (back and pause), F11 (fullscreen), F8 (debug save reset), F9 (debug unlock all skills) and Start (pause).
+Only the key, button and trigger events change. Stick directions on the move actions stay fixed. Reserved, and never bound to an action: Escape (back and pause), F11 (fullscreen), F8 (debug save reset), F9 (debug unlock all skills) and Start (pause).
 
 Keys are stored as **physical** keycodes, like the defaults. The page shows each key as it is labelled on the player's layout.
 
@@ -103,7 +103,7 @@ Keys are stored as **physical** keycodes, like the defaults. The page shows each
 | `autoload/audio_settings.gd` | `AudioSettings`: bus volumes |
 | `autoload/accessibility_settings.gd` | `AccessibilitySettings`: screen shake, rumble |
 | `autoload/rumble.gd` | `Rumble`: gamepad vibration |
-| `autoload/input_settings.gd` | `InputSettings`: key and button bindings |
+| `autoload/input_settings.gd` | `InputSettings`: key, button and trigger bindings |
 | `default_bus_layout.tres` | Master, Music, Effects and Voice buses |
 | `ui/screen_effects/` | `ScreenEffects`, its shader, `CrtPreset` and the presets |
 | `ui/menus/options/` | The options pages, `BindingButton` |
@@ -126,4 +126,4 @@ Keys are stored as **physical** keycodes, like the defaults. The page shows each
 - No text or audio language options yet: the game has no translations or voice lines.
 - The CRT filter works at game resolution, not screen resolution, so it can't draw sub-pixel scanlines or a fine RGB mask.
 - The window can't go above the screen's usable area, so the largest windowed size may be a little smaller than the screen.
-- Gamepad buttons are named by their Xbox layout (A, B, X, Y, LB, RB).
+- Gamepad buttons are named by their Xbox layout (A, B, X, Y, LB, RB, LT, RT).

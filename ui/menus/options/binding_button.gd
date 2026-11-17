@@ -1,7 +1,8 @@
 class_name BindingButton
 extends Button
 ## Shows the key or gamepad button bound to one action. Press it, then
-## press the new key (or button) to rebind through `InputSettings`.
+## press the new key (or button, or pull a trigger) to rebind through
+## `InputSettings`.
 ##
 ## While waiting, every input goes here first. Escape, Start, a click or
 ## a press on the other device cancels.
@@ -25,6 +26,10 @@ const BUTTON_NAMES := {
 	JOY_BUTTON_DPAD_DOWN: "D-pad down",
 	JOY_BUTTON_DPAD_LEFT: "D-pad left",
 	JOY_BUTTON_DPAD_RIGHT: "D-pad right",
+	# InputSettings.LEFT_TRIGGER and RIGHT_TRIGGER (an autoload can't be
+	# read in a constant).
+	100: "LT",
+	101: "RT",
 }
 
 var action: StringName
@@ -60,10 +65,13 @@ func _input(event: InputEvent) -> void:
 		return
 	var key := event as InputEventKey
 	var button := event as InputEventJoypadButton
+	var trigger := InputSettings.trigger_code(event)
 	if key and device == Device.KEYBOARD and key.physical_keycode != KEY_ESCAPE:
 		InputSettings.set_key(action, key.physical_keycode)
 	elif button and device == Device.GAMEPAD and button.button_index != JOY_BUTTON_START:
 		InputSettings.set_button(action, button.button_index)
+	elif trigger != JOY_BUTTON_INVALID and device == Device.GAMEPAD:
+		InputSettings.set_button(action, trigger)
 	elif not (key or button or event is InputEventMouseButton):
 		return  # Stick motion and the like: keep waiting.
 	_waiting = false
@@ -86,5 +94,5 @@ static func key_name(key: Key) -> String:
 	return OS.get_keycode_string(DisplayServer.keyboard_get_keycode_from_physical(key))
 
 
-static func button_name(button: JoyButton) -> String:
+static func button_name(button: int) -> String:
 	return BUTTON_NAMES.get(button, "-" if button == JOY_BUTTON_INVALID else "Button %d" % button)
