@@ -109,7 +109,7 @@ Four more attacks come from [skills](/systems/skills). Each line has an ability 
 
 **Ranged bolt** (`PlayerRangedAttack`, state Ranged). Pressing and letting go of the `ranged` button in Idle, Run, Jump or Fall throws a `RangedBolt` for `spirit_cost` spirit, if there is enough and no bolt is flying. On the ground the player stops; in the air they hang still until the bolt is out. The bolt flies straight and vanishes; at level 2 it slows down, turns and flies back to the player, able to hit again; at level 3 it also bursts (`BoltBurst`) where it turns.
 
-Projectiles and blasts live in `actors/player/attacks/`. `PlayerProjectile` (a `Hitbox` that flies; the bolt and the wave) is added next to the player, ends on a wall (`world` layer) and is removed on a room change. `PlayerBlast` (a `Hitbox` that hits once and frees itself; the burst and the shockwave) can shake the camera.
+Projectiles and blasts live in `actors/player/attacks/`. `PlayerProjectile` (a `Hitbox` that flies; the bolt and the wave) is added next to the player, ends on a wall (`world` layer) and is removed on a room change. `PlayerBlast` (a `Hitbox` that hits once and frees itself; the burst, the shockwave and duma blasts) can shake the camera and is also removed on a room change.
 
 ### Other rules
 

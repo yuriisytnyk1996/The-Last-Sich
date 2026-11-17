@@ -9,11 +9,12 @@ extends Node
 ## point (`begin()`), where the duma's ON_USE effects start. While any of
 ## them lasts the duma is running (`is_running()`): no other can be sung,
 ## and `Events.duma_time_changed` reports the time left. Dying or
-## entering another room ends it (the `World` calls `end()`). Resting
-## doesn't.
+## resting ends it. It goes on into another room, but attacks still
+## waiting to go off are dropped there (`drop_pending()`).
 
-## Goes up each time `end()` cuts dumas short. Delayed attacks (a row of
-## pillars, a volley) note it when sung and are dropped if it changed.
+## Goes up each time delayed attacks (a row of pillars, a volley) must be
+## dropped: `end()` and `drop_pending()`. They note it when sung and
+## don't go off if it changed.
 var generation := 0
 ## The duma being sung or running. Null when none is.
 var _item: Item
@@ -26,6 +27,7 @@ var _total := 0.0
 func _ready() -> void:
 	await owner.ready
 	player.health.died.connect(end)
+	Events.rested.connect(func(_rest_point: Node2D) -> void: end())
 
 
 func _physics_process(delta: float) -> void:
@@ -88,9 +90,14 @@ func begin() -> bool:
 	return true
 
 
-## Ends the running duma at once: on death and on entering a room.
-func end() -> void:
+## Drops attacks of the last duma still waiting to go off (a new room).
+func drop_pending() -> void:
 	generation += 1
+
+
+## Ends the running duma at once: on death and on resting.
+func end() -> void:
+	drop_pending()
 	if _item:
 		player.item_effects.end_use(_item)
 	_finish()

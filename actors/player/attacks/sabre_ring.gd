@@ -7,8 +7,10 @@ extends Node2D
 ## child that hits enemies it passes and is switched off and on again
 ## every `rehit_time`, so an enemy that stays in the ring is hit again. Enemy
 ## shots (`EnemyProjectile`) that touch a sabre are destroyed. `dismiss()`
-## closes the ring over `close_time`, then frees it. A room change frees
-## it at once. Damage is scaled by `PlayerDumas.strength()`.
+## closes the ring over `close_time`, then frees it. It goes into the
+## next room with the player, jumping to them when they are more than
+## `snap_distance` away (a room change, travel). Damage is scaled by
+## `PlayerDumas.strength()`.
 
 @export var radius := 28.0
 @export var open_time := 0.5
@@ -19,6 +21,8 @@ extends Node2D
 @export var height := 16.0
 ## How fast the ring catches up with the player (higher is tighter).
 @export var follow_speed := 12.0
+## Farther than this from the player (px), the ring jumps to them.
+@export var snap_distance := 64.0
 
 var _player: Player
 var _sabres: Array[Hitbox] = []
@@ -37,7 +41,6 @@ func follow(player: Player) -> void:
 
 
 func _ready() -> void:
-	Events.room_change_requested.connect(func(_p: String, _e: StringName) -> void: queue_free())
 	for child in get_children():
 		if child is Hitbox:
 			var sabre := child as Hitbox
@@ -66,7 +69,11 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		return
 	var target := _player.global_position + Vector2.UP * height
-	global_position = global_position.lerp(target, minf(follow_speed * delta, 1.0))
+	if global_position.distance_to(target) > snap_distance:
+		global_position = target
+		reset_physics_interpolation()
+	else:
+		global_position = global_position.lerp(target, minf(follow_speed * delta, 1.0))
 	_angle = wrapf(_angle + TAU * turns_per_second * delta, 0.0, TAU)
 	for i in _sabres.size():
 		var angle := _angle + TAU * i / _sabres.size()

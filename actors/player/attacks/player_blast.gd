@@ -1,7 +1,8 @@
 class_name PlayerBlast
 extends Hitbox
 ## A short burst that hits everything inside it once, then frees itself:
-## the returning bolt's burst and the dive's shockwave.
+## the returning bolt's burst, the dive's shockwave and duma blasts. A
+## room change frees it at once.
 
 ## Seconds the blast stays on.
 @export var duration := 0.15
@@ -26,6 +27,7 @@ func _ready() -> void:
 	super()
 	set_active(true)
 	_time_left = duration
+	Events.room_change_requested.connect(func(_p: String, _e: StringName) -> void: queue_free())
 	if shake > 0.0:
 		Events.camera_shake_requested.emit(shake)
 
