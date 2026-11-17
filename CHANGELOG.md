@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.11](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.10...v0.0.11) (2026-11-17)
+
+### Features
+
+* **traversal:** add ability-gated traversal with wall jump, relics, levers, gates and chests ([5500005](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/5500005f94ce145a8e8603ac188bf4ebc0643cbc))
+
 ## [0.0.10](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.9...v0.0.10) (2026-11-16)
 
 ### Features
