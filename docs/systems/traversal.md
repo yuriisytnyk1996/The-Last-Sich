@@ -67,6 +67,21 @@ The typical use is a **shortcut**: a gate near the start of an area with its lev
 
 Both are saved. The lever remembers being pulled; the gate remembers being open and locked. Loading a room restores each one directly and never calls `toggle()` again, so a target can't be flipped twice.
 
+### Pressure plates
+
+`PressurePlate` (`levels/objects/mechanisms/pressure_plate.gd`) is a plate on the floor, pressed by any body on the `player` or `enemies` layer standing on it. Pressing calls `set_open(true)` on every node in `targets`. A `Gate` has it, and so can anything else. Its `mode` decides what happens when the plate is left:
+
+| `mode` | Stepping off | Saved |
+|---|---|---|
+| `HOLD` (default) | Calls `set_open(false)` on the targets after `release_delay`. Stepping back on before then cancels the close | No |
+| `LATCH` | Nothing: the plate stays down and the targets stay open | Yes, the plate stays down |
+
+With a `release_delay`, a `HOLD` plate makes a **timed gate**: step on, then run through before it shuts. Several bodies can stand on a plate at once; it rises only when the last one leaves.
+
+A `HOLD` plate owns its targets. When its room loads and nothing is on it, it shuts them at once, after the saved state is restored. Leaving the room while a gate is open can't leave it open for good. Don't drive the same gate with a `HOLD` plate and a lever.
+
+The `Top` child sinks `press_depth` px while the plate is down. Origin is the bottom centre, so place it on the floor.
+
 ### Chests
 
 `Chest` (`levels/objects/items/chest.gd`) opens once with interact. It gives its `item` through `PlayerInventory.add()` (with the HUD toast) and `currency` straight to the wallet, not scaled by the [death penalty](/systems/death-penalty), since it is a fixed treasure, not a kill reward. Opened chests stay open (saved) and block their own prompt.
@@ -83,7 +98,7 @@ A secret is closed off by a **secret wall** (`levels/objects/breakables/secret_w
 
 ### Saving
 
-Lever, gate, chest and secret wall join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
+Lever, gate, pressure plate, chest and secret wall join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
 
 ## Test vault layout
 
@@ -95,6 +110,8 @@ Lever, gate, chest and secret wall join the `persistent` group, so the [save sys
 4. **Ground floor east**: a chest with the **seer's lantern**, a relic to wear from the inventory. The player drops down here from the upper floor, or walks through the opened gate.
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
 6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300 and a free [health upgrade](/systems/upgrades). The alcove runs through the room's east wall into the **test hideout** (`test_hideout.tscn`, 640×360): a hidden room with a chest worth 250 on a one-way ledge. Its `map_hides` covers the alcove and the `East` exit, so the map shows a closed wall there until the wall breaks.
+
+The hideout also tests [pressure plates](#pressure-plates). On its floor, a `HOLD` plate (x 336, `release_delay` 2 s) opens the timed gate at x 528, and a `LATCH` plate (x 400) opens the gate at x 592 for good.
 
 The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
 
@@ -115,6 +132,7 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `levels/objects/breakables/secret_wall.tscn` | Secret wall: a `Breakable` drawn like the terrain, covering the secret behind it |
 | `levels/objects/mechanisms/lever.gd`, `.tscn` | `Lever`: toggles its targets |
 | `levels/objects/mechanisms/gate.gd`, `.tscn` | `Gate`: blocks the way until opened |
+| `levels/objects/mechanisms/pressure_plate.gd`, `.tscn` | `PressurePlate`: opens its targets while pressed or for good |
 | `levels/objects/items/chest.gd`, `.tscn` | `Chest`: gives an item and currency once |
 | `levels/rooms/test_vault.tscn`, `test_vault/` | Test room with every piece |
 
@@ -144,6 +162,9 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `move_time` | `Gate` | 0.5 | Time to open or close (s) |
 | `move_shake` | `Gate` | 0.2 | Camera trauma when it moves |
 | `open_scale` | `Gate` | 0.1 | How much of the gate still shows when open |
+| `mode` | `PressurePlate` | `HOLD` | `HOLD` opens the targets while pressed, `LATCH` opens them for good |
+| `release_delay` | `PressurePlate` | 0 | `HOLD`: seconds after stepping off before the targets close |
+| `press_depth` | `PressurePlate` | 2 | How far the top sinks when pressed (px) |
 | `currency` | `Chest` | 0 | Currency inside. Secret chest in the vault: 300, in the hideout: 250 |
 | `open_angle` | `Chest` | -2.0 | Lid angle when open (radians) |
 | `hits` | secret wall | 3 | Hits to break it |

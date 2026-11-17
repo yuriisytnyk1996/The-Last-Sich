@@ -82,6 +82,7 @@
 - [x] Travel between rest points: with the Chumak's whip (keepsake, test house shop), resting makes the player kneel and offers the travel map; the cursor hops between found rest points (cone search, eased glide, pulsing cursor) and attack travels there with a fade, making it the respawn point. Second rest point in the test cave
 - [x] Spirit at rest points: the Icon lamp (keepsake, test house shop) makes resting fill spirit and death respawn it full; without it, death now empties spirit. Spirit still starts empty on load
 - [x] Attack speed, run speed and critical hits as stats: attack speed shortens swing startup and recovery, run speed drives running, crit chance and crit damage roll per hit with a gold flash and stronger feedback. Three charms (hare foot, quick bracer, raven eye) in the test room
+- [x] Pressure plates: pressed by the player or an enemy standing on them; `HOLD` keeps gates open while pressed (with an optional close delay for timed gates), `LATCH` opens them for good (saved). Two test plates in the test hideout
 
 ## Next
 
@@ -94,7 +95,7 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Audio
 - [ ] Spirit abilities that spend spirit
 - [ ] Map: completion percentage, items that reveal a zone
-- [ ] Gates opened by attacks or pressure plates; feedback for a lever pulled without its key
+- [ ] Gates opened by attacks; feedback for a lever pulled without its key
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -129,5 +130,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Flat rectangles for moving platforms, elevators and their levers
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
 - Drawn tints for zones and drifting line streaks for wind
-- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
+- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

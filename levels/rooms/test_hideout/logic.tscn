@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="1_exit"]
 [ext_resource type="PackedScene" path="res://levels/objects/items/chest.tscn" id="2_chest"]
+[ext_resource type="PackedScene" path="res://levels/objects/mechanisms/gate.tscn" id="3_gate"]
+[ext_resource type="PackedScene" path="res://levels/objects/mechanisms/pressure_plate.tscn" id="4_plate"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -33,3 +35,21 @@ position = Vector2(40, 32)
 [node name="HideoutChest" parent="Chests" instance=ExtResource("2_chest")]
 position = Vector2(432, 272)
 currency = 250
+
+[node name="Mechanisms" type="Node2D" parent="."]
+
+[node name="TimedGate" parent="Mechanisms" instance=ExtResource("3_gate")]
+position = Vector2(528, 352)
+
+[node name="TimedPlate" parent="Mechanisms" node_paths=PackedStringArray("targets") instance=ExtResource("4_plate")]
+position = Vector2(336, 352)
+targets = [NodePath("../TimedGate")]
+release_delay = 2.0
+
+[node name="LatchGate" parent="Mechanisms" instance=ExtResource("3_gate")]
+position = Vector2(592, 352)
+
+[node name="LatchPlate" parent="Mechanisms" node_paths=PackedStringArray("targets") instance=ExtResource("4_plate")]
+position = Vector2(400, 352)
+targets = [NodePath("../LatchGate")]
+mode = 1
