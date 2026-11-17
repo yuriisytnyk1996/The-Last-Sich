@@ -28,9 +28,9 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 
 The left hand stays on WASD with dash (Shift), interact (E), heal (F) and jump (Space) in reach; the right hand has attack (J), parry (K) and ranged (L).
 
-The game is played with keyboard or gamepad, menus included. The `Cursor` autoload (`autoload/cursor.gd`) hides the mouse cursor from the start; in debug builds F10 shows it again for mouse-only debug buttons. Clicks still reach menus with the cursor hidden.
+The game is played with keyboard or gamepad, menus included.
 
-All actions use a dead zone of 0.3. Debug-only keys are not actions: F8 deletes the save and restarts (see [Save system](/systems/save-system)), F9 learns every skill (see [Skills](/systems/skills#debug)), F10 shows or hides the mouse cursor. Keys are bound by **physical** position, so the layout works the same on QWERTY, AZERTY and Cyrillic keyboards.
+All actions use a dead zone of 0.3. Debug-only keys are not actions: F8 deletes the save and restarts (see [Save system](/systems/save-system)), and F9 learns every skill (see [Skills](/systems/skills#debug)). Keys are bound by **physical** position, so the layout works the same on QWERTY, AZERTY and Cyrillic keyboards.
 
 ## Reading input in code
 
@@ -44,7 +44,7 @@ Menus use Godot's built-in `ui_*` actions: arrow keys, D-pad and left stick to m
 
 ## Rebinding
 
-Players rebind the gameplay actions in **Options → Controls**. `InputSettings` swaps the key or button event in the `InputMap`, so code reading action names is unaffected. Escape, F11, F8, F9, F10 and Start are reserved. See [Options](/systems/options#controls).
+Players rebind the gameplay actions in **Options → Controls**. `InputSettings` swaps the key or button event in the `InputMap`, so code reading action names is unaffected. Escape, F11, F8, F9 and Start are reserved. See [Options](/systems/options#controls).
 
 ## Planned
 

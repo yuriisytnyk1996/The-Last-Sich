@@ -26,7 +26,6 @@ AudioSettings="*res://autoload/audio_settings.gd"
 AccessibilitySettings="*res://autoload/accessibility_settings.gd"
 Rumble="*res://autoload/rumble.gd"
 InputSettings="*res://autoload/input_settings.gd"
-Cursor="*res://autoload/cursor.gd"
 
 [display]
 

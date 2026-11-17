@@ -104,7 +104,7 @@ The test room holds the hare foot, quick bracer and raven eye, past the training
 
 ### Debug
 
-In debug builds the inventory page footer has a **Debug: get all** button (mouse only: press F10 to show the cursor) (`PlayerInventory.add_all()`). It adds every item without the HUD toast; they are saved like normal items the next time the game saves.
+In debug builds the inventory page footer has a **Debug: get all** button (mouse only) (`PlayerInventory.add_all()`). It adds every item without the HUD toast; they are saved like normal items the next time the game saves.
 
 ## Files
 

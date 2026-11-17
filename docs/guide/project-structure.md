@@ -19,7 +19,6 @@ The-Last-Sich/
 │   ├── audio_settings.gd         Bus volumes (autoload "AudioSettings")
 │   ├── accessibility_settings.gd Screen shake and rumble toggles (autoload "AccessibilitySettings")
 │   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
-│   ├── cursor.gd                 Hides the mouse cursor; F10 shows it in debug builds (autoload "Cursor")
 │   ├── rumble.gd                 Gamepad vibration (autoload "Rumble")
 │   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
 │   └── save_manager.gd           Save snapshot, load and save, room state (autoload "SaveManager")
