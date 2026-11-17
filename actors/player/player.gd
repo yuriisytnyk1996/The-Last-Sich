@@ -74,6 +74,7 @@ var _dash_cooldown_timer := 0.0
 @onready var wall_jump: PlayerWallJump = $WallJump
 @onready var flasks: PlayerFlasks = $Flasks
 @onready var parry: PlayerParry = $Parry
+@onready var guard_slide: PlayerGuardSlide = $GuardSlide
 @onready var wallet: PlayerWallet = $Wallet
 @onready var safe_ground: PlayerSafeGround = $SafeGround
 @onready var spirit: PlayerSpirit = $Spirit
@@ -171,9 +172,13 @@ func wants_dash() -> bool:
 	return (
 		Input.is_action_just_pressed("dash")
 		and not Input.is_action_just_pressed("jump")
-		and _dash_cooldown_timer <= 0.0
-		and is_on_floor()
+		and dash_ready()
 	)
+
+
+## The dash is off cooldown and the player is on the ground.
+func dash_ready() -> bool:
+	return _dash_cooldown_timer <= 0.0 and is_on_floor()
 
 
 func start_dash() -> void:

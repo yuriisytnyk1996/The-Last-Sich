@@ -65,7 +65,8 @@ The-Last-Sich/
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
 │   │   │   ├── spirit.gd         Spirit, filled by landing hits
 │   │   │   ├── area_effects.gd   Combines the wind and mud zones the player is in
-│   │   │   └── parry.gd          Parry and riposte tuning (windows from stats)
+│   │   │   ├── parry.gd          Parry and riposte tuning (windows from stats)
+│   │   │   └── guard_slide.gd    Guard slide tuning: sliding back from a heavy hit on the guard
 │   │   ├── items/                Items the player carries
 │   │   │   ├── item.gd           Item resource: id, text, kind, price, effects
 │   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect
@@ -100,6 +101,7 @@ The-Last-Sich/
 │   │       ├── heal.gd           Drinking a healing flask
 │   │       ├── kneel.gd          Kneeling at a rest point before the travel prompt
 │   │       ├── parry.gd          Guard up, deflects parryable hits
+│   │       ├── guard_slide.gd    Slid back by a heavy hit caught on the guard
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       ├── attacks/          One script per attack

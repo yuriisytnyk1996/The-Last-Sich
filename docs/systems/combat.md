@@ -143,6 +143,7 @@ Parrying turns an enemy's swing into an opening. Press **parry** on the ground, 
 ```
 Idle / Run ──parry──► Parry: GUARD (parry_window)
                         │ parryable hit lands ──► SUCCESS: no damage, attacker stunned, invincible
+                        │ heavy hit lands ──► GuardSlide: no damage, slid back (see Guard slide)
                         │                           ├─ attack within riposte_window ──► Riposte
                         │                           └─ window over ──► Idle / Run
                         └ nothing caught ──► FAILED: stuck for fail_recovery ──► Idle / Run
@@ -157,7 +158,27 @@ Idle / Run ──parry──► Parry: GUARD (parry_window)
 
 A guard that catches nothing leaves the player stuck in place for `fail_recovery`, open to the attack they mistimed. That is the cost of parrying: pressing too early is punished as much as not pressing at all.
 
-**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and projectiles (the musketeer's ball) are not, and still hit during the guard. The raider's `Slash`, the shieldbearer's `Thrust` and the crow's `Talons` are parryable. The boar's `Gore` is not.
+**What can be parried:** only hitboxes with `parryable` on. Telegraphed melee swings are parryable; contact damage, hazards and projectiles (the musketeer's ball) are not, and still hit during the guard. The raider's `Slash`, the shieldbearer's `Thrust` and the crow's `Talons` are parryable. The boar's `Gore` is not, but it is HEAVY, so the guard takes it as a [guard slide](#guard-slide).
+
+## Guard slide
+
+A heavy blow can't be parried, but a guard raised in time still catches it: the player takes no damage and is pushed back along the ground, then recovers. It rewards the same timing as a parry against attacks that can't be turned into an opening.
+
+```
+Parry: GUARD ──heavy hit──► GuardSlide: hit-stop, then slide away (slide_time), invincible
+                              ├─ last recover_window, dash held ──► Dash (towards the attacker)
+                              ├─ wall or end of slide ──► Idle / Run
+                              └─ runs off a ledge ──► Fall
+```
+
+1. While `Hurtbox.parrying` is on, a hitbox for which **`can_guard_slide()`** is true is taken as a guard slide. That is a HEAVY hit, or any hit with `guard_slide` on, unless it is `unblockable`, `continuous` (contact damage and hazards) or `parryable` (that hit is parried instead).
+2. The hurtbox emits `guard_slid(hitbox)` and calls `hitbox.register_guard_slide()`, which emits the hitbox's own `guard_slid(hurtbox)`. No damage, no `hurt`, no invincibility check. An attack that should react to being guarded listens to the hitbox's signal; an `EnemyProjectile` vanishes.
+3. The Parry state hands the hit to `PlayerGuardSlide.start()` and enters **GuardSlide**. The slide goes the way the hit pushes (`Hitbox.push_direction()`), `knockback_force × distance_per_force` pixels: the Otaman's slam (160) slides 56 px, the boar's gore (220) 77 px.
+4. A hit-stop, camera shake and rumble play first. The slide starts when the freeze ends, fast and slowing down (`slide_ease`). The player faces the attacker and is invincible throughout.
+5. In the last `recover_window` the guard bar drops, and holding **dash** (with the dash off cooldown) cancels into a dash towards the attacker.
+6. A wall stops the slide early. Running off a ledge drops into Fall. After the slide, invincibility lasts `grace_time` more.
+
+The slide fills no spirit and gives no riposte window: it only saves the player from the hit.
 
 ## Blocking
 
@@ -261,6 +282,8 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `actors/player/abilities/parry.gd` | `PlayerParry`: parry and riposte tuning, `wants()`, success feedback |
 | `actors/player/states/parry.gd` | Guard, success and failed phases |
 | `actors/player/states/attacks/riposte.gd` | Lunging heavy slash after a parry |
+| `actors/player/abilities/guard_slide.gd` | `PlayerGuardSlide`: guard slide tuning, the slide resolved from the hit, feedback |
+| `actors/player/states/guard_slide.gd` | Sliding back after a heavy hit caught on the guard, dash cancel |
 | `actors/training_dummy/training_dummy.tscn` | Dummy scene |
 | `actors/training_dummy/training_dummy.gd` | Hit reaction, break and rebuild |
 
@@ -278,6 +301,8 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `active_on_start` | false | On for hazards that always hurt |
 | `continuous` | false | Hits a hurtbox again when its invincibility ends while still inside. For hazards |
 | `parryable` | false | A parrying hurtbox deflects this hit instead of taking it. For telegraphed melee swings |
+| `guard_slide` | false | A parrying hurtbox takes this hit as a [guard slide](#guard-slide) even if it isn't HEAVY |
+| `unblockable` | false | Never a guard slide, even when HEAVY: the hit lands through the guard |
 
 ### Hurtbox
 
@@ -419,6 +444,22 @@ Set on the **`Riposte`** state node:
 
 The `Visual/Attacks/Riposte` hitbox at (18, -16), 28×20, deals 60 damage with a HEAVY reaction and `knockback_force` 180.
 
+### Guard slide
+
+Set on the player's **`GuardSlide`** child node (`PlayerGuardSlide`).
+
+| Group | Value | Default | Effect |
+|---|---|---|---|
+| Slide | `distance_per_force` | 0.35 | Pixels slid per point of the hit's `knockback_force` |
+| Slide | `slide_time` | 0.5 | How long the slide takes, after the hit-stop (s) |
+| Slide | `slide_ease` | 0.4 | Ease of the slide; below 1 starts fast and slows down |
+| Slide | `recover_window` | 0.35 | Last part of the slide (s): the guard drops and a held dash cancels it |
+| Slide | `grace_time` | 0.1 | Invincibility after the slide ends (s) |
+| Feedback | `hit_stop` | 0.1 | Freeze when the hit is caught (s) |
+| Feedback | `shake` | 0.4 | Camera trauma when the hit is caught |
+| Feedback | `rumble` | 0.7 | Gamepad rumble strength when the hit is caught |
+| Feedback | `rumble_time` | 0.2 | Rumble length (s) |
+
 ### Training dummy
 
 | Value | Default | Effect |
@@ -450,5 +491,7 @@ Its health is set on its `Health` child node.
 - The three basic attacks share one set of timings.
 - Parrying is ground only, and only from Idle or Run: it can't cancel an attack, a dash or a hurt stagger.
 - No parry sound or guard animation, and the riposte isn't a special finishing move: it is a strong slash.
+- The guard slide has no slide animation, dust or impact effect: the guard bar flashes and the placeholder body moves. It only slides along flat ground; slopes don't exist yet.
+- No enemy reacts to a guard slide yet; `Hitbox.guard_slid` is there for attacks that should.
 - Placeholder rectangles for the slash and the dummy.
 - A blocked hit has no recoil on the attacker and no block sound: only the shield flashes.

@@ -12,6 +12,9 @@ signal hurt(hitbox: Hitbox)
 signal parried(hitbox: Hitbox)
 ## `guard` turned the hit away (a raised shield). No damage taken.
 signal blocked(hitbox: Hitbox)
+## A hit that `can_guard_slide()` arrived while `parrying` was on. No
+## damage taken; the owner slides back.
+signal guard_slid(hitbox: Hitbox)
 
 @export var health: Health
 ## Seconds of immunity after a hit. 0 means every new hit counts.
@@ -84,6 +87,10 @@ func _on_area_entered(area: Area2D) -> void:
 	if parrying and hitbox.parryable:
 		parried.emit(hitbox)
 		hitbox.register_parry(self)
+		return
+	if parrying and hitbox.can_guard_slide():
+		guard_slid.emit(hitbox)
+		hitbox.register_guard_slide(self)
 		return
 	if is_invincible() or (ignore_continuous and hitbox.continuous):
 		return

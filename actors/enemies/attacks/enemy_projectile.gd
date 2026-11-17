@@ -20,6 +20,7 @@ func _ready() -> void:
 	monitoring = true
 	body_entered.connect(_on_body_entered)
 	hit_landed.connect(_on_hit_landed)
+	guard_slid.connect(_on_hit_landed)
 	Events.room_change_requested.connect(_on_room_change_requested)
 
 

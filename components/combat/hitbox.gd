@@ -15,6 +15,10 @@ signal parried(hurtbox: Hurtbox)
 ## Emitted when a Hurtbox's guard (a shield) blocks this hitbox. No damage
 ## is dealt. A projectile listens to this to stop.
 signal blocked(hurtbox: Hurtbox)
+## Emitted when a parrying Hurtbox takes this hit as a guard slide
+## (`can_guard_slide()`): no damage, the defender slides back. An attack
+## that should react to being guarded listens to this.
+signal guard_slid(hurtbox: Hurtbox)
 
 ## How hard the receiver reacts. LIGHT: damage and flash, no knockback or
 ## stagger. NORMAL: stagger and knockback. HEAVY: longer stagger, more
@@ -53,6 +57,11 @@ const RESIST_STATS: Dictionary[Element, StringName] = {
 ## A parrying hurtbox can deflect this hit. For telegraphed melee swings,
 ## not for contact damage, hazards or projectiles.
 @export var parryable := false
+## A parrying hurtbox takes this hit as a guard slide even if it isn't
+## HEAVY. See `can_guard_slide()`.
+@export var guard_slide := false
+## No guard slide, even for a HEAVY hit: the hit lands through the guard.
+@export var unblockable := false
 
 ## Stats of whoever deals this hit. Their `Stats.DAMAGE` scales `damage`.
 ## Optional: without it the base damage is dealt.
@@ -104,6 +113,20 @@ func register_parry(hurtbox: Hurtbox) -> void:
 ## Called by the Hurtbox whose guard blocked this hit. No damage is dealt.
 func register_block(hurtbox: Hurtbox) -> void:
 	blocked.emit(hurtbox)
+
+
+## Called by the Hurtbox that guard-slid this hit. No damage is dealt.
+func register_guard_slide(hurtbox: Hurtbox) -> void:
+	guard_slid.emit(hurtbox)
+
+
+## A parrying hurtbox turns this hit into a guard slide: a HEAVY hit or one
+## with `guard_slide` on, unless it is `unblockable` or `continuous`
+## (contact damage and hazards). `parryable` wins: that hit is parried.
+func can_guard_slide() -> bool:
+	if unblockable or continuous or parryable:
+		return false
+	return guard_slide or reaction == Reaction.HEAVY
 
 
 ## Decides whether the next hit is critical, from the attacker's

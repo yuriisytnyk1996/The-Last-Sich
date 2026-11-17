@@ -29,6 +29,7 @@ const DIVE := &"Dive"
 const RANGED := &"Ranged"
 const PARRY := &"Parry"
 const RIPOSTE := &"Riposte"
+const GUARD_SLIDE := &"GuardSlide"
 const HURT := &"Hurt"
 const DEAD := &"Dead"
 

@@ -5,7 +5,9 @@ extends PlayerState
 ## switches to SUCCESS: the player turns to the attacker, is invincible and
 ## can press attack for a Riposte within `riposte_window()`. A guard that
 ## caught nothing ends in FAILED, stuck in place for `fail_recovery`.
-## Unparryable hits (contact, hazards) still land and interrupt it.
+## A heavy hit that isn't parryable (`Hitbox.can_guard_slide()`) is taken
+## as a GuardSlide instead. Other unparryable hits (contact, hazards)
+## still land and interrupt it.
 
 enum Phase { GUARD, SUCCESS, FAILED }
 
@@ -20,6 +22,7 @@ var _flash: Tween
 func _ready() -> void:
 	await owner.ready
 	player.hurtbox.parried.connect(_on_parried)
+	player.hurtbox.guard_slid.connect(_on_guard_slid)
 
 
 func enter(_previous_state: StringName) -> void:
@@ -77,6 +80,14 @@ func _on_parried(hitbox: Hitbox) -> void:
 		player.set_facing(direction)
 	player.parry.play_feedback()
 	_flash_guard()
+
+
+## A heavy hit caught on the guard: slide back instead of parrying.
+func _on_guard_slid(hitbox: Hitbox) -> void:
+	if _phase != Phase.GUARD:
+		return
+	player.guard_slide.start(hitbox)
+	finished.emit(GUARD_SLIDE)
 
 
 func _flash_guard() -> void:

@@ -54,8 +54,8 @@ A Cossack war-chief with a sabre and a pistol: 600 health, two phases split at h
 | Attack | Range (px) | Phases | What it does | How to answer |
 |---|---|---|---|---|
 | `SaberCombo` | 0 to 50 | 1, 2 | Three swings stepping forward, turning to the player before each. Only the last, heavy swing can be parried | Guard or back off from the first two, parry the third for a riposte |
-| `LeapSlam` | 70 to 260 | 1, 2 | Crouches, leaps to where the player stands (up to 220 px), slams down and sends a low shockwave along the floor each way | Move out from under it, then jump the shockwave |
-| `DashCut` | 60 to 200 | 1, 2 | Draws back, then dashes along the floor with the blade low. Can't be parried | Jump over it |
+| `LeapSlam` | 70 to 260 | 1, 2 | Crouches, leaps to where the player stands (up to 220 px), slams down and sends a low shockwave along the floor each way | Move out from under it, or guard the slam for a guard slide, then jump the shockwave |
+| `DashCut` | 60 to 200 | 1, 2 | Draws back, then dashes along the floor with the blade low. Can't be parried | Jump over it, or guard it for a guard slide |
 | `PistolVolley` | 90 to 400 | 2 | Three pistol shots, each aimed at the player afresh, then a long reload. Can't be parried | Keep moving, punish the reload |
 
 The combo is the most likely pick up close (`weight` 3). From further away it leaps or dashes, and in phase 2 it can also shoot.

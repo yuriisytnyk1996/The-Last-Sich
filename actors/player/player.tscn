@@ -29,6 +29,8 @@
 [ext_resource type="Script" path="res://actors/player/abilities/parry.gd" id="26_parry"]
 [ext_resource type="Script" path="res://actors/player/states/parry.gd" id="27_parry_state"]
 [ext_resource type="Script" path="res://actors/player/states/attacks/riposte.gd" id="28_riposte"]
+[ext_resource type="Script" path="res://actors/player/abilities/guard_slide.gd" id="gs_ability"]
+[ext_resource type="Script" path="res://actors/player/states/guard_slide.gd" id="gs_state"]
 [ext_resource type="Script" path="res://actors/player/abilities/wallet.gd" id="29_wallet"]
 [ext_resource type="Script" path="res://actors/player/abilities/upgrades.gd" id="29_upgrades"]
 [ext_resource type="Script" path="res://actors/player/abilities/safe_ground.gd" id="30_safe_ground"]
@@ -541,6 +543,9 @@ script = ExtResource("24_flasks")
 [node name="Parry" type="Node" parent="."]
 script = ExtResource("26_parry")
 
+[node name="GuardSlide" type="Node" parent="."]
+script = ExtResource("gs_ability")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -30)
 process_callback = 0
@@ -608,6 +613,10 @@ hitbox = NodePath("../../Visual/Attacks/Crouch")
 
 [node name="Parry" type="Node" parent="StateMachine" node_paths=PackedStringArray("guard")]
 script = ExtResource("27_parry_state")
+guard = NodePath("../../Visual/Guard")
+
+[node name="GuardSlide" type="Node" parent="StateMachine" node_paths=PackedStringArray("guard")]
+script = ExtResource("gs_state")
 guard = NodePath("../../Visual/Guard")
 
 [node name="Riposte" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]

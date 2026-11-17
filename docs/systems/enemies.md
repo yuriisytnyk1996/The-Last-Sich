@@ -55,7 +55,7 @@ When the state ends, for any reason, the hitbox turns off and the `cooldown` sta
 
 ### Projectiles
 
-`EnemyProjectile` (`actors/enemies/attacks/`) is a `Hitbox` that flies. `launch(from, direction)` places it and turns it to face the direction, then it flies in a straight line at `speed`. It vanishes on its first hit, on a wall, after `lifetime`, or on a room change. Its mask is `world` only, so it flies through one-way platforms. It is added next to the enemy that fired it, so it keeps flying if the enemy dies. Projectiles are never `parryable`: the player jumps over them or gets out of the way.
+`EnemyProjectile` (`actors/enemies/attacks/`) is a `Hitbox` that flies. `launch(from, direction)` places it and turns it to face the direction, then it flies in a straight line at `speed`. It vanishes on its first hit (or a [guard slide](/systems/combat#guard-slide), for a HEAVY one), on a wall, after `lifetime`, or on a room change. Its mask is `world` only, so it flies through one-way platforms. It is added next to the enemy that fired it, so it keeps flying if the enemy dies. Projectiles are never `parryable`: the player jumps over them or gets out of the way.
 
 ### Contact damage
 
@@ -166,7 +166,7 @@ Chase ──in attack_range, sees the player, off cooldown──► Charge
 ```
 
 1. **Wind-up.** It faces the player, stands and shows its telegraph. A hit here interrupts it.
-2. **Charge.** It runs ahead for up to `active` seconds, with a HEAVY, unparryable `Gore` hitbox. It doesn't follow the player: jump over it or step onto something.
+2. **Charge.** It runs ahead for up to `active` seconds, with a HEAVY, unparryable `Gore` hitbox. It doesn't follow the player: jump over it, step onto something, or catch it on the guard for a [guard slide](/systems/combat#guard-slide).
 3. **Wall.** It crashes, bounces back at `crash_bounce` and is dazed for `stun_time` (the Stunned state), the best opening.
 4. **Ledge.** It stops dead at the edge and never runs off. A skid in recovery stops at ledges too.
 5. **Recovery.** A skid with low friction, then the cooldown.

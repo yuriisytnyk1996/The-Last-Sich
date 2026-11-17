@@ -90,6 +90,8 @@
 
 - [x] Bosses: a `Boss` base with phases at health thresholds (faster timings, new attacks), shared Dormant, Roar and Decide states, weighted `BossAttack`s picked by range and phase, no flinching but parries still stun; `BossArena` closes its gates when the player walks in, reopens them on a win or a death, gives an item and saves the win; a boss bar in the HUD. First boss, the Otaman: three-swing sabre combo (last swing parryable), leap slam with floor shockwaves, dash cut, and a pistol volley in phase 2. Test arena behind the test barracks' east door
 
+- [x] Guard slide: a HEAVY hit caught on the parry guard deals no damage and slides the player back (distance from the hit's force), invincible, facing the attacker; a held dash at the end of the slide cancels into a dash towards the attacker. New `guard_slide` and `unblockable` hitbox flags, `guard_slid` signals for attacks that should react. Works on the Otaman's slam and dash cut and the boar's gore
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -139,4 +141,4 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Drawn tints for zones and drifting line streaks for wind
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
-- Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash
+- Blue bar for the parry guard (flashed and slid along for a guard slide), a bar above the head for a stunned enemy, a gold rectangle for the riposte slash
