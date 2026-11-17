@@ -8,8 +8,13 @@ extends Node
 ## `Events.spirit_short` flashes the HUD. The spirit is spent at the cast
 ## point (`begin()`), where the duma's ON_USE effects start. While any of
 ## them lasts the duma is running (`is_running()`): no other can be sung,
-## and `Events.duma_time_changed` reports the time left. Dying ends it.
+## and `Events.duma_time_changed` reports the time left. Dying or
+## entering another room ends it (the `World` calls `end()`). Resting
+## doesn't.
 
+## Goes up each time `end()` cuts dumas short. Delayed attacks (a row of
+## pillars, a volley) note it when sung and are dropped if it changed.
+var generation := 0
 ## The duma being sung or running. Null when none is.
 var _item: Item
 var _time_left := 0.0
@@ -83,8 +88,9 @@ func begin() -> bool:
 	return true
 
 
-## Ends the running duma at once (on death).
+## Ends the running duma at once: on death and on entering a room.
 func end() -> void:
+	generation += 1
 	if _item:
 		player.item_effects.end_use(_item)
 	_finish()

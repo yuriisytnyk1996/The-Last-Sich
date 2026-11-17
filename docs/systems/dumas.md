@@ -24,7 +24,7 @@ Idle / Run ──duma pressed──► can sing? ──no──► Events.spirit
 4. At the cast point it calls `PlayerDumas.begin()`. The spirit is spent, and `PlayerItemEffects.use(item, extra)` starts every `ON_USE` effect of the duma. Effects with a `duration` run for that long plus the `duma_duration` stat, then stop on their own.
 5. The aura flashes and fades during `recovery`, then the player is back in Idle or Run. A hit before the cast point interrupts the cast and nothing is spent. Walking off a ledge drops into Fall.
 6. While the longest lasting effect runs, the duma is **running** (`PlayerDumas.is_running()`). Each frame `Events.duma_time_changed(fraction_left)` reports the time left, and the [HUD](/systems/hud#spirit-bar-and-death-marks) draws it as a line under the spirit bar. A duma with only instant effects never runs.
-7. Death ends a running duma at once (`PlayerDumas.end()`, on `Health.died`), stopping its effects.
+7. Death ends a running duma at once, and drops pillars and shots still waiting to go off (`PlayerDumas.generation`) (`PlayerDumas.end()`, on `Health.died`), stopping its effects. So does **entering a room** (through an exit, travel or a respawn): `World._load_room()` calls `end()`, so the sabre ring and heavy strikes stop, the HUD line clears, and a duma can be sung again at once. **Resting** doesn't end it: the time keeps running while the player kneels.
 8. **Swapping while one runs:** the running duma is the one sung, not the one worn. Wearing another duma, or taking every duma off, doesn't stop it: its effects (a sabre ring, heavy strikes) keep going until their time runs out, and `duma` still does nothing until then. The newly worn duma can be sung once it ends. `PlayerItemEffects` stops `ON_USE` effects by their timer whatever is worn.
 
 ### Duma effects
@@ -139,5 +139,4 @@ Attack scenes:
 
 - Placeholder rectangles for the aura, pillars, beam, burst, shots and sabres. No singing sound.
 - Hits from duma attacks don't fill spirit and don't set off `ON_HIT` item effects (they are spawned after the player is ready).
-- Blasts of a row still waiting to go off are not cancelled by a room change or death.
 - Only Idle and Run can start a duma; a press during a swing or in the air is ignored without a flash.

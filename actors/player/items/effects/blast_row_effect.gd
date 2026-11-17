@@ -7,6 +7,8 @@ extends ItemEffect
 ## The first blast goes off `offset` px in front of the player's feet,
 ## the next ones `spacing` further each, spread evenly over `spread_time`.
 ## A wall ends the row. Damage is scaled by `PlayerDumas.strength()`.
+## Blasts still waiting are dropped if the duma was cut short
+## (`PlayerDumas.generation`: death, a new room) or the player is gone.
 
 ## Height above the feet the wall check runs at (px).
 const WALL_CHECK_HEIGHT := 8.0
@@ -40,6 +42,7 @@ func start(player: Player, _source: StringName) -> void:
 func _start_row(player: Player, direction: float) -> void:
 	var feet := player.global_position
 	var parent := player.get_parent()
+	var generation := player.dumas.generation
 	for i in count:
 		var point := feet + Vector2(direction * (offset + spacing * i), 0.0)
 		if _blocked(player, feet, point):
@@ -49,7 +52,9 @@ func _start_row(player: Player, direction: float) -> void:
 			_spawn(player, parent, point)
 		else:
 			var timer := player.get_tree().create_timer(delay, false, true)
-			timer.timeout.connect(_spawn.bind(player, parent, point))
+			timer.timeout.connect(
+				_spawn_later.bind(weakref(player), weakref(parent), point, generation)
+			)
 
 
 func _blocked(player: Player, from: Vector2, to: Vector2) -> bool:
@@ -60,8 +65,15 @@ func _blocked(player: Player, from: Vector2, to: Vector2) -> bool:
 	return not player.get_world_2d().direct_space_state.intersect_ray(query).is_empty()
 
 
+## Timers hold weak references: a freed node can't be passed as a typed
+## argument.
+func _spawn_later(player_ref: WeakRef, parent_ref: WeakRef, at: Vector2, generation: int) -> void:
+	var player := player_ref.get_ref() as Player
+	var parent := parent_ref.get_ref() as Node
+	if player and parent and player.dumas.generation == generation:
+		_spawn(player, parent, at)
+
+
 func _spawn(player: Player, parent: Node, at: Vector2) -> void:
-	if not is_instance_valid(player) or not is_instance_valid(parent):
-		return
 	var blast := PlayerBlast.spawn(blast_scene, parent, at, player.stats)
 	blast.damage = roundi(blast.damage * player.dumas.strength())

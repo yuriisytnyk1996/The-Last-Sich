@@ -23,7 +23,9 @@ func start(player: Player, source: StringName) -> void:
 
 
 func stop(_player: Player, source: StringName) -> void:
-	var node: Node = _summoned.get(source)
+	# Untyped: a room change may already have freed it, and a freed
+	# node can't be stored in a typed variable.
+	var node: Variant = _summoned.get(source)
 	_summoned.erase(source)
 	if is_instance_valid(node):
 		node.dismiss()

@@ -161,6 +161,8 @@ func _load_room(room_path: String, exit_name: StringName) -> void:
 	SaveManager.restore_room(room)
 	_killed.watch(room)
 	room.enter(player, exit_name)
+	# A new room ends a running duma: what it summoned stays behind.
+	player.dumas.end()
 	player.safe_ground.enter_room(room.scene_file_path)
 	death_penalty.place_in(room)
 	world_map.enter_room(room)
