@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"raven_eye"
 title = "Raven eye"
 description = "A black bead that finds the weak spot. Critical hit chance +15%."
+lore = "Ravens follow armies across the steppe and always find the soft places first. This bead is said to have been one of their eyes."
 kind = 0
 price = 500
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

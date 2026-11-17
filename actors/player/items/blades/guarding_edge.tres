@@ -33,6 +33,7 @@ script = ExtResource("item")
 id = &"guarding_edge"
 title = "Guarding edge"
 description = "A wide guard made for parrying. Parry window +0.1 s and riposte window +0.25 s, but maximum health -10."
+lore = "Forged for a hetman's guard, who were never meant to strike first. They waited, turned the blow aside and answered once. The edge is notched only near the hilt."
 kind = 1
 price = 500
 effects = Array[ExtResource("effect")]([SubResource("effect_4")])

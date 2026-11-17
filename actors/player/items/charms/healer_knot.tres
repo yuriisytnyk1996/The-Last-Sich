@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"healer_knot"
 title = "Healer's knot"
 description = "A knot of red thread tied by a village healer. Each flask heals 15 more."
+lore = "Each turn of the red thread is a prayer the healer would not say aloud. She tied it for her son, who never came back for it."
 kind = 0
 price = 350
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

@@ -84,6 +84,7 @@
 - [x] Attack speed, run speed and critical hits as stats: attack speed shortens swing startup and recovery, run speed drives running, crit chance and crit damage roll per hit with a gold flash and stronger feedback. Three charms (hare foot, quick bracer, raven eye) in the test room
 - [x] Pressure plates: pressed by the player or an enemy standing on them; `HOLD` keeps gates open while pressed (with an optional close delay for timed gates), `LATCH` opens them for good (saved). Two test plates in the test hideout
 - [x] Map completion: the map page shows the percentage of the world's cells explored, counted against a generated map catalog of every room (`pnpm map:catalog`, checked by the pre-commit hook)
+- [x] Item lore: every item has a lore text, read on a lore page opened with R / Y from the inventory. The mouse cursor is hidden from the start (F10 shows it in debug builds)
 
 ## Next
 

@@ -22,6 +22,7 @@ script = ExtResource("item")
 id = &"war_drum"
 title = "War drum"
 description = "A small drum that beats after every kill. Damage +20% for 5 seconds after a kill."
+lore = "Small enough for a boy to carry into battle. He beat it for every fallen enemy, and the company fought harder to hear it again."
 kind = 0
 price = 450
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

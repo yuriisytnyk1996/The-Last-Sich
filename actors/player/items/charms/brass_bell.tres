@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"brass_bell"
 title = "Brass bell"
 description = "Its ring stirs the spirit. Each hit gives 1 more spirit."
+lore = "Once it hung from a church eave and called the faithful home. Now it calls something else, with every blow struck."
 kind = 0
 price = 300
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

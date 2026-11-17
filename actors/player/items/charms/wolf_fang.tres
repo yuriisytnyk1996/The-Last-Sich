@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"wolf_fang"
 title = "Wolf fang"
 description = "A fang from a steppe wolf, bound in wire. Damage +10%."
+lore = "The wolf took three sheep and a dog before a shepherd's boy took its fang. The wire was his mother's, from a broken loom."
 kind = 0
 price = 400
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

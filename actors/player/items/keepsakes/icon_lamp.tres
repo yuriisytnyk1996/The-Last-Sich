@@ -14,6 +14,7 @@ script = ExtResource("item")
 id = &"icon_lamp"
 title = "Icon lamp"
 description = "A small lamp that once burned before a church icon. Rest points fill your spirit, and you rise from death with it full."
+lore = "It burned before an icon of the Protectress through two sieges. The church fell; the flame did not. Rest beside it and something is given back."
 kind = 2
 price = 500
 effects = Array[ExtResource("effect")]([SubResource("effect_1")])

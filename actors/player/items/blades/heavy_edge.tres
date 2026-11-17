@@ -27,6 +27,7 @@ script = ExtResource("item")
 id = &"heavy_edge"
 title = "Heavy edge"
 description = "A thicker, heavier edge. Damage +30%, but the dash recovers 0.3 s slower."
+lore = "A smith in the borderlands made it from a ploughshare when the village had nothing left to plough. It cuts like a man who has lost his field."
 kind = 1
 price = 600
 effects = Array[ExtResource("effect")]([SubResource("effect_3")])

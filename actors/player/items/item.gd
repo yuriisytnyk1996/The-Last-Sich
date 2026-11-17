@@ -21,6 +21,8 @@ enum Kind { CHARM, BLADE, KEEPSAKE, RELIC }
 @export var id := &""
 @export var title := ""
 @export_multiline var description := ""
+## Longer flavour text, read on the inventory's lore page. Empty: no page.
+@export_multiline var lore := ""
 ## Shown in the inventory grid. Without one, a placeholder shape is drawn.
 @export var icon: Texture2D
 @export var kind := Kind.CHARM

@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"hare_foot"
 title = "Hare foot"
 description = "A charm for those who would rather not be caught. Run speed +15%."
+lore = "Steppe children carry one to outrun bad luck. Grown men carry one and do not say why."
 kind = 0
 price = 350
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

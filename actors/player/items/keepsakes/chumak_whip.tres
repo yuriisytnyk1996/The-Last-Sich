@@ -14,6 +14,7 @@ script = ExtResource("item")
 id = &"chumak_whip"
 title = "Chumak's whip"
 description = "A salt trader's whip, worn smooth by a thousand roads. Kneel at a rest point to travel to any other you have found."
+lore = "Chumaks drove their ox carts to the salt lakes and back, a road of months. The whip knows every way home, even the ones no map shows."
 kind = 2
 price = 600
 effects = Array[ExtResource("effect")]([SubResource("effect_1")])

@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"iron_cross"
 title = "Iron cross"
 description = "A plain iron cross on a leather cord. Maximum health +15."
+lore = "Plain iron, hammered by a novice monk who left the monastery for the Sich. He kept the cross and gave away the rest."
 kind = 0
 price = 300
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

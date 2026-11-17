@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"leather_pouch"
 title = "Leather pouch"
 description = "Room for one more charm. Charm slots +1."
+lore = "Cut from an old saddle. It still smells of the horse, who is remembered more fondly than the rider."
 kind = 2
 price = 500
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

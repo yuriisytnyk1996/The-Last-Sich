@@ -29,6 +29,7 @@ script = ExtResource("item")
 id = &"thirsting_edge"
 title = "Thirsting edge"
 description = "A blade that drinks. Hits have a 30% chance to heal 3, but damage -10%."
+lore = "Taken from a raider who would not die. The steel stays warm after a fight, and the scabbard is always dry, no matter the rain."
 kind = 1
 price = 600
 effects = Array[ExtResource("effect")]([SubResource("effect_2"), SubResource("effect_3")])

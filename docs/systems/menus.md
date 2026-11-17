@@ -1,6 +1,6 @@
 # Menus
 
-The main menu, the pause menu and every options page are built from the same small set of pieces: a `Menu` that holds a stack of `MenuScreen` pages, and rows that work the same with keyboard, gamepad and mouse.
+The main menu, the pause menu and every options page are built from the same small set of pieces: a `Menu` that holds a stack of `MenuScreen` pages, and rows that work the same with keyboard, gamepad and mouse. The mouse cursor is hidden from the start (see [Input](/systems/input)), so menus are made for keyboard and gamepad first.
 
 ## How it works
 

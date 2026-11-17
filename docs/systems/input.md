@@ -21,13 +21,16 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 | `ranged` | L | Right stick click | `PlayerRangedAttack.wants()`: press and let go to throw a spirit bolt (with the skill) |
 | `map` | M | Back / Select | `World` opens the pause menu on the [map](/systems/map); closes it again |
 | `inventory` | I | — | `World` opens the pause menu on the [inventory](/systems/inventory#inventory-page); closes it again. No gamepad button by default (Start → Inventory); one can be bound in Controls |
+| `menu_lore` | R | Y | Menus only: open the focused item's [lore page](/systems/inventory#inventory-page) in the inventory, and close it again. Not rebindable |
 | `menu_tab_prev`, `menu_tab_next` | Q, E | Left shoulder, right shoulder | Menus only: step through the tabs of the [inventory page](/systems/inventory#inventory-page). Not rebindable; they share keys with gameplay actions, which don't run while a menu is open |
 | `pause` | Escape | Start | `World` opens the [pause menu](/systems/menus); closes it again |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
 
 The left hand stays on WASD with dash (Shift), interact (E), heal (F) and jump (Space) in reach; the right hand has attack (J), parry (K) and ranged (L).
 
-All actions use a dead zone of 0.3. Debug-only keys are not actions: F8 deletes the save and restarts (see [Save system](/systems/save-system)), F9 learns every skill (see [Skills](/systems/skills#debug)). Keys are bound by **physical** position, so the layout works the same on QWERTY, AZERTY and Cyrillic keyboards.
+The game is played with keyboard or gamepad, menus included. The `Cursor` autoload (`autoload/cursor.gd`) hides the mouse cursor from the start; in debug builds F10 shows it again for mouse-only debug buttons. Clicks still reach menus with the cursor hidden.
+
+All actions use a dead zone of 0.3. Debug-only keys are not actions: F8 deletes the save and restarts (see [Save system](/systems/save-system)), F9 learns every skill (see [Skills](/systems/skills#debug)), F10 shows or hides the mouse cursor. Keys are bound by **physical** position, so the layout works the same on QWERTY, AZERTY and Cyrillic keyboards.
 
 ## Reading input in code
 
@@ -41,7 +44,7 @@ Menus use Godot's built-in `ui_*` actions: arrow keys, D-pad and left stick to m
 
 ## Rebinding
 
-Players rebind the gameplay actions in **Options → Controls**. `InputSettings` swaps the key or button event in the `InputMap`, so code reading action names is unaffected. Escape, F11, F8, F9 and Start are reserved. See [Options](/systems/options#controls).
+Players rebind the gameplay actions in **Options → Controls**. `InputSettings` swaps the key or button event in the `InputMap`, so code reading action names is unaffected. Escape, F11, F8, F9, F10 and Start are reserved. See [Options](/systems/options#controls).
 
 ## Planned
 

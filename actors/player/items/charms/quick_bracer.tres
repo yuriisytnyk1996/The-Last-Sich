@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"quick_bracer"
 title = "Quick bracer"
 description = "A tight leather bracer that frees the wrist. Swings wind up and recover 20% faster."
+lore = "Laced so tight it leaves marks. The fencing masters of the Sich wear them until the wrist forgets it was ever slow."
 kind = 0
 price = 450
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

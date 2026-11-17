@@ -27,15 +27,17 @@ Opened with `inventory` (I) or from the pause menu's **Inventory** button. The s
  [■][■][■][■][■][■][■][■]          │  Charm · Worn   │
  [■][ ][ ][ ][ ][ ][ ][ ]          │  description…   │
  [ ][ ][ ][ ][ ][ ][ ][ ]          └─────────────────┘
- Currency 1234          Accept: Take off    Back: Close
+ Currency 1234   Accept: Take off    Lore: Read    Back: Close
 ```
 
 - **Tabs** (`InventoryTabs`): one per kind. `menu_tab_prev` and `menu_tab_next` (Q / E, shoulder buttons) step through them and wrap; tabs can be clicked. The open tab is lit and underlined, and its name is the page title.
 - **Worn row**: every slot the kind can ever have (`PlayerInventory.max_slots()`: 8 charms, 1 blade, 3 relics). Open slots show the worn items in order; slots not opened yet are dark and crossed. The row can't be focused; it lights the slot of the item focused in the grid. Keepsakes have no worn row.
 - **Grid** (`InventoryGrid`): the owned items of the kind in `all` order, 8 per row, padded with empty cells to at least 3 rows. Worn items have a gold back and frame. The focused cell has a bright frame with corner ticks.
 - **Details** (`ItemDetails`): the focused item drawn large, its name, kind and "Worn", and its description. Empty for an empty cell.
-- **Footer**: the currency, then hints for the focused item: "Accept: Wear", "Accept: Take off" or "No free slot", and "Back: Close".
+- **Footer**: the currency, then hints for the focused item: "Accept: Wear", "Accept: Take off" or "No free slot", "Lore: Read" when it has lore, and "Back: Close".
 - **Accept** on a charm or relic wears it in the first free slot or takes it off; on a blade it replaces the worn one. Keepsakes do nothing. With every slot full the hint reads "No free slot".
+- **Lore**: `menu_lore` (R / Y) opens a `LoreScreen` for the focused item: its icon drawn large, its name and its `lore` text. `menu_lore` again or back returns to the inventory, on the same cell. Items without `lore` don't open it. Every item has lore.
+- The worn slot is never chosen: wearing always fills the first free slot. The cursor stays in the grid.
 - The page opens on the tab and cell of the **newest item** (`PlayerInventory.take_newest()`) when one was added since the last look, else on the tab and cell used last.
 
 Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a steel blade for blades, a pale lantern for relics, a leather pouch for keepsakes, with the first letter of the title in the corner of small icons. An item with an `icon` texture shows that instead.
@@ -102,13 +104,13 @@ The test room holds the hare foot, quick bracer and raven eye, past the training
 
 ### Debug
 
-In debug builds the inventory page footer has a **Debug: get all** button (mouse only) (`PlayerInventory.add_all()`). It adds every item without the HUD toast; they are saved like normal items the next time the game saves.
+In debug builds the inventory page footer has a **Debug: get all** button (mouse only: press F10 to show the cursor) (`PlayerInventory.add_all()`). It adds every item without the HUD toast; they are saved like normal items the next time the game saves.
 
 ## Files
 
 | File | Role |
 |---|---|
-| `actors/player/items/item.gd` | `Item` resource: id, text, kind, price, effects |
+| `actors/player/items/item.gd` | `Item` resource: id, title, description, lore, kind, price, effects |
 | `actors/player/items/effects/item_effect.gd` | `ItemEffect` base: trigger, health condition, chance, duration |
 | `actors/player/items/effects/stat_effect.gd` | `StatEffect`: stat modifiers while it runs |
 | `actors/player/items/effects/restore_effect.gd` | `RestoreEffect`: health, spirit or currency once |
@@ -122,6 +124,7 @@ In debug builds the inventory page footer has a **Debug: get all** button (mouse
 | `ui/menus/inventory/inventory_grid.gd` | `InventoryGrid`: worn row and item grid for one kind |
 | `ui/menus/inventory/item_cell.gd` | `ItemCell`: one square, with its frame per state |
 | `ui/menus/inventory/item_details.gd` | `ItemDetails`: the focused item's panel |
+| `ui/menus/inventory/lore_screen.gd` | `LoreScreen`: one item's lore page |
 | `ui/menus/inventory/item_icon.gd` | `ItemIcon`: the item's icon, or a placeholder shape |
 | `ui/hud/item_toast.gd` | `ItemToast`: names a new item in the HUD |
 
@@ -140,7 +143,7 @@ In debug builds the inventory page footer has a **Debug: get all** button (mouse
 
 ## Extending
 
-- **A new item:** create an `Item` `.tres` in the folder of its kind, give it a unique `id`, add effects, and add it to `Inventory.all` on the player scene (the inventory page lists items in that order). Never rename an `id` that has been saved.
+- **A new item:** create an `Item` `.tres` in the folder of its kind, give it a unique `id`, a `description` (what it does) and a `lore` (its story, no numbers), add effects, and add it to `Inventory.all` on the player scene (the inventory page lists items in that order). Never rename an `id` that has been saved.
 - **A new effect type:** extend `ItemEffect` and override `start()` and `stop()`. `start()` gets the player and the effect's source.
 - **A new trigger:** add it to `ItemEffect.Trigger`, connect the event in `PlayerItemEffects._ready()` and call `_fire()` with it.
 - **Selling an item:** place a `ShopItem` stand, see [Shops](/systems/shops).

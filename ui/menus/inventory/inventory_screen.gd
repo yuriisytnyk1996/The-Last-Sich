@@ -6,7 +6,8 @@ extends MenuScreen
 ## the player's currency and the button hints at the bottom.
 ##
 ## Accept on a charm, blade or relic wears it in the first free slot or
-## takes it off; a blade replaces the one worn. The page opens on the newest item
+## takes it off; a blade replaces the one worn. `menu_lore` (R / Y) opens
+## the focused item's `LoreScreen`. The page opens on the newest item
 ## when there is one, else on the tab and cell used last.
 
 const KINDS: Array[Item.Kind] = [
@@ -78,6 +79,12 @@ func focus_first() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
+	if event.is_action_pressed("menu_lore"):
+		var item := _grid.focused_item()
+		if item and item.lore != "":
+			menu.push(LoreScreen.new(item))
+		get_viewport().set_input_as_handled()
+		return
 	var step := 0
 	if event.is_action_pressed("menu_tab_prev"):
 		step = -1
@@ -130,7 +137,8 @@ func _update_hints(item: Item) -> void:
 			action = "No free slot    "
 		else:
 			action = "Accept: Wear    "
-	_hints.text = action + "Back: Close"
+	var lore := "Lore: Read    " if item and item.lore != "" else ""
+	_hints.text = action + lore + "Back: Close"
 
 
 func _footer() -> HBoxContainer:

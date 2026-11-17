@@ -22,6 +22,7 @@ script = ExtResource("item")
 id = &"red_sash"
 title = "Red sash"
 description = "Worn by those who fight on when they should fall. Damage +25% while health is below 30%."
+lore = "The sash is red so the blood does not show. Its owners were known for standing up one more time than they should have."
 kind = 0
 price = 450
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

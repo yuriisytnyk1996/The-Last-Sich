@@ -15,6 +15,7 @@ script = ExtResource("item")
 id = &"hunter_tally"
 title = "Hunter's tally"
 description = "A stick with a notch for every kill. Each kill heals 5."
+lore = "Every notch was cut with the same knife, by the same hand. The last notches are shallow, as if the hand had grown tired."
 kind = 0
 price = 400
 effects = Array[ExtResource("effect")]([SubResource("effect_1")])

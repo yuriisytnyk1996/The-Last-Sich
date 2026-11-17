@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"bitter_root"
 title = "Bitter root"
 description = "Chewed against marsh fever. Poison damage taken -50%."
+lore = "The marsh villages chew it at dawn and spit at dusk. It tastes of earth and regret, and the fever passes them by."
 kind = 0
 price = 250
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

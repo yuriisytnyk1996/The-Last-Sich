@@ -21,6 +21,7 @@ script = ExtResource("item")
 id = &"spare_gourd"
 title = "Spare gourd"
 description = "One more flask to fill at every rest. Flasks +1."
+lore = "Hollowed and dried by a grandmother who sent it with every grandson who rode south. Most of the gourds came back."
 kind = 2
 price = 800
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

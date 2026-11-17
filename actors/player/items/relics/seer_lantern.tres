@@ -14,6 +14,7 @@ script = ExtResource("item")
 id = &"seer_lantern"
 title = "Seer's lantern"
 description = "Its pale light shows platforms no one else can see while it is worn."
+lore = "A blind seer carried it through the old ruins and never stumbled. Those who borrow it see what she saw: paths that were always there."
 kind = 3
 price = 1000
 effects = Array[ExtResource("effect")]([SubResource("effect_1")])
