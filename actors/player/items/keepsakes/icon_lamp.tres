@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/unlock_effect.gd" id="unlock"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("unlock")
+trigger = 0
+unlock = "rest_spirit"
+
+[resource]
+script = ExtResource("item")
+id = &"icon_lamp"
+title = "Icon lamp"
+description = "A small lamp that once burned before a church icon. Rest points fill your spirit, and you rise from death with it full."
+kind = 2
+price = 500
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])

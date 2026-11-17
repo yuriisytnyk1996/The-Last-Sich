@@ -39,6 +39,7 @@ var _has_value := false
 
 func _ready() -> void:
 	Events.player_health_changed.connect(_on_player_health_changed)
+	Events.player_respawned.connect(_snap)
 	set_process(false)
 
 
@@ -79,6 +80,15 @@ func _on_player_health_changed(current: int, maximum: int) -> void:
 	var inner := Vector2(_maximum * pixels_per_point, bar_height)
 	custom_minimum_size = inner + Vector2.ONE * border * 2
 	set_process(true)
+	queue_redraw()
+
+
+## A new life (save loaded, respawn) isn't a heal: jump straight to it.
+func _snap() -> void:
+	_fill = _target
+	_loss = _target
+	_loss_hold = 0.0
+	set_process(false)
 	queue_redraw()
 
 

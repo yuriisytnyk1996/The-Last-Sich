@@ -28,4 +28,6 @@ func _draw() -> void:
 
 func _on_death_marks_changed(count: int) -> void:
 	_count = maxi(count, 0)
+	var outer := Vector2(pip_size) + Vector2.ONE * 2.0
+	custom_minimum_size = Vector2(maxf(_count * (outer.x + spacing) - spacing, 0.0), outer.y)
 	queue_redraw()

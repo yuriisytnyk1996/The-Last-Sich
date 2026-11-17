@@ -18,6 +18,11 @@ signal camera_shake_requested(trauma: float)
 @warning_ignore("unused_signal")
 signal player_health_changed(current: int, maximum: int)
 
+## The player started a new life: loaded from a save, rested, or came back
+## after death. Bars show the new values as they are, without animating.
+@warning_ignore("unused_signal")
+signal player_respawned
+
 ## The player's healing flasks changed: one was drunk or they were
 ## refilled (also sent once when the player spawns). Drives the HUD.
 @warning_ignore("unused_signal")
@@ -51,6 +56,16 @@ signal death_marks_changed(count: int)
 ## The player used a rest point. The world makes it the respawn point.
 @warning_ignore("unused_signal")
 signal rested(rest_point: Node2D)
+
+## The player rested at a rest point and can travel between rest points.
+## The world opens the kneel prompt (`KneelScreen`).
+@warning_ignore("unused_signal")
+signal travel_offered
+
+## The player chose a rest point on the travel map: the one on map cell
+## `cell` of the room `room_path`. The world takes them there.
+@warning_ignore("unused_signal")
+signal travel_requested(room_path: String, cell: Vector2i)
 
 ## The player walked through a `RoomExit`. The world fades out, loads
 ## `room_path` and places the player at the exit named `exit_name` there.

@@ -2,7 +2,8 @@ class_name MapCellPainter
 extends RefCounted
 ## Draws one world map cell for `MapView`: the fill, a wall on every side
 ## that is a room edge, and a gap in the middle of the wall for a door.
-## Cells of the same room join with no line between them.
+## Cells of the same room join with no line between them. Also draws the
+## map's own marks as a row of small squares in a cell.
 
 
 static func draw_cell(
@@ -23,6 +24,18 @@ static func draw_cell(
 		canvas.draw_rect(strip, wall)
 		if map_room.has_door(cell, side):
 			canvas.draw_rect(_gap(strip, side), fill)
+
+
+## `marks` (`MapRoom.Mark`s) as squares in a row across the middle of
+## `rect`, smaller when zoomed out.
+static func draw_marks(canvas: CanvasItem, rect: Rect2, marks: Array) -> void:
+	var side := 4.0 if rect.size.x >= 32.0 else 2.0
+	var start := (
+		rect.get_center() - Vector2(side * 1.5 * (marks.size() - 1) * 0.5 + side * 0.5, side * 0.5)
+	)
+	for i in marks.size():
+		var spot := (start + Vector2(i * side * 1.5, 0)).floor()
+		canvas.draw_rect(Rect2(spot, Vector2(side, side)), MapView.MARK_COLORS[marks[i]])
 
 
 ## The wall along `side` of `rect`, `thickness` px thick.

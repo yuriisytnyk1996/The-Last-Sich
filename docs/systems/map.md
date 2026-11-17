@@ -45,6 +45,8 @@ When the secret breaks, the next scan has all of it: the hidden cells show once 
 - The player's own marks as 5×5 pixel icons on a dark backing (`MapMarkPainter`).
 - The player as a blinking dot at their exact spot, and a cursor in the middle of the view.
 
+In travel mode, opened by kneeling at a rest point, the cursor hops between rest points instead of panning, and attack travels. See [Travel](/systems/travel).
+
 Move (stick, D-pad, WASD or arrows) pans the view; it stops at the edge of the revealed cells. Jump switches between the two zoom levels (`MapView.ZOOMS`). Attack places or removes a mark (below). Back closes the page; `map` closes it too when it was opened with `map`.
 
 ### Player marks
@@ -72,8 +74,9 @@ Player marks are saved with the map, so they last until the save is deleted.
 | `levels/map/map_secrets.gd` | `MapSecrets`: a room's secrets while scanning; says what they still hide |
 | `levels/map/player_marks.gd` | `PlayerMarks`: the marks the player placed, one per cell, save data |
 | `ui/menus/map/map_screen.gd` | `MapScreen`: the pause menu's map page with zone name and legend |
-| `ui/menus/map/map_view.gd` | `MapView`: draws the map, pans and zooms |
-| `ui/menus/map/map_cell_painter.gd` | `MapCellPainter`: one cell's fill, walls and door gaps |
+| `ui/menus/map/map_view.gd` | `MapView`: draws the map, pans and zooms; hands control to `MapTravel` in travel mode |
+| `ui/menus/map/map_travel.gd` | `MapTravel`: travel mode, see [Travel](/systems/travel) |
+| `ui/menus/map/map_cell_painter.gd` | `MapCellPainter`: one cell's fill, walls and door gaps, and the map's mark squares |
 | `ui/menus/map/map_mark_painter.gd` | `MapMarkPainter`: the 5×5 icon of each player mark kind |
 | `ui/menus/map/map_mark_picker.gd` | `MapMarkPicker`: the row of mark kinds shown while placing one |
 
@@ -116,7 +119,7 @@ The hideout is behind the vault's secret wall: the vault's east door gap stays c
 ## Known limitations
 
 - No completion percentage: the map only knows the rooms the player has entered, so it can't count the cells left. That needs a list of every room.
-- No fast travel from the map and no items that reveal a whole zone yet.
+- No items that reveal a whole zone yet. Travel works only from a rest point, not from the pause menu's map.
 - Player marks can't be placed on a cell with one of the map's own marks, and there is one per cell.
 - Cells, walls and marks are flat colours drawn in code, not art.
 - Rooms are rectangles on the map. An L-shaped room shows as its bounding rectangle.

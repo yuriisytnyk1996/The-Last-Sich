@@ -28,6 +28,7 @@ export default {
         'spirit',
         'death-penalty',
         'map',
+        'travel',
         'state-machine',
         'events',
         'docs',

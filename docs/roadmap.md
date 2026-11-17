@@ -79,6 +79,8 @@
 - [x] Secret walls: drawn like the terrain, broken with attacks (3 hits) from one side only, flash on every hit, then fade to show the secret behind; hits taken are saved. Breakables gain `breakable_from` and `fade_time`. Replaces the walk-in hidden areas
 - [x] Upgrades: permanent +20 max health and +15 max spirit from upgrade shrines, used once; free ones hidden as secrets, paid ones with a page to pay currency; the raised bar fills, a HUD toast names it, saved; paid shrines on the map. A health shrine in the test vault's hidden alcove, a spirit shrine in the test house
 - [x] Map secrets and player marks: a secret (`Breakable.map_hides`) keeps the cells, door gaps and marks behind it off the map until it breaks; the current room is scanned again before it unloads, when the map opens and on save. The player places their own marks on visited cells (chest, question, enemy, person, three pins; one per cell; attack on the map page), saved. A hidden test hideout room behind the vault's secret wall
+- [x] Travel between rest points: with the Chumak's whip (keepsake, test house shop), resting makes the player kneel and offers the travel map; the cursor hops between found rest points (cone search, eased glide, pulsing cursor) and attack travels there with a fade, making it the respawn point. Second rest point in the test cave
+- [x] Spirit at rest points: the Icon lamp (keepsake, test house shop) makes resting fill spirit and death respawn it full; without it, death now empties spirit. Spirit still starts empty on load
 
 ## Next
 

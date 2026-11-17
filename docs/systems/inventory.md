@@ -87,9 +87,11 @@ Three effects exist:
 | Leather pouch | Keepsake | 500 | Charm slots +1 |
 | Stitched pouch | Keepsake | 900 | Charm slots +1 |
 | Spare gourd | Keepsake | 800 | Flasks +1 |
+| Chumak's whip | Keepsake | 600 | [Travel](/systems/travel) between rest points |
+| Icon lamp | Keepsake | 500 | Rest points fill [spirit](/systems/spirit); respawn with it full |
 | Seer's lantern | Relic | 1000 | Shows reveal platforms while worn |
 
-The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge and spare gourd are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The rest are only reachable through the debug button for now.
+The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The rest are only reachable through the debug button for now.
 
 ### Saving
 

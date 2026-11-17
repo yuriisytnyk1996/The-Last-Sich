@@ -13,6 +13,10 @@ extends Node2D
 ## last rest point, and on start it loads the save and wakes the player
 ## there. Resting writes the save to disk, and so does dying, so quitting
 ## can't undo the death penalty (see `DeathPenalty`).
+##
+## Travel between rest points: after a rest with travel unlocked it opens
+## the kneel prompt, and on `Events.travel_requested` it fades out, loads
+## the chosen rest point's room and makes that rest point the respawn point.
 
 @export_file("*.tscn") var start_room := "res://levels/rooms/test_room.tscn"
 
@@ -37,6 +41,8 @@ func _ready() -> void:
 	Events.room_change_requested.connect(_on_room_change_requested)
 	Events.rested.connect(_on_rested)
 	Events.player_died.connect(_on_player_died)
+	Events.travel_offered.connect(pause_menu.open_kneel)
+	Events.travel_requested.connect(_on_travel_requested)
 	SaveManager.register(self)
 	if SaveManager.load_game() and ResourceLoader.exists(_rest_room):
 		_respawn_at_rest_point()
@@ -79,11 +85,44 @@ func _on_rested(rest_point: Node2D) -> void:
 	SaveManager.save_game(room)
 
 
+func _on_travel_requested(room_path: String, cell: Vector2i) -> void:
+	pause_menu.close()
+	# The menu unpauses the tree one frame after closing. Waiting that frame
+	# first keeps the transition's pause from being undone mid-fade.
+	await get_tree().process_frame
+	_transition(_travel_to.bind(room_path, cell))
+
+
+## Loads `room_path` and puts the player on its rest point at map `cell`,
+## which becomes the respawn point (lit and saved, see `_on_rested`).
+func _travel_to(room_path: String, cell: Vector2i) -> void:
+	_load_room(room_path, &"")
+	var target := _rest_point_at(cell)
+	if target == null:
+		push_warning("Travel: no rest point on map cell %s in %s" % [cell, room_path])
+		room.respawn_player()
+		return
+	player.respawn(target.global_position)
+	Events.rested.emit(target)
+
+
+## The rest point of the current room on map `cell`, or null.
+func _rest_point_at(cell: Vector2i) -> RestPoint:
+	var map_room := world_map.current_room()
+	for node in room.find_children("*", "Area2D", true, false):
+		if node is RestPoint:
+			var local := room.to_local((node as Node2D).global_position)
+			if map_room.cell_at(local, world_map.cell_size) == cell:
+				return node
+	return null
+
+
 func _on_player_died() -> void:
 	_killed.clear()
 	death_penalty.drop(room)
 	if _rest_room == "":
 		room.respawn_player()
+		player.spirit.restore_after_death()
 		death_penalty.place_in(room)
 		SaveManager.save_game(room)
 	else:
@@ -92,6 +131,7 @@ func _on_player_died() -> void:
 
 func _respawn_after_death() -> void:
 	_respawn_at_rest_point()
+	player.spirit.restore_after_death()
 	SaveManager.save_game(room)
 
 

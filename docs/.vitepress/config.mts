@@ -48,6 +48,7 @@ export default defineConfig({
           { text: 'Traversal', link: '/systems/traversal' },
           { text: 'Rest points', link: '/systems/rest-points' },
           { text: 'Map', link: '/systems/map' },
+          { text: 'Travel', link: '/systems/travel' },
           { text: 'Spirit', link: '/systems/spirit' },
           { text: 'Currency', link: '/systems/currency' },
           { text: 'Skills', link: '/systems/skills' },

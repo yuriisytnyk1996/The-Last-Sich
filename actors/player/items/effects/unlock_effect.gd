@@ -5,7 +5,7 @@ extends ItemEffect
 ## lasting trigger: OWNED or EQUIPPED.
 
 ## One of the `PlayerUnlocks` constants.
-@export_enum("reveal_platforms") var unlock := "reveal_platforms"
+@export_enum("reveal_platforms", "rest_travel", "rest_spirit") var unlock := "reveal_platforms"
 
 
 func start(player: Player, source: StringName) -> void:

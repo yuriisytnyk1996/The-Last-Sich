@@ -7,9 +7,11 @@ extends Node
 ## for heavy hits. The maximum without death marks is
 ## `PlayerStats.MAX_SPIRIT`. Death marks lower both the maximum
 ## (`max_factor`) and the gain
-## (`gain_factor`), see `DeathPenalty`. Spirit starts empty on every load
-## and resting doesn't refill it: it is earned in fights. Every change is
-## reported through `Events.player_spirit_changed`, which drives the HUD.
+## (`gain_factor`), see `DeathPenalty`. Spirit starts empty on every load.
+## With `PlayerUnlocks.REST_SPIRIT`, resting fills it and respawning after
+## death starts it full; without it, resting leaves it alone and death
+## empties it. Every change is reported through
+## `Events.player_spirit_changed`, which drives the HUD.
 
 ## Multiplier for hits with a HEAVY reaction (the riposte).
 @export var heavy_multiplier := 2.0
@@ -61,6 +63,21 @@ func spend(amount: float) -> bool:
 	current -= amount
 	_announce()
 	return true
+
+
+## Fills spirit to the current maximum.
+func fill() -> void:
+	current = get_max()
+	_announce()
+
+
+## After a death: full with `PlayerUnlocks.REST_SPIRIT`, empty without it.
+func restore_after_death() -> void:
+	if player.unlocks.has(PlayerUnlocks.REST_SPIRIT):
+		fill()
+	else:
+		current = 0.0
+		_announce()
 
 
 func _on_hit_landed(hurtbox: Hurtbox, hitbox: Hitbox) -> void:

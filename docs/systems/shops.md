@@ -14,7 +14,7 @@ Shops sell [items](/systems/inventory) for [currency](/systems/currency). A shop
 
 ### Test shop
 
-The test house sells five items: iron cross, hunter's tally and red sash (charms), heavy edge (blade) and spare gourd (keepsake), at their own prices (see [Inventory](/systems/inventory#items)).
+The test house sells seven items: iron cross, hunter's tally and red sash (charms), heavy edge (blade), and spare gourd, Chumak's whip and icon lamp (keepsakes), at their own prices (see [Inventory](/systems/inventory#items)).
 
 ## Files
 

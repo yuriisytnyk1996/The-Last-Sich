@@ -213,3 +213,4 @@ func respawn(at: Vector2) -> void:
 	# After the transition: leaving Hurt would start invincibility again.
 	damage.reset()
 	flasks.refill()
+	Events.player_respawned.emit()

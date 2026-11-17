@@ -6,6 +6,9 @@ extends VBoxContainer
 const ON_OFF: PackedStringArray = ["Off", "On"]
 
 var menu: Menu
+## Off: the menu's tint stays hidden while this screen is on top, so the
+## game shows through (a small prompt over the game).
+var backdrop := true
 var _last_focus: Control
 
 

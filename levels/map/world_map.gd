@@ -79,6 +79,18 @@ func room_at(cell: Vector2i) -> MapRoom:
 	return null
 
 
+## Every cell the map shows of every known room -> its room.
+func cell_owners() -> Dictionary[Vector2i, MapRoom]:
+	var owners: Dictionary[Vector2i, MapRoom] = {}
+	for map_room: MapRoom in rooms.values():
+		for x in map_room.rect.size.x:
+			for y in map_room.rect.size.y:
+				var cell := map_room.rect.position + Vector2i(x, y)
+				if map_room.covers(cell):
+					owners[cell] = map_room
+	return owners
+
+
 ## A player mark may go on a revealed cell with no mark of its own (rest
 ## point, shop, door...) and no player mark yet.
 func can_place_mark(cell: Vector2i) -> bool:

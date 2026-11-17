@@ -19,7 +19,9 @@ The bar has four layers, drawn back to front with `_draw()`:
 
 **Taking damage:** the fill drops to the new value at once, so the player sees the real number immediately. The pale loss segment stays where the fill was for `loss_delay`, then drains down at `loss_drain_speed`. This makes the size of each hit readable, even for several hits in a row.
 
-**Healing:** the loss segment jumps up to the new value as a preview, and the fill rises to meet it at `heal_fill_speed`. On respawn this refills the bar from empty.
+**Healing:** the loss segment jumps up to the new value as a preview, and the fill rises to meet it at `heal_fill_speed`.
+
+**Respawning:** `Events.player_respawned` (sent by `Player.respawn()` when a save is loaded, after resting or after death) makes the bar jump straight to the current value. A new life isn't a heal, so it never plays the refill animation.
 
 **Width grows with max health:** the bar is `max health × pixels_per_point` wide, so a max health upgrade visibly lengthens it.
 
@@ -86,7 +88,7 @@ On the `FlaskCounter` node:
 
 `SpiritBar` (`ui/hud/spirit_bar.gd`) sits right under the health bar. It is as wide as spirit without death marks (`full_maximum × pixels_per_point`). The part death marks take away is drawn in `locked_color` at the right end, so every death visibly shortens what can be filled. It listens to `Events.player_spirit_changed(current, maximum, full_maximum)`. See [Spirit](/systems/spirit).
 
-`DeathMarkCounter` (`ui/hud/death_mark_counter.gd`) draws one small purple pip per death mark to the right of the spirit bar, nothing while there are none. It listens to `Events.death_marks_changed(count)`. See [Death penalty](/systems/death-penalty).
+`DeathMarkCounter` (`ui/hud/death_mark_counter.gd`) draws one small purple pip per death mark to the right of the spirit bar, nothing while there are none. Both sit in the `SpiritRow` `HBoxContainer` (4 px apart), so the pips move right when a spirit upgrade makes the bar longer. It listens to `Events.death_marks_changed(count)`. See [Death penalty](/systems/death-penalty).
 
 | Value | Default | Effect |
 |---|---|---|

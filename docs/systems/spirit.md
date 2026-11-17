@@ -13,17 +13,25 @@ Spirit is a resource the player builds up by fighting. The [ranged bolt](/system
 
 `DeathPenalty` sets `max_factor` and `gain_factor` from the number of death marks. Lowering `max_factor` also cuts the current spirit down to the new maximum. Recovering a death mark adds part of the maximum through `add()`, which ignores `gain_factor`.
 
-Spirit is earned in fights, not handed out:
+Spirit is earned in fights. The **Icon lamp** keepsake (`PlayerUnlocks.REST_SPIRIT`) makes rest points top it up:
 
-- It starts **empty** on every new game and every load. It isn't saved.
-- **Resting doesn't refill it.**
-- **Dying keeps it**, apart from the lower maximum the new death mark brings.
+| Moment | Without the Icon lamp | With it |
+|---|---|---|
+| New game or load | Empty. It isn't saved | Empty. It isn't saved |
+| Rest at a rest point | Unchanged | Full (`PlayerSpirit.fill()`) |
+| Respawn after death | **Empty** | Full, up to the lower maximum the new death mark brings |
+| Changing rooms | Kept | Kept |
+
+`RestPoint` calls `fill()` when the player has the unlock. After a death, `World` calls `PlayerSpirit.restore_after_death()` once the player is back, after `DeathPenalty` has set the new `max_factor`, so "full" already counts the new mark. Spirit isn't saved because it would be thrown away on load anyway: a loaded game always starts with it empty.
 
 ## Files
 
 | File | Role |
 |---|---|
-| `actors/player/abilities/spirit.gd` | `PlayerSpirit`: amount, gain from hits, factors set by the death penalty |
+| `actors/player/abilities/spirit.gd` | `PlayerSpirit`: amount, gain from hits, factors set by the death penalty, `fill()` and `restore_after_death()` |
+| `levels/objects/rest_point.gd` | Fills spirit on rest with the unlock |
+| `levels/world.gd` | Calls `restore_after_death()` after a death respawn |
+| `actors/player/items/keepsakes/icon_lamp.tres` | The keepsake that grants `rest_spirit` |
 | `ui/hud/spirit_bar.gd` | HUD bar, see [HUD](/systems/hud#spirit-bar-and-death-marks) |
 
 ## Tuning

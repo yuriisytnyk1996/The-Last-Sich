@@ -6,11 +6,17 @@ extends Control
 ## Move pans the view (it stays over revealed cells), jump switches between
 ## two zoom levels. Attack on the cursor's cell removes the player's mark
 ## there, or opens a `MapMarkPicker` to place one.
+##
+## In travel mode (`setup(map, true)`) a `MapTravel` takes over: the cursor
+## hops between rest points, zoom and marks are off, and attack on a rest
+## point sends `travel_chosen`.
 
 ## The zone under the cursor changed ("" over an empty spot).
 signal zone_changed(zone: String)
 ## The mark picker opened (true) or closed (false).
 signal picking_changed(picking: bool)
+## Travel mode: the player chose the rest point on `cell`.
+signal travel_chosen(cell: Vector2i)
 
 const ZONE_COLORS := {
 	"Steppe": Color(0.42, 0.36, 0.2),
@@ -41,6 +47,8 @@ const ZOOMS: Array[Vector2] = [Vector2(32, 18), Vector2(16, 9)]
 
 ## The map cell (not rounded) shown in the middle of the view.
 var center := Vector2.ZERO
+## Travel mode only, else null.
+var travel: MapTravel
 
 var _map: WorldMap
 var _zoom := 0
@@ -54,20 +62,19 @@ var _zone := ""
 var _picker := MapMarkPicker.new()
 
 
-func setup(map: WorldMap) -> void:
+func setup(map: WorldMap, travel_mode := false) -> void:
 	_map = map
-	for map_room: MapRoom in map.rooms.values():
-		for x in map_room.rect.size.x:
-			for y in map_room.rect.size.y:
-				var cell := map_room.rect.position + Vector2i(x, y)
-				if map_room.covers(cell):
-					_owners[cell] = map_room
+	_owners = map.cell_owners()
 	_death_cells = map.death_mark_cells()
 	_player = map.player_position()
 	center = _player
 	_limits = Rect2(_player, Vector2.ZERO)
 	for cell in map.revealed:
 		_limits = _limits.merge(Rect2(Vector2(cell), Vector2.ONE))
+	if travel_mode:
+		travel = MapTravel.new()
+		travel.setup(self, map, Vector2i(_player.floor()))
+		add_child(travel)
 
 
 func _ready() -> void:
@@ -83,10 +90,17 @@ func is_picking() -> bool:
 	return _picker.visible
 
 
+## One cell on screen (px) at the current zoom.
+func cell_pixels() -> Vector2:
+	return ZOOMS[_zoom]
+
+
 func _process(delta: float) -> void:
-	if not is_picking():
-		var move := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
-		move += Input.get_vector(&"ui_left", &"ui_right", &"ui_up", &"ui_down")
+	var move := Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
+	move += Input.get_vector(&"ui_left", &"ui_right", &"ui_up", &"ui_down")
+	if travel:
+		travel.handle_move(move)
+	elif not is_picking():
 		center += move.limit_length(1.0) * pan_speed * delta
 	center = center.clamp(_limits.position, _limits.end)
 	_blink = fmod(_blink + delta, 1.0)
@@ -95,7 +109,12 @@ func _process(delta: float) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if is_picking():
+	if travel:
+		if event.is_action_pressed(&"attack") or event.is_action_pressed(&"ui_accept"):
+			if travel.can_travel():
+				travel_chosen.emit(travel.cell())
+			accept_event()
+	elif is_picking():
 		if _picker.handle_input(event):
 			accept_event()
 	elif event.is_action_pressed(&"jump"):
@@ -133,14 +152,14 @@ func _draw() -> void:
 	for cell in _map.revealed:
 		var map_room: MapRoom = _owners.get(cell)
 		if map_room:
-			_draw_marks(cell, map_room.marks.get(cell, []))
+			MapCellPainter.draw_marks(self, _cell_rect(cell), map_room.marks.get(cell, []))
 	for cell in _map.player_marks.marks:
 		if _owners.has(cell) and _map.revealed.has(cell):
 			MapMarkPainter.draw_mark(
 				self, _map.player_marks.marks[cell], _cell_rect(cell).get_center()
 			)
 	for cell in _death_cells:
-		_draw_marks(cell, [MapRoom.Mark.DEATH_MARK])
+		MapCellPainter.draw_marks(self, _cell_rect(cell), [MapRoom.Mark.DEATH_MARK])
 	if _blink < 0.6:
 		var dot := _to_screen(_player).floor() - Vector2.ONE
 		draw_rect(Rect2(dot, Vector2(3, 3)), PLAYER_COLOR)
@@ -148,19 +167,11 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), FRAME_COLOR, false, 1.0)
 
 
-func _draw_marks(cell: Vector2i, marks: Array) -> void:
-	var rect := _cell_rect(cell)
-	var side := 4.0 if _zoom == 0 else 2.0
-	var start := (
-		rect.get_center() - Vector2(side * 1.5 * (marks.size() - 1) * 0.5 + side * 0.5, side * 0.5)
-	)
-	for i in marks.size():
-		var spot := (start + Vector2(i * side * 1.5, 0)).floor()
-		draw_rect(Rect2(spot, Vector2(side, side)), MARK_COLORS[marks[i]])
-
-
 func _draw_cursor() -> void:
 	var mid := (size * 0.5).floor()
+	if travel:
+		travel.draw_cursor(self, mid)
+		return
 	for step: Vector2 in [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]:
 		draw_rect(Rect2(mid + step * 3.0, Vector2.ONE), CURSOR_COLOR)
 		draw_rect(Rect2(mid + step * 4.0, Vector2.ONE), CURSOR_COLOR)

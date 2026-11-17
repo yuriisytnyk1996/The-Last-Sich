@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/unlock_effect.gd" id="unlock"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("unlock")
+trigger = 0
+unlock = "rest_travel"
+
+[resource]
+script = ExtResource("item")
+id = &"chumak_whip"
+title = "Chumak's whip"
+description = "A salt trader's whip, worn smooth by a thousand roads. Kneel at a rest point to travel to any other you have found."
+kind = 2
+price = 600
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])

@@ -232,9 +232,12 @@ The-Last-Sich/
 │   │   ├── map/
 │   │   │   ├── map_screen.gd     Map page: zone name, map view, legend
 │   │   │   ├── map_view.gd       Draws the map, pans and zooms
+│   │   │   ├── map_travel.gd     Travel mode: hops between rest points
 │   │   │   ├── map_cell_painter.gd One cell's fill, walls and door gaps
 │   │   │   ├── map_mark_painter.gd Icons for the player's marks
 │   │   │   └── map_mark_picker.gd The row of mark kinds shown while placing one
+│   │   ├── rest/
+│   │   │   └── kneel_screen.gd   Kneel prompt at a rest point: travel or rise
 │   │   ├── skills/
 │   │   │   └── skills_screen.gd  Skill shrine page: list, description, learn
 │   │   └── options/

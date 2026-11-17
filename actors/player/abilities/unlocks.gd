@@ -12,6 +12,10 @@ extends Node
 ## room objects (`RevealPlatform`) react without a reference to the player.
 
 const REVEAL_PLATFORMS := &"reveal_platforms"
+## Kneeling at a rest point offers travel to any other one found.
+const REST_TRAVEL := &"rest_travel"
+## Resting fills spirit, and so does respawning after death.
+const REST_SPIRIT := &"rest_spirit"
 
 ## unlock -> the sources that hold it.
 var _sources: Dictionary[StringName, Array] = {}

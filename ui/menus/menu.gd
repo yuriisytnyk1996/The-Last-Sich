@@ -54,6 +54,7 @@ func push(screen: MenuScreen) -> void:
 	screen.menu = self
 	_stack.append(screen)
 	_holder.add_child(screen)
+	_tint.visible = screen.backdrop
 	_root.show()
 	screen.focus_first()
 
@@ -67,6 +68,7 @@ func pop() -> void:
 		closed.emit()
 		return
 	var top := _stack.back() as MenuScreen
+	_tint.visible = top.backdrop
 	top.show()
 	top.restore_focus()
 
