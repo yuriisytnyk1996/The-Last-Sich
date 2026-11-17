@@ -168,8 +168,8 @@ The-Last-Sich/
 │   │   ├── ladder.gd             Climbable ladder
 │   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
 │   │   ├── mechanisms/           Levers and the gates they open
-│   │   ├── traversal/            Climb walls, reveal platforms, hidden areas
-│   │   ├── breakables/           Breakable crate and cracked wall (breakable.gd, crate.tscn, breakable_wall.tscn)
+│   │   ├── traversal/            Climb walls, reveal platforms
+│   │   ├── breakables/           Breakable crate, cracked wall and secret wall (breakable.gd, crate.tscn, breakable_wall.tscn, secret_wall.tscn)
 │   │   ├── platforms/            Moving platform, elevator and its call lever
 │   │   ├── traps/                Timed spike and fire traps, turret and its bolt
 │   │   └── zones/                Wind, mud and poison zones on the AreaEffect base

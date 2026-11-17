@@ -76,6 +76,7 @@
 
 - [x] Ability-gated traversal: unlocks given by items (`UnlockEffect`); wall cling (hold attack in the air facing a marked climb wall) and wall jump, a basic move from the start; reveal platforms shown by the seer's lantern, a relic (new item kind, 3 slots, worn from the inventory); levers that toggle or unlock gates (one-shot shortcuts, key-locked levers, locked gates); chests with an item and currency; hidden areas behind false walls that fade when entered. All saved. New test vault room east of the test works
 - [x] Paid cleanse points: pay currency (a price per mark) to clear every death mark at once without walking back, no recovery bonus; map mark; one in the test house
+- [x] Secret walls: drawn like the terrain, broken with attacks (3 hits) from one side only, flash on every hit, then fade to show the secret behind; hits taken are saved. Breakables gain `breakable_from` and `fade_time`. Replaces the walk-in hidden areas
 
 ## Next
 
@@ -124,5 +125,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Flat rectangles for moving platforms, elevators and their levers
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
 - Drawn tints for zones and drifting line streaks for wind
-- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, gates and chests, a terrain-coloured rectangle for the false wall; no wall cling animation
+- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Blue bar for the parry guard, a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

@@ -4,14 +4,11 @@
 [ext_resource type="PackedScene" path="res://levels/objects/items/chest.tscn" id="2_chest"]
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/gate.tscn" id="3_gate"]
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/lever.tscn" id="4_lever"]
-[ext_resource type="PackedScene" path="res://levels/objects/traversal/hidden_area.tscn" id="5_hidden"]
+[ext_resource type="PackedScene" path="res://levels/objects/breakables/secret_wall.tscn" id="5_secret"]
 [ext_resource type="Resource" path="res://actors/player/items/relics/seer_lantern.tres" id="11_lantern"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
-
-[sub_resource type="RectangleShape2D" id="shape_alcove"]
-size = Vector2(112, 64)
 
 [node name="Logic" type="Node2D"]
 
@@ -56,12 +53,8 @@ currency = 300
 
 [node name="Secrets" type="Node2D" parent="."]
 
-[node name="Alcove" parent="Secrets" instance=ExtResource("5_hidden")]
-position = Vector2(832, 288)
+[node name="AlcoveWall" parent="Secrets" instance=ExtResource("5_secret")]
+position = Vector2(832, 352)
 
-[node name="Shape" parent="Secrets/Alcove" index="0"]
-position = Vector2(56, 32)
-shape = SubResource("shape_alcove")
-
-[node name="Cover" parent="Secrets/Alcove" index="1"]
+[node name="Cover" parent="Secrets/AlcoveWall/Visual" index="0"]
 offset_right = 112.0

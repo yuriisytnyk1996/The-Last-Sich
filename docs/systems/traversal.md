@@ -69,13 +69,18 @@ Both are saved. The lever remembers being pulled; the gate remembers being open 
 
 `Chest` (`levels/objects/items/chest.gd`) opens once with interact. It gives its `item` through `PlayerInventory.add()` (with the HUD toast) and `currency` straight to the wallet, not scaled by the [death penalty](/systems/death-penalty), since it is a fixed treasure, not a kill reward. Opened chests stay open (saved) and block their own prompt.
 
-### Hidden areas
+### Secret walls
 
-`HiddenArea` (`levels/objects/traversal/hidden_area.gd`) hides a secret behind a false wall. Its `Cover` child is drawn like the terrain and above the player (`z_index` 10). The tiles behind it are open: the cover only hides them. When the player walks in, the cover fades out over `fade_time` and the area stops watching. Found secrets stay found (saved).
+A secret is closed off by a **secret wall** (`levels/objects/breakables/secret_wall.tscn`), a [breakable](/systems/environment#breakables) that looks like the terrain around it. Walking into it does nothing: the player has to suspect it and hit it. It has no crack or other tell.
+
+- Its `Visual/Cover` is drawn like the terrain and above the player (`z_index` 10). It covers the wall and the whole space behind it, so the secret can't be seen from outside. The tiles behind it are open.
+- Its `Body` (16×64 at the origin, on the `world` layer) blocks the way in.
+- It takes 3 hits, and only from the side the player comes from (`breakable_from`, `LEFT` by default): from inside, the hurtbox is off. Every hit flashes the cover, so a player who tries the right wall gets an answer.
+- On the third hit the body opens and the cover fades out over `fade_time` (0.6 s). Hits taken so far and the broken state are saved.
 
 ### Saving
 
-Lever, gate, chest and hidden area join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
+Lever, gate, chest and secret wall join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
 
 ## Test vault layout
 
@@ -86,7 +91,7 @@ Lever, gate, chest and hidden area join the `persistent` group, so the [save sys
 3. **Upper floor west**: the **shortcut lever**. It opens the gate at the bottom of the shaft's right wall, so the ground floor connects both halves of the room.
 4. **Ground floor east**: a chest with the **seer's lantern**, a relic to wear from the inventory. The player drops down here from the upper floor, or walks through the opened gate.
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
-6. **Upper floor east**: the false wall at the end hides an alcove with a chest worth 300.
+6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300.
 
 The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
 
@@ -104,7 +109,7 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `actors/player/states/jump.gd` | `PlayerJumpState`: the jump, with the `_steer()` hook |
 | `levels/objects/traversal/climb_wall.gd` | `ClimbWall`: marks a wall as climbable |
 | `levels/objects/traversal/reveal_platform.gd` | `RevealPlatform`: platform shown by an unlock |
-| `levels/objects/traversal/hidden_area.gd`, `.tscn` | `HiddenArea`: false wall that fades when entered |
+| `levels/objects/breakables/secret_wall.tscn` | Secret wall: a `Breakable` drawn like the terrain, covering the secret behind it |
 | `levels/objects/mechanisms/lever.gd`, `.tscn` | `Lever`: toggles its targets |
 | `levels/objects/mechanisms/gate.gd`, `.tscn` | `Gate`: blocks the way until opened |
 | `levels/objects/items/chest.gd`, `.tscn` | `Chest`: gives an item and currency once |
@@ -138,7 +143,9 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `open_scale` | `Gate` | 0.1 | How much of the gate still shows when open |
 | `currency` | `Chest` | 0 | Currency inside. Secret chest in the vault: 300 |
 | `open_angle` | `Chest` | -2.0 | Lid angle when open (radians) |
-| `fade_time` | `HiddenArea` | 0.6 | Cover fade (s) |
+| `hits` | secret wall | 3 | Hits to break it |
+| `breakable_from` | secret wall | `LEFT` | Side the player has to stand on for hits to count |
+| `fade_time` | secret wall | 0.6 | Cover fade when it breaks (s) |
 
 ## Extending
 
@@ -146,11 +153,11 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 - **A key-locked door:** a `Gate` with a `Lever` next to it whose `key` is the key item (a keepsake).
 - **A new lever target** (a bridge, a moving platform that starts): give it a `toggle()` method (and `unlock()` if it can be locked) and, if its state should last, join the `persistent` group with `get_save_data()` / `apply_save_data()`.
 - **A climbable wall:** draw the wall in the tiles, then lay a `ClimbWall` over it in `Layout` with `size` matching the tiles.
-- **A secret:** leave the passage open in the tiles, then place a `HiddenArea` over it with its shape and `Cover` the same size.
+- **A secret:** leave the passage open in the tiles, place `secret_wall.tscn` in `Logic` at the bottom of the way in, size `Visual/Cover` to cover the wall and the space behind it, and set `breakable_from` to the side the player arrives from.
 
 ## Known limitations
 
-- Placeholder art: notches for climb walls, a blue bar for reveal platforms, coloured rectangles for the lever, gate, chest and false wall. No sounds.
+- Placeholder art: notches for climb walls, a blue bar for reveal platforms, coloured rectangles for the lever, gate and chest, a terrain-coloured rectangle for the secret wall. No sounds.
 - No wall cling animation; the body just stops against the wall.
 - A hit knocks the player off the wall into Hurt like anywhere else; there is no special fall-off reaction.
 - Reveal platforms show all at once; they can't reveal one by one as the player walks across them.

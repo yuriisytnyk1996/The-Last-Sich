@@ -1,6 +1,6 @@
 # Environment
 
-Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, hidden areas) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
+Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
 
 ## How it works
 
@@ -8,10 +8,13 @@ Everything lives in `levels/objects/`, grouped by kind. Pieces that change where
 
 ### Breakables
 
-`Breakable` (`levels/objects/breakables/breakable.gd`) is a prop the player breaks with attacks. Its `Hurtbox` masks `player_attacks`, so every swing, finisher and bolt counts. After `hits` hits it hides its `Visual`, stops taking hits, turns off the collision of its optional `Body` and gives `currency` through `Events.currency_earned`. The currency is scaled by the [death penalty](/systems/death-penalty) like an enemy's reward.
+`Breakable` (`levels/objects/breakables/breakable.gd`) is a prop the player breaks with attacks. Its `Hurtbox` masks `player_attacks`, so every swing, finisher and bolt counts. After `hits` hits it hides its `Visual` (or fades it over `fade_time`), stops taking hits, turns off the collision of its optional `Body` and gives `currency` through `Events.currency_earned`. The currency is scaled by the [death penalty](/systems/death-penalty) like an enemy's reward.
 
 - **Crate** (`crate.tscn`): one hit, 5 currency, no collision. It comes back every time the room loads.
 - **Cracked wall** (`breakable_wall.tscn`): 16×48, three hits, a `Body` on the `world` layer that blocks the way. `stays_broken` is on, so it joins the `persistent` group and the [save system](/systems/save-system) keeps it broken for good.
+- **Secret wall** (`secret_wall.tscn`): looks like the terrain, three hits from one side only, and fades out to show the secret behind it. See [Traversal](/systems/traversal#secret-walls).
+
+`breakable_from` limits hits to one side (`LEFT` or `RIGHT` of the breakable's origin, `BOTH` by default). From the other side the hurtbox is off, so swings pass through without a flash. With `stays_broken`, the hits taken so far are saved too, so a half-broken wall stays half broken.
 
 The hurtbox has `rewards_attacker` off, so hitting props fills no [spirit](/systems/spirit). Otherwise players could charge spirit on a crate.
 
@@ -66,6 +69,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `levels/objects/breakables/breakable.gd` | `Breakable`: breaks after some hits, drops currency, can stay broken (saved) |
 | `levels/objects/breakables/crate.tscn` | One-hit crate |
 | `levels/objects/breakables/breakable_wall.tscn` | Cracked wall that blocks the way, stays broken |
+| `levels/objects/breakables/secret_wall.tscn` | Secret wall drawn like the terrain, see [Traversal](/systems/traversal#secret-walls) |
 | `levels/objects/platforms/moving_platform.gd` | `MovingPlatform`: back-and-forth platform, one-way or solid |
 | `levels/objects/platforms/elevator.gd` | `Elevator`: lift between two stops, starts when stood on |
 | `levels/objects/platforms/elevator_call.gd`, `.tscn` | `ElevatorCall`: lever that calls an elevator |
@@ -84,8 +88,10 @@ Zones only affect the player. Enemies walk through them unchanged.
 |---|---|---|---|
 | `hits` | `Breakable` | 1 | Hits to break it. Cracked wall: 3 |
 | `currency` | `Breakable` | 0 | Currency when broken. Crate: 5 |
-| `stays_broken` | `Breakable` | false | Saved and broken for good. On for the cracked wall |
-| `break_shake` | `Breakable` | 0.15 | Camera trauma on break. Cracked wall: 0.4 |
+| `stays_broken` | `Breakable` | false | Saved (hits taken and broken) for good. On for the cracked and secret walls |
+| `break_shake` | `Breakable` | 0.15 | Camera trauma on break. Cracked and secret wall: 0.4 |
+| `breakable_from` | `Breakable` | `BOTH` | Side the player has to stand on for hits to count. Secret wall: `LEFT` |
+| `fade_time` | `Breakable` | 0 | Seconds `Visual` fades when broken; 0 hides it at once. Secret wall: 0.6 |
 | `size` | `MovingPlatform` | 48×8 | Platform size (px) |
 | `travel` | `MovingPlatform` | (128, 0) | Far end, from the start (px) |
 | `speed` | `MovingPlatform` | 50 | px/s, eased at the ends |
