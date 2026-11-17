@@ -78,9 +78,11 @@ var _dash_cooldown_timer := 0.0
 @onready var wallet: PlayerWallet = $Wallet
 @onready var safe_ground: PlayerSafeGround = $SafeGround
 @onready var spirit: PlayerSpirit = $Spirit
+@onready var dumas: PlayerDumas = $Dumas
 @onready var skills: PlayerSkills = $Skills
 @onready var area_effects: PlayerAreaEffects = $AreaEffects
 @onready var inventory: PlayerInventory = $Inventory
+@onready var item_effects: PlayerItemEffects = $ItemEffects
 @onready var unlocks: PlayerUnlocks = $Unlocks
 @onready var upgrades: PlayerUpgrades = $Upgrades
 

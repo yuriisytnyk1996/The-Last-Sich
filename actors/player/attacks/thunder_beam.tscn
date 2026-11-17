@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://actors/player/attacks/player_blast.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(28, 200)
+
+[node name="ThunderBeam" type="Area2D"]
+collision_layer = 8
+collision_mask = 1
+monitoring = false
+script = ExtResource("1_script")
+damage = 70
+knockback_force = 220.0
+knockback_direction = Vector2(0, -1)
+reaction = 2
+duration = 0.3
+shake = 0.9
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -100.0)
+shape = SubResource("shape")
+disabled = true
+
+[node name="Visual" type="ColorRect" parent="."]
+offset_left = -14.0
+offset_top = -200
+offset_right = 14.0
+offset_bottom = 0
+mouse_filter = 2
+color = Color(0.75, 0.9, 1, 0.65)

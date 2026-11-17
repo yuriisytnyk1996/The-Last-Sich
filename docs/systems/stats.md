@@ -36,6 +36,9 @@ StatModifier (max_health +20, FLAT) ──add_modifier(.., &"iron_ring")──�
 | `parry_window` | `PlayerStats.PARRY_WINDOW` | `PlayerParry` | Seconds the guard is up |
 | `riposte_window` | `PlayerStats.RIPOSTE_WINDOW` | `PlayerParry` | Seconds to press attack after a parry |
 | `dash_cooldown` | `PlayerStats.DASH_COOLDOWN` | `Player.start_dash()` | Seconds before the next dash |
+| `duma_cost` | `PlayerStats.DUMA_COST` | `PlayerDumas.cost()` | Spirit added to every [duma](/systems/dumas)'s cost |
+| `duma_duration` | `PlayerStats.DUMA_DURATION` | `PlayerDumas.begin()` | Seconds added to every lasting duma effect |
+| `duma_strength` | `PlayerStats.DUMA_STRENGTH` | Duma effects, `SabreRing` | Multiplier for the damage of duma attacks |
 | `charm_slots` | `PlayerStats.CHARM_SLOTS` | `PlayerInventory` | Charms worn at once. Fewer takes off the last charms worn, see [Inventory](/systems/inventory) |
 
 ### Damage and resistance
@@ -91,6 +94,9 @@ Base values, on the player's **`Stats`** child node (`PlayerStats`):
 | Defense | `poison_resist` | 0 | 0 to 1 | Fraction of POISON damage ignored |
 | Spirit | `max_spirit` | 30 | 0 and up | Maximum spirit without death marks |
 | Spirit | `spirit_per_hit` | 2 | 0 and up | Spirit per landed hit |
+| Dumas | `duma_cost` | 0 | -100 and up | Spirit added to every duma's cost |
+| Dumas | `duma_duration` | 0 | -60 and up | Seconds added to every lasting duma effect |
+| Dumas | `duma_strength` | 1.0 | 0 and up | Multiplier for the damage of duma attacks |
 | Movement | `run_speed` | 140 | 0 and up | Top running speed (px/s) |
 | Timing | `parry_window` | 0.25 | 0.05 and up | Seconds the guard is up after the press |
 | Timing | `riposte_window` | 0.5 | 0.05 and up | After a parry, seconds to press attack for a riposte |

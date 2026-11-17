@@ -93,6 +93,8 @@ An attack whose hitbox is `parryable` can be [parried](/systems/combat#parry-and
 
 Only the raider's `Slash` is parryable so far. Contact damage and projectiles never are.
 
+A player hit with `Hitbox.stuns` on (the Calm Sea [duma](/systems/dumas)) stuns the same way, through `EnemyDamage.stun_from(position)`, pushed away from the hit. Only enemies that flinch are stunned; bosses only take the damage.
+
 ### Finding the player
 
 Enemies find the player through the `player` group and know whether it is alive from `Events.player_health_changed`. Nothing in `actors/enemies/` references the `Player` class, so enemies stay independent of the player's code.

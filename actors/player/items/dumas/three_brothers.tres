@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/volley_effect.gd" id="volley"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/duma_shot.tscn" id="shot"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("volley")
+trigger = 5
+projectile_scene = ExtResource("shot")
+
+[resource]
+script = ExtResource("item")
+id = &"three_brothers"
+title = "Duma of the Three Brothers"
+description = "Sing it for 10 spirit: three shots fly forward, one after another."
+lore = "Three brothers fled Azov on foot, and only the youngest came home. The duma gives each of them one shot, and the listeners never agree on which one missed."
+kind = 4
+price = 450
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 10.0

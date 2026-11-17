@@ -92,6 +92,8 @@
 
 - [x] Guard slide: a HEAVY hit caught on the parry guard deals no damage and slides the player back (distance from the hit's force), invincible, facing the attacker; a held dash at the end of the slide cancels into a dash towards the attacker. New `guard_slide` and `unblockable` hitbox flags, `guard_slid` signals for attacks that should react. Works on the Otaman's slam and dash cut and the boar's gore
 
+- [x] Dumas: songs sung for spirit, a new item kind with one slot and a `duma` button (U / left stick click). A planted cast with an aura spends the cost at the cast point, then the duma's `ON_USE` effects run; while a lasting one runs, no other can be sung and a line under the spirit bar shows its time left; the bar flashes when spirit is short. `duma_cost`, `duma_duration` and `duma_strength` stats. Seven dumas: pillars of fire forward, pillars on both sides, a thunderbolt, a three-shot volley, a stunning burst (new `Hitbox.stuns`), a ring of sabres that cuts enemies and destroys their shots, and heavy strikes. All in the test room
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -101,7 +103,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
-- [ ] Spirit abilities that spend spirit
 - [ ] Map: items that reveal a zone
 - [ ] Gates opened by attacks; feedback for a lever pulled without its key
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
@@ -141,4 +142,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Drawn tints for zones and drifting line streaks for wind
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
+- Blue glow for the duma aura, coloured rectangles for the fire pillars, thunder beam, stun burst, duma shots and the sabres, a thin line under the spirit bar for a running duma, a scroll shape for duma icons
 - Blue bar for the parry guard (flashed and slid along for a guard slide), a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

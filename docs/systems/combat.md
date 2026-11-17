@@ -303,6 +303,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `parryable` | false | A parrying hurtbox deflects this hit instead of taking it. For telegraphed melee swings |
 | `guard_slide` | false | A parrying hurtbox takes this hit as a [guard slide](#guard-slide) even if it isn't HEAVY |
 | `unblockable` | false | Never a guard slide, even when HEAVY: the hit lands through the guard |
+| `stuns` | false | An enemy that flinches is stunned by this hit, as if parried. For the Calm Sea [duma](/systems/dumas) |
 
 ### Hurtbox
 

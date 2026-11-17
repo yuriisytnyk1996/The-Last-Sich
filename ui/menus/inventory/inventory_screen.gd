@@ -5,13 +5,13 @@ extends MenuScreen
 ## left (`InventoryGrid`), the focused item on the right (`ItemDetails`),
 ## the player's currency and the button hints at the bottom.
 ##
-## Accept on a charm, blade or relic wears it in the first free slot or
-## takes it off; a blade replaces the one worn. `menu_lore` (R / Y) opens
+## Accept on a charm, duma, blade or relic wears it in the first free slot
+## or takes it off; a blade or duma replaces the one worn. `menu_lore` (R / Y) opens
 ## the focused item's `LoreScreen`. The page opens on the newest item
 ## when there is one, else on the tab and cell used last.
 
 const KINDS: Array[Item.Kind] = [
-	Item.Kind.CHARM, Item.Kind.BLADE, Item.Kind.RELIC, Item.Kind.KEEPSAKE
+	Item.Kind.CHARM, Item.Kind.DUMA, Item.Kind.BLADE, Item.Kind.RELIC, Item.Kind.KEEPSAKE
 ]
 ## The page is drawn on its own backdrop, this far around its content (px).
 const MARGIN := Vector2(16, 10)
@@ -133,7 +133,10 @@ func _update_hints(item: Item) -> void:
 	if item and item.is_equipable():
 		if _inventory.is_worn(item):
 			action = "Accept: Take off    "
-		elif item.kind != Item.Kind.BLADE and not _inventory.has_free_slot(item.kind):
+		elif (
+			not item.kind in PlayerInventory.SWAPPED_KINDS
+			and not _inventory.has_free_slot(item.kind)
+		):
 			action = "No free slot    "
 		else:
 			action = "Accept: Wear    "

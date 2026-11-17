@@ -1,6 +1,6 @@
 # Spirit
 
-Spirit is a resource the player builds up by fighting. The [ranged bolt](/systems/skills) spends it. Death marks lower both its maximum and how fast it fills, see [Death penalty](/systems/death-penalty).
+Spirit is a resource the player builds up by fighting. The [ranged bolt](/systems/skills) and [dumas](/systems/dumas) spend it. Death marks lower both its maximum and how fast it fills, see [Death penalty](/systems/death-penalty).
 
 ## How it works
 

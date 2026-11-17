@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/blast_row_effect.gd" id="row"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/stun_burst.tscn" id="burst"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("row")
+trigger = 5
+blast_scene = ExtResource("burst")
+count = 1
+offset = 0.0
+spacing = 0.0
+spread_time = 0.0
+both_sides = false
+shake = 0.0
+
+[resource]
+script = ExtResource("item")
+id = &"calm_sea"
+title = "Duma of the Calm Sea"
+description = "Sing it for 15 spirit: everything close around the singer is stunned for a moment."
+lore = "After the storm the sea went so still that the gulls forgot to cry. Enemies near the singer forget, for a breath, what they were doing."
+kind = 4
+price = 550
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 15.0

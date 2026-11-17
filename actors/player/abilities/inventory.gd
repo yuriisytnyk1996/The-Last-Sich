@@ -6,7 +6,7 @@ extends Node
 ## player (pickups, shops) and announces it through `Events.item_obtained`.
 ## Charms and blades are worn in slots: as many charm slots as the
 ## `PlayerStats.CHARM_SLOTS` stat, one blade slot, `RELIC_SLOTS` relic
-## slots. Keepsakes are never worn. What items do is up to
+## slots, one duma slot. Keepsakes are never worn. What items do is up to
 ## `PlayerItemEffects`, which listens to `changed`.
 ##
 ## A global save system (see `SaveManager`): owned and worn ids are
@@ -17,6 +17,9 @@ signal changed
 
 const BLADE_SLOTS := 1
 const RELIC_SLOTS := 3
+const DUMA_SLOTS := 1
+## Kinds with one slot: wearing one replaces the one worn.
+const SWAPPED_KINDS: Array[Item.Kind] = [Item.Kind.BLADE, Item.Kind.DUMA]
 
 ## Every item, in the order the inventory page lists them.
 @export var all: Array[Item] = []
@@ -69,6 +72,8 @@ func slot_count(kind: Item.Kind) -> int:
 			return BLADE_SLOTS
 		Item.Kind.RELIC:
 			return RELIC_SLOTS
+		Item.Kind.DUMA:
+			return DUMA_SLOTS
 	return 0
 
 
@@ -89,6 +94,8 @@ func max_slots(kind: Item.Kind) -> int:
 			return BLADE_SLOTS
 		Item.Kind.RELIC:
 			return RELIC_SLOTS
+		Item.Kind.DUMA:
+			return DUMA_SLOTS
 	return 0
 
 
@@ -107,14 +114,14 @@ func add(item: Item) -> bool:
 	return true
 
 
-## Wears an owned item. A blade replaces the one worn; a charm or relic
-## needs a free slot. Returns false when it can't be worn.
+## Wears an owned item. A blade or duma replaces the one worn; a charm or
+## relic needs a free slot. Returns false when it can't be worn.
 func wear(item: Item) -> bool:
 	if not owns(item) or not item.is_equipable() or is_worn(item):
 		return false
-	if item.kind == Item.Kind.BLADE:
-		for blade in worn_of(Item.Kind.BLADE):
-			_worn.erase(blade.id)
+	if item.kind in SWAPPED_KINDS:
+		for other in worn_of(item.kind):
+			_worn.erase(other.id)
 	elif not has_free_slot(item.kind):
 		return false
 	_worn.append(item.id)

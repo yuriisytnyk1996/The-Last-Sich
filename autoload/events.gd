@@ -101,3 +101,13 @@ signal boss_health_changed(current: int, maximum: int)
 ## the boss bar.
 @warning_ignore("unused_signal")
 signal boss_fight_ended
+
+## A duma started or stopped running. `fraction_left` is 1 when it starts
+## and 0 when it ends. The HUD shows it under the spirit bar.
+@warning_ignore("unused_signal")
+signal duma_time_changed(fraction_left: float)
+
+## The duma button was pressed without enough spirit (or no duma worn).
+## The HUD flashes the spirit bar.
+@warning_ignore("unused_signal")
+signal spirit_short

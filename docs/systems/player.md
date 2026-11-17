@@ -55,7 +55,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
     ├── HardLanding  ├── Heal  ├── Kneel
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
     ├── ComboHeavy  ├── ComboFinisher  ├── ComboFinisherUp  ├── ComboFinisherDown
-    ├── Charge  ├── ChargedSlash  ├── Lunge  ├── Dive  ├── Ranged
+    ├── Charge  ├── ChargedSlash  ├── Lunge  ├── Dive  ├── Ranged  ├── Duma
     └── Hurt  └── Dead
 ```
 
@@ -63,8 +63,8 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 
 | State | Does | Leaves to |
 |---|---|---|
-| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), Ranged (ranged let go, with the skill), an attack (attack buffered), Heal (heal pressed), Run (move input) |
-| **Run** | Gravity, accelerates toward the `run_speed` stat | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, Ranged, an attack, Heal, Idle (no move input) |
+| **Idle** | Gravity, slows to a stop | Fall (not on floor, or dropping through a platform), Climb (up at a ladder, or down on top of one), Jump (jump buffered), Dash, Parry (parry pressed), Ranged (ranged let go, with the skill), Duma (duma pressed and it can be sung), an attack (attack buffered), Heal (heal pressed), Run (move input) |
+| **Run** | Gravity, accelerates toward the `run_speed` stat | Fall (also when dropping through a platform), Climb, Jump, Dash, Parry, Ranged, Duma, an attack, Heal, Idle (no move input) |
 | **Jump** | Sets upward velocity, cuts the jump if the button is released | Climb (up at a ladder), WallCling (attack held, facing a climb wall), Ranged, Dive (down + attack held, with the skill), an attack, Fall (once moving down) |
 | **Fall** | Gravity, air control | Jump (coyote time), Climb (up at a ladder), LedgeHang (falling past a ledge it faces), WallCling (attack held, facing a climb wall), Ranged, Dive, an attack, Idle/Run (landed), HardLanding (landed after a long fall) |
 | **Dash** | Ground only. Fixed horizontal speed, no gravity | Lunge (attack, with the skill), Idle/Run (time is up), Fall (ran off a ledge: ends at once) |
@@ -86,6 +86,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **Lunge** | Thrust forward from a dash, ignores contact damage | Idle/Run, Fall, another attack (re-swing after a miss) |
 | **Dive** | Hang, plunge, land with a hit around, recover. Invincible until it lands | Idle/Run, Fall |
 | **Ranged** | Throw a spirit bolt, stopped on the ground or hanging in the air | Idle/Run, Fall |
+| **Duma** | Planted, aura rises, the worn [duma](/systems/dumas) goes off at the cast point | Idle/Run, Fall (off a ledge) |
 | **Hurt** | Entered from any state on a NORMAL or HEAVY hit. Knocked up and away, faces the hit, no control, invincible | Idle/Run (on floor), Fall (in air) after the stagger time |
 | **Dead** | Entered from any state when health reaches 0. Dark tint, keeps its knockback and slides to a stop. In a pit (below the room's bottom edge) the body stops dead instead, so it doesn't drift under the floor and drag the camera. Reads no input | None: emits `Events.player_died` after `death_delay`, and the world's respawn (at the last rest point, or where the player entered the room) puts the player in Idle |
 

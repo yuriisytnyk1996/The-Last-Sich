@@ -62,6 +62,9 @@ const RESIST_STATS: Dictionary[Element, StringName] = {
 @export var guard_slide := false
 ## No guard slide, even for a HEAVY hit: the hit lands through the guard.
 @export var unblockable := false
+## An enemy that flinches is stunned by this hit, as if parried
+## (`EnemyDamage.stun_from()`). For the player's stunning duma.
+@export var stuns := false
 
 ## Stats of whoever deals this hit. Their `Stats.DAMAGE` scales `damage`.
 ## Optional: without it the base damage is dealt.

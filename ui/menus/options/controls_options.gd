@@ -15,6 +15,7 @@ const LABELS := {
 	&"heal": "Heal",
 	&"interact": "Interact",
 	&"ranged": "Ranged",
+	&"duma": "Duma",
 	&"map": "Map",
 	&"inventory": "Inventory",
 }

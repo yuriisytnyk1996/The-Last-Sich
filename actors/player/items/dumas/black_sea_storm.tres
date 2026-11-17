@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/blast_row_effect.gd" id="row"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/fire_pillar.tscn" id="pillar"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("row")
+trigger = 5
+blast_scene = ExtResource("pillar")
+count = 4
+offset = 20.0
+spacing = 28.0
+spread_time = 0.4
+both_sides = true
+shake = 0.3
+
+[resource]
+script = ExtResource("item")
+id = &"black_sea_storm"
+title = "Duma of the Black Sea Storm"
+description = "Sing it for 15 spirit: pillars of fire rise on both sides at once."
+lore = "A storm split the Cossack fleet in two, and each half was sure the other had drowned. The duma ends with both halves landing on the same shore."
+kind = 4
+price = 600
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 15.0

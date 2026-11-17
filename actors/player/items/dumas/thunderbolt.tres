@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/blast_row_effect.gd" id="row"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/thunder_beam.tscn" id="beam"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("row")
+trigger = 5
+blast_scene = ExtResource("beam")
+count = 1
+offset = 0.0
+spacing = 0.0
+spread_time = 0.0
+both_sides = false
+shake = 0.0
+
+[resource]
+script = ExtResource("item")
+id = &"thunderbolt"
+title = "Duma of the Thunderbolt"
+description = "Sing it for 20 spirit: a bolt of thunder falls on the singer, striking hard everything around them."
+lore = "Sung only under an open sky. A blind kobzar sang it once in a church and was never asked back, though the roof was mended by spring."
+kind = 4
+price = 700
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 20.0

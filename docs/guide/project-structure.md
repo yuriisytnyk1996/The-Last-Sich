@@ -64,13 +64,17 @@ The-Last-Sich/
 │   │   │   ├── item_effects.gd   Starts and stops the effects of carried and worn items
 │   │   │   ├── safe_ground.gd    Remembers the last safe spot, where death marks are left
 │   │   │   ├── spirit.gd         Spirit, filled by landing hits
+│   │   │   ├── dumas.gd          Singing the worn duma: cost, start, time left
 │   │   │   ├── area_effects.gd   Combines the wind and mud zones the player is in
 │   │   │   ├── parry.gd          Parry and riposte tuning (windows from stats)
 │   │   │   └── guard_slide.gd    Guard slide tuning: sliding back from a heavy hit on the guard
 │   │   ├── items/                Items the player carries
-│   │   │   ├── item.gd           Item resource: id, text, kind, price, effects
-│   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect
+│   │   │   ├── item.gd           Item resource: id, text, kind, price, effects, duma cost
+│   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect,
+│   │   │   │                     and the duma effects: BlastRowEffect, VolleyEffect,
+│   │   │   │                     SummonEffect, HeavyStrikesEffect
 │   │   │   ├── charms/           One .tres per charm
+│   │   │   ├── dumas/            One .tres per duma
 │   │   │   ├── blades/           One .tres per blade
 │   │   │   ├── relics/           One .tres per relic (traversal tools, worn)
 │   │   │   └── keepsakes/        One .tres per keepsake
@@ -84,7 +88,9 @@ The-Last-Sich/
 │   │   ├── attacks/              Projectiles and blasts
 │   │   │   ├── player_projectile.gd   Flying hitbox: bolt and wave
 │   │   │   ├── player_blast.gd   One-off hitbox: burst and shockwave
-│   │   │   └── *.tscn            ranged_bolt, charged_wave, bolt_burst, dive_shockwave
+│   │   │   ├── sabre_ring.gd     Sabres circling the player (a duma)
+│   │   │   └── *.tscn            ranged_bolt, charged_wave, bolt_burst, dive_shockwave,
+│   │   │                         fire_pillar, thunder_beam, stun_burst, duma_shot, sabre_ring
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd
@@ -102,6 +108,7 @@ The-Last-Sich/
 │   │       ├── kneel.gd          Kneeling at a rest point before the travel prompt
 │   │       ├── parry.gd          Guard up, deflects parryable hits
 │   │       ├── guard_slide.gd    Slid back by a heavy hit caught on the guard
+│   │       ├── duma.gd           Singing a duma: planted cast with an aura
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
 │   │       ├── attacks/          One script per attack

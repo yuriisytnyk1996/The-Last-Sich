@@ -24,6 +24,7 @@ export default {
         'currency',
         'skills',
         'inventory',
+        'dumas',
         'shops',
         'spirit',
         'death-penalty',

@@ -19,6 +19,7 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 | `heal` | F | Y / Triangle | `PlayerFlasks.wants()`: drink a healing flask in Idle or Run |
 | `interact` | E | B / Circle | `Player.can_interact()`: use doors, rest points and skill shrines, in Idle or Run |
 | `ranged` | L | Right stick click | `PlayerRangedAttack.wants()`: press and let go to throw a spirit bolt (with the skill) |
+| `duma` | U | Left stick click | `PlayerDumas.wants()`: sing the worn [duma](/systems/dumas) in Idle or Run |
 | `map` | M | Back / Select | `World` opens the pause menu on the [map](/systems/map); closes it again |
 | `inventory` | I | — | `World` opens the pause menu on the [inventory](/systems/inventory#inventory-page); closes it again. No gamepad button by default (Start → Inventory); one can be bound in Controls |
 | `menu_lore` | R | Y | Menus only: open the focused item's [lore page](/systems/inventory#inventory-page) in the inventory, and close it again. Not rebindable |
@@ -26,7 +27,7 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 | `pause` | Escape | Start | `World` opens the [pause menu](/systems/menus); closes it again |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
 
-The left hand stays on WASD with dash (Shift), interact (E), heal (F) and jump (Space) in reach; the right hand has attack (J), parry (K) and ranged (L).
+The left hand stays on WASD with dash (Shift), interact (E), heal (F) and jump (Space) in reach; the right hand has attack (J), parry (K), ranged (L) and duma (U).
 
 The game is played with keyboard or gamepad, menus included.
 

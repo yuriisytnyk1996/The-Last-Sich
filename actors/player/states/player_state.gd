@@ -30,6 +30,7 @@ const RANGED := &"Ranged"
 const PARRY := &"Parry"
 const RIPOSTE := &"Riposte"
 const GUARD_SLIDE := &"GuardSlide"
+const DUMA := &"Duma"
 const HURT := &"Hurt"
 const DEAD := &"Dead"
 

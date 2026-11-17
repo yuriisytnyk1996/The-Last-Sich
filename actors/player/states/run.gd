@@ -21,6 +21,8 @@ func physics_update(delta: float) -> void:
 		finished.emit(PARRY)
 	elif player.skills.ranged.wants():
 		finished.emit(RANGED)
+	elif player.dumas.wants():
+		finished.emit(DUMA)
 	elif player.wants_attack():
 		finished.emit(attack_state())
 	elif player.flasks.wants():

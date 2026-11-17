@@ -89,6 +89,8 @@ On the `FlaskCounter` node:
 
 `SpiritBar` (`ui/hud/spirit_bar.gd`) sits right under the health bar. It is as wide as spirit without death marks (`full_maximum × pixels_per_point`). The part death marks take away is drawn in `locked_color` at the right end, so every death visibly shortens what can be filled. It listens to `Events.player_spirit_changed(current, maximum, full_maximum)`. See [Spirit](/systems/spirit).
 
+While a [duma](/systems/dumas) runs, a `duma_height` line in `duma_color` under the bar shrinks from full width to nothing with its time left (`Events.duma_time_changed(fraction_left)`). Pressing `duma` without enough spirit, or with no duma worn, flashes the bar in `short_color`, fading over `short_flash_time` (`Events.spirit_short`).
+
 `DeathMarkCounter` (`ui/hud/death_mark_counter.gd`) draws one small purple pip per death mark to the right of the spirit bar, nothing while there are none. Both sit in the `SpiritRow` `HBoxContainer` (4 px apart), so the pips move right when a spirit upgrade makes the bar longer. It listens to `Events.death_marks_changed(count)`. See [Death penalty](/systems/death-penalty).
 
 | Value | Default | Effect |
@@ -100,6 +102,10 @@ On the `FlaskCounter` node:
 | `SpiritBar.empty_color` | `#2a2440` | Spirit not yet filled |
 | `SpiritBar.fill_color` | `#6f7fd8` | Current spirit |
 | `SpiritBar.locked_color` | `#4a2050` | Spirit locked by death marks |
+| `SpiritBar.duma_color` | `#c8d0ff` | Line showing a running duma's time left |
+| `SpiritBar.short_color` | `#ff5a5a` | Flash when spirit is short for a duma |
+| `SpiritBar.duma_height` | 1 | Height of the duma line (px) |
+| `SpiritBar.short_flash_time` | 0.3 | Seconds the short-spirit flash fades over |
 | `DeathMarkCounter.pip_size` | (3, 5) | Inner size of one pip (px) |
 | `DeathMarkCounter.spacing` | 1 | Gap between pips (px) |
 | `DeathMarkCounter.pip_color` | `#8a3a90` | Pip |

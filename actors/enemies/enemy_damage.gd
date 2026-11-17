@@ -95,7 +95,13 @@ func is_poise_broken() -> bool:
 
 
 func _on_hurt(hitbox: Hitbox) -> void:
-	if hitbox.reaction == Hitbox.Reaction.LIGHT or not flinches:
+	if not flinches:
+		return
+	if hitbox.stuns:
+		if not enemy.health.is_dead():
+			stun_from(hitbox.global_position)
+		return
+	if hitbox.reaction == Hitbox.Reaction.LIGHT:
 		return
 	var state := enemy.state_machine.state as EnemyState
 	if state and not state.can_be_staggered():
@@ -129,7 +135,13 @@ func _strike_back(direction: float) -> void:
 
 ## Its attack was parried by `hurtbox`: pushed back and helpless for a moment.
 func stun(hurtbox: Hurtbox) -> void:
-	var direction := signf(enemy.global_position.x - hurtbox.global_position.x)
+	stun_from(hurtbox.global_position)
+
+
+## Stunned by something at `from` (a parry, a stunning hit): pushed away
+## from it and helpless for `stun_time`.
+func stun_from(from: Vector2) -> void:
+	var direction := signf(enemy.global_position.x - from.x)
 	if direction == 0.0:
 		direction = float(-enemy.facing)
 	knockback = direction * stun_knockback

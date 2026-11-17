@@ -14,8 +14,10 @@ extends Resource
 ## KEEPSAKE: never equipped. Works just by being carried (keys, pouches).
 ## RELIC: worn in `PlayerInventory.RELIC_SLOTS` slots. Traversal tools
 ## (a lantern that shows hidden platforms) that work only while worn.
+## DUMA: one slot. A song sung for `spirit_cost` with the duma button;
+## its `ON_USE` effects run then (see `PlayerDumas`).
 ## Saved as numbers in `.tres` files, so new kinds go at the end.
-enum Kind { CHARM, BLADE, KEEPSAKE, RELIC }
+enum Kind { CHARM, BLADE, KEEPSAKE, RELIC, DUMA }
 
 ## Saved to disk. Never rename one that has shipped.
 @export var id := &""
@@ -29,6 +31,8 @@ enum Kind { CHARM, BLADE, KEEPSAKE, RELIC }
 ## What a shop stand asks for it unless the stand sets its own price.
 @export var price := 100
 @export var effects: Array[ItemEffect] = []
+## Dumas only: spirit spent to sing it, before `PlayerStats.DUMA_COST`.
+@export var spirit_cost := 0.0
 
 
 func is_equipable() -> bool:
@@ -36,4 +40,4 @@ func is_equipable() -> bool:
 
 
 static func kind_name(of: Kind) -> String:
-	return ["Charm", "Blade", "Keepsake", "Relic"][of]
+	return ["Charm", "Blade", "Keepsake", "Relic", "Duma"][of]

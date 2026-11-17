@@ -54,6 +54,7 @@ export default defineConfig({
           { text: 'Currency', link: '/systems/currency' },
           { text: 'Skills', link: '/systems/skills' },
           { text: 'Inventory', link: '/systems/inventory' },
+          { text: 'Dumas', link: '/systems/dumas' },
           { text: 'Shops', link: '/systems/shops' },
           { text: 'Death penalty', link: '/systems/death-penalty' },
           { text: 'Upgrades', link: '/systems/upgrades' },

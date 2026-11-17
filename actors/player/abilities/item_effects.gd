@@ -7,7 +7,8 @@ extends Node
 ## should run and don't are started, the ones that run and shouldn't are
 ## stopped. Event effects (ON_HIT, ON_KILL, ON_HURT) of worn items start
 ## when the event happens and, with a duration, stop once it runs out.
-## A new event restarts that clock instead of stacking.
+## A new event restarts that clock instead of stacking. ON_USE effects
+## start when `use()` is called (a duma being sung) and stop the same way.
 ##
 ## Every effect runs under its own source (`item:<id>:<index>`), so stat
 ## modifiers come off cleanly.
@@ -106,6 +107,34 @@ func _fire(trigger: ItemEffect.Trigger) -> void:
 			effect.start(player, source)
 			if effect.duration > 0.0:
 				_timed[source] = effect.duration
+
+
+## Starts the ON_USE effects of `item`. Effects with a duration run for
+## it plus `extra_time`. Returns the longest of those, 0 if none lasts.
+func use(item: Item, extra_time := 0.0) -> float:
+	var longest := 0.0
+	for i in item.effects.size():
+		var effect := item.effects[i]
+		if effect.trigger != ItemEffect.Trigger.ON_USE:
+			continue
+		var source := _source(item, i)
+		if _timed.has(source):
+			_timed.erase(source)
+			effect.stop(player, source)
+		effect.start(player, source)
+		if effect.duration > 0.0:
+			_timed[source] = maxf(effect.duration + extra_time, 0.0)
+			longest = maxf(longest, _timed[source])
+	return longest
+
+
+## Stops the ON_USE effects of `item` that are still running.
+func end_use(item: Item) -> void:
+	for i in item.effects.size():
+		var source := _source(item, i)
+		if item.effects[i].trigger == ItemEffect.Trigger.ON_USE and _timed.has(source):
+			_timed.erase(source)
+			item.effects[i].stop(player, source)
 
 
 func _on_hit_landed(hurtbox: Hurtbox) -> void:

@@ -23,6 +23,7 @@ const ACTIONS: Array[StringName] = [
 	&"heal",
 	&"interact",
 	&"ranged",
+	&"duma",
 	&"map",
 	&"inventory",
 ]

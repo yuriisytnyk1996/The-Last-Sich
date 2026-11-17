@@ -1,7 +1,8 @@
 class_name ItemDetails
 extends PanelContainer
 ## The right side of the inventory page: the focused item drawn large,
-## its name, its kind and whether it is worn, and its description.
+## its name, its kind and whether it is worn (with a duma's spirit cost),
+## and its description.
 ## Empty when the focused cell holds nothing.
 
 const WIDTH := 176.0
@@ -48,4 +49,8 @@ func show_item(item: Item, worn: bool) -> void:
 	if item == null:
 		_state.text = " "
 	else:
-		_state.text = Item.kind_name(item.kind) + ("  ·  Worn" if worn else "")
+		_state.text = Item.kind_name(item.kind)
+		if item.kind == Item.Kind.DUMA:
+			_state.text += "  ·  Spirit %d" % roundi(item.spirit_cost)
+		if worn:
+			_state.text += "  ·  Worn"

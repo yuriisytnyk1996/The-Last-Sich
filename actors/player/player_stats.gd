@@ -14,6 +14,9 @@ const DASH_COOLDOWN := &"dash_cooldown"
 const ATTACK_SPEED := &"attack_speed"
 const RUN_SPEED := &"run_speed"
 const CHARM_SLOTS := &"charm_slots"
+const DUMA_COST := &"duma_cost"
+const DUMA_DURATION := &"duma_duration"
+const DUMA_STRENGTH := &"duma_strength"
 ## Most charm slots the player can ever have.
 const MAX_CHARM_SLOTS := 8
 
@@ -46,6 +49,14 @@ const MAX_CHARM_SLOTS := 8
 @export var max_spirit := 30.0
 ## Spirit gained per landed hit.
 @export var spirit_per_hit := 2.0
+
+@export_group("Dumas")
+## Spirit added to (or, below 0, taken off) every duma's cost.
+@export var duma_cost := 0.0
+## Seconds added to every duma effect that lasts.
+@export var duma_duration := 0.0
+## Multiplier for the damage of duma attacks.
+@export var duma_strength := 1.0
 
 @export_group("Movement")
 ## Top running speed (px/s).
@@ -83,3 +94,6 @@ func _define_stats() -> void:
 	define(RIPOSTE_WINDOW, riposte_window, 0.05)
 	define(DASH_COOLDOWN, dash_cooldown, 0.0)
 	define(CHARM_SLOTS, charm_slots, 0.0, MAX_CHARM_SLOTS)
+	define(DUMA_COST, duma_cost, -100.0)
+	define(DUMA_DURATION, duma_duration, -60.0)
+	define(DUMA_STRENGTH, duma_strength, 0.0)

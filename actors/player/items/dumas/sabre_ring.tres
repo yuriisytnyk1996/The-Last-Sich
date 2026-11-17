@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/summon_effect.gd" id="summon"]
+[ext_resource type="PackedScene" path="res://actors/player/attacks/sabre_ring.tscn" id="ring"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("summon")
+trigger = 5
+duration = 15.0
+scene = ExtResource("ring")
+
+[resource]
+script = ExtResource("item")
+id = &"sabre_ring"
+title = "Duma of the Sabre Ring"
+description = "Sing it for 20 spirit: three sabres circle the singer for 15 seconds, cutting enemies and stopping shots."
+lore = "A song for the last of a company, back to back in the reeds. It names every sabre that fell, and while it is sung they are said to stay close."
+kind = 4
+price = 800
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 20.0
