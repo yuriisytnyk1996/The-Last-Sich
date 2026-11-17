@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.16](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.15...v0.0.16) (2026-11-17)
+
+### Features
+
+* **bosses:** add boss fights and the Otaman ([04d853e](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/04d853ef09f7d9fe81d17cb92853f0ab43a22ab7))
+
+### Bug Fixes
+
+* **combat:** skip the continuous hit recheck on a turned-off hurtbox ([4183443](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/4183443a75596d95fff5e42a55e780de6bfd6c13))
+
+### Refactoring
+
+* **input:** remove the cursor autoload ([092e8e9](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/092e8e9d1ffd939cba8bc64b065cf96e0087193d))
+
 ## [0.0.15](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.14...v0.0.15) (2026-11-17)
 
 ### Features
