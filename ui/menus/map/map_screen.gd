@@ -1,7 +1,8 @@
 class_name MapScreen
 extends MenuScreen
-## The pause menu's map page: the zone under the cursor, the `MapView`
-## and a legend. Opened from the pause screen or straight from the
+## The pause menu's map page: the zone under the cursor and how much of
+## the world is explored (`WorldMap.completion()`), the `MapView` and a
+## legend. Opened from the pause screen or straight from the
 ## `map` action (M / Back).
 ##
 ## In travel mode (opened by kneeling at a rest point, see `KneelScreen`)
@@ -99,4 +100,5 @@ func _on_picking_changed(picking: bool) -> void:
 
 
 func _on_zone_changed(zone: String) -> void:
-	_zone.text = zone if zone != "" else " "
+	var explored := "%d%% explored" % floori(_map.completion() * 100.0)
+	_zone.text = "%s   %s" % [zone, explored] if zone != "" else explored

@@ -9,9 +9,13 @@ extends Node
 ## While playing, it checks the player's cell every `reveal_interval`.
 ## A global save system (see `SaveManager`): it saves the rooms it has
 ## seen, the revealed cells and the marks the player placed.
+##
+## `catalog` lists every room in the game, for `completion()`.
 
 @export var player: Player
 @export var death_penalty: DeathPenalty
+## Every room and its cells. Generated, see `MapCatalog`.
+@export var catalog: MapCatalog
 ## World size of one map cell (px). Half a screen.
 @export var cell_size := Vector2i(320, 180)
 ## How often the player's cell is checked (s).
@@ -39,6 +43,7 @@ func enter_room(room: Room) -> void:
 	_room = room
 	_map_room = MapRoom.scan(room, cell_size)
 	_warn_overlaps(_map_room)
+	_check_catalog(_map_room)
 	rooms[_map_room.path] = _map_room
 	_reveal_player_cell()
 
@@ -62,6 +67,17 @@ func refresh() -> void:
 ## The room the player is in.
 func current_room() -> MapRoom:
 	return _map_room
+
+
+## Fraction (0 to 1) of all the game's map cells the player has revealed.
+func completion() -> float:
+	if not catalog or catalog.cells().is_empty():
+		return 0.0
+	var found := 0
+	for cell in catalog.cells():
+		if revealed.has(cell):
+			found += 1
+	return float(found) / catalog.cells().size()
 
 
 ## The player's spot on the map, in cells, not rounded.
@@ -151,3 +167,10 @@ func _warn_overlaps(map_room: MapRoom) -> void:
 	for path in rooms:
 		if path != map_room.path and rooms[path].rect.intersects(map_room.rect):
 			push_warning("Map: %s overlaps %s on the world map" % [map_room.path, path])
+
+
+## A room missing from the catalog, or moved or resized since it was
+## built, makes `completion()` wrong.
+func _check_catalog(map_room: MapRoom) -> void:
+	if catalog and catalog.rooms.get(map_room.path) != map_room.rect:
+		push_warning("Map: %s doesn't match the map catalog. Run pnpm map:catalog" % map_room.path)

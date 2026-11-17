@@ -8,6 +8,9 @@ pre-commit:
     eslint:
       glob: "*.{js,mjs,ts,mts}"
       run: node_modules/.bin/eslint {staged_files}
+    map-catalog:
+      glob: "levels/{rooms/*.tscn,map/map_catalog.tres}"
+      run: tools/map_catalog.sh --check
     gdlint:
       glob: "*.gd"
       run: gdlint {staged_files} && gdformat --check {staged_files}

@@ -151,6 +151,8 @@ The-Last-Sich/
 │   ├── death_mark_list.gd        The marks and their links, as plain data
 │   ├── map/
 │   │   ├── world_map.gd          World map data: scans rooms, reveals cells as the player walks, saved
+│   │   ├── map_catalog.gd        Every room's map cells, for the completion percentage
+│   │   ├── map_catalog.tres      The generated catalog (pnpm map:catalog)
 │   │   ├── map_room.gd           One room on the map: cells, hidden cells, doors, marks
 │   │   ├── map_secrets.gd        A room's secrets while scanning: what they still hide
 │   │   └── player_marks.gd       Marks the player placed on the map, saved
@@ -259,6 +261,8 @@ The-Last-Sich/
 │       └── debug_label.gd        On-screen state readout
 ├── tools/
 │   ├── check_file_sizes.sh       Enforces file size limits
+│   ├── build_map_catalog.gd      Builds levels/map/map_catalog.tres from the room scenes
+│   ├── map_catalog.sh            Runs the builder with Godot; --check for the pre-commit hook
 │   └── release/
 │       └── godot-version-updater.ts   Bumps the version in project.godot
 └── docs/                         This site (VitePress)

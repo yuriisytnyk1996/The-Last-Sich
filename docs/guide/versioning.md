@@ -6,7 +6,7 @@ Versions, the changelog and git tags are generated from commit messages. Nobody 
 |---|---|
 | [Conventional Commits](https://www.conventionalcommits.org) | Commit message format |
 | [commitlint](https://commitlint.js.org) | Rejects commits that don't follow the format |
-| [lefthook](https://lefthook.dev) | Runs git hooks: commitlint on every commit message, the file size check before every commit |
+| [lefthook](https://lefthook.dev) | Runs git hooks: commitlint on every commit message, the file size check before every commit, the [map catalog](/systems/map#completion) check when rooms change |
 | [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) | Bumps the version, writes `CHANGELOG.md`, creates the release commit and git tag |
 
 All are installed with `pnpm install`, which also sets up the git hooks.

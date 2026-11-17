@@ -40,11 +40,7 @@ static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
 	var map_room := MapRoom.new()
 	map_room.path = room.scene_file_path
 	map_room.zone = room.map_zone
-	var cells := Vector2i(
-		ceili(float(room.bounds.size.x) / cell_size.x),
-		ceili(float(room.bounds.size.y) / cell_size.y)
-	)
-	map_room.rect = Rect2i(room.map_cell, cells.max(Vector2i.ONE))
+	map_room.rect = MapCatalog.rect_for(room.map_cell, room.bounds, cell_size)
 	map_room.origin = Vector2(room.bounds.position)
 	var areas := room.find_children("*", "Area2D", true, false)
 	var secrets := MapSecrets.new(areas)

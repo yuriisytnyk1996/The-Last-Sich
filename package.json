@@ -9,6 +9,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "release": "commit-and-tag-version",
+    "map:catalog": "tools/map_catalog.sh",
     "lint": "pnpm lint:js && pnpm lint:gd",
     "lint:js": "eslint .",
     "lint:gd": "gdlint $(git ls-files \"*.gd\") && gdformat --check $(git ls-files \"*.gd\")",

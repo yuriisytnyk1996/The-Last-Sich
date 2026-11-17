@@ -35,9 +35,26 @@ When the secret breaks, the next scan has all of it: the hidden cells show once 
 
 `WorldMap` checks the player's cell every `reveal_interval` (0.2 s) while the game runs, and once on every room load. The cell is the player's position in the room, divided by the cell size and kept inside the room's rectangle, so standing on the edge of a room never reveals a cell of the next one. Revealed cells are a set of map coordinates, shared by every room.
 
+### Completion
+
+The map page shows how much of the world is explored, for example `Caves   55% explored`. `WorldMap.completion()` is the revealed cells divided by every cell of every room in the game, rounded down, so it reads 100 % only when every cell is revealed. Cells behind secrets count too, and a cell shared by two rooms counts once.
+
+Only one room is loaded at a time, so the total comes from a **map catalog**: `levels/map/map_catalog.tres`, a `MapCatalog` (`levels/map/map_catalog.gd`) that holds every room scene path and its rectangle of map cells. It is generated, never edited by hand:
+
+```sh
+pnpm map:catalog          # rebuild it after adding, moving or resizing a room
+```
+
+`tools/build_map_catalog.gd` reads each `.tscn` in `levels/rooms/` as text. A scene whose root node uses `levels/room.gd` is a room, and its `bounds` and `map_cell` give its rectangle (the same `MapCatalog.rect_for()` that `MapRoom.scan()` uses). Reading text instead of loading the scenes keeps it fast and free of autoloads.
+
+Two checks keep the catalog current:
+
+- The lefthook `pre-commit` hook runs `tools/map_catalog.sh --check` when a room scene or the catalog is staged, and fails the commit if the catalog is out of date.
+- `WorldMap.enter_room()` warns in the output when the loaded room is missing from the catalog or its rectangle differs.
+
 ### Drawing
 
-`MapScreen` (`ui/menus/map/map_screen.gd`) is a page of the pause menu: the zone name, a `MapView`, a legend of the map's own marks in two rows, and a line of controls that changes while a mark is being placed. `MapView` draws, for each revealed cell:
+`MapScreen` (`ui/menus/map/map_screen.gd`) is a page of the pause menu: the zone name with the explored percentage, a `MapView`, a legend of the map's own marks in two rows, and a line of controls that changes while a mark is being placed. `MapView` draws, for each revealed cell:
 
 - The fill: the zone colour, or a bright colour for the player's cell.
 - A wall on every side that isn't shared with another cell of the same room, with the middle third left open for a door (`MapCellPainter`). Cells of one room join with no line between them, so a room reads as one shape. A side next to an unrevealed cell of the same room has no wall: there is more to find there.
@@ -70,10 +87,14 @@ Player marks are saved with the map, so they last until the save is deleted.
 | File | Role |
 |---|---|
 | `levels/map/world_map.gd` | `WorldMap`: scans rooms (again on `refresh()`), reveals the player's cell, saves the map. A child of `World` |
+| `levels/map/map_catalog.gd` | `MapCatalog`: every room's cells, for the completion percentage; `rect_for()` |
+| `levels/map/map_catalog.tres` | The generated catalog, set on `WorldMap.catalog` in `world.tscn` |
+| `tools/build_map_catalog.gd` | Builds the catalog from the room scenes, or checks it with `--check` |
+| `tools/map_catalog.sh` | Runs the builder with Godot (`$GODOT`, the macOS app, or `godot` on `PATH`) |
 | `levels/map/map_room.gd` | `MapRoom`: one room's cells, hidden cells, doors and marks; scan from a `Room`, save data |
 | `levels/map/map_secrets.gd` | `MapSecrets`: a room's secrets while scanning; says what they still hide |
 | `levels/map/player_marks.gd` | `PlayerMarks`: the marks the player placed, one per cell, save data |
-| `ui/menus/map/map_screen.gd` | `MapScreen`: the pause menu's map page with zone name and legend |
+| `ui/menus/map/map_screen.gd` | `MapScreen`: the pause menu's map page with zone name, explored percentage and legend |
 | `ui/menus/map/map_view.gd` | `MapView`: draws the map, pans and zooms; hands control to `MapTravel` in travel mode |
 | `ui/menus/map/map_travel.gd` | `MapTravel`: travel mode, see [Travel](/systems/travel) |
 | `ui/menus/map/map_cell_painter.gd` | `MapCellPainter`: one cell's fill, walls and door gaps, and the map's mark squares |
@@ -110,7 +131,7 @@ The hideout is behind the vault's secret wall: the vault's east door gap stays c
 
 ## Extending
 
-- **A new room:** set `map_cell` so it touches the rooms its exits lead to, and `map_zone`.
+- **A new room:** put the scene in `levels/rooms/`, set `map_cell` so it touches the rooms its exits lead to, and `map_zone`, then run `pnpm map:catalog`. A room scene must set `bounds` and `map_cell` in its own `.tscn` or rely on the `Room` defaults; the builder copies those defaults, so change both together.
 - **A new zone:** give rooms the new `map_zone` name and add a colour for it to `MapView.ZONE_COLORS`.
 - **A new mark:** add it to the end of `MapRoom.Mark` (saves store marks as numbers), detect it in `MapRoom.scan()`, and give it a colour in `MapView.MARK_COLORS` and a legend entry in one of the `MapScreen.LEGEND` rows.
 - **A new player mark kind:** add it to the end of `PlayerMarks.Kind` with a name in `PlayerMarks.NAMES`, and an icon and colour in `MapMarkPainter.ICONS` and `COLORS`.
@@ -118,7 +139,8 @@ The hideout is behind the vault's secret wall: the vault's east door gap stays c
 
 ## Known limitations
 
-- No completion percentage: the map only knows the rooms the player has entered, so it can't count the cells left. That needs a list of every room.
+- Completion counts map cells only, not items, upgrades or secrets found.
+- The catalog builder only finds rooms directly in `levels/rooms/` whose root uses `room.gd` itself, not a script extending it. Its cell size is a copy of `WorldMap.cell_size`.
 - No items that reveal a whole zone yet. Travel works only from a rest point, not from the pause menu's map.
 - Player marks can't be placed on a cell with one of the map's own marks, and there is one per cell.
 - Cells, walls and marks are flat colours drawn in code, not art.
