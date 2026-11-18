@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.21](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.20...v0.0.21) (2026-11-18)
+
+### Features
+
+* **tips:** add how-to-play tips shown once and kept in the pause menu ([53e89e7](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/53e89e7f26c609f0798850cc0b33129566580ac3))
+
 ## [0.0.20](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.19...v0.0.20) (2026-11-18)
 
 ### Features
