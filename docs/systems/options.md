@@ -21,7 +21,7 @@ There is no "apply" or "cancel" step. Every change is visible straight away, whi
 | Fullscreen | On / Off | On | Fullscreen at the desktop resolution. F11 and Alt+Enter toggle it too |
 | Resolution | Sizes that fit the screen | 1280×720 | Window size in windowed mode. Hidden in fullscreen |
 | Scaling | Pixel perfect / Fill screen | Pixel perfect | Only shown when the picture is not a whole multiple of 640×360, because otherwise both look the same |
-| VSync | On / Off | On | `DisplayServer.window_set_vsync_mode()` |
+| VSync | On / Off | On (Off on macOS) | `DisplayServer.window_set_vsync_mode()`. Off caps the frame rate at the screen's refresh rate (`Engine.max_fps`), see [Frame pacing](/systems/rendering#frame-pacing) |
 | Textures | Sharp / Smooth | Sharp | The root viewport's default texture filter (nearest or linear). Smooth softens scaled or rotated sprites |
 | Brightness | 50% to 150% in steps of 10 | 100% | Gamma: above 100% lifts dark areas more than bright ones |
 | CRT filter | Off and 10 presets | Off | See below |

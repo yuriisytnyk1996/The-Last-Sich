@@ -8,6 +8,9 @@ extends Node
 ##   multiple of 640×360: PIXEL_PERFECT scales by whole numbers and leaves
 ##   black bars, SCALE fills the window with uneven pixels.
 ## - Brightness and the CRT filter are drawn by `ScreenEffects`.
+## - Without VSync the frame rate is capped at the screen's refresh rate.
+##   VSync is off by default on macOS, where it misses refreshes on fast
+##   screens (stutter) and the compositor syncs frames anyway.
 ## F11 / Alt+Enter ("toggle_fullscreen") switch fullscreen in every build.
 
 signal changed
@@ -17,12 +20,14 @@ enum ScalingMode { PIXEL_PERFECT, SCALE }
 const SECTION := "display"
 const MIN_BRIGHTNESS := 50
 const MAX_BRIGHTNESS := 150
+## Frame cap without VSync when the screen's refresh rate is unknown.
+const FALLBACK_FPS := 60
 
 var fullscreen := true
 ## Window size when not fullscreen.
 var resolution := Vector2i(1280, 720)
 var scaling_mode := ScalingMode.PIXEL_PERFECT
-var vsync := true
+var vsync := not OS.has_feature("macos")
 ## Linear filtering for scaled or rotated sprites. Off keeps pixels sharp.
 var smooth_textures := false
 ## Percent. 100 leaves the picture untouched.
@@ -111,6 +116,7 @@ func _apply_picture() -> void:
 	)
 	var vsync_mode := DisplayServer.VSYNC_ENABLED if vsync else DisplayServer.VSYNC_DISABLED
 	DisplayServer.window_set_vsync_mode(vsync_mode)
+	_apply_frame_cap()
 	_effects.set_gamma(brightness / 100.0)
 	_effects.set_crt(crt_preset)
 
@@ -123,6 +129,7 @@ func _apply_window() -> void:
 	if fullscreen:
 		if not _is_window_fullscreen():
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		_apply_frame_cap()
 		return
 	if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -131,6 +138,18 @@ func _apply_window() -> void:
 	var size := resolution.min(area.size)
 	DisplayServer.window_set_size(size)
 	DisplayServer.window_set_position(area.position + (area.size - size) / 2)
+	_apply_frame_cap()
+
+
+## No cap with VSync (it paces the frames). Without it, one frame per
+## refresh of the screen the window is on, read again whenever the window
+## changes, since it may have moved to another screen.
+func _apply_frame_cap() -> void:
+	if vsync:
+		Engine.max_fps = 0
+		return
+	var rate := DisplayServer.screen_get_refresh_rate(DisplayServer.window_get_current_screen())
+	Engine.max_fps = roundi(rate) if rate > 0.0 else FALLBACK_FPS
 
 
 func _is_window_fullscreen() -> bool:

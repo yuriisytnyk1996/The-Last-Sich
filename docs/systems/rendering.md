@@ -79,6 +79,17 @@ Physics runs at 60 ticks per second, but many screens refresh at 120 Hz or more.
 
 **Teleports:** after moving a node instantly (respawn, room load, `Enemy.reset()`, spawning a blast), call `reset_physics_interpolation()` on it. Otherwise it is drawn sliding from its old position for one frame. Nodes positioned before `add_child()` don't need it.
 
+### Frame pacing
+
+Interpolation smooths motion only if frames arrive evenly. Measured on a 120 Hz MacBook screen, an empty scene with the engine's VSync on misses about one refresh in eight (frames of 16.7 to 25 ms instead of 8.3), in every VSync mode (on, adaptive, mailbox). That shows as stutter whatever the game is doing. With VSync off and the frame rate capped at the refresh rate, 476 of 480 frames took exactly 8.3 ms.
+
+So `DisplaySettings`:
+
+- caps the frame rate at the refresh rate of the window's screen whenever VSync is off (`Engine.max_fps`, read again when the window changes; 60 if the screen doesn't report one). With VSync on there is no cap;
+- turns VSync off by default on macOS. The system compositor syncs every frame to the display anyway, so there is no tearing. Other platforms keep VSync on by default, since turning it off there can tear.
+
+A choice already saved in `settings.cfg` wins over the default.
+
 ## Asset guidelines
 
 - Draw at 1× for the 640×360 base resolution. The player is about 12×30 px.
