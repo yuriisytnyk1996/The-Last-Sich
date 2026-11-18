@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.20](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.19...v0.0.20) (2026-11-18)
+
+### Features
+
+* **environment:** add drip traps, ghost traps, shockwave areas and the return duma ([d4713ce](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/d4713ce21842c39bcb9981462115a404fc4226e0))
+* **environment:** add timed platform sequences ([a15891e](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/a15891e118fa792bc313c5e40b1028d4ce1f5f8a))
+* **inventory:** add icons for the charms and the owl feather ([899ae20](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/899ae203075b5f8e6622ec9db05ca6a9240ab86d))
+* **pool:** reuse projectiles and blasts through a Pool autoload ([b84ebab](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/b84ebabc7da80d6fa3a01c28d870176d07ce2841))
+* **rooms:** add a rest point at the bottom of the test vault shaft ([2095cfa](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/2095cfa56f5d12caaa47ad67b171e1c285288d53))
+* **story:** add NPCs, dialogue and quests ([573726c](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/573726c98d96db4b55e5b9386ca081cd5911aada))
+
+### Bug Fixes
+
+* **death-penalty:** keep death marks off ground that comes and goes ([8bee93f](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/8bee93f51a975f235a051db45ac4c0c7ff568a06))
+
 ## [0.0.19](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.18...v0.0.19) (2026-11-18)
 
 ### Features
