@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/clay_amulet.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"clay_amulet"
 title = "Clay amulet"
 description = "Fired clay that has seen worse flames. Fire damage taken -50%."
 lore = "Shaped by a potter whose kiln burned down twice. The third time, he wore it into the fire to fetch his tools and walked out again."
+icon = ExtResource("icon")
 kind = 0
 price = 250
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

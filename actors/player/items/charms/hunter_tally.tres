@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
 [ext_resource type="Script" path="res://actors/player/items/effects/restore_effect.gd" id="restore"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/hunter_tally.png" id="icon"]
 
 [sub_resource type="Resource" id="effect_1"]
 script = ExtResource("restore")
@@ -16,6 +17,7 @@ id = &"hunter_tally"
 title = "Hunter's tally"
 description = "A stick with a notch for every kill. Each kill heals 5."
 lore = "Every notch was cut with the same knife, by the same hand. The last notches are shallow, as if the hand had grown tired."
+icon = ExtResource("icon")
 kind = 0
 price = 400
 effects = Array[ExtResource("effect")]([SubResource("effect_1")])

@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/iron_cross.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"iron_cross"
 title = "Iron cross"
 description = "A plain iron cross on a leather cord. Maximum health +15."
 lore = "Plain iron, hammered by a novice monk who left the monastery for the Sich. He kept the cross and gave away the rest."
+icon = ExtResource("icon")
 kind = 0
 price = 300
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/hare_foot.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"hare_foot"
 title = "Hare foot"
 description = "A charm for those who would rather not be caught. Run speed +15%."
 lore = "Steppe children carry one to outrun bad luck. Grown men carry one and do not say why."
+icon = ExtResource("icon")
 kind = 0
 price = 350
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

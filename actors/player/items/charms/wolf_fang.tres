@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/wolf_fang.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"wolf_fang"
 title = "Wolf fang"
 description = "A fang from a steppe wolf, bound in wire. Damage +10%."
 lore = "The wolf took three sheep and a dog before a shepherd's boy took its fang. The wire was his mother's, from a broken loom."
+icon = ExtResource("icon")
 kind = 0
 price = 400
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

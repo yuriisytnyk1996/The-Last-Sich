@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/quick_bracer.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"quick_bracer"
 title = "Quick bracer"
 description = "A tight leather bracer that frees the wrist. Swings wind up and recover 20% faster."
 lore = "Laced so tight it leaves marks. The fencing masters of the Sich wear them until the wrist forgets it was ever slow."
+icon = ExtResource("icon")
 kind = 0
 price = 450
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

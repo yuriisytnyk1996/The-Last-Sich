@@ -100,7 +100,8 @@
 
 - [x] Attack switches: a switch hit with any player attack (the ranged bolt too, for switches out of reach) drives gates like a lever: `TOGGLE`, `UNLOCK`, or `TIMED` (opens for a few seconds, owns its targets), optionally one-shot; fills no spirit, saved. A one-shot switch opens a new corridor gate in the test hideout
 
-- [x] Soft landing: the owl feather relic (`soft_landing` unlock, while worn) removes hard landings. In the test room
+- [x] Soft landing: the owl feather relic (`soft_landing` unlock, while worn) removes hard landings. In the test room. It has the first real item icon (`assets/sprites/items/owl_feather.png`)
+- [x] Charm icons: all 12 charms have 16×16 pixel-art icons in `assets/sprites/items/`
 - [x] Crumbling platforms: shake under the player, then give way, dropping (collapsing) or fading in place (vanishing), and come back after a while or only when the room reloads. Vanishing stairs and a collapsing bridge in the test shaft
 - [x] Ledge grab only grabs terrain tiles, never gates, crates, cracked walls or moving bodies
 - [x] Save slots: three slots; the title screen's Continue loads the latest one and Play opens a slot list (zone, play time, map explored, currency per slot); an empty slot starts a new game, a taken one continues or is deleted (asked first); old or damaged saves show as such and can be replaced. A new game saves at once; play time is counted and saved
@@ -145,6 +146,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
 - Grey basin with a pale strip for the cleanse point
+- Drawn shapes with a letter for item icons (a lantern for relics), except the owl feather and the charms
 - Orange gourd for empty flasks, a brown table with a bowl and a flask for the flask healer, a vial shape for quest item icons
 - Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency
 - No hang or climb-up animation for ledges, the placeholder body just moves

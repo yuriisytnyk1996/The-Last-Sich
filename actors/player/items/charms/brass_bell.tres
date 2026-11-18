@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/brass_bell.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"brass_bell"
 title = "Brass bell"
 description = "Its ring stirs the spirit. Each hit gives 1 more spirit."
 lore = "Once it hung from a church eave and called the faithful home. Now it calls something else, with every blow struck."
+icon = ExtResource("icon")
 kind = 0
 price = 300
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

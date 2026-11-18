@@ -13,6 +13,11 @@ The-Last-Sich/
 ├── pnpm-workspace.yaml           pnpm settings (allowed install scripts)
 ├── .versionrc.json               Release and changelog settings
 ├── default_bus_layout.tres       Audio buses: Master, Music, Effects, Voice
+├── assets/
+│   └── sprites/
+│       └── items/
+│           ├── <charm id>.png    16×16 icon for each charm (12)
+│           └── owl_feather.png   16×16 icon of the owl feather relic
 ├── autoload/
 │   ├── events.gd                 Global signal bus (autoload "Events")
 │   ├── display_settings.gd       Video options: window, scaling, VSync, textures, brightness, CRT (autoload "DisplaySettings")
@@ -343,7 +348,8 @@ See [Code organization](/guide/code-organization) for the rules behind this layo
 | `actors/` | Anything that moves and acts: the player, enemies, bosses, NPCs. One folder per actor, with its scene, script and states. |
 | `levels/` | Rooms and level-specific scripts. |
 | `ui/` | Menus, HUD and debug overlays. |
+| `assets/` | Art and other imported files. Sprites go in `assets/sprites/<feature>/`. |
 | `tools/` | Developer scripts that are not part of the game. |
 | `docs/` | Documentation only. Ignored by Godot. |
 
-Planned folders as the game grows: `assets/` (sprites, audio, fonts), `resources/` (data `.tres` files such as enemy stats), `actors/bosses/`.
+Planned folders as the game grows: `assets/audio/` and `assets/fonts/`, `resources/` (data `.tres` files such as enemy stats), `actors/bosses/`.

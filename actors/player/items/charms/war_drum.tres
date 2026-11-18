@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/war_drum.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -23,6 +24,7 @@ id = &"war_drum"
 title = "War drum"
 description = "A small drum that beats after every kill. Damage +20% for 5 seconds after a kill."
 lore = "Small enough for a boy to carry into battle. He beat it for every fallen enemy, and the company fought harder to hear it again."
+icon = ExtResource("icon")
 kind = 0
 price = 450
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

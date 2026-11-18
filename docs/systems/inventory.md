@@ -41,7 +41,7 @@ Opened with `inventory` (I) or from the pause menu's **Inventory** button. The s
 - The worn slot is never chosen: wearing always fills the first free slot. The cursor stays in the grid.
 - The page opens on the tab and cell of the **newest item** (`PlayerInventory.take_newest()`) when one was added since the last look, else on the tab and cell used last.
 
-Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a steel blade for blades, a pale lantern for relics, a leather pouch for keepsakes, a blue scroll for dumas, a pale blue vial for quest items, with the first letter of the title in the corner of small icons. An item with an `icon` texture shows that instead.
+Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a steel blade for blades, a pale lantern for relics, a leather pouch for keepsakes, a blue scroll for dumas, a pale blue vial for quest items, with the first letter of the title in the corner of small icons. An item with an `icon` texture shows that instead, scaled with nearest filtering. Icons are 16×16 PNGs in `assets/sprites/items/`, named after the item id. Every charm and the owl feather have one so far.
 
 ### Kinds and slots
 

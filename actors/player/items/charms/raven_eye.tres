@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/raven_eye.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"raven_eye"
 title = "Raven eye"
 description = "A black bead that finds the weak spot. Critical hit chance +15%."
 lore = "Ravens follow armies across the steppe and always find the soft places first. This bead is said to have been one of their eyes."
+icon = ExtResource("icon")
 kind = 0
 price = 500
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])

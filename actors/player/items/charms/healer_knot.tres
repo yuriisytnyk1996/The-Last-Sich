@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://actors/player/items/effects/stat_effect.gd" id="stat"]
 [ext_resource type="Script" path="res://components/stats/stat_modifier.gd" id="mod"]
 [ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/healer_knot.png" id="icon"]
 
 [sub_resource type="Resource" id="mod_1"]
 script = ExtResource("mod")
@@ -22,6 +23,7 @@ id = &"healer_knot"
 title = "Healer's knot"
 description = "A knot of red thread tied by a village healer. Each flask heals 15 more."
 lore = "Each turn of the red thread is a prayer the healer would not say aloud. She tied it for her son, who never came back for it."
+icon = ExtResource("icon")
 kind = 0
 price = 350
 effects = Array[ExtResource("effect")]([SubResource("effect_2")])
