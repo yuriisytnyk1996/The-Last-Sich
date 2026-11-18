@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.18](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.17...v0.0.18) (2026-11-18)
+
+### Features
+
+* **combat:** add executions ([3da8327](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/3da83271a5d49b7387e34a6beb21468d40d77aa9))
+
 ## [0.0.17](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.16...v0.0.17) (2026-11-18)
 
 ### Features
