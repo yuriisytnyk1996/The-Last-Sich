@@ -1,6 +1,6 @@
 # Environment
 
-Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, crumbling platforms, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
+Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, crumbling platforms, timed platform sequences, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
 
 ## How it works
 
@@ -32,6 +32,19 @@ The hurtbox has `rewards_attacker` off, so hitting props fills no [spirit](/syst
 | `falls` off | **Vanishing platform**: fades in place |
 
 After `return_time` it fades back in and is solid again. It waits while the player's body is where it would come back, so a solid one never traps them. With `return_time` 0 it stays gone until the room loads again. Nothing is saved. Only the player sets it off, not enemies. Two crack lines tell it apart from a plain plank. One-way on the `platforms` layer by default, solid on `world` with `one_way` off. The origin is the top centre, like a moving platform. [Ledge grab](/systems/player#ledge-grab) never grabs it.
+
+### Timed platform sequences
+
+`PlatformSequence` (`levels/objects/platforms/platform_sequence.gd`) shows its `TimedPlatform` children (`timed_platform.gd`) one step after another, on a loop:
+
+1. Each platform has a `step` (0 first). Platforms with the same step show together, so a step can be one platform or a row.
+2. Every `step_time` the next step comes up: its platforms fade in over `fade_time` and are solid for `show_time`.
+3. For the last `warn_time` of that they blink white, then their collision turns off and they fade out. A player still on one falls.
+4. After the last step the loop starts again at step 0. `offset` shifts the loop, so two sequences side by side can run out of step.
+
+With `show_time` longer than `step_time` (the default: 1.6 against 0.8) the next step is already there when one starts to blink, so the player hops along the steps in order and can't wait around. With `show_time` shorter there is a gap with nothing to stand on, which only works if the jump between steps can be made in the air.
+
+One clock in the sequence drives every platform, so steps never drift apart. A platform outside a sequence stays hidden. Only the player matters: nothing checks for enemies. A solid platform (`one_way` off) doesn't turn solid while the player's body is inside it; it does as soon as they leave. Nothing is saved. The editor draws each platform with its step number; in the game they start hidden. One-way on the `platforms` layer by default, like the other platforms, origin at the top centre. [Ledge grab](/systems/player#ledge-grab) never grabs one.
 
 ### Elevators
 
@@ -83,6 +96,8 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `levels/objects/breakables/secret_wall.tscn` | Secret wall drawn like the terrain, see [Traversal](/systems/traversal#secret-walls) |
 | `levels/objects/platforms/moving_platform.gd` | `MovingPlatform`: back-and-forth platform, one-way or solid |
 | `levels/objects/platforms/crumble_platform.gd` | `CrumblePlatform`: gives way under the player, comes back |
+| `levels/objects/platforms/platform_sequence.gd` | `PlatformSequence`: shows its timed platforms step by step on a loop |
+| `levels/objects/platforms/timed_platform.gd` | `TimedPlatform`: shown by a sequence at its `step`, blinks before vanishing |
 | `levels/objects/platforms/elevator.gd` | `Elevator`: lift between two stops, starts when stood on |
 | `levels/objects/platforms/elevator_call.gd`, `.tscn` | `ElevatorCall`: lever that calls an elevator |
 | `levels/objects/traps/timed_trap.gd` | `TimedTrap`: off, warning, on cycle |
@@ -119,6 +134,14 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `vanish_time` | `CrumblePlatform` | 0.3 | Fade out, and fade back in (s) |
 | `return_time` | `CrumblePlatform` | 3 | Seconds until it comes back. 0: until the room loads again. Test shaft bridge: 0 |
 | `shake_amount` | `CrumblePlatform` | 1 | Sideways shake while crumbling (px) |
+| `step_time` | `PlatformSequence` | 0.8 | Seconds between one step and the next |
+| `show_time` | `PlatformSequence` | 1.6 | Seconds each step stays, warning included |
+| `warn_time` | `PlatformSequence` | 0.4 | Seconds a step blinks before it vanishes |
+| `fade_time` | `PlatformSequence` | 0.15 | Fade in and out (s) |
+| `offset` | `PlatformSequence` | 0 | Loop shift (s) |
+| `size` | `TimedPlatform` | 32×8 | Platform size (px) |
+| `one_way` | `TimedPlatform` | true | One-way on `platforms`, or solid on `world` |
+| `step` | `TimedPlatform` | 0 | When in the sequence it shows. Same step, same time |
 | `size` | `Elevator` | 48×8 | Platform size (px) |
 | `travel` | `Elevator` | (0, 192) | Second stop, from the first (px) |
 | `speed` | `Elevator` | 80 | px/s |
@@ -144,6 +167,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 
 - **A new breakable:** make a scene with a `Breakable` root, a `Visual`, a `Hurtbox` (mask `player_attacks`, `rewards_attacker` off) and optionally a `Body`. Put it in `Logic` if it stays broken, since saved node paths live there.
 - **A new timed trap:** a `TimedTrap` scene with a `Warning` (any `CanvasItem`) and a `Hitbox` on the `hazards` layer with `continuous` on. Visuals under the hitbox show only while it is active.
+- **A timed climb:** add a `PlatformSequence` to the room's `Layout`, put `TimedPlatform`s under it and number their `step`s in the order the player should take them. Keep each hop inside the player's jump (52 px up) and give the step after a hop enough `show_time` overlap to land.
 - **A new zone:** extend `AreaEffect` with `@tool`, override `_get_color()` and the factors it changes (`speed_factor()`, `jump_factor()`, `wind_speed()`), or use `_player_entered()` / `_player_exited()` for timed effects like poison. If it needs a new kind of factor, add it to `AreaEffect` and `PlayerAreaEffects` and read it where the player moves.
 
 ## Known limitations
@@ -153,4 +177,5 @@ Zones only affect the player. Enemies walk through them unchanged.
 - Wind only blows sideways; there are no updrafts.
 - A platform or elevator moving down onto a player standing on the ground under it pushes them into the floor. Leave room under their paths.
 - Elevator positions aren't saved.
+- Timed platform sequences always run, even when the player is far away, and can't be started or stopped by a lever or a fight.
 - Crumbling platforms only react to the player, and a collapsed bridge can't be crossed again until the room reloads, so don't make one the only way back.

@@ -105,6 +105,7 @@
 - [x] Ledge grab only grabs terrain tiles, never gates, crates, cracked walls or moving bodies
 - [x] Save slots: three slots; the title screen's Continue loads the latest one and Play opens a slot list (zone, play time, map explored, currency per slot); an empty slot starts a new game, a taken one continues or is deleted (asked first); old or damaged saves show as such and can be replaced. A new game saves at once; play time is counted and saved
 - [x] Object pooling: projectiles and blasts are taken from and parked back in a `Pool` autoload instead of being instantiated and freed, with prewarmed instances so the first shot of a fight doesn't stall. See [Object pooling](/architecture/object-pooling)
+- [x] Timed platform sequences: platforms that appear one step after another on a loop, blink before they vanish and fade out from under the player; one clock per sequence. A six-step climb to a ledge in the test shaft
 
 ## Next
 
