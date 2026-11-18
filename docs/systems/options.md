@@ -77,6 +77,7 @@ Volumes go from 0% to 100% in steps of 10 and are set with `AudioServer.set_bus_
 |---|---|---|
 | Screen shake | On | Off: `CameraShake.add_trauma()` ignores every request |
 | Rumble | On | Off: `Rumble.play()` does nothing. Turning it on gives a short buzz |
+| Tips | On | Off: no "how to play" cards are shown or marked seen, see [Tips](/systems/tips) |
 
 `autoload/rumble.gd` (`Rumble`) vibrates every connected gamepad. `HurtFeedback` asks for rumble on every accepted hit, see [Game feel](/systems/game-feel#rumble).
 
@@ -101,7 +102,7 @@ Keys are stored as **physical** keycodes, like the defaults. The page shows each
 | `components/display/resolution_list.gd` | `ResolutionList`: window sizes that fit the screen, whether scaling mode matters |
 | `autoload/display_settings.gd` | `DisplaySettings`: window, scaling, VSync, textures, brightness, CRT |
 | `autoload/audio_settings.gd` | `AudioSettings`: bus volumes |
-| `autoload/accessibility_settings.gd` | `AccessibilitySettings`: screen shake, rumble |
+| `autoload/accessibility_settings.gd` | `AccessibilitySettings`: screen shake, rumble, tips |
 | `autoload/rumble.gd` | `Rumble`: gamepad vibration |
 | `autoload/input_settings.gd` | `InputSettings`: key, button and trigger bindings |
 | `default_bus_layout.tres` | Master, Music, Effects and Voice buses |

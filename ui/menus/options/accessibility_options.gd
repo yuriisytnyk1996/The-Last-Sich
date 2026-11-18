@@ -13,6 +13,7 @@ func _build() -> void:
 		func(i: int) -> void: settings.set_screen_shake(i == 1)
 	)
 	add_option("Rumble", ON_OFF, int(settings.rumble), _on_rumble)
+	add_option("Tips", ON_OFF, int(settings.tips), func(i: int) -> void: settings.set_tips(i == 1))
 	add_gap()
 	add_button("Back", go_back)
 

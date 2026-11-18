@@ -22,6 +22,10 @@ signal executed
 @export var max_height_difference := 6.0
 ## Saved and gone for good once used. For fake executions placed in rooms.
 @export var persistent := false
+## Shown the first time a finisher appears (see `TipLog`).
+@export var tip: Tip
+## Seconds after it appears before the tip shows.
+@export var tip_delay := 0.6
 
 var _in_use := false
 var _done := false
@@ -35,6 +39,8 @@ func _ready() -> void:
 	if persistent:
 		add_to_group(SaveManager.PERSISTENT_GROUP)
 	_flash_awareness()
+	if tip:
+		get_tree().create_timer(tip_delay, false).timeout.connect(_request_tip)
 
 
 ## The player is playing the finisher: an enemy behind it waits for it.
@@ -72,6 +78,11 @@ func _activate(player: Node2D) -> void:
 	_in_use = true
 	block()
 	player.call(&"start_execution", self)
+
+
+func _request_tip() -> void:
+	if not _done:
+		Events.tip_requested.emit(tip)
 
 
 func _finish() -> void:

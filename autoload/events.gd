@@ -100,6 +100,11 @@ signal story_changed(flag: StringName)
 @warning_ignore("unused_signal")
 signal message_shown(text: String)
 
+## Show a "how to play" card the first time this tip comes up. `TipLog`
+## shows it once the game runs (unless it was seen or tips are off).
+@warning_ignore("unused_signal")
+signal tip_requested(tip: Tip)
+
 ## The player got a permanent upgrade ("Max health"). The HUD names it.
 @warning_ignore("unused_signal")
 signal player_upgraded(what: String)

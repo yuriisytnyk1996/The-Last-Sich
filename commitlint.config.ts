@@ -27,6 +27,7 @@ export default {
         'dumas',
         'shops',
         'story',
+        'tips',
         'spirit',
         'death-penalty',
         'map',

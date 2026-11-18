@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"healing"
+title = "Healing flasks"
+text = "Press {heal} to drink a healing flask. Drinking takes a moment, so find a safe one.
+
+Flasks fill up again whenever you rest at a rest point."

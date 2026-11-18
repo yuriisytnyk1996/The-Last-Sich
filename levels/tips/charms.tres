@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"charms"
+title = "Charms"
+text = "You found a charm. Open the inventory with {inventory} to wear it.
+
+Charms change your strength, speed and more. You can only wear as many as you have charm slots."

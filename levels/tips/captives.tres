@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"captives"
+title = "Captives"
+text = "You freed a captive. More are locked in cages across the land: strike a cage until it breaks to set them free.\n\nSomeone may want to hear of every one you save."

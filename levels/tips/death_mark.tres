@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"death_mark"
+title = "Death marks"
+text = "Death left a mark where you last stood on safe ground. Every mark weakens you: less spirit, and less spirit and coin from your foes.
+
+Go back to the mark and press {interact} to take it back. It also heals you."

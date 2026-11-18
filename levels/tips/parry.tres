@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"parry"
+title = "Parry"
+text = "Press {parry} just before a blow lands to turn it aside. Not every attack can be parried: heavy ones push you back through your guard.
+
+Right after a parry, press {attack} to strike back with a riposte."

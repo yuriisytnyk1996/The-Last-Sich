@@ -20,9 +20,15 @@
 [ext_resource type="Resource" path="res://actors/player/items/dumas/sabre_ring.tres" id="duma_sabre_ring"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/iron_hand.tres" id="duma_iron_hand"]
 [ext_resource type="PackedScene" path="res://actors/npcs/elder/elder.tscn" id="story_elder"]
+[ext_resource type="Script" path="res://levels/objects/tips/tip_area.gd" id="tip_area"]
+[ext_resource type="Resource" path="res://levels/tips/parry.tres" id="tip_parry"]
+[ext_resource type="Resource" path="res://levels/tips/healing.tres" id="tip_healing"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
+
+[sub_resource type="RectangleShape2D" id="shape_tip"]
+size = Vector2(16, 64)
 
 [node name="Logic" type="Node2D"]
 
@@ -126,3 +132,21 @@ item = ExtResource("duma_iron_hand")
 
 [node name="Elder" parent="." instance=ExtResource("story_elder")]
 position = Vector2(496, 320)
+
+[node name="Tips" type="Node2D" parent="."]
+
+[node name="ParryTip" type="Area2D" parent="Tips"]
+position = Vector2(168, 296)
+script = ExtResource("tip_area")
+tip = ExtResource("tip_parry")
+
+[node name="Shape" type="CollisionShape2D" parent="Tips/ParryTip"]
+shape = SubResource("shape_tip")
+
+[node name="HealingTip" type="Area2D" parent="Tips"]
+position = Vector2(864, 296)
+script = ExtResource("tip_area")
+tip = ExtResource("tip_healing")
+
+[node name="Shape" type="CollisionShape2D" parent="Tips/HealingTip"]
+shape = SubResource("shape_tip")

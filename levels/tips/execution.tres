@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"execution"
+title = "Finishers"
+text = "A beaten enemy has dropped to its knees. Stand next to it and press {interact} to finish it.
+
+You can't be hurt during a finisher, and it fills your spirit."

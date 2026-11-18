@@ -12,6 +12,18 @@
 [ext_resource type="Script" path="res://levels/map/world_map.gd" id="9_map"]
 [ext_resource type="Resource" path="res://levels/map/map_catalog.tres" id="10_catalog"]
 [ext_resource type="Script" path="res://levels/play_clock.gd" id="11_clock"]
+[ext_resource type="Script" path="res://levels/tip_log.gd" id="tip_log"]
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="tip_script"]
+[ext_resource type="Resource" path="res://levels/tips/healing.tres" id="tip_healing"]
+[ext_resource type="Resource" path="res://levels/tips/parry.tres" id="tip_parry"]
+[ext_resource type="Resource" path="res://levels/tips/execution.tres" id="tip_execution"]
+[ext_resource type="Resource" path="res://levels/tips/death_mark.tres" id="tip_death_mark"]
+[ext_resource type="Resource" path="res://levels/tips/death_marks_more.tres" id="tip_death_marks_more"]
+[ext_resource type="Resource" path="res://levels/tips/charms.tres" id="tip_charms"]
+[ext_resource type="Resource" path="res://levels/tips/blades.tres" id="tip_blades"]
+[ext_resource type="Resource" path="res://levels/tips/relics.tres" id="tip_relics"]
+[ext_resource type="Resource" path="res://levels/tips/dumas.tres" id="tip_dumas"]
+[ext_resource type="Resource" path="res://levels/tips/captives.tres" id="tip_captives"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_world")
@@ -35,6 +47,17 @@ catalog = ExtResource("10_catalog")
 
 [node name="PlayClock" type="Node" parent="."]
 script = ExtResource("11_clock")
+
+[node name="TipLog" type="Node" parent="." node_paths=PackedStringArray("inventory")]
+script = ExtResource("tip_log")
+all = Array[ExtResource("tip_script")]([ExtResource("tip_healing"), ExtResource("tip_parry"), ExtResource("tip_execution"), ExtResource("tip_death_mark"), ExtResource("tip_death_marks_more"), ExtResource("tip_charms"), ExtResource("tip_blades"), ExtResource("tip_relics"), ExtResource("tip_dumas"), ExtResource("tip_captives")])
+first_death_tip = ExtResource("tip_death_mark")
+second_death_tip = ExtResource("tip_death_marks_more")
+charm_tip = ExtResource("tip_charms")
+blade_tip = ExtResource("tip_blades")
+relic_tip = ExtResource("tip_relics")
+duma_tip = ExtResource("tip_dumas")
+inventory = NodePath("../Player/Inventory")
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
 
@@ -83,7 +106,8 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="PauseMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("world_map", "inventory")]
+[node name="PauseMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("world_map", "inventory", "tip_log")]
 script = ExtResource("7_pause")
 world_map = NodePath("../WorldMap")
 inventory = NodePath("../Player/Inventory")
+tip_log = NodePath("../TipLog")

@@ -8,10 +8,11 @@ extends PausingMenu
 
 @export var world_map: WorldMap
 @export var inventory: PlayerInventory
+@export var tip_log: TipLog
 
 
 func open() -> void:
-	open_screen(PauseScreen.new(world_map, inventory))
+	open_screen(PauseScreen.new(world_map, inventory, tip_log))
 
 
 func open_map() -> void:

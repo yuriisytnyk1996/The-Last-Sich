@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Tip" format=3]
+
+[ext_resource type="Script" path="res://components/tips/tip.gd" id="1_tip"]
+
+[resource]
+script = ExtResource("1_tip")
+id = &"dumas"
+title = "Dumas"
+text = "You took up a duma. Press {duma} to sing it.
+
+Singing costs spirit, shown under your health. Landing hits fills it back up."

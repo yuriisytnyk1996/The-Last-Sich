@@ -22,7 +22,7 @@ The-Last-Sich/
 │   ├── events.gd                 Global signal bus (autoload "Events")
 │   ├── display_settings.gd       Video options: window, scaling, VSync, textures, brightness, CRT (autoload "DisplaySettings")
 │   ├── audio_settings.gd         Bus volumes (autoload "AudioSettings")
-│   ├── accessibility_settings.gd Screen shake and rumble toggles (autoload "AccessibilitySettings")
+│   ├── accessibility_settings.gd Screen shake, rumble and tips toggles (autoload "AccessibilitySettings")
 │   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
 │   ├── rumble.gd                 Gamepad vibration (autoload "Rumble")
 │   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
@@ -44,6 +44,8 @@ The-Last-Sich/
 │   │   └── settings_file.gd      One section of user://settings.cfg per settings autoload
 │   ├── display/
 │   │   └── resolution_list.gd    Window sizes that fit the screen
+│   ├── tips/
+│   │   └── tip.gd                Tip: one "how to play" card, action names shown as bindings
 │   ├── story/                    Data for NPCs and quests (see Systems > NPCs, dialogue and quests)
 │   │   ├── story_condition.gd    StoryCondition: checks story flags, counters and items
 │   │   ├── story_outcome.gd      StoryOutcome: sets flags and counters, hands items and currency over, shows a message
@@ -217,6 +219,8 @@ The-Last-Sich/
 │   ├── play_clock.gd             Time played in the slot, saved
 │   ├── death_penalty.gd          Death marks: leaves them on death, applies the penalty, recovers them, saved
 │   ├── story_autosave.gd         Saves the game as soon as the story changes
+│   ├── tip_log.gd                Shows each tip once, the first time it comes up; seen tips, saved
+│   ├── tips/                     The tip cards (one .tres each)
 │   ├── death_mark_list.gd        The marks and their links, as plain data
 │   ├── map/
 │   │   ├── world_map.gd          World map data: scans rooms, reveals cells as the player walks, saved
@@ -247,6 +251,7 @@ The-Last-Sich/
 │   │   ├── boss_arena.tscn       Its scene (add a trigger shape and gates)
 │   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
 │   │   ├── flasks/               Empty flask pickup (+1 flask) and the flask healer (stronger flasks)
+│   │   ├── tips/                 tip_area.gd: shows a tip when the player walks in
 │   │   ├── story/                Quest objects: captive_cage.tscn, alms_box.tscn (an Npc) and its alms/ conversations
 │   │   ├── mechanisms/           Levers, attack switches, pressure plates and the gates they open
 │   │   ├── traversal/            Climb walls, reveal platforms
@@ -302,6 +307,8 @@ The-Last-Sich/
 │   │   │   ├── slots_screen.gd   Slot list: one row per save slot
 │   │   │   ├── slot_row.gd       One slot's row: zone, play time, explored, currency
 │   │   │   └── slot_screen.gd    One taken slot: Continue or New game here, Delete
+│   │   ├── tips/
+│   │   │   └── tip_screen.gd     A tip card: in play (Got it) or browsing seen tips (Pause > Tips)
 │   │   ├── dialogue/
 │   │   │   └── dialogue_screen.gd Text box: speaker, typed line, answers
 │   │   ├── pause/

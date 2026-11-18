@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="3_feedback"]
 [ext_resource type="Script" path="res://components/story/story_trigger.gd" id="4_trigger"]
 [ext_resource type="Script" path="res://components/story/story_outcome.gd" id="5_outcome"]
+[ext_resource type="Resource" path="res://levels/tips/captives.tres" id="6_tip"]
 
 [sub_resource type="RectangleShape2D" id="shape_cage"]
 size = Vector2(20, 28)
@@ -12,6 +13,7 @@ size = Vector2(20, 28)
 [sub_resource type="Resource" id="freed"]
 script = ExtResource("5_outcome")
 message = "A captive is free"
+tip = ExtResource("6_tip")
 
 [node name="CaptiveCage" type="Node2D"]
 script = ExtResource("1_breakable")

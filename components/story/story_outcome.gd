@@ -3,7 +3,7 @@ extends Resource
 ## What happens to the player's story when a conversation ends, an answer
 ## is picked or a `StoryTrigger` fires: flags set or cleared, a counter
 ## raised, items handed over or given, currency paid or received, a short
-## message shown. `apply()` does all of it at once.
+## message shown, a "how to play" tip shown the first time. `apply()` does all of it at once.
 ##
 ## An outcome that asks for something (`take_items`, `cost`) can only be
 ## applied while the player has it; the answer offering it is shown but
@@ -27,6 +27,8 @@ extends Resource
 @export var counter_add := 0
 ## Shown at the bottom of the screen, like a found item ("A captive is free").
 @export var message := ""
+## Shown as a card the first time (see `TipLog`): a scripted tip.
+@export var tip: Tip
 
 
 func can_apply(player: Player) -> bool:
@@ -57,6 +59,8 @@ func apply(player: Player) -> bool:
 	player.story.add_counter(counter, counter_add + turned_in)
 	if message != "":
 		Events.message_shown.emit(message)
+	if tip:
+		Events.tip_requested.emit(tip)
 	for flag in clear_flags:
 		player.story.clear_flag(flag)
 	for flag in set_flags:

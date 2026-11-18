@@ -18,6 +18,7 @@ world.tscn
 └── PauseMenu (Escape / Start) ── PauseScreen ── Resume
                                             ├─ Inventory ──► InventoryScreen (see Inventory)
                                             ├─ Map ──► MapScreen (see Map)
+                                            ├─ Tips ──► TipScreen, browsing (once a tip was seen, see Tips)
                                             ├─ Options ──► (same OptionsScreen)
                                             └─ Quit to main menu ──► main_menu.tscn
 └── PauseMenu (M / Back) ── MapScreen (straight to the map)
@@ -62,7 +63,7 @@ world.tscn
 | `ui/menus/pausing_menu.gd` | `PausingMenu`: a menu that pauses the tree while open and unpauses a frame after closing; can free itself on close |
 | `ui/menus/pause/pause_menu.gd` | `PauseMenu`: a `PausingMenu` that opens the pause screen and closes on `pause` |
 | `ui/menus/skills/skills_screen.gd` | `SkillsScreen`: the skill shrine's page, see [Skills](/systems/skills) |
-| `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Inventory, Map, Options, Quit to main menu |
+| `ui/menus/pause/pause_screen.gd` | `PauseScreen`: Resume, Inventory, Map, Tips (once one was seen, see [Tips](/systems/tips)), Options, Quit to main menu |
 | `ui/menus/shop/buy_screen.gd` | `BuyScreen`: a shop stand's item, price and buy (see [Shops](/systems/shops)) |
 | `ui/menus/inventory/` | `InventoryScreen` and its parts: tabs, worn row and grid, details (see [Inventory](/systems/inventory#inventory-page)) |
 | `ui/menus/options/` | The options pages, see [Options](/systems/options) |
