@@ -23,6 +23,7 @@ const ZONE_COLORS := {
 	"Caves": Color(0.26, 0.3, 0.38),
 	"Works": Color(0.4, 0.27, 0.22),
 	"Crypt": Color(0.3, 0.26, 0.36),
+	"Kurgan": Color(0.38, 0.24, 0.2),
 }
 const DEFAULT_ZONE_COLOR := Color(0.35, 0.35, 0.35)
 const BACKGROUND := Color(0.05, 0.04, 0.07)

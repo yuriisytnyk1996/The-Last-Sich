@@ -24,6 +24,10 @@
 [ext_resource type="Resource" path="res://levels/tips/relics.tres" id="tip_relics"]
 [ext_resource type="Resource" path="res://levels/tips/dumas.tres" id="tip_dumas"]
 [ext_resource type="Resource" path="res://levels/tips/captives.tres" id="tip_captives"]
+[ext_resource type="Script" path="res://ui/cutscene/cinematic_bars.gd" id="cut_bars"]
+[ext_resource type="Script" path="res://ui/cutscene/title_card.gd" id="cut_title"]
+[ext_resource type="Script" path="res://ui/cutscene/quote_card.gd" id="cut_quote"]
+[ext_resource type="Script" path="res://ui/cutscene/skip_prompt.gd" id="cut_skip"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_world")
@@ -92,6 +96,53 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 8
 horizontal_alignment = 2
 script = ExtResource("4_version")
+
+[node name="CutsceneLayer" type="CanvasLayer" parent="."]
+layer = 9
+
+[node name="CinematicBars" type="Control" parent="CutsceneLayer" node_paths=PackedStringArray("hud")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("cut_bars")
+hud = NodePath("../../HUD")
+
+[node name="TitleCard" type="Control" parent="CutsceneLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("cut_title")
+
+[node name="CutsceneOverlay" type="CanvasLayer" parent="."]
+layer = 11
+
+[node name="QuoteCard" type="Control" parent="CutsceneOverlay"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("cut_quote")
+
+[node name="SkipPrompt" type="Control" parent="CutsceneOverlay"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("cut_skip")
 
 [node name="ScreenFade" type="CanvasLayer" parent="."]
 layer = 10

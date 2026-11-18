@@ -27,6 +27,8 @@ The bar has four layers, drawn back to front with `_draw()`:
 
 Widths are rounded down to whole pixels so the bar edge stays crisp. The bar only processes while it is animating.
 
+While a [cutscene](/systems/cutscenes) plays the whole HUD is hidden (`CinematicBars` hides it on `Events.cutscene_started` and shows it again on `Events.cutscene_ended`).
+
 During hit-stop the bar freezes with the rest of the game, which holds the loss segment still at the moment of impact.
 
 ### Flask counter

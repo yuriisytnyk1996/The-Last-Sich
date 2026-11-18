@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("Another one walking the graves at dusk. The steppe doesn't see many visitors who mean to leave again.", "See the stone on the hill? An old otaman lies under it, with his sabre and his oath.")

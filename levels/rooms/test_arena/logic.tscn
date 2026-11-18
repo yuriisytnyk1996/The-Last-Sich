@@ -7,6 +7,12 @@
 [ext_resource type="PackedScene" path="res://actors/bosses/otaman/otaman.tscn" id="5_otaman"]
 [ext_resource type="Script" path="res://components/story/story_trigger.gd" id="story_trigger"]
 [ext_resource type="Script" path="res://components/story/story_condition.gd" id="story_condition"]
+[ext_resource type="Script" path="res://components/cutscene/cutscene.gd" id="cutscene"]
+[ext_resource type="Script" path="res://components/cutscene/cutscene_step.gd" id="step"]
+[ext_resource type="Script" path="res://components/cutscene/steps/camera_step.gd" id="camera_step"]
+[ext_resource type="Script" path="res://components/cutscene/steps/shake_step.gd" id="shake_step"]
+[ext_resource type="Script" path="res://components/cutscene/steps/title_step.gd" id="title_step"]
+[ext_resource type="Script" path="res://components/cutscene/steps/wait_step.gd" id="wait_step"]
 
 [sub_resource type="RectangleShape2D" id="trigger_shape"]
 size = Vector2(720, 288)
@@ -14,6 +20,29 @@ size = Vector2(720, 288)
 [sub_resource type="Resource" id="kobzar_not_done"]
 script = ExtResource("story_condition")
 no_flags = Array[StringName]([&"kobzar_done"])
+
+[sub_resource type="Resource" id="intro_camera"]
+script = ExtResource("camera_step")
+to = NodePath("BossView")
+duration = 1.2
+
+[sub_resource type="Resource" id="intro_shake"]
+script = ExtResource("shake_step")
+trauma = 0.45
+
+[sub_resource type="Resource" id="intro_title"]
+script = ExtResource("title_step")
+title = "Otaman"
+subtitle = "Master of the burned Sich"
+hold = 1.6
+
+[sub_resource type="Resource" id="intro_wait"]
+script = ExtResource("wait_step")
+seconds = 0.3
+
+[sub_resource type="Resource" id="intro_back"]
+script = ExtResource("camera_step")
+duration = 0.8
 
 [node name="Logic" type="Node2D"]
 
@@ -36,8 +65,17 @@ position = Vector2(104, 320)
 [node name="Otaman" parent="Enemies" instance=ExtResource("5_otaman")]
 position = Vector2(720, 320)
 
-[node name="BossArena" parent="." node_paths=PackedStringArray("boss") instance=ExtResource("3_arena")]
+[node name="Intro" type="Node2D" parent="."]
+script = ExtResource("cutscene")
+steps = Array[ExtResource("step")]([SubResource("intro_camera"), SubResource("intro_shake"), SubResource("intro_title"), SubResource("intro_wait"), SubResource("intro_back")])
+flag = &"otaman_intro_seen"
+
+[node name="BossView" type="Marker2D" parent="Intro"]
+position = Vector2(720, 260)
+
+[node name="BossArena" parent="." node_paths=PackedStringArray("boss", "intro") instance=ExtResource("3_arena")]
 boss = NodePath("../Enemies/Otaman")
+intro = NodePath("../Intro")
 
 [node name="Shape" type="CollisionShape2D" parent="BossArena/Trigger"]
 position = Vector2(576, 176)

@@ -136,3 +136,32 @@ signal duma_time_changed(fraction_left: float)
 ## The HUD flashes the spirit bar.
 @warning_ignore("unused_signal")
 signal spirit_short
+
+## A `Cutscene` took the player's control. The HUD hides and, with
+## `letterbox`, the cinematic bars slide in.
+@warning_ignore("unused_signal")
+signal cutscene_started(letterbox: bool)
+
+## The cutscene ended (played out or skipped): the player has control
+## again, the bars slide out and the HUD comes back.
+@warning_ignore("unused_signal")
+signal cutscene_ended
+
+## The player skipped the cutscene and the screen is black. Title and
+## quote cards hide at once.
+@warning_ignore("unused_signal")
+signal cutscene_skipped
+
+## Pause was pressed once in a skippable cutscene: "`binding` Skip" shows
+## for `time` seconds, and a second press in that time skips.
+@warning_ignore("unused_signal")
+signal cutscene_skip_offered(binding: String, time: float)
+
+## A cutscene shows a title card: a zone's name, a boss's name. It fades
+## in over `fade` seconds, stays `hold` seconds and fades out.
+@warning_ignore("unused_signal")
+signal title_card_shown(title: String, subtitle: String, hold: float, fade: float)
+
+## A cutscene shows a quote over the screen, usually faded to black first.
+@warning_ignore("unused_signal")
+signal quote_shown(text: String, author: String, hold: float, fade: float)

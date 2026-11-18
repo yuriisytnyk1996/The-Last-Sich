@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("Quiet up there now. Quiet is good.", "Rest when you need to. The fire by the door burns for anyone the steppe hasn't claimed.")

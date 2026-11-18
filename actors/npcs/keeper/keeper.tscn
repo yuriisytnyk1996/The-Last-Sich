@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://actors/npcs/npc.tscn" id="1_npc"]
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="dialogue"]
+[ext_resource type="Resource" path="res://actors/npcs/keeper/dialogues/road.tres" id="road"]
+
+[node name="Keeper" instance=ExtResource("1_npc")]
+display_name = "Grave keeper"
+dialogues = Array[ExtResource("dialogue")]([ExtResource("road")])
+
+[node name="Body" parent="Visual" index="0"]
+color = Color(0.32, 0.3, 0.26, 1)
+
+[node name="Hood" type="ColorRect" parent="Visual" index="3"]
+offset_left = -5.0
+offset_top = -36.0
+offset_right = 5.0
+offset_bottom = -31.0
+mouse_filter = 2
+color = Color(0.22, 0.2, 0.18, 1)
+
+[node name="Spade" type="Polygon2D" parent="Visual" index="4"]
+position = Vector2(-9, -2)
+color = Color(0.55, 0.42, 0.28, 1)
+polygon = PackedVector2Array(-1, -30, 1, -30, 1, -8, 3, -6, 3, 0, -3, 0, -3, -6, -1, -8)

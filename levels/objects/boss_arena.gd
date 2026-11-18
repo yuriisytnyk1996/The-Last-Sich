@@ -1,7 +1,8 @@
 class_name BossArena
 extends Node2D
 ## Runs a boss fight: walking into `Trigger` closes the gates under
-## `Gates` and wakes the `boss`. Killing it opens the gates for good and
+## `Gates`, plays the `intro` cutscene if there is one, then wakes the
+## `boss`. Killing it opens the gates for good and
 ## gives `item`; the boss's own `currency_reward` is paid as usual.
 ##
 ## If the player dies mid-fight, the gates open and the boss goes back to
@@ -17,6 +18,9 @@ signal boss_beaten
 const FIGHT_GROUP := &"boss_fights"
 
 @export var boss: Boss
+## Played once the gates are shut, before the boss wakes: a camera pan to
+## the boss and its name. Optional; with a `flag` it plays only once.
+@export var intro: Cutscene
 ## Given when the boss dies. Optional.
 @export var item: Item
 ## Camera trauma when the boss dies (0 to 1).
@@ -57,6 +61,8 @@ func _on_trigger_body_entered(body: Node2D) -> void:
 		_fighting = true
 		add_to_group(FIGHT_GROUP)
 		_set_gates_open(false)
+		if intro and intro.can_play():
+			await intro.play()
 		boss.awaken()
 		Events.boss_fight_started.emit(
 			boss.display_name, boss.health.current, boss.health.max_health

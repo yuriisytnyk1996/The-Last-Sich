@@ -30,11 +30,12 @@ func formatted_text(gamepad: bool) -> String:
 	for found in regex.search_all(text):
 		var action := StringName(found.get_string(1))
 		if InputMap.has_action(action):
-			result = result.replace(found.get_string(), "[%s]" % _binding(action, gamepad))
+			result = result.replace(found.get_string(), "[%s]" % binding(action, gamepad))
 	return result
 
 
-static func _binding(action: StringName, gamepad: bool) -> String:
+## The key bound to `action`, or its gamepad button when `gamepad` is set.
+static func binding(action: StringName, gamepad: bool) -> String:
 	if gamepad:
 		return BindingButton.button_name(InputSettings.get_button(action))
 	return BindingButton.key_name(InputSettings.get_key(action))

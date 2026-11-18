@@ -48,11 +48,12 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 ├── Flasks                   PlayerFlasks: healing flask charges
 ├── Parry                    PlayerParry: parry and riposte tuning
 ├── Camera2D                 smoothed, limited by the room's bounds
-│   └── CameraShake          shakes on Events.camera_shake_requested
+│   ├── CameraShake          shakes on Events.camera_shake_requested
+│   └── CameraDirector       lets a cutscene glide the camera off the player
 └── StateMachine
     ├── Idle  ├── Run  ├── Jump  ├── Fall  ├── Dash  ├── Climb  ├── LedgeHang  ├── LedgeClimb
     ├── WallCling  ├── WallJump
-    ├── HardLanding  ├── Heal  ├── Kneel
+    ├── HardLanding  ├── Heal  ├── Kneel  ├── Scripted
     ├── SideAttack  ├── UpAttack  ├── CrouchAttack  ├── Parry  ├── Riposte
     ├── ComboHeavy  ├── ComboFinisher  ├── ComboFinisherUp  ├── ComboFinisherDown
     ├── Charge  ├── ChargedSlash  ├── Lunge  ├── Dive  ├── Ranged  ├── Duma
@@ -76,6 +77,7 @@ Player (CharacterBody2D)     layer: player   mask: world, platforms   group: "pl
 | **HardLanding** | Landed after falling `hard_landing_height` or more: stuck in place for `hard_landing_time`, camera shake. See [Hard landing](#hard-landing) | Idle/Run (time is up), Dash (in the second half), Fall (ground gone) |
 | **Heal** | Drinks a healing flask: the flask is used and the health restored at once, then the player slows to a stop and stands still for `drink_time`. See [Healing flasks](#healing-flasks) | Idle/Run (time is up), Fall (ground gone) |
 | **Kneel** | At a rest point, with travel unlocked: slows to a stop, hurtbox off (no blink), sinks down on one knee (placeholder squash). After `kneel_time` opens the kneel prompt (pauses the game); after it closes, rises back up over `rise_time`. See [Travel](/systems/travel#kneeling) | Idle/Run (risen) |
+| **Scripted** | A [cutscene](/systems/cutscenes) has the player (`PlayerScripted.take()`, from any state): input ignored, hurtbox off (no blink), gravity on. Stands, or walks to the spot the cutscene asked for at `walk_speed_factor` of the run speed; a wall in the way ends the walk | Idle (or Fall in the air) when the cutscene calls `release()` |
 | **SideAttack / UpAttack / CrouchAttack** | One swing: startup, active (hitbox on), recovery. The direction comes from the vertical input when attack is pressed. See [Combat](/systems/combat#player-attacks) | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss), WallCling (an air swing reaching a climb wall with attack held), SideAttack or ComboHeavy (ground combo, see [Combat](/systems/combat#ground-combo)) |
 | **Parry** | Planted guard for `parry_window`. A parryable hit is deflected and stuns the attacker; a guard that catches nothing leaves the player stuck for `fail_recovery`. See [Combat](/systems/combat#parry-and-riposte) | Riposte (attack after a parry), Idle/Run (time is up), Fall (ground gone) |
 | **Riposte** | Invincible lunge into a heavy slash after a parry | Idle/Run (on floor), Fall (in air), another attack (re-swing after a miss) |

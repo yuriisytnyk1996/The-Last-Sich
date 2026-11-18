@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+
+[resource]
+script = ExtResource("r1")
+speaker = "Raider"
+lines = PackedStringArray("The keeper's guest! Open the gate, lads, we'll have his boots as well!")

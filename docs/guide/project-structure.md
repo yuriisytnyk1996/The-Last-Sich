@@ -33,7 +33,14 @@ The-Last-Sich/
 │   │   ├── state_machine.gd      Generic finite state machine
 │   │   └── state.gd              Base class for one state
 │   ├── camera/
-│   │   └── camera_shake.gd       Trauma-based shake for a Camera2D
+│   │   ├── camera_shake.gd       Trauma-based shake for a Camera2D
+│   │   └── camera_director.gd    Lets a cutscene glide the camera off the player and back
+│   ├── cutscene/                 Scripted scenes (see Systems > Cutscenes)
+│   │   ├── cutscene.gd           Cutscene: starts, takes control, plays the steps, skips
+│   │   ├── cutscene_run.gd       CutsceneRun: one playing, waits that end on a skip
+│   │   ├── cutscene_step.gd      CutsceneStep: base of every step
+│   │   ├── cutscene_trigger.gd   CutsceneTrigger: walk-in or interact area that starts its cutscene
+│   │   └── steps/                walk, camera, dialogue, call, move, story, title, quote, fade, shake, wait
 │   ├── interaction/
 │   │   ├── interaction_area.gd   Touch or interact area, base for exits and doors
 │   │   ├── execution.gd      Execution: a finisher waiting for interact (enemy or fake)
@@ -75,6 +82,7 @@ The-Last-Sich/
 │   │   │   ├── wall_jump.gd      Finds climbable walls, wall jump tuning
 │   │   │   ├── unlocks.gd        Traversal unlocks given by items (seeing reveal platforms)
 │   │   │   ├── story.gd          Story flags and counters set by conversations and quests, saved
+│   │   │   ├── scripted.gd       Hands the player to a cutscene: take, walk to a spot, release
 │   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
 │   │   │   ├── wallet.gd         Currency the player carries, spent on skills and shops, saved
 │   │   │   ├── upgrades.gd       Permanent max health, max spirit, flask and flask healing upgrades, saved
@@ -127,6 +135,7 @@ The-Last-Sich/
 │   │       ├── hard_landing.gd   Stuck in place after a long fall
 │   │       ├── heal.gd           Drinking a healing flask
 │   │       ├── kneel.gd          Kneeling at a rest point before the travel prompt
+│   │       ├── scripted.gd       A cutscene has the player: no input, can't be hurt, walks
 │   │       ├── parry.gd          Guard up, deflects parryable hits
 │   │       ├── guard_slide.gd    Slid back by a heavy hit caught on the guard
 │   │       ├── execute.gd        The finisher on an executable enemy
@@ -205,14 +214,17 @@ The-Last-Sich/
 │   │   ├── kobzar/
 │   │   │   ├── kobzar.tscn       Test NPC (inherits npc.tscn): the lost string quest
 │   │   │   └── dialogues/        intro, reminder, hint, return, thanks, done
-│   │   └── elder/
-│   │       ├── elder.tscn        Test NPC: rewards for captives, letters and the boss
-│   │       └── dialogues/        intro, idle, letters, letters_done, captives_first, captives_all, boss_news
+│   │   ├── elder/
+│   │   │   ├── elder.tscn        Test NPC: rewards for captives, letters and the boss
+│   │   │   └── dialogues/        intro, idle, letters, letters_done, captives_first, captives_all, boss_news
+│   │   └── keeper/
+│   │       ├── keeper.tscn       Test NPC of the kurgan cutscenes: the Grave keeper
+│   │       └── dialogues/        arrival, warning, raider_shout, vigil_end, road, mound
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
-│   ├── world.tscn                Gameplay scene: player, HUD, world map, play clock, screen fade, pause menu and the current room
+│   ├── world.tscn                Gameplay scene: player, HUD, world map, play clock, screen fade, cutscene layers, pause menu and the current room
 │   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── killed_enemies.gd         Keeps killed enemies dead across rooms until the player rests or dies
@@ -280,14 +292,22 @@ The-Last-Sich/
 │   │   ├── test_hideout/         Its parts
 │   │   ├── test_barracks.tscn    Room behind the test room's second door, with the shieldbearer, boar and crow
 │   │   ├── test_barracks/        Its parts
-│   │   ├── test_arena.tscn       Boss arena behind the barracks' east door, with the Otaman
-│   │   └── test_arena/           Its parts
+│   │   ├── test_arena.tscn       Boss arena behind the barracks' east door, with the Otaman and its intro
+│   │   ├── test_arena/           Its parts
+│   │   ├── test_kurgan.tscn      Wide dusk room behind the barracks' second east door, with the three test cutscenes
+│   │   └── test_kurgan/          Its parts
 │   ├── terrain/
 │   │   ├── terrain.tres          Shared tileset: solid and one-way tiles on the world layer
 │   │   └── terrain_tiles.png     Placeholder tile texture (16×16 tiles)
 ├── ui/
 │   ├── version_label.gd          On-screen game version
-│   ├── screen_fade.gd            Black fade for room transitions
+│   ├── screen_fade.gd            Black fade for room transitions and cutscenes
+│   ├── cutscene/
+│   │   ├── cinematic_bars.gd     Letterbox bars, hides the HUD during a cutscene
+│   │   ├── fading_card.gd        Base for the cards: fade in, hold, fade out
+│   │   ├── title_card.gd         Title, line and subtitle (zone and boss names)
+│   │   ├── quote_card.gd         Quote and author, above the black fade
+│   │   └── skip_prompt.gd        "[Esc] Skip" after the first press of pause
 │   ├── screen_effects/
 │   │   ├── screen_effects.gd     Full-screen brightness and CRT pass (owned by DisplaySettings)
 │   │   ├── screen_effects.gdshader

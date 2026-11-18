@@ -14,7 +14,7 @@ any state ──health 0──► Dead ──► the arena frees it after the fa
 ```
 
 1. **Dormant** (`actors/bosses/states/dormant.gd`): the boss stands still with its hurtbox and contact damage off, so it can't be worn down before the fight. It is also its `home_state()`: `Enemy.reset()` sends a boss back here, not to Patrol.
-2. **The arena:** `BossArena` (`levels/objects/boss_arena.gd`) has a `Trigger` area. When the player walks in, it closes every `Gate` under its `Gates` node, calls `Boss.awaken()` and sends `Events.boss_fight_started(name, current, maximum)`, which shows the [boss bar](#boss-bar).
+2. **The arena:** `BossArena` (`levels/objects/boss_arena.gd`) has a `Trigger` area. When the player walks in, it closes every `Gate` under its `Gates` node, plays its `intro` [cutscene](#intros) if it has one, calls `Boss.awaken()` and sends `Events.boss_fight_started(name, current, maximum)`, which shows the [boss bar](#boss-bar).
 3. **Roar** (`roar.gd`): a pause of `duration` with a camera shake and `mark` shown. The boss can't be hurt during it. It plays at the start of the fight and at every new phase.
 4. **Decide** (`decide.gd`): faces the player and walks towards them (down to `keep_distance`). After `think_time`, on the floor and off cooldown, it picks an attack at random, weighted by `weight`, from the `BossAttack` states whose `can_use()` is true: allowed in this phase, with the player between `min_range` and `max_range`.
 5. **The attack** runs the usual wind-up, active and recovery windows of `EnemyAttackState`, scaled by the phase (`Boss.time_scale()`). When it ends, `Boss.alert_state()` sends the boss back to Decide, or to Roar if a new phase is waiting.
@@ -46,6 +46,10 @@ When the boss dies, the arena emits `boss_beaten` (never when a save restores th
 While a fight is on, the arena is in the `BossArena.FIGHT_GROUP` group (`boss_fights`), so other systems can tell: the [Duma of the Road Home](/systems/dumas#dumas) can't be sung during a fight.
 
 The arena's gates are taken out of the `persistent` group: the arena alone decides whether they are open, so a fight that ended in death can't leave them shut in the save.
+
+### Intros
+
+`BossArena.intro` is an optional [cutscene](/systems/cutscenes) placed next to the arena. It plays once the gates have shut and before the boss wakes: usually a camera glide to the boss, a shake and its name on a title card. The boss is frozen and the player can't be hurt meanwhile; the boss bar shows only after it, when the fight starts. With a `flag` the intro plays once, so after a death the next attempt goes straight into the fight. The test arena's Otaman has one (`otaman_intro_seen`).
 
 ### Boss bar
 
@@ -79,7 +83,7 @@ The combo is the most likely pick up close (`weight` 3). From further away it le
 | `actors/bosses/otaman/shockwave.tscn`, `pistol_ball.tscn` | Its projectiles (`EnemyProjectile`) |
 | `levels/objects/boss_arena.gd`, `boss_arena.tscn` | Runs the fight: trigger, gates, reward, saved win |
 | `ui/hud/boss_bar.gd` | Boss name and health bar |
-| `levels/rooms/test_arena.tscn` | Test arena behind the test barracks' east door |
+| `levels/rooms/test_arena.tscn` | Test arena behind the test barracks' east door, with the Otaman's intro cutscene |
 
 ## Tuning
 
@@ -124,6 +128,7 @@ Active is the time the blade is out. For `LeapSlam` it starts on landing, and fo
 | Value | Default | Effect |
 |---|---|---|
 | `boss` | none | The boss it wakes |
+| `intro` | none | [Cutscene](/systems/cutscenes) played before the boss wakes |
 | `item` | none | Given when the boss dies |
 | `death_shake` | 0.8 | Camera trauma when the boss dies |
 | `death_hit_stop` | 0.3 | Freeze on the killing blow (s) |
@@ -145,7 +150,7 @@ Active is the time the blade is out. For `LeapSlam` it starts on landing, and fo
 
 **A new boss:** make `actors/bosses/<name>/<name>.tscn` with the `Boss` script on the root (duplicating `otaman.tscn` is quickest). Keep the `Dormant`, `Roar`, `Decide`, `Stunned` and `Dead` states, and add one `BossAttack` subclass per attack pattern in `actors/bosses/<name>/states/`. On its `Damage`, turn off `flinches` and `stays_dead`.
 
-**An arena:** instance `levels/objects/boss_arena.tscn` in the room's `Logic`, give its `Trigger` a shape that covers the fight, add `Gate` scenes (with `open` on) under its `Gates` node, and set `boss`. Put a rest point just outside the gates.
+**An arena:** instance `levels/objects/boss_arena.tscn` in the room's `Logic`, give its `Trigger` a shape that covers the fight, add `Gate` scenes (with `open` on) under its `Gates` node, and set `boss`. Put a rest point just outside the gates. For an intro, add a `Cutscene` beside the arena and set it as `intro`.
 
 **A multi-part attack:** override `_next_phase()`, as `SaberCombo` (more swings) and `LeapSlam` (an active window that waits for landing) do.
 

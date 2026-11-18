@@ -111,7 +111,7 @@ Player marks are saved with the map, so they last until the save is deleted.
 | `reveal_interval` | `WorldMap` | `0.2` | Seconds between checks of the player's cell |
 | `pan_speed` | `MapView` | `6.0` | Panning speed, in cells per second |
 | `ZOOMS` | `MapView` | `32×18`, `16×9` | Size of one cell on screen per zoom level (px) |
-| `ZONE_COLORS` | `MapView` | Steppe, Caves, Works | Fill colour per zone name |
+| `ZONE_COLORS` | `MapView` | Steppe, Caves, Works, Crypt, Kurgan | Fill colour per zone name |
 | `EDGE_MARGIN` | `MapRoom` | `24` | How close to a room edge (px) an exit must be to count as a door in the wall |
 | `map_hides` | `Breakable` | empty | Area (px) a secret keeps off the map until it breaks. Vault's alcove wall: `(0, -64, 136, 64)` |
 

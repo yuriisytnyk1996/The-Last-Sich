@@ -63,6 +63,7 @@ var _dash_cooldown_timer := 0.0
 
 @onready var visual: Node2D = $Visual
 @onready var camera: Camera2D = $Camera2D
+@onready var camera_director: CameraDirector = $Camera2D/CameraDirector
 @onready var state_machine: StateMachine = $StateMachine
 @onready var stats: PlayerStats = $Stats
 @onready var health: Health = $Health
@@ -87,6 +88,7 @@ var _dash_cooldown_timer := 0.0
 @onready var unlocks: PlayerUnlocks = $Unlocks
 @onready var upgrades: PlayerUpgrades = $Upgrades
 @onready var story: PlayerStory = $Story
+@onready var scripted: PlayerScripted = $Scripted
 
 
 func _physics_process(delta: float) -> void:

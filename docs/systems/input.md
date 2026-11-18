@@ -20,11 +20,11 @@ Every action has **one key and one gamepad button**, so each control is easy to 
 | `interact` | E | B / Circle | `Player.can_interact()`: use doors, rest points and skill shrines, in Idle or Run |
 | `ranged` | L | Right stick click | `PlayerRangedAttack.wants()`: press and let go to throw a spirit bolt (with the skill) |
 | `duma` | Q | Left trigger (LT) | `PlayerDumas.wants()`: sing the worn [duma](/systems/dumas) in Idle or Run |
-| `map` | M | Back / Select | `World` opens the pause menu on the [map](/systems/map); closes it again |
+| `map` | M | Back / Select | `World` opens the pause menu on the [map](/systems/map); closes it again. Ignored during a cutscene |
 | `inventory` | I | — | `World` opens the pause menu on the [inventory](/systems/inventory#inventory-page); closes it again. No gamepad button by default (Start → Inventory); one can be bound in Controls |
 | `menu_lore` | R | Y | Menus only: open the focused item's [lore page](/systems/inventory#inventory-page) in the inventory, and close it again. Not rebindable |
 | `menu_tab_prev`, `menu_tab_next` | Q, E | Left shoulder, right shoulder | Menus only: step through the tabs of the [inventory page](/systems/inventory#inventory-page). Not rebindable; they share keys with gameplay actions, which don't run while a menu is open |
-| `pause` | Escape | Start | `World` opens the [pause menu](/systems/menus); closes it again |
+| `pause` | Escape | Start | `World` opens the [pause menu](/systems/menus); closes it again. During a [cutscene](/systems/cutscenes#skipping): press once to offer the skip, twice to skip |
 | `toggle_fullscreen` | F11, Alt+Enter | — | `DisplaySettings` |
 
 The left hand stays on WASD with duma (Q), dash (Shift), interact (E), heal (F) and jump (Space) in reach; the right hand has attack (J), parry (K) and ranged (L). Q is also the inventory's previous tab, which only works in menus, where gameplay actions don't run.

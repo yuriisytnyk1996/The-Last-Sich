@@ -25,6 +25,12 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 | `rested(rest_point)` | `RestPoint` (the player pressed up at it) | `World` (remembers it as the respawn point and saves the game), every `RestPoint` (lights the used one) | The player rested; `rest_point` is the node |
 | `return_requested` | `ReturnEffect` (the [Duma of the Road Home](/systems/dumas#dumas) was sung) | `World` (fades out and puts the player back at the last rest point, without healing) | Take the player back to the last rest point used |
 | `room_change_requested(room_path, exit_name)` | `RoomExit` (the player touched it, or pressed up at a door) | `World` (fades out, swaps the room, fades in) | Load `room_path` and place the player at its exit named `exit_name` |
+| `cutscene_started(letterbox)` | `Cutscene` (it took the player's control) | `CinematicBars` (hides the HUD, slides the bars in when `letterbox`) | A [cutscene](/systems/cutscenes) started |
+| `cutscene_ended` | `Cutscene` (control handed back, played out or skipped) | `CinematicBars` (bars out, HUD back), the cutscene cards (hide), every `CutsceneTrigger` (prompt) | The cutscene ended |
+| `cutscene_skipped` | `Cutscene` (a skip, once the screen is black) | `TitleCard`, `QuoteCard`, `SkipPrompt` (hide at once) | The player skipped the cutscene |
+| `cutscene_skip_offered(binding, time)` | `Cutscene` (first press of pause) | `SkipPrompt` | Show "`binding` Skip" for `time` seconds |
+| `title_card_shown(title, subtitle, hold, fade)` | `TitleStep` | `TitleCard` | Show a title card |
+| `quote_shown(text, author, hold, fade)` | `QuoteStep` | `QuoteCard` | Show a quote above the black fade |
 
 ## Usage
 

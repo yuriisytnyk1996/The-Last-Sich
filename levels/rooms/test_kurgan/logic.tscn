@@ -1,0 +1,333 @@
+[gd_scene format=4]
+
+[ext_resource type="PackedScene" path="res://levels/objects/door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://levels/objects/rest_point.tscn" id="rest"]
+[ext_resource type="PackedScene" path="res://levels/objects/mechanisms/gate.tscn" id="gate"]
+[ext_resource type="PackedScene" path="res://actors/enemies/raider/raider.tscn" id="raider"]
+[ext_resource type="PackedScene" path="res://actors/npcs/keeper/keeper.tscn" id="keeper"]
+[ext_resource type="Script" path="res://components/cutscene/cutscene.gd" id="cutscene"]
+[ext_resource type="Script" path="res://components/cutscene/cutscene_trigger.gd" id="trigger"]
+[ext_resource type="Script" path="res://components/cutscene/cutscene_step.gd" id="step"]
+[ext_resource type="Script" path="res://components/cutscene/steps/walk_step.gd" id="walk"]
+[ext_resource type="Script" path="res://components/cutscene/steps/camera_step.gd" id="camera"]
+[ext_resource type="Script" path="res://components/cutscene/steps/title_step.gd" id="title"]
+[ext_resource type="Script" path="res://components/cutscene/steps/dialogue_step.gd" id="dialogue"]
+[ext_resource type="Script" path="res://components/cutscene/steps/story_step.gd" id="story"]
+[ext_resource type="Script" path="res://components/cutscene/steps/shake_step.gd" id="shake"]
+[ext_resource type="Script" path="res://components/cutscene/steps/wait_step.gd" id="wait"]
+[ext_resource type="Script" path="res://components/cutscene/steps/call_step.gd" id="call"]
+[ext_resource type="Script" path="res://components/cutscene/steps/move_step.gd" id="move"]
+[ext_resource type="Script" path="res://components/cutscene/steps/fade_step.gd" id="fade"]
+[ext_resource type="Script" path="res://components/cutscene/steps/quote_step.gd" id="quote"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="outcome"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="condition"]
+[ext_resource type="Script" path="res://components/story/story_toggle.gd" id="toggle"]
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="dlg_script"]
+[ext_resource type="Resource" path="res://actors/npcs/keeper/dialogues/arrival.tres" id="d_arrival"]
+[ext_resource type="Resource" path="res://actors/npcs/keeper/dialogues/warning.tres" id="d_warning"]
+[ext_resource type="Resource" path="res://actors/npcs/keeper/dialogues/raider_shout.tres" id="d_shout"]
+[ext_resource type="Resource" path="res://actors/npcs/keeper/dialogues/vigil_end.tres" id="d_vigil"]
+[ext_resource type="Resource" path="res://actors/npcs/keeper/dialogues/mound.tres" id="d_mound"]
+
+[sub_resource type="RectangleShape2D" id="ambush_shape"]
+size = Vector2(32, 96)
+
+[sub_resource type="RectangleShape2D" id="idol_shape"]
+size = Vector2(56, 40)
+
+[sub_resource type="Resource" id="a_walk"]
+script = ExtResource("walk")
+to = NodePath("../CutsceneMarks/ArrivalStop")
+facing = 1
+
+[sub_resource type="Resource" id="a_title"]
+script = ExtResource("title")
+title = "The Old Kurgan"
+subtitle = "Graves of the steppe"
+hold = 2.0
+
+[sub_resource type="Resource" id="a_cam_keeper"]
+script = ExtResource("camera")
+to = NodePath("../CutsceneMarks/KeeperView")
+duration = 1.4
+
+[sub_resource type="Resource" id="a_talk"]
+script = ExtResource("dialogue")
+dialogue = ExtResource("d_arrival")
+speaker = "Grave keeper"
+
+[sub_resource type="Resource" id="a_cam_idol"]
+script = ExtResource("camera")
+to = NodePath("../CutsceneMarks/IdolView")
+duration = 2.0
+
+[sub_resource type="Resource" id="a_wake_outcome"]
+script = ExtResource("outcome")
+set_flags = Array[StringName]([&"kurgan_idol_woken"])
+
+[sub_resource type="Resource" id="a_wake"]
+script = ExtResource("story")
+outcome = SubResource("a_wake_outcome")
+
+[sub_resource type="Resource" id="a_shake"]
+script = ExtResource("shake")
+trauma = 0.35
+
+[sub_resource type="Resource" id="a_wait"]
+script = ExtResource("wait")
+seconds = 1.0
+
+[sub_resource type="Resource" id="a_warn"]
+script = ExtResource("dialogue")
+dialogue = ExtResource("d_warning")
+speaker = "Grave keeper"
+
+[sub_resource type="Resource" id="a_cam_back"]
+script = ExtResource("camera")
+duration = 1.2
+
+[sub_resource type="Resource" id="b_face"]
+script = ExtResource("walk")
+facing = 1
+
+[sub_resource type="Resource" id="b_cam_gate"]
+script = ExtResource("camera")
+to = NodePath("../CutsceneMarks/GateView")
+duration = 0.8
+
+[sub_resource type="Resource" id="b_shout"]
+script = ExtResource("dialogue")
+dialogue = ExtResource("d_shout")
+
+[sub_resource type="Resource" id="b_open"]
+script = ExtResource("call")
+node = NodePath("../Gate")
+method = &"set_open"
+arguments = [true]
+
+[sub_resource type="Resource" id="b_wait"]
+script = ExtResource("wait")
+seconds = 1.2
+
+[sub_resource type="Resource" id="b_cam_back"]
+script = ExtResource("camera")
+duration = 0.6
+
+[sub_resource type="Resource" id="c_walk"]
+script = ExtResource("walk")
+to = NodePath("../CutsceneMarks/IdolStand")
+facing = 1
+
+[sub_resource type="Resource" id="c_keeper"]
+script = ExtResource("move")
+wait = false
+node = NodePath("../KeeperRoad")
+to = NodePath("../CutsceneMarks/KeeperMound")
+duration = 3.0
+
+[sub_resource type="Resource" id="c_cam_idol"]
+script = ExtResource("camera")
+to = NodePath("../CutsceneMarks/IdolView")
+duration = 1.0
+
+[sub_resource type="Resource" id="c_wait"]
+script = ExtResource("wait")
+seconds = 0.8
+
+[sub_resource type="Resource" id="c_fade_out"]
+script = ExtResource("fade")
+duration = 1.2
+
+[sub_resource type="Resource" id="c_quote"]
+script = ExtResource("quote")
+text = "A Cossack's oath is kept by the steppe long after the living forget it."
+author = "Words cut into the kurgan stone"
+hold = 3.0
+
+[sub_resource type="Resource" id="c_reward_outcome"]
+script = ExtResource("outcome")
+reward = 250
+message = "The kurgan remembers you"
+
+[sub_resource type="Resource" id="c_reward"]
+script = ExtResource("story")
+outcome = SubResource("c_reward_outcome")
+
+[sub_resource type="Resource" id="c_fade_in"]
+script = ExtResource("fade")
+to_black = false
+duration = 1.2
+
+[sub_resource type="Resource" id="c_cam_keeper"]
+script = ExtResource("camera")
+to = NodePath("../CutsceneMarks/MoundView")
+duration = 1.0
+
+[sub_resource type="Resource" id="c_talk"]
+script = ExtResource("dialogue")
+dialogue = ExtResource("d_vigil")
+speaker = "Grave keeper"
+
+[sub_resource type="Resource" id="keeper_road_here"]
+script = ExtResource("condition")
+no_flags = Array[StringName]([&"kurgan_vigil_done"])
+
+[sub_resource type="Resource" id="keeper_mound_here"]
+script = ExtResource("condition")
+all_flags = Array[StringName]([&"kurgan_vigil_done"])
+
+[sub_resource type="Resource" id="idol_woken"]
+script = ExtResource("condition")
+all_flags = Array[StringName]([&"kurgan_idol_woken"])
+
+[sub_resource type="Resource" id="ambushed"]
+script = ExtResource("condition")
+all_flags = Array[StringName]([&"kurgan_ambush_seen"])
+
+[node name="Logic" type="Node2D"]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(56, 320)
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="Door" parent="Exits" instance=ExtResource("door")]
+position = Vector2(40, 320)
+target_room = "res://levels/rooms/test_barracks.tscn"
+target_exit = &"KurganDoor"
+arrival_facing = 1
+
+[node name="RestPoint" parent="." instance=ExtResource("rest")]
+position = Vector2(136, 320)
+
+[node name="KeeperRoad" parent="." instance=ExtResource("keeper")]
+position = Vector2(760, 320)
+presence = SubResource("keeper_road_here")
+
+[node name="KeeperMound" parent="." instance=ExtResource("keeper")]
+position = Vector2(1568, 320)
+dialogues = Array[ExtResource("dlg_script")]([ExtResource("d_mound")])
+presence = SubResource("keeper_mound_here")
+
+[node name="Gate" parent="." instance=ExtResource("gate")]
+position = Vector2(1312, 320)
+
+[node name="OpenAfterAmbush" type="Node" parent="Gate"]
+script = ExtResource("toggle")
+condition = SubResource("ambushed")
+mode = 2
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="RaiderA" parent="Enemies" instance=ExtResource("raider")]
+position = Vector2(1440, 320)
+
+[node name="RaiderB" parent="Enemies" instance=ExtResource("raider")]
+position = Vector2(1520, 320)
+
+[node name="Idol" type="Node2D" parent="."]
+position = Vector2(1760, 272)
+
+[node name="Stone" type="Polygon2D" parent="Idol"]
+color = Color(0.46, 0.44, 0.42, 1)
+polygon = PackedVector2Array(-7, 0, 7, 0, 6, -14, 8, -22, 6, -34, 3, -38, -3, -38, -6, -34, -8, -22, -6, -14)
+
+[node name="Hands" type="ColorRect" parent="Idol"]
+offset_left = -6.0
+offset_top = -20.0
+offset_right = 6.0
+offset_bottom = -17.0
+mouse_filter = 2
+color = Color(0.36, 0.34, 0.33, 1)
+
+[node name="Eyes" type="Node2D" parent="Idol"]
+visible = false
+
+[node name="Left" type="ColorRect" parent="Idol/Eyes"]
+offset_left = -4.0
+offset_top = -32.0
+offset_right = -2.0
+offset_bottom = -31.0
+mouse_filter = 2
+color = Color(1, 0.75, 0.3, 1)
+
+[node name="Right" type="ColorRect" parent="Idol/Eyes"]
+offset_left = 2.0
+offset_top = -32.0
+offset_right = 4.0
+offset_bottom = -31.0
+mouse_filter = 2
+color = Color(1, 0.75, 0.3, 1)
+
+[node name="ShowWhenWoken" type="Node" parent="Idol/Eyes"]
+script = ExtResource("toggle")
+condition = SubResource("idol_woken")
+
+[node name="CutsceneMarks" type="Node2D" parent="."]
+
+[node name="ArrivalStop" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(232, 320)
+
+[node name="KeeperView" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(760, 250)
+
+[node name="IdolView" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(1720, 230)
+
+[node name="GateView" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(1400, 260)
+
+[node name="IdolStand" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(1738, 272)
+
+[node name="KeeperMound" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(1568, 320)
+
+[node name="MoundView" type="Marker2D" parent="CutsceneMarks"]
+position = Vector2(1640, 250)
+
+[node name="Arrival" type="Node2D" parent="."]
+script = ExtResource("cutscene")
+steps = Array[ExtResource("step")]([SubResource("a_walk"), SubResource("a_title"), SubResource("a_cam_keeper"), SubResource("a_talk"), SubResource("a_cam_idol"), SubResource("a_wake"), SubResource("a_shake"), SubResource("a_wait"), SubResource("a_warn"), SubResource("a_cam_back")])
+flag = &"kurgan_arrival_seen"
+play_on_enter = true
+
+[node name="Ambush" type="Node2D" parent="."]
+script = ExtResource("cutscene")
+steps = Array[ExtResource("step")]([SubResource("b_face"), SubResource("b_cam_gate"), SubResource("b_shout"), SubResource("b_open"), SubResource("b_wait"), SubResource("b_cam_back")])
+flag = &"kurgan_ambush_seen"
+freeze_enemies = false
+
+[node name="Trigger" type="Area2D" parent="Ambush"]
+position = Vector2(1160, 320)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("trigger")
+
+[node name="Shape" type="CollisionShape2D" parent="Ambush/Trigger"]
+position = Vector2(0, -48)
+shape = SubResource("ambush_shape")
+
+[node name="Vigil" type="Node2D" parent="."]
+script = ExtResource("cutscene")
+steps = Array[ExtResource("step")]([SubResource("c_walk"), SubResource("c_keeper"), SubResource("c_cam_idol"), SubResource("c_wait"), SubResource("c_fade_out"), SubResource("c_quote"), SubResource("c_reward"), SubResource("c_fade_in"), SubResource("c_cam_keeper"), SubResource("c_talk")])
+flag = &"kurgan_vigil_done"
+condition = SubResource("ambushed")
+
+[node name="Trigger" type="Area2D" parent="Vigil"]
+position = Vector2(1760, 272)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("trigger")
+press_interact = true
+
+[node name="Shape" type="CollisionShape2D" parent="Vigil/Trigger"]
+position = Vector2(0, -20)
+shape = SubResource("idol_shape")
+
+[node name="Prompt" type="Polygon2D" parent="Vigil/Trigger"]
+position = Vector2(0, -50)
+color = Color(0.95, 0.92, 0.8, 1)
+polygon = PackedVector2Array(-4, 3, 4, 3, 0, -3)

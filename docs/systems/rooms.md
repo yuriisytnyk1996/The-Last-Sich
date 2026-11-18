@@ -137,7 +137,7 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | `arrival_rise` | `RoomExit` | `0.0` | Height (px) a player arriving while moving up is launched to. For floor holes the player comes up through. 0 keeps their speed |
 | `respawn_here` | `RoomExit` | `true` | Off when the landing isn't safe ground: a death in the room then respawns at `SpawnPoint` |
 | `press_interact` | `InteractionArea` | `false` | Needs interact pressed inside the area instead of a touch. On in `door.tscn` |
-| `duration` | `ScreenFade` | `0.15` | Seconds for one fade, out or in |
+| `duration` | `ScreenFade` | `0.15` | Seconds for one fade, out or in, unless the caller asks for its own time (a [cutscene](/systems/cutscenes)) |
 
 ## Terrain
 
@@ -194,7 +194,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - A second low wall, the boar's crash wall and the player's cover: standing behind it blocks the boar's sight, so it can't charge.
 - The **boar**'s run: long flat ground, so a charge from the right reaches the wall.
 - A third low wall, then the **crow**'s area: a one-way plank 2 tiles up, and a solid shelf 4 tiles up near the right wall to hide under from the crow.
-- The `ArenaDoor` against the right wall, leading to the test arena.
+- The `KurganDoor` (x 1176), leading to the [test kurgan](#test-kurgan-layout), and the `ArenaDoor` against the right wall, leading to the test arena.
 - A Sich letter (x 236) past the first low wall and a captive cage (x 680) on the boar's run, see [test content](/systems/story#test-content).
 
 ## Test arena layout
@@ -204,8 +204,20 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - The `Door` back to the barracks, at the spawn point, and a rest point.
 - The arena gate (open until the fight starts), under a solid wall up to the ceiling so the gate is the only way in.
 - The arena floor with the `BossArena` trigger over all of it, two one-way planks 3 tiles up, and the **Otaman** near the right wall.
+- The boss intro cutscene (`Intro`) beside the arena, with its `BossView` marker over the Otaman.
 
 See [Bosses](/systems/bosses).
+
+## Test kurgan layout
+
+`levels/rooms/test_kurgan.tscn` is a closed 1920×360 dusk room behind the barracks' `KurganDoor`, for testing [cutscenes](/systems/cutscenes). It sits east of the barracks on the map (`map_cell` (4, -2), zone "Kurgan"). From left to right:
+
+- The `Door` back to the barracks, at the spawn point, and a rest point.
+- The graves: crosses in the backdrop and two one-way planks, and the Grave keeper (`KeeperRoad`, x 760).
+- The `Ambush` trigger (x 1160), then the palisade: a solid wall up to the ceiling with a gate (x 1312) as the only way through.
+- Two raiders between the palisade and the mound.
+- The burial mound: three one-tile steps up to the stone idol (x 1760), whose interact area starts the `Vigil`. After the vigil the keeper stands at its foot (`KeeperMound`, x 1568).
+- The three cutscenes and their `CutsceneMarks` in `Logic`.
 
 See [Enemies](/systems/enemies).
 

@@ -123,6 +123,9 @@
 [ext_resource type="Script" path="res://actors/player/states/wall_jump.gd" id="st_wall_jump"]
 [ext_resource type="Script" path="res://actors/player/abilities/executions.gd" id="executions"]
 [ext_resource type="Script" path="res://actors/player/states/execute.gd" id="st_execute"]
+[ext_resource type="Script" path="res://actors/player/abilities/scripted.gd" id="scripted"]
+[ext_resource type="Script" path="res://actors/player/states/scripted.gd" id="st_scripted"]
+[ext_resource type="Script" path="res://components/camera/camera_director.gd" id="camera_director"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -610,6 +613,9 @@ position_smoothing_speed = 8.0
 [node name="CameraShake" type="Node" parent="Camera2D"]
 script = ExtResource("19_shake")
 
+[node name="CameraDirector" type="Node" parent="Camera2D"]
+script = ExtResource("camera_director")
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_fsm")
 initial_state = NodePath("Idle")
@@ -653,6 +659,9 @@ aura = NodePath("../../Visual/HealAura")
 
 [node name="Kneel" type="Node" parent="StateMachine"]
 script = ExtResource("st_kneel")
+
+[node name="Scripted" type="Node" parent="StateMachine"]
+script = ExtResource("st_scripted")
 
 [node name="SideAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("8_side_attack")
@@ -792,6 +801,9 @@ script = ExtResource("unlocks")
 
 [node name="Story" type="Node" parent="."]
 script = ExtResource("story")
+
+[node name="Scripted" type="Node" parent="."]
+script = ExtResource("scripted")
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("inventory")
