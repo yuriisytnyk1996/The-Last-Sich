@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.23](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.22...v0.0.23) (2026-11-18)
+
+### Bug Fixes
+
+* **rendering:** cap frame rate without VSync, VSync off by default on macOS ([80eef42](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/80eef427ad3c98de43c575dac37dc6331777d778))
+
 ## [0.0.22](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.21...v0.0.22) (2026-11-18)
 
 ### Features
