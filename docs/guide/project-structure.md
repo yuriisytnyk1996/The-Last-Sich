@@ -221,7 +221,7 @@ The-Last-Sich/
 │   │   ├── boss_arena.tscn       Its scene (add a trigger shape and gates)
 │   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
 │   │   ├── flasks/               Empty flask pickup (+1 flask) and the flask healer (stronger flasks)
-│   │   ├── mechanisms/           Levers, pressure plates and the gates they open
+│   │   ├── mechanisms/           Levers, attack switches, pressure plates and the gates they open
 │   │   ├── traversal/            Climb walls, reveal platforms
 │   │   ├── breakables/           Breakable crate, cracked wall and secret wall (breakable.gd, crate.tscn, breakable_wall.tscn, secret_wall.tscn)
 │   │   ├── platforms/            Moving platform, elevator and its call lever

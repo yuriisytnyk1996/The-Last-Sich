@@ -98,6 +98,8 @@
 
 - [x] Executions: a lethal hit on a stunned enemy (a riposte, a stunning duma) or a lethal heavy hit that catches it winding up (or any lethal heavy hit once a random kill counter, 3 to 6 kills, runs out) leaves it on its knees at 1 health instead of killing it; an awareness mark flashes, and interact plays an invincible finisher that kills it and gives spirit. Left alone it gets up with half its health; any hit after a short safe time just kills it. Fake executions: the same finisher placed in a room with no enemy behind it, for scripted kills, saved once done. `Health.spare_next_lethal`, `Events.enemy_executed`. Raider, musketeer, shieldbearer and boar can be executed; a fake one in the test barracks
 
+- [x] Attack switches: a switch hit with any player attack (the ranged bolt too, for switches out of reach) drives gates like a lever: `TOGGLE`, `UNLOCK`, or `TIMED` (opens for a few seconds, owns its targets), optionally one-shot; fills no spirit, saved. A one-shot switch opens a new corridor gate in the test hideout
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -108,7 +110,7 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
 - [ ] Map: items that reveal a zone
-- [ ] Gates opened by attacks; feedback for a lever pulled without its key
+- [ ] Feedback for a lever pulled without its key
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -145,7 +147,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Flat rectangles for moving platforms, elevators and their levers
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
 - Drawn tints for zones and drifting line streaks for wind
-- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
+- Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a post and a square for attack switches, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
 - Blue glow for the duma aura, coloured rectangles for the fire pillars, thunder beam, stun burst, duma shots and the sabres, a thin line under the spirit bar for a running duma, a scroll shape for duma icons
 - A squashed body for a kneeling enemy, a red exclamation mark for the execution awareness, a gold bar and rectangle for the finisher

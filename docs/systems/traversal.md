@@ -82,6 +82,22 @@ A `HOLD` plate owns its targets. When its room loads and nothing is on it, it sh
 
 The `Top` child sinks `press_depth` px while the plate is down. Origin is the bottom centre, so place it on the floor.
 
+### Attack switches
+
+`AttackSwitch` (`levels/objects/mechanisms/attack_switch.gd`) is a switch on a post that the player hits instead of pulling. Any hitbox on the `player_attacks` layer flips it: swings, the dive, dumas and the [ranged bolt](/systems/skills), so a switch out of reach (high on a wall, across a gap) is thrown from a distance. Like a lever, it drives every node in `targets` and doesn't know what they are. `action` picks what a hit does:
+
+| `action` | On a hit | Typical use |
+|---|---|---|
+| `TOGGLE` (default) | `toggle()` | Open or close a gate; every hit flips it back |
+| `UNLOCK` | `unlock()` | Free a locked gate that something else opens |
+| `TIMED` | `set_open(true)`, then `set_open(false)` after `open_time` | A gate the player has to run through |
+
+With `one_shot` the switch stays on after the first hit and takes no more hits, for shortcuts. A `TIMED` switch ignores hits until it springs back. The head turns and lights up while the switch is on, and every hit flashes it with a small hit-stop and shake.
+
+Its hurtbox has `rewards_attacker` off, so hitting a switch fills no spirit, and a short `invincibility_time` so one swing (or a multi-hit attack) flips it only once.
+
+A `TIMED` switch owns its targets the way a `HOLD` pressure plate does: when its room loads it shuts them at once, so leaving mid-timer can't leave a gate open for good. It isn't saved. The other modes are saved like a lever. Don't drive the same gate with a `TIMED` switch and anything else.
+
 ### Chests
 
 `Chest` (`levels/objects/items/chest.gd`) opens once with interact. It gives its `item` through `PlayerInventory.add()` (with the HUD toast) and `currency` straight to the wallet, not scaled by the [death penalty](/systems/death-penalty), since it is a fixed treasure, not a kill reward. Opened chests stay open (saved) and block their own prompt.
@@ -98,7 +114,7 @@ A secret is closed off by a **secret wall** (`levels/objects/breakables/secret_w
 
 ### Saving
 
-Lever, gate, pressure plate, chest and secret wall join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
+Lever, attack switch (except `TIMED`), gate, pressure plate, chest and secret wall join the `persistent` group, so the [save system](/systems/save-system) keeps them per room. Put them in the room's `Logic`, where saved node paths live.
 
 ## Test vault layout
 
@@ -111,7 +127,7 @@ Lever, gate, pressure plate, chest and secret wall join the `persistent` group, 
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
 6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300 and a free [health upgrade](/systems/upgrades). The alcove runs through the room's east wall into the **test hideout** (`test_hideout.tscn`, 640×360): a hidden room with a chest worth 250 on a one-way ledge. Its `map_hides` covers the alcove and the `East` exit, so the map shows a closed wall there until the wall breaks.
 
-The hideout also tests [pressure plates](#pressure-plates). On its floor, a `HOLD` plate (x 336, `release_delay` 2 s) opens the timed gate at x 528, and a `LATCH` plate (x 400) opens the gate at x 592 for good.
+The hideout also tests [pressure plates](#pressure-plates). On its floor, a `HOLD` plate (x 336, `release_delay` 2 s) opens the timed gate at x 528, and a `LATCH` plate (x 400) opens the gate at x 592 for good. Further west, a gate at x 240 closes the entrance corridor; a one-shot [attack switch](#attack-switches) in front of it (x 192) opens it for good.
 
 The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
 
@@ -132,6 +148,7 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `levels/objects/breakables/secret_wall.tscn` | Secret wall: a `Breakable` drawn like the terrain, covering the secret behind it |
 | `levels/objects/mechanisms/lever.gd`, `.tscn` | `Lever`: toggles its targets |
 | `levels/objects/mechanisms/gate.gd`, `.tscn` | `Gate`: blocks the way until opened |
+| `levels/objects/mechanisms/attack_switch.gd`, `.tscn` | `AttackSwitch`: drives its targets when hit |
 | `levels/objects/mechanisms/pressure_plate.gd`, `.tscn` | `PressurePlate`: opens its targets while pressed or for good |
 | `levels/objects/items/chest.gd`, `.tscn` | `Chest`: gives an item and currency once |
 | `levels/rooms/test_vault.tscn`, `test_vault/` | Test room with every piece |
@@ -165,6 +182,13 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `mode` | `PressurePlate` | `HOLD` | `HOLD` opens the targets while pressed, `LATCH` opens them for good |
 | `release_delay` | `PressurePlate` | 0 | `HOLD`: seconds after stepping off before the targets close |
 | `press_depth` | `PressurePlate` | 2 | How far the top sinks when pressed (px) |
+| `action` | `AttackSwitch` | `TOGGLE` | `TOGGLE`, `UNLOCK` or `TIMED` (see above) |
+| `one_shot` | `AttackSwitch` | false | Stays on after the first hit. Test hideout: true |
+| `open_time` | `AttackSwitch` | 3 | `TIMED`: seconds the targets stay open |
+| `off_angle` / `on_angle` | `AttackSwitch` | 0 / π/4 | Head angle (radians) |
+| `off_color` / `on_color` | `AttackSwitch` | grey / gold | Head colour |
+| `invincibility_time` | attack switch `Hurtbox` | 0.3 | Time after a hit before another counts (s) |
+| `hit_stop` / `shake` | attack switch `HurtFeedback` | 0.04 / 0.1 | Feedback on every hit |
 | `currency` | `Chest` | 0 | Currency inside. Secret chest in the vault: 300, in the hideout: 250 |
 | `open_angle` | `Chest` | -2.0 | Lid angle when open (radians) |
 | `hits` | secret wall | 3 | Hits to break it |
@@ -182,10 +206,9 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 
 ## Known limitations
 
-- Placeholder art: notches for climb walls, a blue bar for reveal platforms, coloured rectangles for the lever, gate and chest, a terrain-coloured rectangle for the secret wall. No sounds.
+- Placeholder art: notches for climb walls, a blue bar for reveal platforms, coloured rectangles for the lever, gate and chest, a post and a square for the attack switch, a terrain-coloured rectangle for the secret wall. No sounds.
 - No wall cling animation; the body just stops against the wall.
 - A hit knocks the player off the wall into Hurt like anywhere else; there is no special fall-off reaction.
 - Reveal platforms show all at once; they can't reveal one by one as the player walks across them.
-- Gates can only be opened by levers or scripts, not by attacks or pressure plates.
 - A lever pulled without its key gives no feedback yet.
-- Chests and levers have no map marks of their own; the player marks them by hand ([player marks](/systems/map#player-marks)).
+- Chests, levers and switches have no map marks of their own; the player marks them by hand ([player marks](/systems/map#player-marks)).
