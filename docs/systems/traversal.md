@@ -122,7 +122,7 @@ Lever, attack switch (except `TIMED`), gate, pressure plate, chest and secret wa
 `levels/rooms/test_vault.tscn` is a 960×720 room east of the [test works](/systems/environment#test-works-layout), through a new `East` doorway at the bottom of the works' right wall. It walks through the whole loop:
 
 1. **Entrance** (left, ground floor): the doorway from the works.
-2. **Shaft** (x 256 to 320): two climb walls facing each other, entered through a 3-tile gap under the left one. The right wall has the 3-tile gate at its bottom, and its climb wall reaches the floor over the closed gate. Both walls start 48 px above the floor, low enough to catch with a jump from the ground, with the gate closed or open. Wall jump up to the upper floor (y 352), across the shaft or up either wall alone.
+2. **Shaft** (x 256 to 320): a [rest point](/systems/rest-points) on its floor (x 288), and two climb walls facing each other, entered through a 3-tile gap under the left one. The right wall has the 3-tile gate at its bottom, and its climb wall reaches the floor over the closed gate. Both walls start 48 px above the floor, low enough to catch with a jump from the ground, with the gate closed or open. Wall jump up to the upper floor (y 352), across the shaft or up either wall alone.
 3. **Upper floor west**: the **shortcut lever**. It opens the gate at the bottom of the shaft's right wall, so the ground floor connects both halves of the room.
 4. **Ground floor east**: a chest with the **seer's lantern**, a relic to wear from the inventory. The player drops down here from the upper floor, or walks through the opened gate.
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.

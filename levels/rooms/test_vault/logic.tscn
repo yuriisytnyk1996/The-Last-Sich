@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://levels/objects/breakables/secret_wall.tscn" id="5_secret"]
 [ext_resource type="Resource" path="res://actors/player/items/relics/seer_lantern.tres" id="11_lantern"]
 [ext_resource type="PackedScene" path="res://levels/objects/stat_upgrade.tscn" id="12_upgrade"]
+[ext_resource type="PackedScene" path="res://levels/objects/rest_point.tscn" id="13_rest"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -47,6 +48,9 @@ shape = SubResource("shape_exit")
 
 [node name="Landing" type="Marker2D" parent="Exits/East"]
 position = Vector2(-40, 32)
+
+[node name="RestPoint" parent="." instance=ExtResource("13_rest")]
+position = Vector2(288, 672)
 
 [node name="Mechanisms" type="Node2D" parent="."]
 
