@@ -7,7 +7,9 @@ extends Node
 ## one-way planks) that the player falls past while facing it, with room
 ## above to stand, and with at least `min_drop` of air under the feet while
 ## hanging, so low steps that a jump clears are never grabbed. Nothing is
-## placed by hand: any wall top in the tiles works.
+## placed by hand: any wall top in the tiles works. Only terrain tiles
+## (`TileMapLayer`) count: gates, crates, cracked walls and moving bodies
+## on `world` are never grabbed.
 
 ## Physics layers of solid ground and walls, and of one-way platforms.
 const WORLD_LAYER := 1
@@ -80,7 +82,7 @@ func _find_ledge(direction: int) -> bool:
 	var wall_from := hands + Vector2(0.0, snap_window)
 	var wall_to := wall_from + Vector2(direction * (_half_width() + grab_reach), 0.0)
 	var wall := space.intersect_ray(_ray(wall_from, wall_to))
-	if wall.is_empty() or wall.normal.x * direction > -0.5:
+	if wall.is_empty() or wall.normal.x * direction > -0.5 or not _is_terrain(wall):
 		return false
 	# Its top, within the snap window around the hands.
 	var probe_x: float = wall.position.x + direction
@@ -89,7 +91,7 @@ func _find_ledge(direction: int) -> bool:
 	if _is_solid(space, top_from):
 		return false  # The wall goes on above the hands: no ledge here.
 	var top := space.intersect_ray(_ray(top_from, top_to))
-	if top.is_empty() or top.normal.y > -0.5:
+	if top.is_empty() or top.normal.y > -0.5 or not _is_terrain(top):
 		return false
 	corner = Vector2(wall.position.x, top.position.y)
 	side = direction
@@ -114,6 +116,10 @@ func _fits_on_top(space: PhysicsDirectSpaceState2D) -> bool:
 	query.collision_mask = 1 << (WORLD_LAYER - 1)
 	query.exclude = [player.get_rid()]
 	return space.intersect_shape(query, 1).is_empty()
+
+
+func _is_terrain(hit: Dictionary) -> bool:
+	return hit.collider is TileMapLayer
 
 
 func _is_solid(space: PhysicsDirectSpaceState2D, point: Vector2) -> bool:

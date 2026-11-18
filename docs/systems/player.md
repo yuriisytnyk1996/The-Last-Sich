@@ -146,7 +146,7 @@ Ladders can continue into another room through a [vertical exit](/systems/rooms#
 Falling past the top of a solid wall while facing it grabs the ledge (**LedgeHang**). Nothing is placed by hand: `PlayerLedgeGrab.wants_grab()` checks the tiles each frame of Fall.
 
 1. Only while moving down, not on the floor, and with down not held. It doesn't work for `regrab_delay` after dropping off a ledge.
-2. A ray at hand height (`hand_height` above the feet, plus `snap_window`) looks `grab_reach` px ahead of the body for a wall on the `world` layer. One-way planks are never grabbed.
+2. A ray at hand height (`hand_height` above the feet, plus `snap_window`) looks `grab_reach` px ahead of the body for a wall on the `world` layer. Only terrain tiles (`TileMapLayer`) count, for the wall and its top: one-way planks, gates, crates, cracked walls, elevators and solid moving platforms are never grabbed.
 3. A ray down just inside the wall finds its top within `snap_window` of the hands. If the point it starts from is already solid, the wall goes on above the hands and there is no ledge.
 4. There must be at least `min_drop` of air (no ground or platform) under the feet in the hanging position. So a wall has to be at least `hand_height` + `min_drop` (44 px, about 3 tiles) tall to be a ledge; lower steps, which a jump clears anyway, are never grabbed.
 5. The body's shape must fit standing on the top, so ledges under a low ceiling aren't grabbed.
@@ -166,6 +166,8 @@ The **Fall** state measures how far the player drops while moving down. Landing 
 - The player can't move for `hard_landing_time` (0.5 s). Horizontal speed is held at 0 and no input is read.
 - The camera shakes once (`Events.camera_shake_requested`, trauma 0.5).
 - Once `hard_landing_dash_cancel` (half) of the time has passed, a dash gets the player out early.
+
+With the `soft_landing` [unlock](/systems/traversal#unlocks) (the owl feather charm, while worn) there are no hard landings: a long fall lands like a short one, straight into Idle or Run.
 
 The distance is counted from where the Fall state starts: the top of a jump, walking off a ledge, letting go of a ladder. It carries through room transitions, so falling through a hole into the room below counts as one drop. Air attacks start a new count. Ordinary jumps (52 px) and the 2-tile platform rules never come close.
 
