@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.17](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.16...v0.0.17) (2026-11-18)
+
+### Features
+
+* **combat:** add guard slide for heavy hits caught on the parry guard ([83acbbd](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/83acbbd18600f7148f7d1ea523e639132c00969c))
+* **dumas:** add dumas, songs sung for spirit ([bb1588b](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/bb1588be95261f2971b1ba0a2063f7c6d60be830))
+* **input:** bind dumas to Q and the left trigger ([fe03033](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/fe030331cb15d1d48a150b91c602a5e1fbdd172e))
+* **stats:** add flask upgrades from empty flasks and a flask healer ([0a9f492](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/0a9f4922e695a99d6913d342e311d435980b602d))
+
+### Bug Fixes
+
+* **dumas:** end a running duma on entering a room ([192f38a](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/192f38a9eabc9ebf79987b31b50a4844eb97a6ba))
+* **dumas:** keep a running duma across rooms, end it on rest ([716eed3](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/716eed3ebb5d7a2e216692c1dcfb19426fc2a76b))
+
 ## [0.0.16](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.15...v0.0.16) (2026-11-17)
 
 ### Features
