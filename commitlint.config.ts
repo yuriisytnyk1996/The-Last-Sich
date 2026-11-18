@@ -32,6 +32,7 @@ export default {
         'travel',
         'state-machine',
         'events',
+        'pool',
         'docs',
         'tooling',
         'release',

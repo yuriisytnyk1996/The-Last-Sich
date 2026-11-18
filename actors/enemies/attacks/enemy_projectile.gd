@@ -5,7 +5,8 @@ extends Hitbox
 ## Flies at `speed` in the direction it was launched, turned to face it.
 ## It ends on the first hit, on a wall (`world` layer, set as the mask; it
 ## passes one-way platforms), after `lifetime`, or on a room change. Put it
-## on the `enemy_attacks` layer.
+## on the `enemy_attacks` layer. Spawn it with `Pool.take()`; ending it
+## parks it back in the `Pool`.
 
 @export var speed := 260.0
 ## Seconds before it vanishes if it hits nothing.
@@ -36,16 +37,16 @@ func _physics_process(delta: float) -> void:
 	position += _velocity * delta
 	_time_left -= delta
 	if _time_left <= 0.0:
-		queue_free()
+		Pool.release(self)
 
 
 func _on_body_entered(_body: Node2D) -> void:
-	queue_free()
+	Pool.release(self)
 
 
 func _on_hit_landed(_hurtbox: Hurtbox) -> void:
-	queue_free()
+	Pool.release(self)
 
 
 func _on_room_change_requested(_room_path: String, _exit_name: StringName) -> void:
-	queue_free()
+	Pool.release(self)

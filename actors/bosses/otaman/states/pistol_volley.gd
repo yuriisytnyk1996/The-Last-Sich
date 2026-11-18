@@ -15,6 +15,11 @@ var _shots_left := 0
 var _next_shot := 0.0
 
 
+func _ready() -> void:
+	super()
+	Pool.prewarm(projectile_scene, shots)
+
+
 func enter(previous_state: StringName) -> void:
 	_shots_left = 0
 	super(previous_state)
@@ -40,7 +45,7 @@ func _fire() -> void:
 	if projectile_scene == null or not enemy.can_track_target():
 		return
 	enemy.face_target()
-	var ball := projectile_scene.instantiate() as EnemyProjectile
+	var ball := Pool.take(projectile_scene) as EnemyProjectile
 	ball.attacker_stats = enemy.stats
 	var direction := enemy.target_point() - muzzle.global_position
 	ball.launch(muzzle.global_position, direction)

@@ -7,6 +7,7 @@ extends Hitbox
 ## (`burst_scene`), then flies back to the player and vanishes on reaching
 ## them. It hits every enemy it passes once per flight. A wall (`world`
 ## layer, set as the mask) or a shield ends it. A room change removes it.
+## Spawn it with `Pool.take()`; ending it parks it back in the `Pool`.
 
 enum Flight { OUT, TURN, BACK }
 
@@ -53,6 +54,8 @@ func launch(
 	_returns = returns
 	_burst_scene = burst
 	_speed = start_speed
+	_time = 0.0
+	_flight = Flight.OUT
 
 
 func _physics_process(delta: float) -> void:
@@ -76,7 +79,7 @@ func _end_flight_out() -> void:
 	if _returns and is_instance_valid(_thrower):
 		_flight = Flight.TURN
 	else:
-		queue_free()
+		Pool.release(self)
 
 
 func _fly_back() -> void:
@@ -90,24 +93,24 @@ func _fly_back() -> void:
 
 func _fly_toward_thrower(delta: float) -> void:
 	if not is_instance_valid(_thrower):
-		queue_free()
+		Pool.release(self)
 		return
 	_speed = minf(_speed + acceleration * delta, max_speed)
 	var to_thrower := _thrower.global_position + Vector2.UP * catch_height - global_position
 	if to_thrower.length() <= catch_distance:
-		queue_free()
+		Pool.release(self)
 		return
 	global_position += to_thrower.normalized() * _speed * delta
 
 
 func _on_body_entered(_body: Node2D) -> void:
-	queue_free()
+	Pool.release(self)
 
 
 ## A shield turned it away.
 func _on_blocked(_hurtbox: Hurtbox) -> void:
-	queue_free()
+	Pool.release(self)
 
 
 func _on_room_change_requested(_room_path: String, _exit_name: StringName) -> void:
-	queue_free()
+	Pool.release(self)

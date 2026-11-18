@@ -17,6 +17,10 @@ extends Node
 @onready var player := owner as Player
 
 
+func _ready() -> void:
+	Pool.prewarm(wave_scene, 1)
+
+
 func level() -> int:
 	return player.skills.level(&"charged")
 
@@ -34,7 +38,7 @@ func full_charge_time() -> float:
 func fire_wave() -> void:
 	if level() < 3 or wave_scene == null:
 		return
-	var wave := wave_scene.instantiate() as PlayerProjectile
+	var wave := Pool.take(wave_scene) as PlayerProjectile
 	var offset := Vector2(wave_offset.x * player.facing, wave_offset.y)
 	wave.launch(player.global_position + offset, player.facing, player)
 	player.get_parent().add_child(wave)

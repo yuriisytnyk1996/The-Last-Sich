@@ -21,6 +21,7 @@ The-Last-Sich/
 │   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
 │   ├── rumble.gd                 Gamepad vibration (autoload "Rumble")
 │   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
+│   ├── pool.gd                   Reuses projectiles and blasts instead of freeing them (autoload "Pool")
 │   └── save_manager.gd           Save snapshot, load and save, room state (autoload "SaveManager")
 ├── components/
 │   ├── state_machine/

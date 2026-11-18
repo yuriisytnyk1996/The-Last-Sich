@@ -22,6 +22,10 @@ var _held := 0.0
 @onready var player := owner as Player
 
 
+func _ready() -> void:
+	Pool.prewarm(shockwave_scene, 1)
+
+
 func _physics_process(delta: float) -> void:
 	_held = _held + delta if Input.is_action_pressed("attack") else 0.0
 

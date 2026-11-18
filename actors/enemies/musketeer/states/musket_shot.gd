@@ -23,6 +23,11 @@ extends EnemyAttackState
 var _local_aim := Vector2.RIGHT
 
 
+func _ready() -> void:
+	super()
+	Pool.prewarm(projectile_scene, 2)
+
+
 ## The player is in range, in sight, in front and within the aim angle.
 func can_aim() -> bool:
 	if not (enemy.is_target_in_attack_range() and enemy.can_see_target()):
@@ -46,7 +51,7 @@ func physics_update(delta: float) -> void:
 func _on_active() -> void:
 	if projectile_scene == null:
 		return
-	var ball := projectile_scene.instantiate() as EnemyProjectile
+	var ball := Pool.take(projectile_scene) as EnemyProjectile
 	ball.attacker_stats = enemy.stats
 	var direction := Vector2(_local_aim.x * enemy.facing, _local_aim.y)
 	ball.launch(muzzle.global_position, direction)

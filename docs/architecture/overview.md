@@ -4,7 +4,7 @@ The game is built from three kinds of pieces:
 
 | Piece | What it is | Example |
 |---|---|---|
-| **Autoloads** | Global nodes that exist for the whole game | `Events`, `SaveManager`, `DisplaySettings` and the other [settings autoloads](/systems/options) |
+| **Autoloads** | Global nodes that exist for the whole game | `Events`, `SaveManager`, `Pool` ([object pooling](/architecture/object-pooling)), `DisplaySettings` and the other [settings autoloads](/systems/options) |
 | **Components** | Reusable nodes with no knowledge of who uses them | `StateMachine`, `State`, `Hitbox`, `Hurtbox`, `Health` |
 | **Scenes** | Actors and levels assembled from nodes and components | `Player`, `TestRoom` |
 

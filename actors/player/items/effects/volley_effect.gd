@@ -45,7 +45,7 @@ func _fire_later(
 
 
 func _fire(player: Player, parent: Node, from: Vector2, direction: float) -> void:
-	var shot := projectile_scene.instantiate() as PlayerProjectile
+	var shot := Pool.take(projectile_scene) as PlayerProjectile
 	shot.launch(from, direction, player)
 	shot.damage = roundi(shot.damage * player.dumas.strength())
 	parent.add_child(shot)

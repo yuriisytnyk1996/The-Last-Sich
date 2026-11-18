@@ -23,6 +23,7 @@ var _time := 0.0
 
 
 func _ready() -> void:
+	Pool.prewarm(projectile_scene, 2)
 	_time = fposmod(offset, fire_interval)
 	warning.visible = false
 
@@ -40,7 +41,7 @@ func _physics_process(delta: float) -> void:
 func _fire() -> void:
 	if projectile_scene == null:
 		return
-	var bolt := projectile_scene.instantiate() as EnemyProjectile
+	var bolt := Pool.take(projectile_scene) as EnemyProjectile
 	var parent := get_parent()
 	bolt.launch(parent.to_local(muzzle.global_position), global_transform.x)
 	parent.add_child(bolt)

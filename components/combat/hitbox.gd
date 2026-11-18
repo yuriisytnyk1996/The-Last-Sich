@@ -79,10 +79,22 @@ var critical := false
 
 var _active := false
 var _has_hit := false
+var _base_damage := 0
 
 
 func _ready() -> void:
+	_base_damage = damage
 	monitoring = false
+	set_active(active_on_start)
+
+
+## `Pool` hook: back to how the scene was made, for a reused projectile
+## or blast. Spawners may scale `damage`, so it is restored too.
+func _on_pool_reuse() -> void:
+	damage = _base_damage
+	attacker_stats = null
+	executes = false
+	critical = false
 	set_active(active_on_start)
 
 

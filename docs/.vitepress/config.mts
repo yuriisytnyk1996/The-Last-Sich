@@ -32,6 +32,7 @@ export default defineConfig({
           { text: 'Overview', link: '/architecture/overview' },
           { text: 'Events (signal bus)', link: '/architecture/events' },
           { text: 'State machine', link: '/architecture/state-machine' },
+          { text: 'Object pooling', link: '/architecture/object-pooling' },
         ],
       },
       {

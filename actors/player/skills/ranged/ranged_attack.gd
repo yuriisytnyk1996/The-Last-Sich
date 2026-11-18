@@ -19,6 +19,11 @@ var _pressed := false
 @onready var player := owner as Player
 
 
+func _ready() -> void:
+	Pool.prewarm(bolt_scene, 1)
+	Pool.prewarm(burst_scene, 1)
+
+
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ranged"):
 		_pressed = true
@@ -34,14 +39,14 @@ func wants() -> bool:
 	if not (_pressed and Input.is_action_just_released("ranged")):
 		return false
 	_pressed = false
-	return level() > 0 and not is_instance_valid(_bolt) and player.spirit.current >= spirit_cost
+	return level() > 0 and not Pool.in_use(_bolt) and player.spirit.current >= spirit_cost
 
 
 ## Pays the spirit and throws the bolt.
 func fire() -> void:
 	if bolt_scene == null or not player.spirit.spend(spirit_cost):
 		return
-	_bolt = bolt_scene.instantiate() as PlayerProjectile
+	_bolt = Pool.take(bolt_scene) as PlayerProjectile
 	var offset := Vector2(bolt_offset.x * player.facing, bolt_offset.y)
 	var burst := burst_scene if level() >= 3 else null
 	_bolt.launch(player.global_position + offset, player.facing, player, level() >= 2, burst)

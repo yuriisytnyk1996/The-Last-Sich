@@ -19,6 +19,11 @@ var _airborne := false
 var _left_floor := false
 
 
+func _ready() -> void:
+	super()
+	Pool.prewarm(shockwave_scene, 2)
+
+
 func enter(previous_state: StringName) -> void:
 	_airborne = false
 	super(previous_state)
@@ -70,7 +75,7 @@ func _land() -> void:
 
 
 func _send_wave(direction: int) -> void:
-	var wave := shockwave_scene.instantiate() as EnemyProjectile
+	var wave := Pool.take(shockwave_scene) as EnemyProjectile
 	wave.attacker_stats = enemy.stats
 	var offset := Vector2(wave_offset.x * direction, wave_offset.y)
 	wave.launch(enemy.global_position + offset, Vector2(direction, 0))
