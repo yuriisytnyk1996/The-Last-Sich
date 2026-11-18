@@ -31,5 +31,8 @@ func physics_update(delta: float) -> void:
 	elif player.wants_attack():
 		finished.emit(attack_state())
 	elif player.is_on_floor():
-		var hard := _fall_distance >= player.hard_landing_height
+		var hard := (
+			_fall_distance >= player.hard_landing_height
+			and not player.unlocks.has(PlayerUnlocks.SOFT_LANDING)
+		)
 		finished.emit(HARD_LANDING if hard else ground_state())

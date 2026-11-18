@@ -89,6 +89,7 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 | Hare foot | Charm | 350 | Run speed +15% |
 | Quick bracer | Charm | 450 | Attack speed +20% |
 | Raven eye | Charm | 500 | Critical hit chance +0.15 |
+| Owl feather | Charm | 400 | No hard landing after long falls (`soft_landing` [unlock](/systems/traversal#unlocks)) |
 | Heavy edge | Blade | 600 | Damage +30%, dash cooldown +0.3 s |
 | Thirsting edge | Blade | 600 | 30% chance to heal 3 on a hit, damage -10% |
 | Guarding edge | Blade | 500 | Parry window +0.1 s, riposte window +0.25 s, max health -10 |
@@ -102,7 +103,7 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 
 The seven dumas are listed on the [Dumas](/systems/dumas#dumas) page.
 
-The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. The rest are only reachable through the debug button for now.
+The test room holds the owl feather, hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. The rest are only reachable through the debug button for now.
 
 ### Saving
 

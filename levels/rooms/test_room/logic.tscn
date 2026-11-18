@@ -10,6 +10,7 @@
 [ext_resource type="Resource" path="res://actors/player/items/charms/hare_foot.tres" id="21_hare_foot"]
 [ext_resource type="Resource" path="res://actors/player/items/charms/quick_bracer.tres" id="22_quick_bracer"]
 [ext_resource type="Resource" path="res://actors/player/items/charms/raven_eye.tres" id="23_raven_eye"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/owl_feather.tres" id="24_owl_feather"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/burning_steppe.tres" id="duma_burning_steppe"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/black_sea_storm.tres" id="duma_black_sea_storm"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/thunderbolt.tres" id="duma_thunderbolt"]
@@ -85,6 +86,10 @@ item = ExtResource("22_quick_bracer")
 [node name="RavenEye" parent="Items" instance=ExtResource("20_pickup")]
 position = Vector2(416, 320)
 item = ExtResource("23_raven_eye")
+
+[node name="OwlFeather" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(320, 320)
+item = ExtResource("24_owl_feather")
 
 [node name="BurningSteppe" parent="Items" instance=ExtResource("20_pickup")]
 position = Vector2(680, 320)

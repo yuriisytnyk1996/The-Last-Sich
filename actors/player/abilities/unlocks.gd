@@ -16,6 +16,8 @@ const REVEAL_PLATFORMS := &"reveal_platforms"
 const REST_TRAVEL := &"rest_travel"
 ## Resting fills spirit, and so does respawning after death.
 const REST_SPIRIT := &"rest_spirit"
+## A long fall lands like a short one: no hard landing.
+const SOFT_LANDING := &"soft_landing"
 
 ## unlock -> the sources that hold it.
 var _sources: Dictionary[StringName, Array] = {}
