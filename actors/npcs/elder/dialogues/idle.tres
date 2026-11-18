@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="r2"]
+
+[sub_resource type="Resource" id="condition_1"]
+script = ExtResource("r2")
+all_flags = Array[StringName]([&"elder_met"])
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("Three of ours sit in cages: one in the cave, one in the crypt, one in the barracks. Break the bars.", "Three letters lie where their riders fell: in the hideout, the barracks and the works.", "And if your purse is heavy, the church in the crypt keeps an alms box.")
+condition = SubResource("condition_1")

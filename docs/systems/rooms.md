@@ -164,6 +164,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - Walls at both edges, with a gap at the bottom of the right wall: the `East` exit leads to the test cave
 - A [rest point](/systems/rest-points) at the far left (x 48), next to the spawn point
 - A door (`HouseDoor`) near the start, leading to the test house
+- The elder (x 496), between the hare foot and the barracks door: rewards for the captives, the Sich letters and the Otaman, see [test content](/systems/story#test-content)
 - A second door (`BarracksDoor`) on the ground just left of the pit, leading to the test barracks
 - A low step (2 tiles high) on the left, then a mid ledge 2 tiles above it. The owl feather and a tier relic lie on top of the step
 - A one-way bridge (lighter colour) over the pit, level with the mid ledge
@@ -174,7 +175,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Test cave layout
 
-`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. Further right, a ladder goes down through a one-tile hole covered by a plank (x 848 to 864), through the `LadderDown` exit into the shaft. It has no pits, so no `KillZone`. An `East` exit in the gap at the bottom of the right wall leads to the test works, see [Environment](/systems/environment#test-works-layout).
+`levels/rooms/test_cave.tscn` is 960×360 and sits east of the test room. It has a ceiling, a `West` exit back to the test room in the gap at the bottom of the left wall, a step, a ledge, a one-way plank above the ledge and one raider. The old kobzar (x 220), right of the rest point, and his chest (x 252) that appears once his quest is done; a captive cage (x 420). See [test content](/systems/story#test-content). A 4-tile hole in the floor right of the plank (x 704 to 768) is the `Down` exit to the test shaft. Further right, a ladder goes down through a one-tile hole covered by a plank (x 848 to 864), through the `LadderDown` exit into the shaft. It has no pits, so no `KillZone`. An `East` exit in the gap at the bottom of the right wall leads to the test works, see [Environment](/systems/environment#test-works-layout).
 
 ## Test shaft layout
 
@@ -194,6 +195,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 - The **boar**'s run: long flat ground, so a charge from the right reaches the wall.
 - A third low wall, then the **crow**'s area: a one-way plank 2 tiles up, and a solid shelf 4 tiles up near the right wall to hide under from the crow.
 - The `ArenaDoor` against the right wall, leading to the test arena.
+- A Sich letter (x 236) past the first low wall and a captive cage (x 680) on the boar's run, see [test content](/systems/story#test-content).
 
 ## Test arena layout
 

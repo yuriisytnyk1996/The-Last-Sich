@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="dialogue"]
+[ext_resource type="Script" path="res://components/story/dialogue_choice.gd" id="choice"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="outcome"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="condition"]
+
+[sub_resource type="Resource" id="met"]
+script = ExtResource("outcome")
+set_flags = Array[StringName]([&"kobzar_met"])
+
+[sub_resource type="Resource" id="asked"]
+script = ExtResource("outcome")
+set_flags = Array[StringName]([&"kobzar_asked"])
+
+[sub_resource type="Resource" id="choice_help"]
+script = ExtResource("choice")
+text = "I'll look for it"
+outcome = SubResource("asked")
+
+[sub_resource type="Resource" id="choice_refuse"]
+script = ExtResource("choice")
+text = "Find it yourself"
+
+[resource]
+script = ExtResource("dialogue")
+lines = PackedStringArray("Who walks there? A heavy step. A Cossack's step.", "I am blind, son, but not deaf. And my kobza is deaf now: a string broke, and the spare rolled away in the old crypt, west of the house.", "These fingers can't find it in the dark. Yours could.")
+choices = Array[ExtResource("choice")]([SubResource("choice_help"), SubResource("choice_refuse")])
+outcome = SubResource("met")

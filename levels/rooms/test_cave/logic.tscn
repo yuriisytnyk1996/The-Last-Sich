@@ -4,6 +4,11 @@
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="10_exit"]
 [ext_resource type="PackedScene" path="res://levels/objects/tier_relic.tscn" id="90_relic"]
 [ext_resource type="PackedScene" path="res://levels/objects/rest_point.tscn" id="11_rest"]
+[ext_resource type="PackedScene" path="res://actors/npcs/kobzar/kobzar.tscn" id="12_kobzar"]
+[ext_resource type="PackedScene" path="res://levels/objects/story/captive_cage.tscn" id="story_cage"]
+[ext_resource type="PackedScene" path="res://levels/objects/items/chest.tscn" id="story_chest"]
+[ext_resource type="Script" path="res://components/story/story_toggle.gd" id="story_toggle"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="story_condition"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -13,6 +18,10 @@ size = Vector2(16, 8)
 
 [sub_resource type="RectangleShape2D" id="shape_hole"]
 size = Vector2(64, 8)
+
+[sub_resource type="Resource" id="kobzar_done"]
+script = ExtResource("story_condition")
+all_flags = Array[StringName]([&"kobzar_done"])
 
 [node name="Logic" type="Node2D"]
 
@@ -94,3 +103,20 @@ position = Vector2(620, 320)
 
 [node name="RestPoint" parent="." instance=ExtResource("11_rest")]
 position = Vector2(120, 320)
+
+[node name="Kobzar" parent="." instance=ExtResource("12_kobzar")]
+position = Vector2(220, 320)
+
+[node name="CaptiveCage" parent="." instance=ExtResource("story_cage")]
+position = Vector2(420, 320)
+
+[node name="StoryTrigger" parent="CaptiveCage"]
+flag = &"freed_captive_01"
+
+[node name="KobzarChest" parent="." instance=ExtResource("story_chest")]
+position = Vector2(252, 320)
+currency = 150
+
+[node name="ShownAfterQuest" type="Node" parent="KobzarChest"]
+script = ExtResource("story_toggle")
+condition = SubResource("kobzar_done")

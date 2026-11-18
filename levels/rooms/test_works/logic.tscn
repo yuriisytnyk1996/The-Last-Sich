@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="20_pickup"]
 [ext_resource type="Resource" path="res://actors/player/items/charms/wolf_fang.tres" id="21_wolf_fang"]
 [ext_resource type="Resource" path="res://actors/player/items/keepsakes/leather_pouch.tres" id="22_leather_pouch"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/sich_letter_3.tres" id="story_letter"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -72,3 +73,7 @@ item = ExtResource("21_wolf_fang")
 [node name="LeatherPouch" parent="Items" instance=ExtResource("20_pickup")]
 position = Vector2(1080, 320)
 item = ExtResource("22_leather_pouch")
+
+[node name="SichLetter" parent="." instance=ExtResource("20_pickup")]
+position = Vector2(232, 320)
+item = ExtResource("story_letter")

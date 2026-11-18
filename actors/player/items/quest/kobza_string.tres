@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+
+[resource]
+script = ExtResource("item")
+id = &"kobza_string"
+title = "Kobza string"
+description = "A coil of waxed gut string. The old kobzar in the cave lost it."
+lore = "Gut from a ram, twisted wet and dried in the shade, then waxed. A kobzar's strings are his bread: without them his songs are only words."
+kind = 5
+price = 0

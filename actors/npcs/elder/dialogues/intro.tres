@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="r2"]
+
+[sub_resource type="Resource" id="outcome_1"]
+script = ExtResource("r2")
+set_flags = Array[StringName]([&"elder_met"])
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("You walk like a man with nowhere to be. Good. I have work.", "Captives in cages, letters in the mud, a church with an empty box. Ask me again and I'll tell you where.")
+outcome = SubResource("outcome_1")

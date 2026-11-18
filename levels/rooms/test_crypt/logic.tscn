@@ -3,9 +3,16 @@
 [ext_resource type="Script" path="res://levels/objects/room_exit.gd" id="1_exit"]
 [ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="2_pickup"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/road_home.tres" id="3_road_home"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/kobza_string.tres" id="4_kobza_string"]
+[ext_resource type="PackedScene" path="res://levels/objects/story/captive_cage.tscn" id="story_cage"]
+[ext_resource type="PackedScene" path="res://levels/objects/story/alms_box.tscn" id="story_alms"]
+[ext_resource type="Script" path="res://components/story/story_trigger.gd" id="story_trigger"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
+
+[sub_resource type="RectangleShape2D" id="shape_visited"]
+size = Vector2(32, 64)
 
 [node name="Logic" type="Node2D"]
 
@@ -34,3 +41,30 @@ position = Vector2(-40, 32)
 [node name="RoadHome" parent="Items" instance=ExtResource("2_pickup")]
 position = Vector2(56, 320)
 item = ExtResource("3_road_home")
+
+[node name="KobzaString" parent="Items" instance=ExtResource("2_pickup")]
+position = Vector2(104, 320)
+item = ExtResource("4_kobza_string")
+
+[node name="CaptiveCage" parent="." instance=ExtResource("story_cage")]
+position = Vector2(300, 320)
+
+[node name="StoryTrigger" parent="CaptiveCage"]
+flag = &"freed_captive_02"
+
+[node name="AlmsBox" parent="." instance=ExtResource("story_alms")]
+position = Vector2(200, 320)
+
+[node name="VisitedArea" type="Area2D" parent="."]
+position = Vector2(864, 288)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="VisitedArea"]
+shape = SubResource("shape_visited")
+
+[node name="StoryTrigger" type="Node" parent="VisitedArea"]
+script = ExtResource("story_trigger")
+signal_name = &"body_entered"
+flag = &"crypt_visited"

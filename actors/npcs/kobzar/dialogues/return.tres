@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="dialogue"]
+[ext_resource type="Script" path="res://components/story/dialogue_choice.gd" id="choice"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="outcome"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="condition"]
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/kobza_string.tres" id="string"]
+[ext_resource type="Resource" path="res://actors/npcs/kobzar/dialogues/thanks.tres" id="thanks"]
+
+[sub_resource type="Resource" id="when"]
+script = ExtResource("condition")
+all_flags = Array[StringName]([&"kobzar_met"])
+no_flags = Array[StringName]([&"kobzar_done"])
+owns = Array[ExtResource("item")]([ExtResource("string")])
+
+[sub_resource type="Resource" id="hand_over"]
+script = ExtResource("outcome")
+set_flags = Array[StringName]([&"kobzar_done"])
+take_items = Array[ExtResource("item")]([ExtResource("string")])
+reward = 300
+
+[sub_resource type="Resource" id="choice_give"]
+script = ExtResource("choice")
+text = "Give him the string"
+outcome = SubResource("hand_over")
+next = ExtResource("thanks")
+
+[sub_resource type="Resource" id="choice_keep"]
+script = ExtResource("choice")
+text = "Not yet"
+
+[resource]
+script = ExtResource("dialogue")
+lines = PackedStringArray("That smell... wax and gut. You found my string!")
+choices = Array[ExtResource("choice")]([SubResource("choice_give"), SubResource("choice_keep")])
+condition = SubResource("when")

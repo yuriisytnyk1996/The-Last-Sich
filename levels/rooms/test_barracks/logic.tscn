@@ -9,6 +9,8 @@
 [ext_resource type="Resource" path="res://actors/player/items/quest/living_water_1.tres" id="7_water_1"]
 [ext_resource type="Resource" path="res://actors/player/items/quest/living_water_2.tres" id="8_water_2"]
 [ext_resource type="PackedScene" path="res://levels/objects/fake_execution.tscn" id="9_fake_execution"]
+[ext_resource type="PackedScene" path="res://levels/objects/story/captive_cage.tscn" id="story_cage"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/sich_letter_2.tres" id="story_letter"]
 
 [node name="Logic" type="Node2D"]
 
@@ -58,3 +60,13 @@ item = ExtResource("8_water_2")
 
 [node name="FakeExecution" parent="." instance=ExtResource("9_fake_execution")]
 position = Vector2(256, 320)
+
+[node name="CaptiveCage" parent="." instance=ExtResource("story_cage")]
+position = Vector2(680, 320)
+
+[node name="StoryTrigger" parent="CaptiveCage"]
+flag = &"freed_captive_03"
+
+[node name="SichLetter" parent="." instance=ExtResource("6_pickup")]
+position = Vector2(236, 320)
+item = ExtResource("story_letter")

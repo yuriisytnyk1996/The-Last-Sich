@@ -26,6 +26,7 @@ export default {
         'inventory',
         'dumas',
         'shops',
+        'story',
         'spirit',
         'death-penalty',
         'map',

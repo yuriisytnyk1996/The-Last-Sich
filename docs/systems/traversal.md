@@ -60,7 +60,7 @@ Two ways to climb:
 | `TOGGLE` (default) | `toggle()` | Open or close a gate |
 | `UNLOCK` | `unlock()` | Free a locked gate without opening it; something else opens it later |
 
-With `one_shot` (the default) it stays pulled and blocks itself, so the prompt is gone for good. With a `key` item set, the lever only moves for a player carrying that item (the key isn't used up). That is how a key-locked door works: a gate driven by a lever with a `key`.
+With `one_shot` (the default) it stays pulled and blocks itself, so the prompt is gone for good. With a `key` item set, the lever only moves for a player carrying that item; without it, "Needs &lt;key&gt;" shows at the bottom of the screen (`Events.message_shown`). The key isn't used up unless `takes_key` is on: then the first pull takes it and later pulls need none (`key_used`, saved). That is how a key-locked door works: a gate driven by a lever with a `key`.
 
 `Gate` (`levels/objects/mechanisms/gate.gd`) blocks the way with a `Body` on the `world` layer. The scene is 32×48, three tiles: enough for the player to walk through, and it leaves as much wall above as possible. `toggle()` or `set_open()` turns its collision off and folds its `Visual` up toward the top over `move_time`, with a small camera shake. `open` sets the state the room starts in. A `locked` gate ignores `toggle()` and `set_open()` until `unlock()` is called, so one lever (in `UNLOCK` mode) can free a gate that another lever operates.
 
@@ -128,7 +128,7 @@ Lever, attack switch (except `TIMED`), gate, pressure plate, chest and secret wa
 5. **Gap** (x 560 to 720): two reveal platforms bridge it while the lantern is worn.
 6. **Upper floor east**: the secret wall at the end, broken from the west, hides an alcove with a chest worth 300 and a free [health upgrade](/systems/upgrades). The alcove runs through the room's east wall into the **test hideout** (`test_hideout.tscn`, 640×360): a hidden room with a chest worth 250 on a one-way ledge. Its `map_hides` covers the alcove and the `East` exit, so the map shows a closed wall there until the wall breaks.
 
-The hideout also tests [pressure plates](#pressure-plates). On its floor, a `HOLD` plate (x 336, `release_delay` 2 s) opens the timed gate at x 528, and a `LATCH` plate (x 400) opens the gate at x 592 for good. Further west, a gate at x 240 closes the entrance corridor; a one-shot [attack switch](#attack-switches) in front of it (x 192) opens it for good.
+The hideout also tests [pressure plates](#pressure-plates). On its floor, a `HOLD` plate (x 336, `release_delay` 2 s) opens the timed gate at x 528, and a `LATCH` plate (x 400) opens the gate at x 592 for good. Further west, a gate at x 240 closes the entrance corridor; a one-shot [attack switch](#attack-switches) in front of it (x 192) opens it for good. A Sich letter lies by the entrance (x 120), see [test content](/systems/story#test-content).
 
 The shaft is the only way past the entrance until the gate is open. Without the lantern worn, the gap can't be crossed.
 
@@ -174,6 +174,7 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 | `one_shot` | `Lever` | true | Stays pulled after one use |
 | `action` | `Lever` | `TOGGLE` | `TOGGLE` calls `toggle()`, `UNLOCK` calls `unlock()` on the targets |
 | `key` | `Lever` | none | Item the player must carry to pull it |
+| `takes_key` | `Lever` | false | The first pull uses the key up |
 | `up_angle` / `pulled_angle` | `Lever` | -0.6 / 0.6 | Handle angle (radians) |
 | `open` | `Gate` | false | State when first entered |
 | `locked` | `Gate` | false | Ignores `toggle()` and `set_open()` until `unlock()` |
@@ -211,5 +212,4 @@ The shaft is the only way past the entrance until the gate is open. Without the 
 - No wall cling animation; the body just stops against the wall.
 - A hit knocks the player off the wall into Hurt like anywhere else; there is no special fall-off reaction.
 - Reveal platforms show all at once; they can't reveal one by one as the player walks across them.
-- A lever pulled without its key gives no feedback yet.
 - Chests, levers and switches have no map marks of their own; the player marks them by hand ([player marks](/systems/map#player-marks)).

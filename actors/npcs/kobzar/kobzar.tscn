@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://actors/npcs/npc.tscn" id="1_npc"]
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="dialogue"]
+[ext_resource type="Resource" path="res://actors/npcs/kobzar/dialogues/done.tres" id="done"]
+[ext_resource type="Resource" path="res://actors/npcs/kobzar/dialogues/return.tres" id="return"]
+[ext_resource type="Resource" path="res://actors/npcs/kobzar/dialogues/hint.tres" id="hint"]
+[ext_resource type="Resource" path="res://actors/npcs/kobzar/dialogues/reminder.tres" id="reminder"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="condition"]
+[ext_resource type="Resource" path="res://actors/npcs/kobzar/dialogues/intro.tres" id="intro"]
+
+[sub_resource type="Resource" id="presence"]
+script = ExtResource("condition")
+no_flags = Array[StringName]([&"kobzar_gone"])
+
+[node name="Kobzar" instance=ExtResource("1_npc")]
+display_name = "Old kobzar"
+presence = SubResource("presence")
+dialogues = Array[ExtResource("dialogue")]([ExtResource("done"), ExtResource("return"), ExtResource("hint"), ExtResource("reminder"), ExtResource("intro")])
+
+[node name="Body" parent="Visual" index="0"]
+color = Color(0.42, 0.36, 0.3, 1)
+
+[node name="Kobza" type="Polygon2D" parent="Visual" index="3"]
+position = Vector2(6, -12)
+color = Color(0.7, 0.48, 0.25, 1)
+polygon = PackedVector2Array(-3, 0, 3, -2, 5, 2, 0, 5, -3, 3)

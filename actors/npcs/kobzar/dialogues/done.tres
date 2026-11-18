@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="dialogue"]
+[ext_resource type="Script" path="res://components/story/dialogue_choice.gd" id="choice"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="outcome"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="condition"]
+
+[sub_resource type="Resource" id="when"]
+script = ExtResource("condition")
+all_flags = Array[StringName]([&"kobzar_done"])
+
+[resource]
+script = ExtResource("dialogue")
+lines = PackedStringArray("Sit a while, son. A song is shorter than the road, but it goes with you.")
+condition = SubResource("when")

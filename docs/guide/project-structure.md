@@ -44,6 +44,13 @@ The-Last-Sich/
 │   │   └── settings_file.gd      One section of user://settings.cfg per settings autoload
 │   ├── display/
 │   │   └── resolution_list.gd    Window sizes that fit the screen
+│   ├── story/                    Data for NPCs and quests (see Systems > NPCs, dialogue and quests)
+│   │   ├── story_condition.gd    StoryCondition: checks story flags, counters and items
+│   │   ├── story_outcome.gd      StoryOutcome: sets flags and counters, hands items and currency over, shows a message
+│   │   ├── dialogue.gd           Dialogue: one conversation (lines, answers, outcome, condition)
+│   │   ├── dialogue_choice.gd    DialogueChoice: one answer on a conversation's last line
+│   │   ├── story_trigger.gd      StoryTrigger: applies an outcome when a watched signal fires
+│   │   └── story_toggle.gd       StoryToggle: shows, hides, opens or closes nodes by a condition
 │   ├── stats/
 │   │   ├── stats.gd              Named stats with modifiers by source
 │   │   └── stat_modifier.gd      One flat or percent change to a stat (resource)
@@ -65,6 +72,7 @@ The-Last-Sich/
 │   │   │   ├── ledge_grab.gd     Finds ledges to grab, hang and climb tuning
 │   │   │   ├── wall_jump.gd      Finds climbable walls, wall jump tuning
 │   │   │   ├── unlocks.gd        Traversal unlocks given by items (seeing reveal platforms)
+│   │   │   ├── story.gd          Story flags and counters set by conversations and quests, saved
 │   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
 │   │   │   ├── wallet.gd         Currency the player carries, spent on skills and shops, saved
 │   │   │   ├── upgrades.gd       Permanent max health, max spirit, flask and flask healing upgrades, saved
@@ -88,7 +96,7 @@ The-Last-Sich/
 │   │   │   ├── blades/           One .tres per blade
 │   │   │   ├── relics/           One .tres per relic (traversal tools, worn)
 │   │   │   ├── keepsakes/        One .tres per keepsake
-│   │   │   └── quest/            One .tres per quest item (living water)
+│   │   │   └── quest/            One .tres per quest item (living water, kobza string, Sich letters)
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
 │   │   │   ├── combo/            combo_1/2/3.tres: the combo finishers
@@ -189,6 +197,15 @@ The-Last-Sich/
 │   │       ├── shockwave.tscn    Floor wave from the leap slam
 │   │       ├── pistol_ball.tscn  Pistol shot
 │   │       └── states/           saber_combo, leap_slam, dash_cut, pistol_volley
+│   ├── npcs/
+│   │   ├── npc.gd                Npc: starts the first conversation whose condition holds, presence
+│   │   ├── npc.tscn              Base NPC scene: talk area, placeholder body, prompt
+│   │   ├── kobzar/
+│   │   │   ├── kobzar.tscn       Test NPC (inherits npc.tscn): the lost string quest
+│   │   │   └── dialogues/        intro, reminder, hint, return, thanks, done
+│   │   └── elder/
+│   │       ├── elder.tscn        Test NPC: rewards for captives, letters and the boss
+│   │       └── dialogues/        intro, idle, letters, letters_done, captives_first, captives_all, boss_news
 │   └── training_dummy/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
@@ -199,6 +216,7 @@ The-Last-Sich/
 │   ├── killed_enemies.gd         Keeps killed enemies dead across rooms until the player rests or dies
 │   ├── play_clock.gd             Time played in the slot, saved
 │   ├── death_penalty.gd          Death marks: leaves them on death, applies the penalty, recovers them, saved
+│   ├── story_autosave.gd         Saves the game as soon as the story changes
 │   ├── death_mark_list.gd        The marks and their links, as plain data
 │   ├── map/
 │   │   ├── world_map.gd          World map data: scans rooms, reveals cells as the player walks, saved
@@ -229,6 +247,7 @@ The-Last-Sich/
 │   │   ├── boss_arena.tscn       Its scene (add a trigger shape and gates)
 │   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
 │   │   ├── flasks/               Empty flask pickup (+1 flask) and the flask healer (stronger flasks)
+│   │   ├── story/                Quest objects: captive_cage.tscn, alms_box.tscn (an Npc) and its alms/ conversations
 │   │   ├── mechanisms/           Levers, attack switches, pressure plates and the gates they open
 │   │   ├── traversal/            Climb walls, reveal platforms
 │   │   ├── breakables/           Breakable crate, cracked wall and secret wall (breakable.gd, crate.tscn, breakable_wall.tscn, secret_wall.tscn)
@@ -283,6 +302,8 @@ The-Last-Sich/
 │   │   │   ├── slots_screen.gd   Slot list: one row per save slot
 │   │   │   ├── slot_row.gd       One slot's row: zone, play time, explored, currency
 │   │   │   └── slot_screen.gd    One taken slot: Continue or New game here, Delete
+│   │   ├── dialogue/
+│   │   │   └── dialogue_screen.gd Text box: speaker, typed line, answers
 │   │   ├── pause/
 │   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
 │   │   │   └── pause_screen.gd   Resume, Inventory, Map, Options, Quit to main menu

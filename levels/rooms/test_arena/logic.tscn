@@ -5,9 +5,15 @@
 [ext_resource type="PackedScene" path="res://levels/objects/boss_arena.tscn" id="3_arena"]
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/gate.tscn" id="4_gate"]
 [ext_resource type="PackedScene" path="res://actors/bosses/otaman/otaman.tscn" id="5_otaman"]
+[ext_resource type="Script" path="res://components/story/story_trigger.gd" id="story_trigger"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="story_condition"]
 
 [sub_resource type="RectangleShape2D" id="trigger_shape"]
 size = Vector2(720, 288)
+
+[sub_resource type="Resource" id="kobzar_not_done"]
+script = ExtResource("story_condition")
+no_flags = Array[StringName]([&"kobzar_done"])
 
 [node name="Logic" type="Node2D"]
 
@@ -40,3 +46,14 @@ shape = SubResource("trigger_shape")
 [node name="Gate" parent="BossArena/Gates" instance=ExtResource("4_gate")]
 position = Vector2(160, 320)
 open = true
+
+[node name="OtamanBeaten" type="Node" parent="BossArena"]
+script = ExtResource("story_trigger")
+signal_name = &"boss_beaten"
+flag = &"otaman_beaten"
+
+[node name="KobzarLeaves" type="Node" parent="BossArena"]
+script = ExtResource("story_trigger")
+signal_name = &"boss_beaten"
+flag = &"kobzar_gone"
+condition = SubResource("kobzar_not_done")

@@ -41,6 +41,8 @@ Bosses don't flinch: their `Damage` node has `flinches` off, so NORMAL and HEAVY
 | Player leaves and comes back (gates open, boss alive) | The room loads fresh: sleeping boss, open gates |
 | Boss killed | `defeated` is saved with the room. From then on the room loads with the boss freed and the gates open, and resting never brings it back (it leaves the `enemies` group as it dies) |
 
+When the boss dies, the arena emits `boss_beaten` (never when a save restores the arena as won), so a [`StoryTrigger`](/systems/story) can mark the boss as beaten: the test arena sets `otaman_beaten`.
+
 While a fight is on, the arena is in the `BossArena.FIGHT_GROUP` group (`boss_fights`), so other systems can tell: the [Duma of the Road Home](/systems/dumas#dumas) can't be sung during a fight.
 
 The arena's gates are taken out of the `persistent` group: the arena alone decides whether they are open, so a fight that ended in death can't leave them shut in the save.

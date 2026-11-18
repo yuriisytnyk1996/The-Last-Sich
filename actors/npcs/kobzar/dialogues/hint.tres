@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="r2"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/kobza_string.tres" id="r3"]
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="r4"]
+
+[sub_resource type="Resource" id="condition_1"]
+script = ExtResource("r2")
+all_flags = Array[StringName]([&"kobzar_asked", &"crypt_visited"])
+no_flags = Array[StringName]([&"kobzar_done"])
+lacks = Array[ExtResource("r4")]([ExtResource("r3")])
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("You smell of the crypt, but your hands are empty.", "Strings roll far. Try the far west end, past the restless pages.")
+condition = SubResource("condition_1")

@@ -98,16 +98,18 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 | Chumak's whip | Keepsake | 600 | [Travel](/systems/travel) between rest points |
 | Icon lamp | Keepsake | 500 | Rest points fill [spirit](/systems/spirit); respawn with it full |
 | Living water (5: rapids, well, dew, spring, steppe) | Quest item | – | Taken by a flask healer for one [flask healing](/systems/upgrades#flask-upgrades) upgrade |
+| Kobza string | Quest item | – | Handed to the kobzar, see [NPCs, dialogue and quests](/systems/story) |
+| Sich letter (3) | Quest item | – | Turned in to the elder, see [NPCs, dialogue and quests](/systems/story) |
 | Seer's lantern | Relic | 1000 | Shows reveal platforms while worn |
 | Owl feather | Relic | 800 | No hard landing after long falls while worn (`soft_landing` [unlock](/systems/traversal#unlocks)) |
 
 The seven dumas are listed on the [Dumas](/systems/dumas#dumas) page.
 
-The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The owl feather lies on the test room's low step. The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. The rest are only reachable through the debug button for now.
+The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The owl feather lies on the test room's low step. The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. Quest rewards give the brass bell and the healer's knot (the alms box), the war drum and the guarding edge (the elder), see [NPCs, dialogue and quests](/systems/story#test-content). The rest are only reachable through the debug button for now.
 
 ### Saving
 
-`PlayerInventory` is a global save system (`inventory`, see [Save system](/systems/save-system)): the owned and worn ids are saved when the player rests or dies. Ids the game no longer knows are dropped on load, so removing an item can't break a save.
+`PlayerInventory` is a global save system (`inventory`, see [Save system](/systems/save-system)): the owned, worn and obtained ids are saved when the player rests or dies, and when the story changes. Ids the game no longer knows are dropped on load, so removing an item can't break a save.
 
 ### Debug
 
@@ -157,7 +159,7 @@ In debug builds the inventory page footer has a **Debug: get all** button (mouse
 - **Selling an item:** place a `ShopItem` stand, see [Shops](/systems/shops).
 - **Giving an item from a script** (a boss reward, a chest): `player.inventory.add(item)`.
 - **Checking for an item** (a key for a door): `player.inventory.owns(item)`.
-- **Taking an item away** (a quest item handed over): `player.inventory.remove(item)`. It also comes off if worn.
+- **Taking an item away** (a quest item handed over): `player.inventory.remove(item)`. It also comes off if worn. `has_obtained(item)` still returns true afterwards: every item ever added is kept in a saved `obtained` list (saves from before it use the owned items). Conversations hand items over through a `StoryOutcome`, see [NPCs, dialogue and quests](/systems/story).
 
 ## Known limitations
 

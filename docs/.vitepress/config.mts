@@ -57,6 +57,7 @@ export default defineConfig({
           { text: 'Inventory', link: '/systems/inventory' },
           { text: 'Dumas', link: '/systems/dumas' },
           { text: 'Shops', link: '/systems/shops' },
+          { text: 'NPCs, dialogue & quests', link: '/systems/story' },
           { text: 'Death penalty', link: '/systems/death-penalty' },
           { text: 'Upgrades', link: '/systems/upgrades' },
           { text: 'Save system', link: '/systems/save-system' },

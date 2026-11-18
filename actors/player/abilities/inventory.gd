@@ -3,15 +3,13 @@ extends Node
 ## The items the player carries and the ones they wear.
 ##
 ## Every item in the game must be listed in `all`: the inventory page
-## shows only those, and loading a save drops any other id. `add()` gives one to the
-## player (pickups, shops) and announces it through `Events.item_obtained`.
-## Charms and blades are worn in slots: as many charm slots as the
-## `PlayerStats.CHARM_SLOTS` stat, one blade slot, `RELIC_SLOTS` relic
-## slots, one duma slot. Keepsakes and quest items are never worn. What items do is up to
+## shows only those, and loading a save drops any other id. `add()` gives
+## one (pickups, shops) and announces it through `Events.item_obtained`.
+## Charms, blades, relics and dumas are worn in slots (`slot_count()`);
+## keepsakes and quest items never are. What items do is up to
 ## `PlayerItemEffects`, which listens to `changed`.
 ##
-## A global save system (see `SaveManager`): owned and worn ids are
-## written to disk whenever the game saves.
+## A global save system (see `SaveManager`): owned, worn and obtained ids.
 
 ## Something was added, removed, worn or taken off.
 signal changed
@@ -31,6 +29,8 @@ var save_id := &"inventory"
 var newest: Item
 var _owned: Array[StringName] = []
 var _worn: Array[StringName] = []
+## Every item ever added, kept after one is handed over (`has_obtained()`).
+var _obtained: Array[StringName] = []
 
 @onready var player := owner as Player
 
@@ -50,6 +50,11 @@ func find(id: StringName) -> Item:
 
 func owns(item: Item) -> bool:
 	return item.id in _owned
+
+
+## The player had it at some point, even if it was handed over since.
+func has_obtained(item: Item) -> bool:
+	return item.id in _obtained
 
 
 func is_worn(item: Item) -> bool:
@@ -85,8 +90,7 @@ func take_newest() -> Item:
 	return item
 
 
-## Most slots of a kind there can ever be. The inventory page shows the
-## ones not opened yet as locked.
+## Most slots of a kind there can ever be (unopened ones show as locked).
 func max_slots(kind: Item.Kind) -> int:
 	match kind:
 		Item.Kind.CHARM:
@@ -111,14 +115,15 @@ func add(item: Item) -> bool:
 	if find(item.id) == null:
 		push_error("Item %s is missing from the player's Inventory.all list" % item.id)
 	_owned.append(item.id)
+	if not item.id in _obtained:
+		_obtained.append(item.id)
 	newest = item
 	changed.emit()
 	Events.item_obtained.emit(item)
 	return true
 
 
-## Takes an owned item away (a quest item handed over). Returns false if
-## the player doesn't have it.
+## Takes an owned item away (a quest item handed over). False if not owned.
 func remove(item: Item) -> bool:
 	if item == null or not owns(item):
 		return false
@@ -160,11 +165,14 @@ func add_all() -> void:
 
 
 func get_save_data() -> Dictionary:
-	return {"owned": _owned.duplicate(), "worn": _worn.duplicate()}
+	var obtained := _obtained.duplicate()
+	return {"owned": _owned.duplicate(), "worn": _worn.duplicate(), "obtained": obtained}
 
 
 func apply_save_data(data: Dictionary) -> void:
 	_owned = _known_ids(data.get("owned", []))
+	# Saves from before "obtained" existed: what is owned was obtained.
+	_obtained = _known_ids(data.get("obtained", _owned))
 	_worn = _known_ids(data.get("worn", [])).filter(
 		func(id: StringName) -> bool: return id in _owned
 	)

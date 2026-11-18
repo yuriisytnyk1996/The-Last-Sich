@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="r2"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="r3"]
+
+[sub_resource type="Resource" id="outcome_1"]
+script = ExtResource("r2")
+reward = 200
+set_flags = Array[StringName]([&"elder_heard_boss"])
+
+[sub_resource type="Resource" id="condition_2"]
+script = ExtResource("r3")
+all_flags = Array[StringName]([&"elder_met", &"otaman_beaten"])
+no_flags = Array[StringName]([&"elder_heard_boss"])
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("The renegade Otaman is dead? By your hand?", "Then the Sich owes you more than words. Take this, and drink to the ones he killed.")
+outcome = SubResource("outcome_1")
+condition = SubResource("condition_2")

@@ -109,6 +109,7 @@
 - [x] Object pooling: projectiles and blasts are taken from and parked back in a `Pool` autoload instead of being instantiated and freed, with prewarmed instances so the first shot of a fight doesn't stall. See [Object pooling](/architecture/object-pooling)
 - [x] Timed platform sequences: platforms that appear one step after another on a loop, blink before they vanish and fade out from under the player; one clock per sequence. A six-step climb to a ledge in the test shaft
 - [x] More environment pieces: drip traps (a ceiling spout swells a drop of burning tar, then lets it fall), ghost traps (a haunted spot where loose pages flutter up around the moving player, for show; pooled) and shockwave areas (floor bands that tremble, then strike with a HEAVY hit that jumping or a plank avoids and the guard slides). The Duma of the Road Home takes the player back to the last rest point without healing, not during a boss fight (new `ItemEffect.can_start()`). New test crypt room west of the test house
+- [x] NPCs, dialogue and quests: story flags and counters (`PlayerStory`, saved at once by `StoryAutosave`), conditions on flags, counters and items (carried, any of, ever obtained, counted sets), outcomes that set flags, raise counters, hand items and currency over, turn in collectibles and show a message; conversations with answers in a typed text box that pauses the game; NPCs that pick a conversation by condition and come or go with the story; `StoryTrigger` (room events such as a broken cage, a picked-up item, a beaten boss or a reached place move quests on) and `StoryToggle` (chests appear, gates open by a condition); levers say which key they need and can use it up. Test content for every quest type: the kobzar's string (hand-in, hint, failure if the Otaman dies first, a chest afterwards), the elder (three captive cages, three Sich letters to turn in, news of the Otaman) and the alms box in the crypt (donation tiers)
 
 ## Next
 
@@ -120,7 +121,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Terrain tile art with autotiling
 - [ ] Audio
 - [ ] Map: items that reveal a zone
-- [ ] Feedback for a lever pulled without its key
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -147,6 +147,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
 - Grey basin with a pale strip for the cleanse point
+- Coloured rectangles for NPCs (a polygon kobza for the kobzar, a mace for the elder), a grey box for the alms box, bars over a rectangle for captive cages, a bordered box with the default font for dialogue, no portraits or text sounds
 - Drawn shapes with a letter for item icons (a lantern for relics), except the owl feather and the charms
 - Orange gourd for empty flasks, a brown table with a bowl and a flask for the flask healer, a vial shape for quest item icons
 - Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency

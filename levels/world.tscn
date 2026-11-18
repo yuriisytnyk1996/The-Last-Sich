@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://ui/screen_fade.gd" id="6_fade"]
 [ext_resource type="Script" path="res://ui/menus/pause/pause_menu.gd" id="7_pause"]
 [ext_resource type="Script" path="res://levels/death_penalty.gd" id="8_penalty"]
+[ext_resource type="Script" path="res://levels/story_autosave.gd" id="story_autosave"]
 [ext_resource type="Script" path="res://levels/map/world_map.gd" id="9_map"]
 [ext_resource type="Resource" path="res://levels/map/map_catalog.tres" id="10_catalog"]
 [ext_resource type="Script" path="res://levels/play_clock.gd" id="11_clock"]
@@ -18,6 +19,9 @@ script = ExtResource("1_world")
 [node name="RoomHolder" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="StoryAutosave" type="Node" parent="."]
+script = ExtResource("story_autosave")
 
 [node name="DeathPenalty" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("8_penalty")

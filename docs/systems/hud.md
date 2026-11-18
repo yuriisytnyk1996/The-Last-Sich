@@ -119,7 +119,7 @@ While a [duma](/systems/dumas) runs, a `duma_height` line in `duma_color` under 
 
 ### Item toast
 
-`ItemToast` (`ui/hud/item_toast.gd`) is a `Label` near the bottom centre. On `Events.item_obtained(item)` it shows `"Found: <title>"` for `show_time` (2 s), then fades out over `fade_time` (0.5 s). Its tween keeps running while a menu pauses the game, so a purchase is named too. See [Inventory](/systems/inventory). On `Events.player_upgraded(what)` it shows `"<what> up"` ("Max health up"), see [Upgrades](/systems/upgrades).
+`ItemToast` (`ui/hud/item_toast.gd`) is a `Label` near the bottom centre. On `Events.item_obtained(item)` it shows `"Found: <title>"` for `show_time` (2 s), then fades out over `fade_time` (0.5 s). Its tween keeps running while a menu pauses the game, so a purchase is named too. See [Inventory](/systems/inventory). On `Events.player_upgraded(what)` it shows `"<what> up"` ("Max health up"), see [Upgrades](/systems/upgrades). On `Events.message_shown(text)` it shows the text as is ("A captive is free", "Needs Vault key"), see [NPCs, dialogue and quests](/systems/story).
 
 ### Boss bar
 

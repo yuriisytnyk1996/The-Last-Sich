@@ -19,6 +19,7 @@
 [ext_resource type="Resource" path="res://actors/player/items/dumas/calm_sea.tres" id="duma_calm_sea"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/sabre_ring.tres" id="duma_sabre_ring"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/iron_hand.tres" id="duma_iron_hand"]
+[ext_resource type="PackedScene" path="res://actors/npcs/elder/elder.tscn" id="story_elder"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -122,3 +123,6 @@ item = ExtResource("duma_sabre_ring")
 [node name="IronHand" parent="Items" instance=ExtResource("20_pickup")]
 position = Vector2(912, 288)
 item = ExtResource("duma_iron_hand")
+
+[node name="Elder" parent="." instance=ExtResource("story_elder")]
+position = Vector2(496, 320)

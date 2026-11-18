@@ -26,7 +26,7 @@ func get_save_data() -> Dictionary
 func apply_save_data(data: Dictionary) -> void
 ```
 
-- **Global systems** live for the whole run. They call `SaveManager.register(self)` and have a `save_id`, which is their key under `global`. They're dropped automatically when they leave the tree. `World` saves the last rest point and the zone of the room it saved in, `PlayClock` the time played, `PlayerWallet` the player's currency, `PlayerSkills` the learned skills and the tier (see [Skills](/systems/skills)), `PlayerInventory` the owned and worn items (see [Inventory](/systems/inventory)), `DeathPenalty` the death marks (see [Death penalty](/systems/death-penalty)) and `WorldMap` the rooms seen and the revealed map cells (see [Map](/systems/map)).
+- **Global systems** live for the whole run. They call `SaveManager.register(self)` and have a `save_id`, which is their key under `global`. They're dropped automatically when they leave the tree. `World` saves the last rest point and the zone of the room it saved in, `PlayClock` the time played, `PlayerWallet` the player's currency, `PlayerSkills` the learned skills and the tier (see [Skills](/systems/skills)), `PlayerInventory` the owned, worn and ever obtained items (see [Inventory](/systems/inventory)), `PlayerStory` the story flags and counters (see [NPCs, dialogue and quests](/systems/story)), `DeathPenalty` the death marks (see [Death penalty](/systems/death-penalty)) and `WorldMap` the rooms seen and the revealed map cells (see [Map](/systems/map)).
 - **Room objects** are any nodes in the `persistent` group inside a room. Their key is their node path inside the room, under that room's scene path in `rooms`.
 
 The flow:
@@ -35,6 +35,7 @@ The flow:
 2. **Room unloads.** Before `World` frees a room, `SaveManager.store_room(room)` writes every persistent node's data into the snapshot. This is in memory only.
 3. **Room loads.** Right after the room is added to the tree (so `_ready()` has run) and before the player enters, `SaveManager.restore_room(room)` hands each persistent node its stored data.
 4. **Rest.** On `Events.rested`, `World` remembers the rest point and calls `SaveManager.save_game(room)`. That stores the current room, collects every global system's data and writes the snapshot to disk.
+   **Story changes** save too: `StoryAutosave` writes the save at the end of any frame a story flag or counter changed in, so a quest step or a hand-in reward can't be lost by quitting (see [NPCs, dialogue and quests](/systems/story)). A load still wakes the player at the last rest point.
 5. **Death.** After the player respawns, `World` saves the same way, so a death mark can't be undone by quitting.
 
 Rooms you visited since the last rest are in the snapshot, so they are written too when you rest. Dying doesn't roll the snapshot back: what you changed in a room stays changed.

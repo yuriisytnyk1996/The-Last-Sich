@@ -1,0 +1,80 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/breakables/breakable.gd" id="1_breakable"]
+[ext_resource type="Script" path="res://components/combat/hurtbox.gd" id="2_hurtbox"]
+[ext_resource type="Script" path="res://components/combat/hurt_feedback.gd" id="3_feedback"]
+[ext_resource type="Script" path="res://components/story/story_trigger.gd" id="4_trigger"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="5_outcome"]
+
+[sub_resource type="RectangleShape2D" id="shape_cage"]
+size = Vector2(20, 28)
+
+[sub_resource type="Resource" id="freed"]
+script = ExtResource("5_outcome")
+message = "A captive is free"
+
+[node name="CaptiveCage" type="Node2D"]
+script = ExtResource("1_breakable")
+hits = 2
+stays_broken = true
+fade_time = 0.3
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Captive" type="ColorRect" parent="Visual"]
+offset_left = -4.0
+offset_top = -22.0
+offset_right = 4.0
+mouse_filter = 2
+color = Color(0.62, 0.5, 0.4, 1)
+
+[node name="Top" type="ColorRect" parent="Visual"]
+offset_left = -10.0
+offset_top = -28.0
+offset_right = 10.0
+offset_bottom = -25.0
+mouse_filter = 2
+color = Color(0.35, 0.33, 0.32, 1)
+
+[node name="BarLeft" type="ColorRect" parent="Visual"]
+offset_left = -10.0
+offset_top = -25.0
+offset_right = -8.0
+mouse_filter = 2
+color = Color(0.35, 0.33, 0.32, 1)
+
+[node name="BarMiddle" type="ColorRect" parent="Visual"]
+offset_left = -1.0
+offset_top = -25.0
+offset_right = 1.0
+mouse_filter = 2
+color = Color(0.35, 0.33, 0.32, 1)
+
+[node name="BarRight" type="ColorRect" parent="Visual"]
+offset_left = 8.0
+offset_top = -25.0
+offset_right = 10.0
+mouse_filter = 2
+color = Color(0.35, 0.33, 0.32, 1)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("2_hurtbox")
+rewards_attacker = false
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -14)
+shape = SubResource("shape_cage")
+
+[node name="HurtFeedback" type="Node" parent="." node_paths=PackedStringArray("hurtbox", "flash_target")]
+script = ExtResource("3_feedback")
+hurtbox = NodePath("../Hurtbox")
+flash_target = NodePath("../Visual")
+hit_stop = 0.03
+
+[node name="StoryTrigger" type="Node" parent="."]
+script = ExtResource("4_trigger")
+signal_name = &"broken_by_player"
+outcome = SubResource("freed")

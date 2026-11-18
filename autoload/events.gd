@@ -90,6 +90,16 @@ signal enemy_executed
 @warning_ignore("unused_signal")
 signal item_obtained(item: Item)
 
+## A story flag was set or cleared (`PlayerStory`), or every flag was
+## loaded (`flag` is empty then). NPCs check whether they are still there.
+@warning_ignore("unused_signal")
+signal story_changed(flag: StringName)
+
+## Show a short line at the bottom of the screen, like a found item:
+## "A captive is free", "Needs the vault key". The HUD's `ItemToast` shows it.
+@warning_ignore("unused_signal")
+signal message_shown(text: String)
+
 ## The player got a permanent upgrade ("Max health"). The HUD names it.
 @warning_ignore("unused_signal")
 signal player_upgraded(what: String)

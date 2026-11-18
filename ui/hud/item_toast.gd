@@ -1,8 +1,9 @@
 class_name ItemToast
 extends Label
 ## Names a newly obtained item for a moment ("Found: Wolf fang"), then
-## fades out. Driven by `Events.item_obtained`, and by
-## `Events.player_upgraded` for upgrades ("Max health up").
+## fades out. Driven by `Events.item_obtained`, by
+## `Events.player_upgraded` for upgrades ("Max health up") and by
+## `Events.message_shown` for any other line ("A captive is free").
 
 ## Seconds the name stays fully visible.
 @export var show_time := 2.0
@@ -15,6 +16,7 @@ var _tween: Tween
 func _ready() -> void:
 	Events.item_obtained.connect(_on_item_obtained)
 	Events.player_upgraded.connect(_on_player_upgraded)
+	Events.message_shown.connect(_show)
 	modulate.a = 0.0
 
 

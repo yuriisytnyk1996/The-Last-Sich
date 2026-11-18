@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/gate.tscn" id="3_gate"]
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/pressure_plate.tscn" id="4_plate"]
 [ext_resource type="PackedScene" path="res://levels/objects/mechanisms/attack_switch.tscn" id="5_switch"]
+[ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="story_pickup"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/sich_letter_1.tres" id="story_letter"]
 
 [sub_resource type="RectangleShape2D" id="shape_exit"]
 size = Vector2(8, 64)
@@ -62,3 +64,7 @@ position = Vector2(240, 352)
 position = Vector2(192, 352)
 targets = [NodePath("../CorridorGate")]
 one_shot = true
+
+[node name="SichLetter" parent="." instance=ExtResource("story_pickup")]
+position = Vector2(120, 352)
+item = ExtResource("story_letter")

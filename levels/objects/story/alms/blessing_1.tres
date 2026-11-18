@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="r2"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/brass_bell.tres" id="r3"]
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="r4"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="r5"]
+
+[sub_resource type="Resource" id="outcome_1"]
+script = ExtResource("r2")
+give_items = Array[ExtResource("r4")]([ExtResource("r3")])
+set_flags = Array[StringName]([&"alms_tier_1"])
+
+[sub_resource type="Resource" id="condition_2"]
+script = ExtResource("r5")
+counter = &"alms_given"
+counter_at_least = 600
+no_flags = Array[StringName]([&"alms_tier_1"])
+
+[resource]
+script = ExtResource("r1")
+speaker = "A voice behind the wall"
+lines = PackedStringArray("Someone feeds the box. Bless you, Cossack. Here, our old bell: ring it and the dead remember they are dead.")
+outcome = SubResource("outcome_1")
+condition = SubResource("condition_2")

@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="r2"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/sich_letter_1.tres" id="r3"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/sich_letter_2.tres" id="r4"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/sich_letter_3.tres" id="r5"]
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="r6"]
+[ext_resource type="Script" path="res://components/story/dialogue_choice.gd" id="r7"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="r8"]
+
+[sub_resource type="Resource" id="outcome_1"]
+script = ExtResource("r2")
+turn_in = Array[ExtResource("r6")]([ExtResource("r3"), ExtResource("r4"), ExtResource("r5")])
+counter = &"letters_delivered"
+reward = 100
+
+[sub_resource type="Resource" id="choice_2"]
+script = ExtResource("r7")
+text = "Hand over the letters"
+outcome = SubResource("outcome_1")
+
+[sub_resource type="Resource" id="choice_3"]
+script = ExtResource("r7")
+text = "Not yet"
+
+[sub_resource type="Resource" id="condition_4"]
+script = ExtResource("r8")
+all_flags = Array[StringName]([&"elder_met"])
+owns_any = Array[ExtResource("r6")]([ExtResource("r3"), ExtResource("r4"), ExtResource("r5")])
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("Is that the Sich's seal I see in your belt?")
+choices = Array[ExtResource("r7")]([SubResource("choice_2"), SubResource("choice_3")])
+condition = SubResource("condition_4")

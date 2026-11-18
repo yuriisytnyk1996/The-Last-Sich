@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+
+[resource]
+script = ExtResource("item")
+id = &"sich_letter_2"
+title = "Sich letter (2 of 3)"
+description = "A letter in a hurried hand, rain-stained. It counts the powder kegs at the winter camp. The elder in the test room collects them."
+lore = "Riders carried the Sich's letters across the steppe, and when a rider fell, the letter lay where he fell. Whoever brings one home is owed a cup and a place at the fire."
+kind = 5
+price = 0

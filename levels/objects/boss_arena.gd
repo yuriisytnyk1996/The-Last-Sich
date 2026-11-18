@@ -9,6 +9,9 @@ extends Node2D
 ## Saved (`persistent` group): a beaten boss is gone and the arena stays
 ## open. Its gates aren't saved on their own: the arena decides.
 
+## The boss was killed (never when a save restores the arena as won).
+signal boss_beaten
+
 ## Arenas with a fight on are in this group, so other systems can tell a
 ## fight is running (the duma of return can't be sung in one).
 const FIGHT_GROUP := &"boss_fights"
@@ -73,6 +76,7 @@ func _on_boss_died() -> void:
 	if item and is_instance_valid(_player):
 		_player.inventory.add(item)
 	_remove_boss(boss.damage.corpse_time + boss.damage.fade_time)
+	boss_beaten.emit()
 
 
 func _on_player_died() -> void:

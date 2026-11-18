@@ -16,6 +16,10 @@ extends Node2D
 ## group): hits taken so far, and broken for good once broken. Otherwise
 ## it is back whenever the room loads again.
 
+## Broken by the player's hits (never when a save restores it), so a
+## `StoryTrigger` can count it.
+signal broken_by_player
+
 ## Which side the player has to stand on for hits to count.
 enum Side { BOTH, LEFT, RIGHT }
 
@@ -75,6 +79,7 @@ func _on_hurt(_hitbox: Hitbox) -> void:
 	if _hits_left > 0:
 		return
 	_break(false)
+	broken_by_player.emit()
 	if currency > 0:
 		Events.currency_earned.emit(currency)
 	Events.camera_shake_requested.emit(break_shake)

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Dialogue" format=3]
+
+[ext_resource type="Script" path="res://components/story/dialogue.gd" id="r1"]
+[ext_resource type="Script" path="res://components/story/story_outcome.gd" id="r2"]
+[ext_resource type="Resource" path="res://actors/player/items/charms/war_drum.tres" id="r3"]
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="r4"]
+[ext_resource type="Script" path="res://components/story/story_condition.gd" id="r5"]
+
+[sub_resource type="Resource" id="outcome_1"]
+script = ExtResource("r2")
+give_items = Array[ExtResource("r4")]([ExtResource("r3")])
+set_flags = Array[StringName]([&"elder_captives_3"])
+
+[sub_resource type="Resource" id="condition_2"]
+script = ExtResource("r5")
+count_prefix = "freed_captive_"
+count_at_least = 3
+no_flags = Array[StringName]([&"elder_captives_3"])
+
+[resource]
+script = ExtResource("r1")
+lines = PackedStringArray("All three are home. The drummer among them asked me to give you this. He says it beats truer for a free man.")
+outcome = SubResource("outcome_1")
+condition = SubResource("condition_2")

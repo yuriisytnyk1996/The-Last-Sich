@@ -114,7 +114,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 
 `levels/rooms/test_works.tscn` is a 1280×720 room east of the [test cave](/systems/rooms#test-cave-layout), through a new `East` exit in the cave's right wall. It has two floors:
 
-- **Upper floor** (y 320), left to right: two crates by the entrance, a wind zone blowing left, a 4-tile gap down to the lower floor, a row of three spike traps striking in a wave, the cracked wall with a crate worth 30 behind it, and the elevator with a call lever.
+- **Upper floor** (y 320), left to right: two crates by the entrance, a Sich letter (x 232, see [test content](/systems/story#test-content)), a wind zone blowing left, a 4-tile gap down to the lower floor, a row of three spike traps striking in a wave, the cracked wall with a crate worth 30 behind it, and the elevator with a call lever.
 - **Lower floor** (y 672), right to left from the elevator: the lower call lever, a mud pool, two fire traps, a pit (with a `KillZone`) crossed by a sideways moving platform, a poison cloud, and a vertical moving platform that rises through the upper floor's gap back to the top. A turret on the left wall fires along the lower floor while the player is near. An `East` doorway at the bottom of the right wall leads to the [test vault](/systems/traversal#test-vault-layout).
 
 ## Test crypt layout
@@ -124,7 +124,8 @@ Zones only affect the player. Enemies walk through them unchanged.
 - Three drip traps over the corridor (x 776, 816, 856), out of step, then a one-tile step.
 - Two shockwave areas side by side (x 480 to 704) that quake in turn, with a one-way plank 3 tiles above the floor to wait on.
 - A ghost trap along the floor of the west part of the room (x 96 to 416): pages flutter up as the player walks through.
-- The [Duma of the Road Home](/systems/dumas#dumas) at the far west end, so the way back can be tested at once.
+- The [Duma of the Road Home](/systems/dumas#dumas) at the far west end, so the way back can be tested at once, and the kobza string next to it (x 104) for the kobzar's quest.
+- The alms box (x 200) and a captive cage (x 300) in the ghost trap's part of the room, and a `VisitedArea` by the entrance (x 864) that sets `crypt_visited`. See [test content](/systems/story#test-content).
 
 ## Files
 

@@ -4,6 +4,9 @@ extends InteractionArea
 ## (`PlayerInventory.add()`). It is taken once: the room saves that
 ## through the `persistent` group, so it stays gone.
 
+## The player picked it up (never when a save restores it as gone).
+signal taken
+
 @export var item: Item
 
 var _taken := false
@@ -19,6 +22,7 @@ func _activate(player: Node2D) -> void:
 		return
 	(player as Player).inventory.add(item)
 	_take()
+	taken.emit()
 
 
 func get_save_data() -> Dictionary:
