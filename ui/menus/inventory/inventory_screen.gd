@@ -11,7 +11,12 @@ extends MenuScreen
 ## when there is one, else on the tab and cell used last.
 
 const KINDS: Array[Item.Kind] = [
-	Item.Kind.CHARM, Item.Kind.DUMA, Item.Kind.BLADE, Item.Kind.RELIC, Item.Kind.KEEPSAKE
+	Item.Kind.CHARM,
+	Item.Kind.DUMA,
+	Item.Kind.BLADE,
+	Item.Kind.RELIC,
+	Item.Kind.KEEPSAKE,
+	Item.Kind.QUEST,
 ]
 ## The page is drawn on its own backdrop, this far around its content (px).
 const MARGIN := Vector2(16, 10)

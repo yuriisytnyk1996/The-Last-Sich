@@ -6,7 +6,7 @@ extends Node
 ## player (pickups, shops) and announces it through `Events.item_obtained`.
 ## Charms and blades are worn in slots: as many charm slots as the
 ## `PlayerStats.CHARM_SLOTS` stat, one blade slot, `RELIC_SLOTS` relic
-## slots, one duma slot. Keepsakes are never worn. What items do is up to
+## slots, one duma slot. Keepsakes and quest items are never worn. What items do is up to
 ## `PlayerItemEffects`, which listens to `changed`.
 ##
 ## A global save system (see `SaveManager`): owned and worn ids are
@@ -111,6 +111,19 @@ func add(item: Item) -> bool:
 	newest = item
 	changed.emit()
 	Events.item_obtained.emit(item)
+	return true
+
+
+## Takes an owned item away (a quest item handed over). Returns false if
+## the player doesn't have it.
+func remove(item: Item) -> bool:
+	if item == null or not owns(item):
+		return false
+	_owned.erase(item.id)
+	_worn.erase(item.id)
+	if newest == item:
+		newest = null
+	changed.emit()
 	return true
 
 

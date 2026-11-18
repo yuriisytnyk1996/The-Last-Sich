@@ -24,9 +24,10 @@ signal player_health_changed(current: int, maximum: int)
 signal player_respawned
 
 ## The player's healing flasks changed: one was drunk or they were
-## refilled (also sent once when the player spawns). Drives the HUD.
+## refilled (also sent once when the player spawns). `level` is the
+## flask healing upgrade level. Drives the HUD.
 @warning_ignore("unused_signal")
-signal player_flasks_changed(current: int, maximum: int)
+signal player_flasks_changed(current: int, maximum: int, level: int)
 
 ## The player pressed heal with no flasks left. The HUD shakes the flasks.
 @warning_ignore("unused_signal")

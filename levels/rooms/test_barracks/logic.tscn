@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" path="res://actors/enemies/shieldbearer/shieldbearer.tscn" id="2_shieldbearer"]
 [ext_resource type="PackedScene" path="res://actors/enemies/boar/boar.tscn" id="3_boar"]
 [ext_resource type="PackedScene" path="res://actors/enemies/crow/crow.tscn" id="4_crow"]
+[ext_resource type="PackedScene" path="res://levels/objects/flasks/empty_flask.tscn" id="5_empty_flask"]
+[ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="6_pickup"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_1.tres" id="7_water_1"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_2.tres" id="8_water_2"]
 
 [node name="Logic" type="Node2D"]
 
@@ -34,3 +38,19 @@ position = Vector2(880, 320)
 
 [node name="Crow" parent="Enemies" instance=ExtResource("4_crow")]
 position = Vector2(1104, 176)
+
+[node name="Flasks" type="Node2D" parent="."]
+
+[node name="EmptyFlaskA" parent="Flasks" instance=ExtResource("5_empty_flask")]
+position = Vector2(104, 320)
+
+[node name="EmptyFlaskB" parent="Flasks" instance=ExtResource("5_empty_flask")]
+position = Vector2(128, 320)
+
+[node name="LivingWaterRapids" parent="Flasks" instance=ExtResource("6_pickup")]
+position = Vector2(152, 320)
+item = ExtResource("7_water_1")
+
+[node name="LivingWaterWell" parent="Flasks" instance=ExtResource("6_pickup")]
+position = Vector2(176, 320)
+item = ExtResource("8_water_2")

@@ -12,7 +12,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 |---|---|---|---|
 | `camera_shake_requested(trauma)` | `HurtFeedback` (on every accepted hit) | `CameraShake` on the player's camera | Shake the active camera; `trauma` 0 to 1 adds up |
 | `player_health_changed(current, maximum)` | `PlayerDamage` (on every health change, and once on spawn) | `HealthBar` in the HUD, every `Enemy` (to know whether the player is alive) | The player's health is now `current` out of `maximum` |
-| `player_flasks_changed(current, maximum)` | `PlayerFlasks` (on drinking, on refill, and once on spawn) | `FlaskCounter` in the HUD | The player has `current` healing flasks out of `maximum` |
+| `player_flasks_changed(current, maximum, level)` | `PlayerFlasks` (on drinking, on refill, on a flask upgrade, and once on spawn) | `FlaskCounter` in the HUD | The player has `current` healing flasks out of `maximum`, at flask healing `level` |
 | `player_flasks_empty` | `PlayerFlasks` (heal pressed with no flasks left) | `FlaskCounter` in the HUD | Show that there is nothing to drink |
 | `player_died` | The player's `Dead` state (after `death_delay`; pits kill through `Health.kill()` and end up here too) | `World` (respawns at the last [rest point](/systems/rest-points), or asks the current `Room` to respawn the player and reset its enemies) | The player died and should respawn |
 | `enemy_killed` | `EnemyDamage` (an enemy died, not one restored as already dead) | `PlayerItemEffects` (`ON_KILL` item effects) | An enemy was killed |

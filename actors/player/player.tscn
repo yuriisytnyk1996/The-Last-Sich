@@ -102,6 +102,11 @@
 [ext_resource type="Resource" path="res://actors/player/items/dumas/calm_sea.tres" id="item_calm_sea"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/sabre_ring.tres" id="item_sabre_ring"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/iron_hand.tres" id="item_iron_hand"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_1.tres" id="item_living_water_1"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_2.tres" id="item_living_water_2"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_3.tres" id="item_living_water_3"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_4.tres" id="item_living_water_4"]
+[ext_resource type="Resource" path="res://actors/player/items/quest/living_water_5.tres" id="item_living_water_5"]
 [ext_resource type="Script" path="res://actors/player/abilities/unlocks.gd" id="unlocks"]
 [ext_resource type="Script" path="res://actors/player/abilities/wall_jump.gd" id="wall_jump"]
 [ext_resource type="Script" path="res://actors/player/states/wall_cling.gd" id="st_wall_cling"]
@@ -750,7 +755,7 @@ script = ExtResource("unlocks")
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("inventory")
-all = Array[ExtResource("item_script")]([ExtResource("item_iron_cross"), ExtResource("item_wolf_fang"), ExtResource("item_clay_amulet"), ExtResource("item_bitter_root"), ExtResource("item_healer_knot"), ExtResource("item_red_sash"), ExtResource("item_brass_bell"), ExtResource("item_hunter_tally"), ExtResource("item_war_drum"), ExtResource("item_heavy_edge"), ExtResource("item_thirsting_edge"), ExtResource("item_guarding_edge"), ExtResource("item_leather_pouch"), ExtResource("item_stitched_pouch"), ExtResource("item_spare_gourd"), ExtResource("item_chumak_whip"), ExtResource("item_icon_lamp"), ExtResource("item_seer_lantern"), ExtResource("item_burning_steppe"), ExtResource("item_black_sea_storm"), ExtResource("item_thunderbolt"), ExtResource("item_three_brothers"), ExtResource("item_calm_sea"), ExtResource("item_sabre_ring"), ExtResource("item_iron_hand")])
+all = Array[ExtResource("item_script")]([ExtResource("item_iron_cross"), ExtResource("item_wolf_fang"), ExtResource("item_clay_amulet"), ExtResource("item_bitter_root"), ExtResource("item_healer_knot"), ExtResource("item_red_sash"), ExtResource("item_brass_bell"), ExtResource("item_hunter_tally"), ExtResource("item_war_drum"), ExtResource("item_heavy_edge"), ExtResource("item_thirsting_edge"), ExtResource("item_guarding_edge"), ExtResource("item_leather_pouch"), ExtResource("item_stitched_pouch"), ExtResource("item_spare_gourd"), ExtResource("item_chumak_whip"), ExtResource("item_icon_lamp"), ExtResource("item_seer_lantern"), ExtResource("item_burning_steppe"), ExtResource("item_black_sea_storm"), ExtResource("item_thunderbolt"), ExtResource("item_three_brothers"), ExtResource("item_calm_sea"), ExtResource("item_sabre_ring"), ExtResource("item_iron_hand"), ExtResource("item_living_water_1"), ExtResource("item_living_water_2"), ExtResource("item_living_water_3"), ExtResource("item_living_water_4"), ExtResource("item_living_water_5")])
 
 [node name="ItemEffects" type="Node" parent="."]
 script = ExtResource("item_effects")

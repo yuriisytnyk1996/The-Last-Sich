@@ -11,6 +11,8 @@ extends InteractionArea
 const GEM_COLORS := {
 	PlayerUpgrades.Kind.HEALTH: Color(0.85, 0.2, 0.25),
 	PlayerUpgrades.Kind.SPIRIT: Color(0.45, 0.6, 1),
+	PlayerUpgrades.Kind.FLASKS: Color(0.85, 0.6, 0.23),
+	PlayerUpgrades.Kind.FLASK_HEAL: Color(0.55, 0.85, 0.9),
 }
 
 @export var kind := PlayerUpgrades.Kind.HEALTH

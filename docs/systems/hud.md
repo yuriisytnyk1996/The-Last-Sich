@@ -31,7 +31,7 @@ During hit-stop the bar freezes with the rest of the game, which holds the loss 
 
 ### Flask counter
 
-`FlaskCounter` (`ui/hud/flask_counter.gd`) sits under the health bar and draws one pip per healing flask: `full_color` while the flask is full, `empty_color` once it's used, each with a `frame_color` outline. It listens to `Events.player_flasks_changed(current, maximum)`, which `PlayerFlasks` sends on every change and once on spawn (deferred). More flasks mean more pips. See [Healing flasks](/systems/player#healing-flasks).
+`FlaskCounter` (`ui/hud/flask_counter.gd`) sits under the health bar and draws one pip per healing flask: `full_color` while the flask is full, `empty_color` once it's used, each with a `frame_color` outline. Each flask healing level (see [Flask upgrades](/systems/upgrades#flask-upgrades)) has its own full colour from `level_colors`, used pips take `empty_tint` of it, and from level 1 every pip gets a bright 1 px cap, so the level shows even with no flasks left. It listens to `Events.player_flasks_changed(current, maximum, level)`, which `PlayerFlasks` sends on every change and once on spawn (deferred). More flasks mean more pips. See [Healing flasks](/systems/player#healing-flasks).
 
 Feedback:
 
@@ -81,7 +81,9 @@ On the `FlaskCounter` node:
 | `empty_shake_distance` | 2 | Sideways shake (px) |
 | `frame_color` | `#1a1018` | Outline |
 | `empty_color` | `#3b2730` | Used flask |
-| `full_color` | `#d89a3a` | Full flask |
+| `full_color` | `#d89a3a` | Full flask at level 0 |
+| `level_colors` | `#e0a848`, `#e6bd5a`, `#d8d27a`, `#a8dcc4`, `#cfeef5` | Full flask at levels 1 to 5; later levels use the last |
+| `empty_tint` | 0.2 | How much of the level colour tints a used flask (level 1 and up) |
 | `flash_color` | `#fff2c8` | Flask that was just drunk |
 | `warning_color` | `#b8323a` | Frames while shaking (no flasks left) |
 

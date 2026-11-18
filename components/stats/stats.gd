@@ -101,6 +101,17 @@ func remove_modifier(modifier: StatModifier, source: StringName) -> void:
 			return
 
 
+## Every modifier `source` added, across all stats.
+func modifiers_from(source: StringName) -> Array[StatModifier]:
+	_ensure_defined()
+	var found: Array[StatModifier] = []
+	for stat in _modifiers:
+		for entry: Dictionary in _modifiers[stat]:
+			if entry.source == source:
+				found.append(entry.modifier)
+	return found
+
+
 ## Removes everything `source` added, for example when an item is taken off.
 func remove_source(source: StringName) -> void:
 	_ensure_defined()

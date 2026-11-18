@@ -65,6 +65,8 @@ static func scan(room: Room, cell_size: Vector2i) -> MapRoom:
 			map_room.add_mark(cell, Mark.CLEANSE)
 		elif node is StatUpgrade and (node as StatUpgrade).price > 0:
 			map_room.add_mark(cell, Mark.UPGRADE)
+		elif node is FlaskHealer:
+			map_room.add_mark(cell, Mark.UPGRADE)
 		elif node is ShopItem:
 			map_room.add_mark(cell, Mark.SHOP)
 	return map_room

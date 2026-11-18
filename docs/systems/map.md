@@ -16,7 +16,7 @@ Only one room is loaded at a time, so the map can't read every room up front. In
 
 1. The cell rectangle from `map_cell` and `bounds`.
 2. **Doors.** Every `RoomExit` within 24 px (`MapRoom.EDGE_MARGIN`) of a `bounds` edge is a door on that side of its cell: the wall gets a gap there. Floor holes and ceiling openings count too.
-3. **Marks.** A `RoomExit` inside the room (a pressed door) becomes a door mark. Rest points, skill shrines, cleanse points, paid upgrade shrines and shop stands become marks on their cell. A cell holds each kind of mark once. Chests, levers and other pickups get no mark: the player marks what they want to remember (see [Player marks](#player-marks)).
+3. **Marks.** A `RoomExit` inside the room (a pressed door) becomes a door mark. Rest points, skill shrines, cleanse points, paid upgrade shrines, flask healers and shop stands become marks on their cell. A cell holds each kind of mark once. Chests, levers and other pickups get no mark: the player marks what they want to remember (see [Player marks](#player-marks)).
 4. **Secrets.** Anything behind a secret that hasn't been found is left out (see [Secrets](#secrets)).
 
 The scan reads the room after its saved state is restored, so broken walls are already broken. It replaces what the save had for that room. A secret can be found while the player is in the room, so `WorldMap.refresh()` scans the current room again: before the room unloads, when the map page opens and when the game saves.
@@ -58,7 +58,7 @@ Two checks keep the catalog current:
 
 - The fill: the zone colour, or a bright colour for the player's cell.
 - A wall on every side that isn't shared with another cell of the same room, with the middle third left open for a door (`MapCellPainter`). Cells of one room join with no line between them, so a room reads as one shape. A side next to an unrevealed cell of the same room has no wall: there is more to find there.
-- Marks: small squares for rest points (orange), skill shrines (cyan), shops (gold), cleanse points (pale blue), paid upgrade shrines (purple), inner doors (brown) and death marks still waiting to be recovered (red, from `DeathPenalty.get_shown_marks()`).
+- Marks: small squares for rest points (orange), skill shrines (cyan), shops (gold), cleanse points (pale blue), paid upgrade shrines and flask healers (purple), inner doors (brown) and death marks still waiting to be recovered (red, from `DeathPenalty.get_shown_marks()`).
 - The player's own marks as 5×5 pixel icons on a dark backing (`MapMarkPainter`).
 - The player as a blinking dot at their exact spot, and a cursor in the middle of the view.
 

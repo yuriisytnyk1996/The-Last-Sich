@@ -94,6 +94,8 @@
 
 - [x] Dumas: songs sung for spirit, a new item kind with one slot and a `duma` button (Q / left trigger, triggers can now be bound). A planted cast with an aura spends the cost at the cast point, then the duma's `ON_USE` effects run; while a lasting one runs, no other can be sung and a line under the spirit bar shows its time left; the bar flashes when spirit is short. `duma_cost`, `duma_duration` and `duma_strength` stats. Seven dumas: pillars of fire forward, pillars on both sides, a thunderbolt, a three-shot volley, a stunning burst (new `Hitbox.stuns`), a ring of sabres that cuts enemies and destroys their shots, and heavy strikes. All in the test room
 
+- [x] Flask upgrades: empty flasks found in rooms add a flask for good (empty until the next rest); a flask healer makes every flask heal 10 more for a vial of living water and a rising price, five levels, shown by the colour of the HUD flask pips. Base flask heal lowered to 20. Drinking at full health is allowed and wastes the flask; a light hit now ends the drink too. New quest item kind (`Item.Kind.QUEST`, a tab on the inventory page) for items handed over, and `PlayerInventory.remove()`. Healers get the upgrade mark on the map. Test healer in the test house, two empty flasks and two vials in the test barracks
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -131,6 +133,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Default engine font and plain coloured rows for the menus, no menu art or sounds
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
 - Grey basin with a pale strip for the cleanse point
+- Orange gourd for empty flasks, a brown table with a bowl and a flask for the flask healer, a vial shape for quest item icons
 - Purple post for death marks, plain bars and pips for spirit and death marks in the HUD, a plain number in the default font for the HUD currency
 - No hang or climb-up animation for ledges, the placeholder body just moves
 - Grey rectangles with a blue gem for the skill shrine, blue diamonds for tier relics, plain text cells for the skill menu, coloured rectangles for the combo, charged, lunge and dive hitboxes, the projectiles and the blasts, a bar above the head for a full charge

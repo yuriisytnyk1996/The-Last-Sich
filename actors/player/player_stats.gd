@@ -25,7 +25,7 @@ const MAX_CHARM_SLOTS := 8
 ## Flasks carried when all are full.
 @export var flask_count := 2.0
 ## Health restored by one flask.
-@export var flask_heal := 40.0
+@export var flask_heal := 20.0
 
 @export_group("Offense")
 ## Multiplier for the damage of every player hitbox and projectile.

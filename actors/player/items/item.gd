@@ -16,8 +16,11 @@ extends Resource
 ## (a lantern that shows hidden platforms) that work only while worn.
 ## DUMA: one slot. A song sung for `spirit_cost` with the duma button;
 ## its `ON_USE` effects run then (see `PlayerDumas`).
+## QUEST: never equipped and has no effects. Handed over to someone, who
+## takes it (`PlayerInventory.remove()`), like living water at a flask
+## healer.
 ## Saved as numbers in `.tres` files, so new kinds go at the end.
-enum Kind { CHARM, BLADE, KEEPSAKE, RELIC, DUMA }
+enum Kind { CHARM, BLADE, KEEPSAKE, RELIC, DUMA, QUEST }
 
 ## Saved to disk. Never rename one that has shipped.
 @export var id := &""
@@ -36,8 +39,8 @@ enum Kind { CHARM, BLADE, KEEPSAKE, RELIC, DUMA }
 
 
 func is_equipable() -> bool:
-	return kind != Kind.KEEPSAKE
+	return kind != Kind.KEEPSAKE and kind != Kind.QUEST
 
 
 static func kind_name(of: Kind) -> String:
-	return ["Charm", "Blade", "Keepsake", "Relic", "Duma"][of]
+	return ["Charm", "Blade", "Keepsake", "Relic", "Duma", "Quest item"][of]

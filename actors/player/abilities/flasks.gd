@@ -23,8 +23,8 @@ func _ready() -> void:
 	_announce.call_deferred()
 
 
-## Heal was pressed with a flask left and health missing. A flask is never
-## wasted at full health, and a jump pressed in the same frame wins.
+## Heal was pressed with a flask left. Drinking at full health is
+## allowed and wastes the flask. A jump pressed in the same frame wins.
 ## Pressing with none left tells the HUD (`Events.player_flasks_empty`).
 func wants() -> bool:
 	if not Input.is_action_just_pressed("heal") or Input.is_action_just_pressed("jump"):
@@ -32,12 +32,18 @@ func wants() -> bool:
 	if current <= 0:
 		Events.player_flasks_empty.emit()
 		return false
-	return player.health.current < player.health.max_health
+	return true
 
 
 ## Flasks carried when all are full.
 func max_flasks() -> int:
 	return roundi(player.stats.get_value(PlayerStats.FLASK_COUNT))
+
+
+## Flask healing upgrades from a flask healer. The HUD draws the pips
+## differently for each level.
+func level() -> int:
+	return player.upgrades.count(PlayerUpgrades.Kind.FLASK_HEAL)
 
 
 ## Health restored by one flask.
@@ -60,13 +66,14 @@ func refill() -> void:
 
 
 ## A lower count takes the extra flasks away; a higher one adds empty
-## slots that the next refill fills.
+## slots that the next refill fills. A heal change may be a new level.
 func _on_stat_changed(stat: StringName) -> void:
-	if stat != PlayerStats.FLASK_COUNT:
+	if stat == PlayerStats.FLASK_COUNT:
+		current = mini(current, max_flasks())
+	elif stat != PlayerStats.FLASK_HEAL:
 		return
-	current = mini(current, max_flasks())
 	_announce()
 
 
 func _announce() -> void:
-	Events.player_flasks_changed.emit(current, max_flasks())
+	Events.player_flasks_changed.emit(current, max_flasks(), level())

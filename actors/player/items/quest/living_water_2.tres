@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+
+[resource]
+script = ExtResource("item")
+id = &"living_water_2"
+title = "Living water of the well"
+description = "A vial of living water from a well in a burned village. A flask healer can mix it into your flasks."
+lore = "The village burned, but nobody would touch the well. Its water stayed cold through the whole fire."
+kind = 5
+price = 0

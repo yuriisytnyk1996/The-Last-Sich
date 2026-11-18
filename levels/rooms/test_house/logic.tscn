@@ -15,6 +15,8 @@
 [ext_resource type="Resource" path="res://actors/player/items/keepsakes/chumak_whip.tres" id="14_chumak_whip"]
 [ext_resource type="Resource" path="res://actors/player/items/keepsakes/icon_lamp.tres" id="15_icon_lamp"]
 
+[ext_resource type="PackedScene" path="res://levels/objects/flasks/flask_healer.tscn" id="16_healer"]
+
 [node name="Logic" type="Node2D"]
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
@@ -33,6 +35,9 @@ position = Vector2(384, 320)
 position = Vector2(600, 320)
 kind = 1
 price = 400
+
+[node name="FlaskHealer" parent="." instance=ExtResource("16_healer")]
+position = Vector2(416, 320)
 
 [node name="Exits" type="Node2D" parent="."]
 

@@ -7,7 +7,7 @@ Stats are the named numbers that items, skills and effects are allowed to change
 `Stats` (`components/stats/stats.gd`) is a node an actor carries. The player's is `PlayerStats` (`actors/player/player_stats.gd`), the `Stats` child of the player.
 
 1. **Defining.** A subclass declares its stats in `_define_stats()` with `define(stat, base, min, max)`. This runs once, the first time anything reads a stat, so readers never depend on node order. `PlayerStats` takes the bases from its `@export` values.
-2. **Modifiers.** A `StatModifier` (`components/stats/stat_modifier.gd`) is a resource: a stat name, a kind and a value. `add_modifier(modifier, source)` adds it under a source such as an item id. `remove_source(source)` takes back everything that source added. `add_timed_modifier(modifier, source, seconds)` removes it on its own after that much game time (paused time doesn't count).
+2. **Modifiers.** A `StatModifier` (`components/stats/stat_modifier.gd`) is a resource: a stat name, a kind and a value. `add_modifier(modifier, source)` adds it under a source such as an item id. `remove_source(source)` takes back everything that source added. `modifiers_from(source)` lists what a source added. Lowering a maximum cuts the current value down to it (health, spirit, flasks) and raising it back doesn't refill, so to replace a modifier add the new one before removing the old. `add_timed_modifier(modifier, source, seconds)` removes it on its own after that much game time (paused time doesn't count).
 3. **Value.** `get_value(stat)` is `(base + every FLAT) × (1 + every PERCENT)`, clamped to the stat's range. Percents add up instead of multiplying, so two +20 % modifiers make +40 %. A stat the node doesn't have returns the `fallback` argument.
 4. **Changes.** Every add or remove emits `stat_changed(stat)`. Readers that hold a value (health, flasks, spirit) update right away. The rest read the stat each time they need it.
 
@@ -83,7 +83,7 @@ Base values, on the player's **`Stats`** child node (`PlayerStats`):
 |---|---|---|---|---|
 | Health | `max_health` | 100 | 1 to 500 | Starting and maximum health |
 | Health | `flask_count` | 2 | 0 to 10 | Flasks carried when all are full |
-| Health | `flask_heal` | 40 | 0 and up | Health restored by one flask |
+| Health | `flask_heal` | 20 | 0 and up | Health restored by one flask |
 | Offense | `damage` | 1.0 | 0 and up | Multiplier for every player hitbox and projectile |
 | Offense | `attack_speed` | 1.0 | 0.25 to 3 | Divides swing startup and recovery. 1.2 is 20 % faster |
 | Offense | `crit_chance` | 0.05 | 0 to 1 | Chance a hit is critical |

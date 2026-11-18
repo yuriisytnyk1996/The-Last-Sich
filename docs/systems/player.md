@@ -180,11 +180,13 @@ Dash is a **ground move only** (`wants_dash()` needs `is_on_floor()`): it can't 
 The player carries `flask_count` healing flasks (the `Flasks` node, `PlayerFlasks`; both values are [stats](/systems/stats)). Pressing `heal` in Idle or Run enters **Heal**, which drinks one: it restores `flask_heal` health right away, then holds the player in place for `drink_time` while a placeholder aura (`Visual/HealAura`, the Heal state's `aura`) glows and fades out.
 
 - Only on the ground, in Idle or Run: not in the air, on a ladder, mid-attack, mid-dash, hurt or during a hard landing.
-- Heal does nothing at full health, so a flask is never wasted. Jump pressed in the same frame wins.
+- Any hit ends the drink, but the health stays healed: normal and heavy hits through Hurt, a light hit (no stagger) by ending Heal at once.
+- Heal works at full health too and wastes the flask. Jump pressed in the same frame wins.
 - With no flasks left, pressing heal (where it would otherwise work) sends `Events.player_flasks_empty`, and the HUD shakes the flask pips.
 - The health is restored when drinking starts, so a hit during the drink interrupts it (Hurt, as from any state) but doesn't take the healing back. The risk is the time spent standing still.
+- More flasks come from empty flasks found in rooms, and stronger ones from a flask healer (see [Flask upgrades](/systems/upgrades#flask-upgrades)). A new flask is empty until the next refill.
 - A [rest point](/systems/rest-points) refills every flask. So does respawning after death (`respawn(at)`).
-- Every change is sent as `Events.player_flasks_changed(current, maximum)`, plus once on spawn (deferred), which drives the flask pips in the [HUD](/systems/hud).
+- Every change is sent as `Events.player_flasks_changed(current, maximum, level)`, plus once on spawn (deferred), which drives the flask pips in the [HUD](/systems/hud).
 
 Flasks aren't saved: loading a save puts the player on a rest point, which refills them anyway.
 

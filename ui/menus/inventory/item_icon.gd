@@ -2,7 +2,8 @@ class_name ItemIcon
 extends Control
 ## Draws an item's `icon`, or a placeholder until items have art: a
 ## shape per kind (a gem for charms, a blade for blades, a pouch for
-## keepsakes, a lantern for relics, a scroll for dumas) with the first
+## keepsakes, a lantern for relics, a scroll for dumas, a vial for quest
+## items) with the first
 ## letter of the title in the corner (small icons only, where the shapes
 ## alone look alike).
 
@@ -12,6 +13,7 @@ const KIND_COLORS := {
 	Item.Kind.KEEPSAKE: Color(0.72, 0.52, 0.32),
 	Item.Kind.RELIC: Color(0.7, 0.85, 0.75),
 	Item.Kind.DUMA: Color(0.62, 0.7, 1.0),
+	Item.Kind.QUEST: Color(0.55, 0.85, 0.9),
 }
 const LETTER_COLOR := Color(1, 0.95, 0.85, 0.9)
 ## Icons taller than this (px) skip the letter.
@@ -53,6 +55,8 @@ func _draw() -> void:
 			_draw_lantern(center, r, color)
 		Item.Kind.DUMA:
 			_draw_scroll(center, r, color)
+		Item.Kind.QUEST:
+			_draw_vial(center, r, color)
 	if size.y > LETTER_MAX_SIZE:
 		return
 	var font := get_theme_default_font()
@@ -120,3 +124,12 @@ func _draw_scroll(c: Vector2, r: float, color: Color) -> void:
 	for i in 3:
 		var y := -r * 0.3 + r * 0.3 * i
 		draw_line(c + Vector2(-r * 0.35, y), c + Vector2(r * 0.35, y), roll)
+
+
+func _draw_vial(c: Vector2, r: float, color: Color) -> void:
+	draw_circle(c + Vector2(0, r * 0.35), r * 0.6, color)
+	draw_rect(Rect2(c + Vector2(-r * 0.2, -r * 0.7), Vector2(r * 0.4, r * 0.6)), color)
+	draw_rect(
+		Rect2(c + Vector2(-r * 0.3, -r * 0.95), Vector2(r * 0.6, r * 0.25)), color.darkened(0.4)
+	)
+	draw_circle(c + Vector2(-r * 0.2, r * 0.2), r * 0.15, color.lightened(0.6))

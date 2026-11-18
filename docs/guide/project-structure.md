@@ -58,7 +58,7 @@ The-Last-Sich/
 │   │   │   ├── unlocks.gd        Traversal unlocks given by items (seeing reveal platforms)
 │   │   │   ├── flasks.gd         Healing flask charges (count and heal from stats)
 │   │   │   ├── wallet.gd         Currency the player carries, spent on skills and shops, saved
-│   │   │   ├── upgrades.gd       Permanent max health and max spirit upgrades, saved
+│   │   │   ├── upgrades.gd       Permanent max health, max spirit, flask and flask healing upgrades, saved
 │   │   │   ├── skills.gd         Learned skills and the rules for learning them, saved
 │   │   │   ├── inventory.gd      Owned and worn items, slots, saved
 │   │   │   ├── item_effects.gd   Starts and stops the effects of carried and worn items
@@ -77,7 +77,8 @@ The-Last-Sich/
 │   │   │   ├── dumas/            One .tres per duma
 │   │   │   ├── blades/           One .tres per blade
 │   │   │   ├── relics/           One .tres per relic (traversal tools, worn)
-│   │   │   └── keepsakes/        One .tres per keepsake
+│   │   │   ├── keepsakes/        One .tres per keepsake
+│   │   │   └── quest/            One .tres per quest item (living water)
 │   │   ├── skills/               Upgrades learned at skill shrines
 │   │   │   ├── player_skill.gd   Skill resource: id, text, tier, cost, parent
 │   │   │   ├── combo/            combo_1/2/3.tres: the combo finishers
@@ -202,7 +203,7 @@ The-Last-Sich/
 │   │   ├── death_mark.tscn       Its scene
 │   │   ├── cleanse_point.gd      Pay to clear every death mark
 │   │   ├── cleanse_point.tscn    Cleanse point scene
-│   │   ├── stat_upgrade.gd       Upgrade shrine: max health or max spirit, free or paid, once
+│   │   ├── stat_upgrade.gd       Upgrade shrine: a permanent stat upgrade, free or paid, once
 │   │   ├── stat_upgrade.tscn     Its scene
 │   │   ├── skill_shrine.gd       Opens the skill menu with interact
 │   │   ├── skill_shrine.tscn     Skill shrine scene
@@ -213,6 +214,7 @@ The-Last-Sich/
 │   │   ├── boss_arena.gd         Boss fight: trigger, gates, reward, saved win
 │   │   ├── boss_arena.tscn       Its scene (add a trigger shape and gates)
 │   │   ├── items/                Item pickups, shop stands and chests (item_pickup, shop_item, chest)
+│   │   ├── flasks/               Empty flask pickup (+1 flask) and the flask healer (stronger flasks)
 │   │   ├── mechanisms/           Levers, pressure plates and the gates they open
 │   │   ├── traversal/            Climb walls, reveal platforms
 │   │   ├── breakables/           Breakable crate, cracked wall and secret wall (breakable.gd, crate.tscn, breakable_wall.tscn, secret_wall.tscn)
@@ -266,7 +268,8 @@ The-Last-Sich/
 │   │   ├── shop/
 │   │   │   ├── buy_screen.gd     Shop stand page: item, price, buy
 │   │   │   ├── cleanse_screen.gd Cleanse point page: marks, price, cleanse
-│   │   │   └── upgrade_screen.gd Paid upgrade shrine page: what it adds, price, offer
+│   │   │   ├── upgrade_screen.gd Paid upgrade shrine page: what it adds, price, offer
+│   │   │   └── flask_healer_screen.gd Flask healer page: living water, price, offer
 │   │   ├── inventory/
 │   │   │   ├── inventory_screen.gd Inventory page: tabs, worn row, grid, details
 │   │   │   ├── inventory_tabs.gd The tab bar

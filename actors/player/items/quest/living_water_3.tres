@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+
+[resource]
+script = ExtResource("item")
+id = &"living_water_3"
+title = "Living water of the dew"
+description = "A vial of living water gathered as dew on the night of Kupala. A flask healer can mix it into your flasks."
+lore = "Gathered barefoot before sunrise, from grass no one had walked on. Girls washed their faces in it; this vial was kept for wounds instead."
+kind = 5
+price = 0

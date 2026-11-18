@@ -1,6 +1,6 @@
 # Inventory
 
-Items the player carries: charms worn in slots for passive bonuses, a [duma](/systems/dumas) sung for spirit, a blade that trades one strength for another, relics (traversal tools such as the seer's lantern) that work while worn, and keepsakes that work just by being carried. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt, on use). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the inventory page, and saved.
+Items the player carries: charms worn in slots for passive bonuses, a [duma](/systems/dumas) sung for spirit, a blade that trades one strength for another, relics (traversal tools such as the seer's lantern) that work while worn, keepsakes that work just by being carried, and quest items that are handed over to someone. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt, on use). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the inventory page, and saved.
 
 ## How it works
 
@@ -21,7 +21,7 @@ Opened with `inventory` (I) or from the pause menu's **Inventory** button. The s
 
 ```
               Charms
-   < Q  Charms  Dumas  Blades  Relics  Keepsakes  E >
+   < Q  Charms  Dumas  Blades  Relics  Keepsakes  Quest items  E >
  Worn                              ┌─────────────────┐
  [■][■][ ][ ][ ][x][x][x]          │       ◆         │
  Carried                           │   Iron cross    │
@@ -32,16 +32,16 @@ Opened with `inventory` (I) or from the pause menu's **Inventory** button. The s
 ```
 
 - **Tabs** (`InventoryTabs`): one per kind. `menu_tab_prev` and `menu_tab_next` (Q / E, shoulder buttons) step through them and wrap; tabs can be clicked. The open tab is lit and underlined, and its name is the page title.
-- **Worn row**: every slot the kind can ever have (`PlayerInventory.max_slots()`: 8 charms, 1 duma, 1 blade, 3 relics). Open slots show the worn items in order; slots not opened yet are dark and crossed. The row can't be focused; it lights the slot of the item focused in the grid. Keepsakes have no worn row.
+- **Worn row**: every slot the kind can ever have (`PlayerInventory.max_slots()`: 8 charms, 1 duma, 1 blade, 3 relics). Open slots show the worn items in order; slots not opened yet are dark and crossed. The row can't be focused; it lights the slot of the item focused in the grid. Keepsakes and quest items have no worn row.
 - **Grid** (`InventoryGrid`): the owned items of the kind in `all` order, 8 per row, padded with empty cells to at least 3 rows. Worn items have a gold back and frame. The focused cell has a bright frame with corner ticks.
 - **Details** (`ItemDetails`): the focused item drawn large, its name, kind (with the spirit cost for a duma) and "Worn", and its description. Empty for an empty cell.
 - **Footer**: the currency, then hints for the focused item: "Accept: Wear", "Accept: Take off" or "No free slot", "Lore: Read" when it has lore, and "Back: Close".
-- **Accept** on a charm or relic wears it in the first free slot or takes it off; on a blade or duma it replaces the worn one. Keepsakes do nothing. With every slot full the hint reads "No free slot".
+- **Accept** on a charm or relic wears it in the first free slot or takes it off; on a blade or duma it replaces the worn one. Keepsakes and quest items do nothing. With every slot full the hint reads "No free slot".
 - **Lore**: `menu_lore` (R / Y) opens a `LoreScreen` for the focused item: its icon drawn large, its name and its `lore` text. `menu_lore` again or back returns to the inventory, on the same cell. Items without `lore` don't open it. Every item has lore.
 - The worn slot is never chosen: wearing always fills the first free slot. The cursor stays in the grid.
 - The page opens on the tab and cell of the **newest item** (`PlayerInventory.take_newest()`) when one was added since the last look, else on the tab and cell used last.
 
-Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a steel blade for blades, a pale lantern for relics, a leather pouch for keepsakes, a blue scroll for dumas, with the first letter of the title in the corner of small icons. An item with an `icon` texture shows that instead.
+Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a steel blade for blades, a pale lantern for relics, a leather pouch for keepsakes, a blue scroll for dumas, a pale blue vial for quest items, with the first letter of the title in the corner of small icons. An item with an `icon` texture shows that instead.
 
 ### Kinds and slots
 
@@ -52,6 +52,7 @@ Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a s
 | `BLADE` | 1 (`PlayerInventory.BLADE_SLOTS`) | Wearing a blade replaces the one worn |
 | `RELIC` | 3 (`PlayerInventory.RELIC_SLOTS`) | Traversal tools. Their `EQUIPPED` effects run only while worn, so the player chooses which to use |
 | `KEEPSAKE` | none | Never worn. Its `OWNED` effects run while it is carried |
+| `QUEST` | none | Never worn, no effects. Someone takes it from the player (`PlayerInventory.remove()`), like living water at a [flask healer](/systems/upgrades#flask-upgrades) |
 
 If the charm slot count drops (a save without the pouch), the last charms worn come off.
 
@@ -96,6 +97,7 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 | Spare gourd | Keepsake | 800 | Flasks +1 |
 | Chumak's whip | Keepsake | 600 | [Travel](/systems/travel) between rest points |
 | Icon lamp | Keepsake | 500 | Rest points fill [spirit](/systems/spirit); respawn with it full |
+| Living water (5: rapids, well, dew, spring, steppe) | Quest item | – | Taken by a flask healer for one [flask healing](/systems/upgrades#flask-upgrades) upgrade |
 | Seer's lantern | Relic | 1000 | Shows reveal platforms while worn |
 
 The seven dumas are listed on the [Dumas](/systems/dumas#dumas) page.
@@ -119,7 +121,7 @@ In debug builds the inventory page footer has a **Debug: get all** button (mouse
 | `actors/player/items/effects/stat_effect.gd` | `StatEffect`: stat modifiers while it runs |
 | `actors/player/items/effects/restore_effect.gd` | `RestoreEffect`: health, spirit or currency once |
 | `actors/player/items/effects/unlock_effect.gd` | `UnlockEffect`: a traversal unlock while it runs |
-| `actors/player/items/charms/`, `dumas/`, `blades/`, `relics/`, `keepsakes/` | One `.tres` per item |
+| `actors/player/items/charms/`, `dumas/`, `blades/`, `relics/`, `keepsakes/`, `quest/` | One `.tres` per item |
 | `actors/player/abilities/inventory.gd` | `PlayerInventory`: every item, owned, worn, slots, saved |
 | `actors/player/abilities/item_effects.gd` | `PlayerItemEffects`: starts and stops effects |
 | `levels/objects/items/item_pickup.gd` / `.tscn` | `ItemPickup`: an item to pick up once |
@@ -154,6 +156,7 @@ In debug builds the inventory page footer has a **Debug: get all** button (mouse
 - **Selling an item:** place a `ShopItem` stand, see [Shops](/systems/shops).
 - **Giving an item from a script** (a boss reward, a chest): `player.inventory.add(item)`.
 - **Checking for an item** (a key for a door): `player.inventory.owns(item)`.
+- **Taking an item away** (a quest item handed over): `player.inventory.remove(item)`. It also comes off if worn.
 
 ## Known limitations
 
