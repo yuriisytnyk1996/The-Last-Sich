@@ -162,9 +162,10 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 - Ground on both sides of a pit, with a kill zone in the pit
 - Walls at both edges, with a gap at the bottom of the right wall: the `East` exit leads to the test cave
+- A [rest point](/systems/rest-points) at the far left (x 48), next to the spawn point
 - A door (`HouseDoor`) near the start, leading to the test house
 - A second door (`BarracksDoor`) on the ground just left of the pit, leading to the test barracks
-- A low step (2 tiles high) on the left, then a mid ledge 2 tiles above it
+- A low step (2 tiles high) on the left, then a mid ledge 2 tiles above it. The owl feather and a tier relic lie on top of the step
 - A one-way bridge (lighter colour) over the pit, level with the mid ledge
 - A step block on the right side with a high ledge 2 tiles above it
 - Spikes (red, 40 px wide) on the right ground, under `Hazards`: instant death when stepped in, easy to jump over. See [Combat](/systems/combat#spikes)

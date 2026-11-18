@@ -45,7 +45,7 @@ A rest point has no values of its own. `press_interact` comes from `InteractionA
 
 ## Extending
 
-- Place one by instancing `levels/objects/rest_point.tscn` anywhere in a room, standing on the ground. The test house and the test cave have one each. Keep rest points in separate [map cells](/systems/map#cells): travel tells them apart by cell.
+- Place one by instancing `levels/objects/rest_point.tscn` anywhere in a room, standing on the ground. The test room, the test house and the test cave have one each. Keep rest points in separate [map cells](/systems/map#cells): travel tells them apart by cell.
 - The node path inside the room is what `World` remembers and saves, so renaming or moving a rest point inside its room loses it as a respawn point until it's used again. A save pointing at a missing rest point respawns the player at the room's spawn point instead.
 
 ## Known limitations
