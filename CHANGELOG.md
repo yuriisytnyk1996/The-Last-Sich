@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.19](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.18...v0.0.19) (2026-11-18)
+
+### Features
+
+* **environment:** add crumbling platforms ([14ee4cd](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/14ee4cdbcf082530d2745d8155639202bfba48a4))
+* **player:** add soft landing from the owl feather charm ([dd5f554](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/dd5f5542b65c9d53ef0c2375699ed04f7d0d7e63))
+* **save:** add save slots and a slot-select screen ([0c63923](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/0c639234d4ffc94620df3b8ae2bbe50a4a33ccb7))
+* **traversal:** add attack switches ([98aaf07](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/98aaf07bbe7ff68fbad8da2cf065d1caa8511bb7))
+
+### Bug Fixes
+
+* **inventory:** list every item, make the owl feather a relic ([71c6341](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/71c6341d820d0e66303c075b1f365c5dc30f1afc))
+* **player:** grab only terrain ledges, never gates or props ([eca212c](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/eca212c69c48cf16801e0f29b7aafd61d058693b))
+* **rooms:** add a test room rest point, lift items out of the step ([2ca1d57](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/2ca1d57e00b36d86463097e91b92837e726a397e))
+
 ## [0.0.18](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.17...v0.0.18) (2026-11-18)
 
 ### Features
