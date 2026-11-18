@@ -128,6 +128,14 @@ func use(item: Item, extra_time := 0.0) -> float:
 	return longest
 
 
+## False when one of the ON_USE effects of `item` can't start right now.
+func can_use(item: Item) -> bool:
+	for effect in item.effects:
+		if effect.trigger == ItemEffect.Trigger.ON_USE and not effect.can_start(player):
+			return false
+	return true
+
+
 ## Stops the ON_USE effects of `item` that are still running.
 func end_use(item: Item) -> void:
 	for i in item.effects.size():

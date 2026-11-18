@@ -38,6 +38,14 @@ func _physics_process(delta: float) -> void:
 			_fire()
 
 
+## How far the warning before the next shot has got: 0 when it shows, 1
+## at the shot. 0 while it isn't showing.
+func warn_fraction() -> float:
+	if warn_time <= 0.0 or not warning.visible:
+		return 0.0
+	return clampf((_time - (fire_interval - warn_time)) / warn_time, 0.0, 1.0)
+
+
 func _fire() -> void:
 	if projectile_scene == null:
 		return

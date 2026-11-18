@@ -15,6 +15,9 @@ extends Node2D
 ## can't undo the death penalty (see `DeathPenalty`). A new game saves at
 ## once, so its slot shows as taken on the slot-select screen.
 ##
+## The duma of return (`Events.return_requested`) fades out and puts the
+## player back at the last rest point, without healing them.
+##
 ## Travel between rest points: after a rest with travel unlocked it opens
 ## the kneel prompt, and on `Events.travel_requested` it fades out, loads
 ## the chosen rest point's room and makes that rest point the respawn point.
@@ -44,6 +47,7 @@ func _ready() -> void:
 	Events.player_died.connect(_on_player_died)
 	Events.travel_offered.connect(pause_menu.open_kneel)
 	Events.travel_requested.connect(_on_travel_requested)
+	Events.return_requested.connect(_on_return_requested)
 	SaveManager.register(self)
 	if SaveManager.load_game() and ResourceLoader.exists(_rest_room):
 		_respawn_at_rest_point()
@@ -107,6 +111,23 @@ func _travel_to(room_path: String, cell: Vector2i) -> void:
 		return
 	player.respawn(target.global_position)
 	Events.rested.emit(target)
+
+
+func _on_return_requested() -> void:
+	_transition(_return_to_rest_point)
+
+
+## The duma of return: back to the last rest point used, loading its room,
+## with health, flasks and spirit as they are. Before any rest, back to
+## where the player entered the current room.
+func _return_to_rest_point() -> void:
+	if _rest_room == "":
+		player.respawn(room.get_respawn_position(), false)
+		return
+	_load_room(_rest_room, &"")
+	var rest_point := _current_rest_point()
+	var at := rest_point.global_position if rest_point else room.get_respawn_position()
+	player.respawn(at, false)
 
 
 ## The rest point of the current room on map `cell`, or null.

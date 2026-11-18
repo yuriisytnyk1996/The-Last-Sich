@@ -20,6 +20,7 @@ Without it, a kill zone would need a reference to the room, the HUD, the audio m
 | `item_obtained(item)` | `PlayerInventory.add()` | `ItemToast` in the HUD | The player got `item` |
 | `player_unlocks_changed` | `PlayerUnlocks` (an unlock gained or lost) | `RevealPlatform` | The player's traversal unlocks changed, see [Traversal](/systems/traversal#unlocks) |
 | `rested(rest_point)` | `RestPoint` (the player pressed up at it) | `World` (remembers it as the respawn point and saves the game), every `RestPoint` (lights the used one) | The player rested; `rest_point` is the node |
+| `return_requested` | `ReturnEffect` (the [Duma of the Road Home](/systems/dumas#dumas) was sung) | `World` (fades out and puts the player back at the last rest point, without healing) | Take the player back to the last rest point used |
 | `room_change_requested(room_path, exit_name)` | `RoomExit` (the player touched it, or pressed up at a door) | `World` (fades out, swaps the room, fades in) | Load `room_path` and place the player at its exit named `exit_name` |
 
 ## Usage

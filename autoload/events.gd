@@ -68,6 +68,11 @@ signal travel_offered
 @warning_ignore("unused_signal")
 signal travel_requested(room_path: String, cell: Vector2i)
 
+## The player sang the duma of return (`ReturnEffect`). The world takes
+## them back to the last rest point they used.
+@warning_ignore("unused_signal")
+signal return_requested
+
 ## The player walked through a `RoomExit`. The world fades out, loads
 ## `room_path` and places the player at the exit named `exit_name` there.
 @warning_ignore("unused_signal")

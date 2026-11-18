@@ -1,0 +1,18 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://levels/room.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://levels/rooms/test_crypt/deco.tscn" id="2_deco"]
+[ext_resource type="PackedScene" path="res://levels/rooms/test_crypt/layout.tscn" id="3_layout"]
+[ext_resource type="PackedScene" path="res://levels/rooms/test_crypt/logic.tscn" id="4_logic"]
+
+[node name="TestCrypt" type="Node2D"]
+script = ExtResource("1_room")
+bounds = Rect2i(0, 0, 960, 360)
+map_cell = Vector2i(-5, 0)
+map_zone = "Crypt"
+
+[node name="Deco" parent="." instance=ExtResource("2_deco")]
+
+[node name="Layout" parent="." instance=ExtResource("3_layout")]
+
+[node name="Logic" parent="." instance=ExtResource("4_logic")]

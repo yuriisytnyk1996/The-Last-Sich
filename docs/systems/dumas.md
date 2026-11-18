@@ -19,7 +19,7 @@ Idle / Run ──duma pressed──► can sing? ──no──► Events.spirit
 ```
 
 1. A duma is an `Item` with `kind = DUMA` (`actors/player/items/dumas/<id>.tres`). It has a `spirit_cost` and effects with the `ON_USE` trigger. There is one duma slot; wearing another duma replaces the worn one. See [Inventory](/systems/inventory#kinds-and-slots).
-2. In Idle or Run, a press of `duma` asks `PlayerDumas.wants()` (`actors/player/abilities/dumas.gd`). It can sing when a duma is worn, none is running and the player has at least `cost()` spirit: the duma's `spirit_cost` plus the `duma_cost` [stat](/systems/stats). Otherwise it emits `Events.spirit_short` and the spirit bar flashes red. A press while a duma is running does nothing.
+2. In Idle or Run, a press of `duma` asks `PlayerDumas.wants()` (`actors/player/abilities/dumas.gd`). It can sing when a duma is worn, none is running, the player has at least `cost()` spirit (the duma's `spirit_cost` plus the `duma_cost` [stat](/systems/stats)) and every `ON_USE` effect of the duma can start now (`ItemEffect.can_start()`, asked through `PlayerItemEffects.can_use()`). Otherwise it emits `Events.spirit_short` and the spirit bar flashes red. A press while a duma is running does nothing.
 3. The **Duma** state (`actors/player/states/duma.gd`) plants the player on the ground with no control. The `DumaAura` placeholder fades in over `cast_point`.
 4. At the cast point it calls `PlayerDumas.begin()`. The spirit is spent, and `PlayerItemEffects.use(item, extra)` starts every `ON_USE` effect of the duma. Effects with a `duration` run for that long plus the `duma_duration` stat, then stop on their own.
 5. The aura flashes and fades during `recovery`, then the player is back in Idle or Run. A hit before the cast point interrupts the cast and nothing is spent. Walking off a ledge drops into Fall.
@@ -30,12 +30,14 @@ Idle / Run ──duma pressed──► can sing? ──no──► Events.spirit
 
 ### Duma effects
 
-Dumas are built from [item effects](/systems/inventory#effects) with the `ON_USE` trigger. Four effect types exist for them; attacks they spawn are scaled by `PlayerDumas.strength()`, the `duma_strength` stat, on top of the player's `damage` stat.
+Dumas are built from [item effects](/systems/inventory#effects) with the `ON_USE` trigger. Five effect types exist for them; attacks they spawn are scaled by `PlayerDumas.strength()`, the `duma_strength` stat, on top of the player's `damage` stat.
 
 - **`BlastRowEffect`**: a row of `PlayerBlast`s along the ground from the player's feet, one after another. The first goes off `offset` px in front, the next ones `spacing` further each, spread evenly over `spread_time`; `both_sides` sends a second row behind. A wall ends the row (a ray at `WALL_CHECK_HEIGHT` above the feet). `count` 1 with `offset` 0 is a single blast on the player.
 - **`VolleyEffect`**: `shots` `PlayerProjectile`s forward from the chest (`muzzle`), `interval` apart, each after the first up to `spread` px higher or lower at random.
 - **`SummonEffect`**: puts a scene next to the player for the effect's `duration`, calling its `follow(player)` before adding it and its `dismiss()` when the effect stops. Used for the `SabreRing`.
 - **`HeavyStrikesEffect`**: every swing hitbox under `Visual/Attacks` deals HEAVY hits while it runs (longer stagger, more knockback, double spirit); their own reaction comes back when it stops.
+
+- **`ReturnEffect`**: sends `Events.return_requested`. `World` fades out and puts the player back at the last [rest point](/systems/rest-points) they used, loading its room. Health, flasks and spirit stay as they are: it is a way home, not a rest, and the respawn point doesn't change. Before any rest, it puts the player where they entered the current room. Its `can_start()` is false during a [boss fight](/systems/bosses) (`BossArena.FIGHT_GROUP`), so the duma isn't sung there and the spirit bar flashes.
 
 The existing `StatEffect` and `RestoreEffect` work with `ON_USE` too: the Iron Hand pairs `HeavyStrikesEffect` with a `StatEffect` for damage.
 
@@ -54,8 +56,9 @@ The existing `StatEffect` and `RestoreEffect` work with `ON_USE` too: the Iron H
 | Duma of the Calm Sea | 15 | 550 | A `StunBurst` (144 × 56 px) around the player: 10 damage, stuns |
 | Duma of the Sabre Ring | 20 | 800 | 3 sabres circle the player for 15 s, 15 damage per hit, destroy enemy shots |
 | Duma of the Iron Hand | 20 | 800 | For 20 s every swing is HEAVY and damage is +25% |
+| Duma of the Road Home | 30 | 500 | Back to the last rest point used, without healing. Not during a boss fight |
 
-All seven lie in the test room, past the pit east of the training dummy.
+The first seven lie in the test room, past the pit east of the training dummy. The Road Home lies at the west end of the [test crypt](/systems/environment#test-crypt-layout).
 
 ## Files
 
@@ -68,6 +71,7 @@ All seven lie in the test room, past the pit east of the training dummy.
 | `actors/player/items/effects/volley_effect.gd` | `VolleyEffect`: a few shots forward |
 | `actors/player/items/effects/summon_effect.gd` | `SummonEffect`: a scene beside the player while it runs |
 | `actors/player/items/effects/heavy_strikes_effect.gd` | `HeavyStrikesEffect`: HEAVY swings while it runs |
+| `actors/player/items/effects/return_effect.gd` | `ReturnEffect`: back to the last rest point (`Events.return_requested`) |
 | `actors/player/attacks/sabre_ring.gd` / `.tscn` | `SabreRing`: the circling sabres |
 | `actors/player/attacks/fire_pillar.tscn`, `thunder_beam.tscn`, `stun_burst.tscn` | `PlayerBlast` scenes for dumas |
 | `actors/player/attacks/duma_shot.tscn` | `PlayerProjectile` for the Three Brothers |
@@ -134,7 +138,7 @@ Attack scenes:
 ## Extending
 
 - **A new duma:** create an `Item` `.tres` in `actors/player/items/dumas/` with `kind = DUMA`, a `spirit_cost`, a description that names the cost, a lore, and effects with `trigger = ON_USE`. Add it to `Inventory.all` on the player scene. A lasting duma needs a `duration` on its effects.
-- **A new kind of effect:** extend `ItemEffect`, override `start()` (and `stop()` if it lasts). Scale any damage by `player.dumas.strength()`. Spawn attacks under `player.get_parent()`, as the other effects do.
+- **A new kind of effect:** extend `ItemEffect`, override `start()` (and `stop()` if it lasts). Override `can_start()` if the duma must not be sung in some situations. Scale any damage by `player.dumas.strength()`. Spawn attacks under `player.get_parent()`, as the other effects do.
 - **A charm that changes dumas:** a `StatEffect` on `duma_cost`, `duma_duration` or `duma_strength`.
 
 ## Known limitations
@@ -142,3 +146,4 @@ Attack scenes:
 - Placeholder rectangles for the aura, pillars, beam, burst, shots and sabres. No singing sound.
 - Hits from duma attacks don't fill spirit and don't set off `ON_HIT` item effects (they are spawned after the player is ready).
 - Only Idle and Run can start a duma; a press during a swing or in the air is ignored without a flash.
+- A duma that can't be sung right now (the Road Home in a boss fight) flashes the spirit bar like a lack of spirit; there is no message saying why.

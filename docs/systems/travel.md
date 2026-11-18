@@ -74,6 +74,7 @@ The Chumak's whip costs 600 at the test house [shop](/systems/shops).
 
 - **A new rest point to travel to:** place `levels/objects/rest_point.tscn` in a room. Any rest point the map has seen is a target. The test house and the test cave each have one.
 - **Two rest points in one map cell:** only one can be told apart, since travel picks by cell. Keep rest points in separate cells.
+- **A way back without the map:** the [Duma of the Road Home](/systems/dumas#dumas) takes the player to the last rest point used, from anywhere.
 - **Another source of travel:** grant `PlayerUnlocks.REST_TRAVEL` from any item through an `UnlockEffect`. A later progression system can grant it instead.
 
 ## Known limitations

@@ -1,6 +1,6 @@
 # Environment
 
-Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, crumbling platforms, timed platform sequences, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
+Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, crumbling platforms, timed platform sequences, elevators, timed traps, turrets, drip traps, ghost traps (pages that flutter up, for show), shockwave areas, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
 
 ## How it works
 
@@ -67,6 +67,37 @@ Sink each stop into the floor by the elevator's thickness, so its top is level w
 
 `Turret` (`levels/objects/traps/turret.gd`) fires a bolt along its local +x every `fire_interval`. Its `Warning` shows `warn_time` before each shot. The bolt (`turret_bolt.tscn`) is an `EnemyProjectile` (see [Enemies](/systems/enemies)): it stops at walls, can't be parried, and the turret itself can't be destroyed. With `trigger_range` above 0 it only fires while the player is that close.
 
+### Drip traps
+
+`DripTrap` (`levels/objects/traps/drip/drip_trap.gd`, scene `drip_trap.tscn`) is a spout in the ceiling that drips burning tar. It is a [turret](#turrets) that doesn't shoot:
+
+1. Every `fire_interval` a drop swells under the spout for `warn_time`: the `Warning` bead grows from a third of its size to a full drop (`Turret.warn_fraction()`).
+2. The drop lets go. It is a `LiquidDrop` (`liquid_drop.gd`, `liquid_drop.tscn`), an `EnemyProjectile` that starts still and falls with `fall_acceleration` up to `max_fall_speed`.
+3. It bursts on the first thing it touches: the player (20 FIRE damage), a wall, the floor or a one-way plank (its mask is `world` and `platforms`). It can't be parried.
+
+A row of spouts with different `offset`s makes a curtain the player times a run through. `trigger_range` (360 px in the scene) keeps a spout quiet while the player is far away. Put the origin on the ceiling's underside and don't rotate it: drops always fall straight down.
+
+### Ghost traps
+
+`GhostTrap` (`levels/objects/traps/ghost/ghost_trap.gd`, scene `ghost_trap.tscn`) is a haunted spot that stirs as the player passes, a zone on the [`AreaEffect`](#zones) base. It does no harm: loose pages lift and flutter around the player's feet, as if blown by something unseen.
+
+1. When the player enters, a burst of one to `max_pages` pages flies up where they stand (`burst_offset` from their feet).
+2. While they stay inside, another burst comes every `trigger_interval`, but only once they have moved `move_threshold` px from the last one. Standing still stirs nothing; walking or dashing through leaves a trail of pages.
+3. Bursts stay inside the zone sideways: the player's x is clamped to it, so jumping past its edge doesn't throw pages outside it.
+4. Each `GhostPage` (`ghost_page.gd`, `ghost_page.tscn`) takes one of three flights at random (up and left, straight up, up and right) at a random pace (`pace_range`). It slows down (`drag`), sways (`sway`, `sway_rate`) and spins on the way, fades out over the last `fade_part` of its flight and goes back to the [pool](/architecture/object-pooling). It touches nothing.
+
+Lay the zone along the floor, a few tiles tall, where the player walks.
+
+### Shockwave areas
+
+`ShockwaveArea` (`levels/objects/traps/shockwave_area.gd`) is a stretch of floor that quakes on a cycle, also on the `AreaEffect` base:
+
+1. Quiet for `off_time`.
+2. The ground trembles for `warn_time`: the band flickers.
+3. A shockwave runs through it: for `on_time` a HEAVY hit (`damage` 30, knocked up and away from the middle) covers the whole zone. The camera shakes if the player is within `shake_range`.
+
+The zone is the band that hurts, so lay it on the floor about 12 px tall: a player in the air when it strikes is safe, and so is one standing on a plank above it. It is HEAVY, so a player on the [parry guard](/systems/combat#guard-slide) takes it as a guard slide instead. `offset` shifts the cycle, so neighbouring stretches can quake in turn. The hit is built in code on the `hazards` layer and only hurts the player.
+
 ### Zones
 
 `AreaEffect` (`levels/objects/zones/area_effect.gd`) is the base of every zone. The origin is the top left corner, `size` sets the area (the collision shape is built from it at runtime), and it draws a placeholder tint, also in the editor. When the player enters, it registers with `PlayerAreaEffects` (`actors/player/abilities/area_effects.gd`), which combines every zone the player is in:
@@ -86,6 +117,15 @@ Zones only affect the player. Enemies walk through them unchanged.
 - **Upper floor** (y 320), left to right: two crates by the entrance, a wind zone blowing left, a 4-tile gap down to the lower floor, a row of three spike traps striking in a wave, the cracked wall with a crate worth 30 behind it, and the elevator with a call lever.
 - **Lower floor** (y 672), right to left from the elevator: the lower call lever, a mud pool, two fire traps, a pit (with a `KillZone`) crossed by a sideways moving platform, a poison cloud, and a vertical moving platform that rises through the upper floor's gap back to the top. A turret on the left wall fires along the lower floor while the player is near. An `East` doorway at the bottom of the right wall leads to the [test vault](/systems/traversal#test-vault-layout).
 
+## Test crypt layout
+
+`levels/rooms/test_crypt.tscn` is a 960×360 room west of the [test house](/systems/rooms#test-house-layout), through a `West` opening in the house's left wall (map cell (-5, 0), zone `Crypt`). From the entrance on the east, going west:
+
+- Three drip traps over the corridor (x 776, 816, 856), out of step, then a one-tile step.
+- Two shockwave areas side by side (x 480 to 704) that quake in turn, with a one-way plank 3 tiles above the floor to wait on.
+- A ghost trap along the floor of the west part of the room (x 96 to 416): pages flutter up as the player walks through.
+- The [Duma of the Road Home](/systems/dumas#dumas) at the far west end, so the way back can be tested at once.
+
 ## Files
 
 | File | Role |
@@ -104,10 +144,16 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `levels/objects/traps/spike_trap.tscn`, `fire_trap.tscn` | The two timed traps |
 | `levels/objects/traps/turret.gd`, `turret.tscn` | `Turret`: fires bolts on a timer |
 | `levels/objects/traps/turret_bolt.tscn` | The turret's bolt |
+| `levels/objects/traps/drip/drip_trap.gd`, `.tscn` | `DripTrap`: ceiling spout, a swelling drop on a timer |
+| `levels/objects/traps/drip/liquid_drop.gd`, `.tscn` | `LiquidDrop`: a falling drop that bursts on contact |
+| `levels/objects/traps/ghost/ghost_trap.gd`, `.tscn` | `GhostTrap`: haunted zone that blows pages up around the moving player |
+| `levels/objects/traps/ghost/ghost_page.gd`, `.tscn` | `GhostPage`: one fluttering page, for show only; pooled |
+| `levels/objects/traps/shockwave_area.gd` | `ShockwaveArea`: floor band that quakes on a cycle |
 | `levels/objects/zones/area_effect.gd` | `AreaEffect`: base zone, size, tint, player tracking |
 | `levels/objects/zones/wind_zone.gd`, `mud_zone.gd`, `poison_zone.gd` | The three zones |
 | `actors/player/abilities/area_effects.gd` | `PlayerAreaEffects`: combines the zones the player is in |
-| `levels/rooms/test_works.tscn`, `test_works/` | Test room with every piece |
+| `levels/rooms/test_works.tscn`, `test_works/` | Test room with most pieces |
+| `levels/rooms/test_crypt.tscn`, `test_crypt/` | Test room with the drip traps, shockwave areas and ghost trap |
 
 ## Tuning
 
@@ -155,6 +201,31 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `offset` | `Turret` | 0 | Cycle shift (s) |
 | `trigger_range` | `Turret` | 0 | Fires only while the player is this close (px). 0: always |
 | `speed`, `lifetime` | turret bolt | 160, 3.0 | Bolt speed (px/s) and life (s) |
+| `fire_interval` | drip trap | 1.6 | Seconds between drops |
+| `warn_time` | drip trap | 0.7 | Seconds a drop swells before it falls |
+| `trigger_range` | drip trap | 360 | Drips only while the player is this close (px) |
+| `fall_acceleration` | `LiquidDrop` | 700 | Gravity on the drop (px/s²) |
+| `max_fall_speed` | `LiquidDrop` | 380 | Fastest fall (px/s) |
+| `damage`, `lifetime` | liquid drop | 20 (FIRE), 3.0 | Damage and life (s) |
+| `page_scene` | `GhostTrap` | `ghost_page.tscn` | The page it blows up |
+| `max_pages` | `GhostTrap` | 3 | Most pages in one burst (one to this many, at random) |
+| `burst_offset` | `GhostTrap` | (0, -4) | Burst point, from the player's feet (px) |
+| `trigger_interval` | `GhostTrap` | 0.1 | Seconds between bursts while the player moves |
+| `move_threshold` | `GhostTrap` | 10 | Distance moved for the next burst (px) |
+| `flight_time` | `GhostPage` | 1.0 | Seconds a flight lasts at full pace |
+| `pace_range` | `GhostPage` | (0.5, 1.0) | Slowest and fastest pace; the flight lasts `flight_time` / pace |
+| `sway`, `sway_rate` | `GhostPage` | 6, 2.5 | Sideways sway (px) and sways per second |
+| `spin` | `GhostPage` | 6 | Fastest spin (radians/s) |
+| `drag` | `GhostPage` | 1.2 | Fraction of speed lost per second |
+| `fade_part` | `GhostPage` | 0.4 | Part of the flight, at the end, spent fading |
+| `off_time` | `ShockwaveArea` | 1.8 | Quiet part of the cycle (s) |
+| `warn_time` | `ShockwaveArea` | 0.7 | Trembling before the strike (s) |
+| `on_time` | `ShockwaveArea` | 0.2 | Hit active (s) |
+| `offset` | `ShockwaveArea` | 0 | Cycle shift (s). Test crypt east band: 1.35 |
+| `damage` | `ShockwaveArea` | 30 | HEAVY damage |
+| `knockback_force` | `ShockwaveArea` | 180 | Knockback, up and away from the middle |
+| `shake` | `ShockwaveArea` | 0.3 | Camera trauma on a strike near the player |
+| `shake_range` | `ShockwaveArea` | 160 | Distance from the zone for the shake (px) |
 | `size` | `AreaEffect` | 64×64 | Zone size (px) |
 | `strength` | `WindZone` | 60 | Push (px/s), positive blows right |
 | `speed_multiplier` | `MudZone` | 0.5 | Fraction of run speed kept |
@@ -168,11 +239,15 @@ Zones only affect the player. Enemies walk through them unchanged.
 - **A new breakable:** make a scene with a `Breakable` root, a `Visual`, a `Hurtbox` (mask `player_attacks`, `rewards_attacker` off) and optionally a `Body`. Put it in `Logic` if it stays broken, since saved node paths live there.
 - **A new timed trap:** a `TimedTrap` scene with a `Warning` (any `CanvasItem`) and a `Hitbox` on the `hazards` layer with `continuous` on. Visuals under the hitbox show only while it is active.
 - **A timed climb:** add a `PlatformSequence` to the room's `Layout`, put `TimedPlatform`s under it and number their `step`s in the order the player should take them. Keep each hop inside the player's jump (52 px up) and give the step after a hop enough `show_time` overlap to land.
+- **A drip curtain:** a row of `drip_trap.tscn` on the ceiling, 32 to 48 px apart, with `offset`s spread over `fire_interval`.
+- **Something else stirred up** (ash, leaves, feathers): a scene with a `GhostPage` root and its own look, set as the trap's `page_scene`.
 - **A new zone:** extend `AreaEffect` with `@tool`, override `_get_color()` and the factors it changes (`speed_factor()`, `jump_factor()`, `wind_speed()`), or use `_player_entered()` / `_player_exited()` for timed effects like poison. If it needs a new kind of factor, add it to `AreaEffect` and `PlayerAreaEffects` and read it where the player moves.
 
 ## Known limitations
 
-- All placeholder art: flat rectangles, drawn tints and streaks. No break debris, no sounds.
+- All placeholder art: flat rectangles, drawn tints and streaks. No break debris, no splashes for drops, no sounds.
+- Ghost traps only react to the player, not to enemies, and have no sound yet.
+- Shockwave areas and drip traps always run, even with the player far away (drips just don't fall).
 - Zones don't affect enemies.
 - Wind only blows sideways; there are no updrafts.
 - A platform or elevator moving down onto a player standing on the ground under it pushes them into the floor. Leave room under their paths.

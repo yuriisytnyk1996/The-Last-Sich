@@ -182,7 +182,7 @@ The test room is 1280×360 (two screens wide, 80×22 tiles). It contains:
 
 ## Test house layout
 
-`levels/rooms/test_house.tscn` is a closed 640×360 room behind the test room's door. It has a `Door` back to the test room, a [rest point](/systems/rest-points) in the middle and a one-way plank 2 tiles above the floor.
+`levels/rooms/test_house.tscn` is a closed 640×360 room behind the test room's door. It has a `Door` back to the test room, a [rest point](/systems/rest-points) in the middle and a one-way plank 2 tiles above the floor. A `West` opening in its left wall leads to the [test crypt](/systems/environment#test-crypt-layout).
 
 ## Test barracks layout
 

@@ -106,6 +106,7 @@
 - [x] Save slots: three slots; the title screen's Continue loads the latest one and Play opens a slot list (zone, play time, map explored, currency per slot); an empty slot starts a new game, a taken one continues or is deleted (asked first); old or damaged saves show as such and can be replaced. A new game saves at once; play time is counted and saved
 - [x] Object pooling: projectiles and blasts are taken from and parked back in a `Pool` autoload instead of being instantiated and freed, with prewarmed instances so the first shot of a fight doesn't stall. See [Object pooling](/architecture/object-pooling)
 - [x] Timed platform sequences: platforms that appear one step after another on a loop, blink before they vanish and fade out from under the player; one clock per sequence. A six-step climb to a ledge in the test shaft
+- [x] More environment pieces: drip traps (a ceiling spout swells a drop of burning tar, then lets it fall), ghost traps (a haunted spot where loose pages flutter up around the moving player, for show; pooled) and shockwave areas (floor bands that tremble, then strike with a HEAVY hit that jumping or a plank avoids and the guard slides). The Duma of the Road Home takes the player back to the last rest point without healing, not during a boss fight (new `ItemEffect.can_start()`). New test crypt room west of the test house
 
 ## Next
 
@@ -157,5 +158,6 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a post and a square for attack switches, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
 - Blue glow for the duma aura, coloured rectangles for the fire pillars, thunder beam, stun burst, duma shots and the sabres, a thin line under the spirit bar for a running duma, a scroll shape for duma icons
+- A brown spout and an orange bead for drip traps, a dark rectangle for the drop; small pale rectangles for ghost pages and a faint violet tint for ghost traps; an orange tint that flickers and flashes for shockwave areas
 - A squashed body for a kneeling enemy, a red exclamation mark for the execution awareness, a gold bar and rectangle for the finisher
 - Blue bar for the parry guard (flashed and slid along for a guard slide), a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

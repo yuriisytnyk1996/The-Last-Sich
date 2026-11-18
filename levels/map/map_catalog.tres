@@ -8,6 +8,7 @@ rooms = Dictionary[String, Rect2i]({
 "res://levels/rooms/test_arena.tscn": Rect2i(0, -4, 3, 2),
 "res://levels/rooms/test_barracks.tscn": Rect2i(0, -2, 4, 2),
 "res://levels/rooms/test_cave.tscn": Rect2i(4, 0, 3, 2),
+"res://levels/rooms/test_crypt.tscn": Rect2i(-5, 0, 3, 2),
 "res://levels/rooms/test_hideout.tscn": Rect2i(14, 0, 2, 2),
 "res://levels/rooms/test_house.tscn": Rect2i(-2, 0, 2, 2),
 "res://levels/rooms/test_room.tscn": Rect2i(0, 0, 4, 2),

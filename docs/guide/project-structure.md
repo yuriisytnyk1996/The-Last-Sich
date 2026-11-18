@@ -77,7 +77,7 @@ The-Last-Sich/
 │   │   │   ├── item.gd           Item resource: id, text, kind, price, effects, duma cost
 │   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect,
 │   │   │   │                     and the duma effects: BlastRowEffect, VolleyEffect,
-│   │   │   │                     SummonEffect, HeavyStrikesEffect
+│   │   │   │                     SummonEffect, HeavyStrikesEffect, ReturnEffect
 │   │   │   ├── charms/           One .tres per charm
 │   │   │   ├── dumas/            One .tres per duma
 │   │   │   ├── blades/           One .tres per blade
@@ -228,7 +228,9 @@ The-Last-Sich/
 │   │   ├── traversal/            Climb walls, reveal platforms
 │   │   ├── breakables/           Breakable crate, cracked wall and secret wall (breakable.gd, crate.tscn, breakable_wall.tscn, secret_wall.tscn)
 │   │   ├── platforms/            Moving, crumbling and timed platforms, elevator and its call lever
-│   │   ├── traps/                Timed spike and fire traps, turret and its bolt
+│   │   ├── traps/                Timed spike and fire traps, turret and its bolt, shockwave areas
+│   │   │   ├── drip/             Drip trap and its falling drop
+│   │   │   └── ghost/            Ghost trap and the pages it blows up
 │   │   └── zones/                Wind, mud and poison zones on the AreaEffect base
 │   ├── rooms/
 │   │   ├── test_room.tscn        Test level (start room): a Room with Deco, Layout and Logic
@@ -237,6 +239,8 @@ The-Last-Sich/
 │   │   ├── test_cave/            Its parts
 │   │   ├── test_house.tscn       Small room behind the test room's door
 │   │   ├── test_house/           Its parts
+│   │   ├── test_crypt.tscn       Room west of the test house with the drip traps, shockwave areas and ghost trap
+│   │   ├── test_crypt/           Its parts
 │   │   ├── test_shaft.tscn       Tall room under the test cave, reached through a hole
 │   │   ├── test_shaft/           Its parts
 │   │   ├── test_works.tscn       Two-floor room east of the test cave with every environment piece

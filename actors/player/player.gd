@@ -218,17 +218,22 @@ func set_camera_limits(bounds: Rect2i) -> void:
 	camera.limit_bottom = bounds.end.y
 
 
-func respawn(at: Vector2) -> void:
+## Puts the player at `at`, standing still and idle. A new life (death,
+## a rest, travel) also fills health and flasks; without one (the duma of
+## return) they stay as they are, like spirit.
+func respawn(at: Vector2, new_life := true) -> void:
 	global_position = at
 	reset_physics_interpolation()
 	velocity = Vector2.ZERO
 	drop_through.reset()
 	ladder_climb.reset()
-	# Presses made while dead don't carry over into the new life.
+	# Presses made before don't carry over.
 	consume_jump()
 	consume_attack()
 	camera.reset_smoothing.call_deferred()
 	state_machine.transition_to(PlayerState.IDLE)
+	if not new_life:
+		return
 	# After the transition: leaving Hurt would start invincibility again.
 	damage.reset()
 	flasks.refill()

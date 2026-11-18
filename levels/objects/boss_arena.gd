@@ -9,6 +9,10 @@ extends Node2D
 ## Saved (`persistent` group): a beaten boss is gone and the arena stays
 ## open. Its gates aren't saved on their own: the arena decides.
 
+## Arenas with a fight on are in this group, so other systems can tell a
+## fight is running (the duma of return can't be sung in one).
+const FIGHT_GROUP := &"boss_fights"
+
 @export var boss: Boss
 ## Given when the boss dies. Optional.
 @export var item: Item
@@ -48,6 +52,7 @@ func _on_trigger_body_entered(body: Node2D) -> void:
 	if body is Player and not defeated and not _fighting:
 		_player = body
 		_fighting = true
+		add_to_group(FIGHT_GROUP)
 		_set_gates_open(false)
 		boss.awaken()
 		Events.boss_fight_started.emit(
@@ -59,6 +64,7 @@ func _on_boss_died() -> void:
 	if not _fighting:
 		return
 	_fighting = false
+	remove_from_group(FIGHT_GROUP)
 	defeated = true
 	_set_gates_open(true)
 	Events.boss_fight_ended.emit()
@@ -73,6 +79,7 @@ func _on_player_died() -> void:
 	if not _fighting:
 		return
 	_fighting = false
+	remove_from_group(FIGHT_GROUP)
 	_set_gates_open(true)
 	Events.boss_fight_ended.emit()
 

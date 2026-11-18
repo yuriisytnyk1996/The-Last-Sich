@@ -25,6 +25,12 @@ enum Trigger { OWNED, EQUIPPED, ON_HIT, ON_KILL, ON_HURT, ON_USE }
 @export var duration := 0.0
 
 
+## ON_USE only: false when the item can't be used right now, so the
+## duma isn't sung and no spirit is spent.
+func can_start(_player: Player) -> bool:
+	return true
+
+
 func is_lasting() -> bool:
 	return trigger == Trigger.OWNED or trigger == Trigger.EQUIPPED
 

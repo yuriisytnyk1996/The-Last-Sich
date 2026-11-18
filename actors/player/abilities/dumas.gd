@@ -63,11 +63,13 @@ func is_running() -> bool:
 
 
 ## The duma button was just pressed and a duma can be sung. Flashes the
-## spirit bar when it can't for lack of spirit or of a duma.
+## spirit bar when it can't: for lack of spirit or of a duma, or because
+## the duma can't be used right now (`ItemEffect.can_start()`).
 func wants() -> bool:
 	if not Input.is_action_just_pressed("duma") or is_running():
 		return false
-	if equipped() != null and player.spirit.current >= cost():
+	var item := equipped()
+	if item != null and player.spirit.current >= cost() and player.item_effects.can_use(item):
 		return true
 	Events.spirit_short.emit()
 	return false

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/return_effect.gd" id="return"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("return")
+trigger = 5
+
+[resource]
+script = ExtResource("item")
+id = &"road_home"
+title = "Duma of the Road Home"
+description = "Sing it for 30 spirit: the road folds, and the singer stands again at the last fire they rested by. Wounds stay as they are. It falls silent while a great foe bars the way."
+lore = "Mothers taught it to sons riding out to the Wild Field, so they could find the way back. Most sons forgot it. The ones who remembered came home old."
+kind = 4
+price = 500
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 30.0
