@@ -172,6 +172,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `pause_time` | `MovingPlatform` | 0.6 | Wait at each end (s) |
 | `phase` | `MovingPlatform` | 0 | Start point in the round trip (0 to 1) |
 | `one_way` | `MovingPlatform` | true | One-way on `platforms`, or solid on `world` |
+| `safe_ground` | `MovingPlatform` | false | Death marks may land on it while it waits at an end ([safe ground](/systems/death-penalty#safe-ground)) |
 | `size` | `CrumblePlatform` | 32×8 | Platform size (px) |
 | `one_way` | `CrumblePlatform` | true | One-way on `platforms`, or solid on `world` |
 | `crumble_delay` | `CrumblePlatform` | 0.5 | Shaking under the player before it gives way (s) |
@@ -192,6 +193,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `travel` | `Elevator` | (0, 192) | Second stop, from the first (px) |
 | `speed` | `Elevator` | 80 | px/s |
 | `start_delay` | `Elevator` | 0.4 | Seconds stood on before it starts |
+| `safe_ground` | `Elevator` | false | Death marks may land on it while it waits at a stop ([safe ground](/systems/death-penalty#safe-ground)) |
 | `off_time` | `TimedTrap` | 1.4 | Off part of the cycle (s). Fire trap: 1.6 |
 | `warn_time` | `TimedTrap` | 0.5 | Warning before striking (s). Fire trap: 0.6 |
 | `on_time` | `TimedTrap` | 0.8 | Hitbox active (s). Fire trap: 1.0 |

@@ -33,6 +33,9 @@ const PATH_COLOR := Color(1.0, 1.0, 1.0, 0.35)
 ## can move out of step.
 @export_range(0.0, 1.0) var phase := 0.0
 @export var one_way := true
+## Death marks may land on it, but only while it waits at an end. Off: it
+## never counts as safe ground (see `PlayerSafeGround`).
+@export var safe_ground := false
 
 var _start := Vector2.ZERO
 var _time := 0.0
@@ -41,6 +44,8 @@ var _time := 0.0
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
+	if not safe_ground:
+		add_to_group(PlayerSafeGround.NO_SAFE_GROUP)
 	_start = position
 	collision_layer = 0
 	collision_mask = 0
@@ -55,6 +60,12 @@ func _physics_process(delta: float) -> void:
 		return
 	_time = fmod(_time + delta, _cycle_time())
 	position = _start + travel * _progress(_time)
+
+
+## Travelling between the ends, not waiting at one.
+func is_moving() -> bool:
+	var progress := _progress(_time)
+	return progress > 0.0 and progress < 1.0
 
 
 func _make_shape() -> CollisionShape2D:

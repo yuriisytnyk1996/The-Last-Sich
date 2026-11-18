@@ -27,6 +27,9 @@ const PATH_COLOR := Color(1.0, 1.0, 1.0, 0.35)
 @export var speed := 80.0
 ## Seconds the player stands on it before it starts.
 @export var start_delay := 0.4
+## Death marks may land on it, but only while it waits at a stop. Off: it
+## never counts as safe ground (see `PlayerSafeGround`).
+@export var safe_ground := false
 
 ## 0 at the first stop, 1 at the second.
 var _at := 0.0
@@ -40,6 +43,8 @@ var _start := Vector2.ZERO
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
+	if not safe_ground:
+		add_to_group(PlayerSafeGround.NO_SAFE_GROUP)
 	_start = position
 	collision_layer = 0
 	collision_mask = 0

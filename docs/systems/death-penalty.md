@@ -11,9 +11,14 @@ The penalty gives death a lasting cost and a reason to return to where it happen
 `PlayerSafeGround` (`actors/player/abilities/safe_ground.gd`) remembers the last spot that is safe to come back to. Every physics frame it counts the player's position as safe when all of these hold:
 
 - the player is in **Idle** or **Run** and on the floor,
-- there is ground under both sides, `edge_margin` px left and right of the feet (one ray each),
+- there is ground under both sides, `edge_margin` px left and right of the feet (one ray each), and that ground will still be there later (see below),
 - no hazard (spikes, pits: the `hazards` physics layer) within `hazard_margin` px sideways,
 - the player is at least `bounds_margin` px from the room's left and right edges.
+
+Ground that comes and goes never counts, or a mark could hang over a pit once it's gone. Each ray checks the body it hits:
+
+- bodies in the `no_safe_ground` group (`PlayerSafeGround.NO_SAFE_GROUP`) never count. Crumbling, timed and reveal platforms join it in `_ready()`; moving platforms and elevators join it unless their `safe_ground` is on,
+- a body with an `is_moving()` method doesn't count while it returns true, so a moving platform or elevator with `safe_ground` on only counts while it waits at an end.
 
 It stores the room's scene path with the spot. `World` calls `enter_room()` on every room load. The old spot stays until the player stands somewhere safe in the new room, so dying right after a room change leaves the mark in the previous room. With no safe spot yet (just loaded), the current room's respawn position is used. The spot isn't saved.
 
@@ -114,7 +119,7 @@ The test house has one, between the rest point and the skill shrine.
 - **A new cleanse point:** place `cleanse_point.tscn` in a room's Logic scene. Set `price_per_mark` for one that is cheaper or dearer than usual.
 - **Rooms without marks or with a fixed mark spot** (boss arenas, where walking back means refighting): add a room setting and have `drop()` read it.
 - **An item that prevents marks:** a flag on `DeathPenalty` that makes `drop()` return early.
-- **Spots that must never count** (moving or crumbling platforms): check for them in `PlayerSafeGround._is_safe()`.
+- **Ground that must never count:** add the body to `PlayerSafeGround.NO_SAFE_GROUP` in its `_ready()`. For ground that is only unsafe at times, give it an `is_moving()` method.
 
 ## Known limitations
 

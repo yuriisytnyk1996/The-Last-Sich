@@ -33,6 +33,7 @@ var _tween: Tween
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
+	add_to_group(PlayerSafeGround.NO_SAFE_GROUP)
 	collision_layer = 0
 	collision_mask = 0
 	set_collision_layer_value(PLATFORMS_LAYER if one_way else WORLD_LAYER, true)

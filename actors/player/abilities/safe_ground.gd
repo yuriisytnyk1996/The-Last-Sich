@@ -7,11 +7,16 @@ extends Node
 ## A spot counts while the player stands or runs on the floor, there is
 ## ground under both sides (`edge_margin`), no hazard is near
 ## (`hazard_margin`) and it is away from the room's edges
-## (`bounds_margin`). The world calls `enter_room()` on every room load.
+## (`bounds_margin`). Ground that may not be there later never counts:
+## bodies in `NO_SAFE_GROUP` (crumbling, timed and hidden platforms, moving
+## ones unless marked safe), and any body with `is_moving()` while it
+## moves. The world calls `enter_room()` on every room load.
 ## Not saved: after loading, nothing is remembered until the player moves.
 
 ## Physics layer mask of hazards (spikes, pits).
 const HAZARDS_MASK := 1 << 5
+## Bodies in this group are never safe ground.
+const NO_SAFE_GROUP := &"no_safe_ground"
 
 ## Distance to each side of the feet that must have ground under it (px).
 @export var edge_margin := 12.0
@@ -78,7 +83,17 @@ func _has_ground(at: Vector2) -> bool:
 		at + Vector2.UP * 2.0, at + Vector2.DOWN * probe_depth, player.collision_mask
 	)
 	query.exclude = [player.get_rid()]
-	return not player.get_world_2d().direct_space_state.intersect_ray(query).is_empty()
+	var hit := player.get_world_2d().direct_space_state.intersect_ray(query)
+	if hit.is_empty():
+		return false
+	return _is_lasting(hit["collider"] as Node)
+
+
+## The body will still be there when the player comes back.
+func _is_lasting(body: Node) -> bool:
+	if body == null or body.is_in_group(NO_SAFE_GROUP):
+		return false
+	return not (body.has_method(&"is_moving") and body.is_moving())
 
 
 func _near_hazard(feet: Vector2) -> bool:
