@@ -12,10 +12,14 @@ extends Node
 ## snapshot when they unload and restored when they load. The snapshot is
 ## written to disk on `save_game()`. In debug builds F8 deletes the save
 ## and restarts the game.
+##
+## There are `SLOT_COUNT` slots. The slot-select screen sets `slot` before
+## the world starts; everything else reads and writes that slot.
 
 ## 2: rooms were split into Deco, Layout and Logic, so node paths changed.
 const FORMAT_VERSION := 2
 const PERSISTENT_GROUP := &"persistent"
+const SLOT_COUNT := 3
 
 var slot := 0
 var _snapshot := _empty_snapshot()
@@ -45,6 +49,18 @@ func has_save() -> bool:
 	return SaveFile.exists(slot)
 
 
+## The slot written most recently, or -1 when every slot is empty.
+func latest_slot() -> int:
+	var latest := -1
+	var latest_time := 0
+	for which in SLOT_COUNT:
+		var time := SaveFile.modified_time(which)
+		if SaveFile.exists(which) and (latest == -1 or time > latest_time):
+			latest = which
+			latest_time = time
+	return latest
+
+
 ## Reads the slot and hands every registered system its data. Returns
 ## false (and starts from a clean snapshot) when there is nothing to load.
 func load_game() -> bool:
@@ -71,9 +87,14 @@ func save_game(room: Node) -> void:
 	_busy = false
 
 
-func delete_save() -> void:
-	SaveFile.delete(slot)
-	_snapshot = _empty_snapshot()
+## Deletes `which` (the current slot by default). The in-memory snapshot
+## is cleared only when it belongs to that slot.
+func delete_save(which := -1) -> void:
+	if which < 0:
+		which = slot
+	SaveFile.delete(which)
+	if which == slot:
+		_snapshot = _empty_snapshot()
 
 
 ## Remembers the state of a room's persistent nodes before it unloads.

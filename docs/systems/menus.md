@@ -8,7 +8,10 @@ The main menu, the pause menu and every options page are built from the same sma
 
 ```
 main_menu.tscn (main scene)
-└── Menu ── TitleScreen ── Continue / New game ──► world.tscn
+└── Menu ── TitleScreen ── Continue (latest slot) ──► world.tscn
+                        ├─ Play ──► SlotsScreen ── empty slot ──► world.tscn (new game)
+                        │                       └─ taken slot ──► SlotScreen ── Continue ──► world.tscn
+                        │                                                    └─ Delete / New game here (asked first)
                         └─ Options ──► OptionsScreen ──► Video / Audio / Accessibility / Controls
 
 world.tscn
@@ -23,7 +26,7 @@ world.tscn
 └── ShopItem (interact) ── PausingMenu ── BuyScreen ── buy the item (see Shops)
 ```
 
-1. The game starts in `ui/menus/main_menu/main_menu.tscn`. **Continue** only shows when a save exists. **New game** asks first when there is a save, then deletes it. Both switch to `levels/world.tscn`, which loads the save as before (see [Save system](/systems/save-system)).
+1. The game starts in `ui/menus/main_menu/main_menu.tscn`. **Continue** loads the slot saved most recently and only shows when there is one that can be loaded. **Play** opens the slot list: an empty slot starts a new game, a taken one opens its page with Continue and Delete. Starting sets `SaveManager.slot` and switches to `levels/world.tscn`, which loads that slot (see [Save slots](/systems/save-system#save-slots)). The title screen and the slot list read the slots again each time they come back on top, so a deleted slot disappears at once.
 2. In the world, the `pause` action opens the `PauseMenu`. `World._unhandled_input()` opens it, and the world doesn't run while the tree is paused, so the menu can't open during a room transition or on top of itself.
 3. The pause menu pauses the tree (it is a `PausingMenu`, like the skill shrine's menu). Closing it (Resume, back on the first page, or `pause` again from any page) unpauses one frame later, so the press that closed it isn't also read as a jump or an attack.
 4. **Quit to main menu** asks first, because the game only saves at rest points: the next Continue starts from the last rest point.
@@ -52,7 +55,10 @@ world.tscn
 | `ui/menus/confirm_screen.gd` | `ConfirmScreen`: yes/no question |
 | `ui/menus/menu_theme.tres` | Menu theme |
 | `ui/menus/main_menu/main_menu.tscn`, `main_menu.gd` | Main scene: background, version label, the title screen |
-| `ui/menus/main_menu/title_screen.gd` | `TitleScreen`: Continue, New game, Options, Quit |
+| `ui/menus/main_menu/title_screen.gd` | `TitleScreen`: Continue, Play, Options, Quit |
+| `ui/menus/main_menu/slots_screen.gd` | `SlotsScreen`: one row per save slot; starts the world on a slot |
+| `ui/menus/main_menu/slot_row.gd` | `SlotRow`: slot number and zone on the left, play time, map explored and currency on the right |
+| `ui/menus/main_menu/slot_screen.gd` | `SlotScreen`: one taken slot: Continue or New game here, Delete |
 | `ui/menus/pausing_menu.gd` | `PausingMenu`: a menu that pauses the tree while open and unpauses a frame after closing; can free itself on close |
 | `ui/menus/pause/pause_menu.gd` | `PauseMenu`: a `PausingMenu` that opens the pause screen and closes on `pause` |
 | `ui/menus/skills/skills_screen.gd` | `SkillsScreen`: the skill shrine's page, see [Skills](/systems/skills) |

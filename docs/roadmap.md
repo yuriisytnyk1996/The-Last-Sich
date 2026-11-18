@@ -103,6 +103,7 @@
 - [x] Soft landing: the owl feather relic (`soft_landing` unlock, while worn) removes hard landings. In the test room
 - [x] Crumbling platforms: shake under the player, then give way, dropping (collapsing) or fading in place (vanishing), and come back after a while or only when the room reloads. Vanishing stairs and a collapsing bridge in the test shaft
 - [x] Ledge grab only grabs terrain tiles, never gates, crates, cracked walls or moving bodies
+- [x] Save slots: three slots; the title screen's Continue loads the latest one and Play opens a slot list (zone, play time, map explored, currency per slot); an empty slot starts a new game, a taken one continues or is deleted (asked first); old or damaged saves show as such and can be replaced. A new game saves at once; play time is counted and saved
 
 ## Next
 

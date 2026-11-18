@@ -34,6 +34,7 @@ The-Last-Sich/
 │   │   └── execution.tscn    Execution scene: area, awareness mark, prompt
 │   ├── save/
 │   │   ├── save_file.gd          JSON save slot with safe writes and a backup
+│   │   ├── slot_summary.gd       A slot's state, zone, play time, explored share and currency
 │   │   └── settings_file.gd      One section of user://settings.cfg per settings autoload
 │   ├── display/
 │   │   └── resolution_list.gd    Window sizes that fit the screen
@@ -186,10 +187,11 @@ The-Last-Sich/
 │       ├── training_dummy.tscn   Stationary target for testing attacks
 │       └── training_dummy.gd     Hit reaction, break and rebuild
 ├── levels/
-│   ├── world.tscn                Gameplay scene: player, HUD, world map, screen fade, pause menu and the current room
+│   ├── world.tscn                Gameplay scene: player, HUD, world map, play clock, screen fade, pause menu and the current room
 │   ├── world.gd                  Loads rooms, runs room transitions, respawns at rest points, loads the save
 │   ├── room.gd                   Base room logic: camera bounds, pits, respawning in the room
 │   ├── killed_enemies.gd         Keeps killed enemies dead across rooms until the player rests or dies
+│   ├── play_clock.gd             Time played in the slot, saved
 │   ├── death_penalty.gd          Death marks: leaves them on death, applies the penalty, recovers them, saved
 │   ├── death_mark_list.gd        The marks and their links, as plain data
 │   ├── map/
@@ -267,7 +269,10 @@ The-Last-Sich/
 │   │   ├── main_menu/
 │   │   │   ├── main_menu.tscn    Main scene: the title screen
 │   │   │   ├── main_menu.gd
-│   │   │   └── title_screen.gd   Continue, New game, Options, Quit
+│   │   │   ├── title_screen.gd   Continue, Play, Options, Quit
+│   │   │   ├── slots_screen.gd   Slot list: one row per save slot
+│   │   │   ├── slot_row.gd       One slot's row: zone, play time, explored, currency
+│   │   │   └── slot_screen.gd    One taken slot: Continue or New game here, Delete
 │   │   ├── pause/
 │   │   │   ├── pause_menu.gd     The pause menu, a pausing menu
 │   │   │   └── pause_screen.gd   Resume, Inventory, Map, Options, Quit to main menu

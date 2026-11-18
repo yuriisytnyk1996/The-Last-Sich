@@ -12,7 +12,8 @@ extends Node2D
 ## The world is a global save system (see `SaveManager`): it saves the
 ## last rest point, and on start it loads the save and wakes the player
 ## there. Resting writes the save to disk, and so does dying, so quitting
-## can't undo the death penalty (see `DeathPenalty`).
+## can't undo the death penalty (see `DeathPenalty`). A new game saves at
+## once, so its slot shows as taken on the slot-select screen.
 ##
 ## Travel between rest points: after a rest with travel unlocked it opens
 ## the kneel prompt, and on `Events.travel_requested` it fades out, loads
@@ -49,6 +50,7 @@ func _ready() -> void:
 	else:
 		_rest_room = ""
 		_load_room(start_room, &"")
+		SaveManager.save_game(room)
 
 
 ## Runs only while the tree isn't paused, so the pause menu can't open
@@ -66,7 +68,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func get_save_data() -> Dictionary:
-	return {"rest_room": _rest_room, "rest_path": String(_rest_path)}
+	var zone := room.map_zone if room else ""
+	return {"rest_room": _rest_room, "rest_path": String(_rest_path), "zone": zone}
 
 
 func apply_save_data(data: Dictionary) -> void:

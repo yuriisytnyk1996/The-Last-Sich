@@ -37,6 +37,18 @@ static func read(slot: int) -> Dictionary:
 	return data
 
 
+## Like `read()`, but never copies a file: for showing a slot, not loading
+## it. Falls back to the backup when the slot is unreadable.
+static func peek(slot: int) -> Dictionary:
+	var data := _read_json(path(slot))
+	return data if not data.is_empty() else _read_json(path(slot) + BACKUP_SUFFIX)
+
+
+## When the slot was last written (Unix time), or 0 when it doesn't exist.
+static func modified_time(slot: int) -> int:
+	return FileAccess.get_modified_time(path(slot)) if exists(slot) else 0
+
+
 static func write(slot: int, data: Dictionary) -> bool:
 	var main := path(slot)
 	var temp := main + TEMP_SUFFIX

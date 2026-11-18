@@ -37,7 +37,7 @@ When the secret breaks, the next scan has all of it: the hidden cells show once 
 
 ### Completion
 
-The map page shows how much of the world is explored, for example `Caves   55% explored`. `WorldMap.completion()` is the revealed cells divided by every cell of every room in the game, rounded down, so it reads 100 % only when every cell is revealed. Cells behind secrets count too, and a cell shared by two rooms counts once.
+The map page shows how much of the world is explored, for example `Caves   55% explored`. `WorldMap.completion()` is the revealed cells divided by every cell of every room in the game, rounded down, so it reads 100 % only when every cell is revealed. Cells behind secrets count too, and a cell shared by two rooms counts once. The value is also written to the save as `explored`, for the [slot list](/systems/save-system#save-slots); it is never read back in game.
 
 Only one room is loaded at a time, so the total comes from a **map catalog**: `levels/map/map_catalog.tres`, a `MapCatalog` (`levels/map/map_catalog.gd`) that holds every room scene path and its rectangle of map cells. It is generated, never edited by hand:
 

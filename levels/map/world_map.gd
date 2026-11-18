@@ -139,7 +139,13 @@ func get_save_data() -> Dictionary:
 	var cells := []
 	for cell in revealed:
 		cells.append([cell.x, cell.y])
-	return {"rooms": saved_rooms, "revealed": cells, "player_marks": player_marks.to_data()}
+	return {
+		"rooms": saved_rooms,
+		"revealed": cells,
+		"player_marks": player_marks.to_data(),
+		# Read only by the slot list (`SlotSummary`); recomputed on load.
+		"explored": completion(),
+	}
 
 
 func apply_save_data(data: Dictionary) -> void:
