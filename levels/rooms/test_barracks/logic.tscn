@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://levels/objects/items/item_pickup.tscn" id="6_pickup"]
 [ext_resource type="Resource" path="res://actors/player/items/quest/living_water_1.tres" id="7_water_1"]
 [ext_resource type="Resource" path="res://actors/player/items/quest/living_water_2.tres" id="8_water_2"]
+[ext_resource type="PackedScene" path="res://levels/objects/fake_execution.tscn" id="9_fake_execution"]
 
 [node name="Logic" type="Node2D"]
 
@@ -54,3 +55,6 @@ item = ExtResource("7_water_1")
 [node name="LivingWaterWell" parent="Flasks" instance=ExtResource("6_pickup")]
 position = Vector2(176, 320)
 item = ExtResource("8_water_2")
+
+[node name="FakeExecution" parent="." instance=ExtResource("9_fake_execution")]
+position = Vector2(256, 320)

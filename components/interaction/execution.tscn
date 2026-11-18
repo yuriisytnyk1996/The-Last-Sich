@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://components/interaction/execution.gd" id="1_execution"]
+
+[sub_resource type="RectangleShape2D" id="shape_execution"]
+size = Vector2(56, 30)
+
+[node name="Execution" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_execution")
+press_interact = true
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("shape_execution")
+
+[node name="Awareness" type="Node2D" parent="."]
+position = Vector2(0, -44)
+
+[node name="Bar" type="ColorRect" parent="Awareness"]
+offset_left = -2.0
+offset_top = -10.0
+offset_right = 2.0
+offset_bottom = 1.0
+mouse_filter = 2
+color = Color(2.2, 0.6, 0.4, 1)
+
+[node name="Dot" type="ColorRect" parent="Awareness"]
+offset_left = -2.0
+offset_top = 3.0
+offset_right = 2.0
+offset_bottom = 7.0
+mouse_filter = 2
+color = Color(2.2, 0.6, 0.4, 1)
+
+[node name="Prompt" type="Polygon2D" parent="."]
+position = Vector2(0, -42)
+color = Color(0.95, 0.92, 0.8, 1)
+polygon = PackedVector2Array(-4, 3, 4, 3, 0, -3)

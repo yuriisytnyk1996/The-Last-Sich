@@ -96,6 +96,8 @@
 
 - [x] Flask upgrades: empty flasks found in rooms add a flask for good (empty until the next rest); a flask healer makes every flask heal 10 more for a vial of living water and a rising price, five levels, shown by the colour of the HUD flask pips. Base flask heal lowered to 20. Drinking at full health is allowed and wastes the flask; a light hit now ends the drink too. New quest item kind (`Item.Kind.QUEST`, a tab on the inventory page) for items handed over, and `PlayerInventory.remove()`. Healers get the upgrade mark on the map. Test healer in the test house, two empty flasks and two vials in the test barracks
 
+- [x] Executions: a lethal hit on a stunned enemy (a riposte, a stunning duma) or a lethal heavy hit that catches it winding up (or any lethal heavy hit once a random kill counter, 3 to 6 kills, runs out) leaves it on its knees at 1 health instead of killing it; an awareness mark flashes, and interact plays an invincible finisher that kills it and gives spirit. Left alone it gets up with half its health; any hit after a short safe time just kills it. Fake executions: the same finisher placed in a room with no enemy behind it, for scripted kills, saved once done. `Health.spare_next_lethal`, `Events.enemy_executed`. Raider, musketeer, shieldbearer and boar can be executed; a fake one in the test barracks
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -146,4 +148,5 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
 - Blue glow for the duma aura, coloured rectangles for the fire pillars, thunder beam, stun burst, duma shots and the sabres, a thin line under the spirit bar for a running duma, a scroll shape for duma icons
+- A squashed body for a kneeling enemy, a red exclamation mark for the execution awareness, a gold bar and rectangle for the finisher
 - Blue bar for the parry guard (flashed and slid along for a guard slide), a bar above the head for a stunned enemy, a gold rectangle for the riposte slash

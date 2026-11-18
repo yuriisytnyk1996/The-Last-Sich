@@ -8,6 +8,7 @@ const CHASE := &"Chase"
 const ATTACK := &"Attack"
 const HURT := &"Hurt"
 const STUNNED := &"Stunned"
+const EXECUTABLE := &"Executable"
 const DEAD := &"Dead"
 
 @onready var enemy := owner as Enemy

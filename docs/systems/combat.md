@@ -180,6 +180,27 @@ Parry: GUARD ──heavy hit──► GuardSlide: hit-stop, then slide away (sli
 
 The slide fills no spirit and gives no riposte window: it only saves the player from the hit.
 
+## Executions
+
+An enemy brought to its knees by the right lethal hit can be finished with a finishing blow: it rewards parrying and well-timed heavy hits with a safe, showy kill and extra spirit. Which hits do it is on the enemy's side, see [Enemies](/systems/enemies#execution): a lethal riposte (or any lethal hit on a stunned enemy), a lethal stunning hit, a lethal HEAVY hit that catches an enemy winding up its attack, or a lethal HEAVY hit once the kill counter has run out.
+
+**Kill counter:** so executions also turn up in ordinary fights, `PlayerExecutions` counts kills (`Events.enemy_killed`). After a random number of them, from `min_kills` to `max_kills`, it turns on `Hitbox.executes` on every player hitbox: the next lethal HEAVY hit (a combo finisher, a charged slash, a riposte) on an enemy that can be executed brings it to its knees. Any execution, however it came about, rolls a new count and turns the flag off. The count is not saved; a new one is rolled on load.
+
+```
+Idle / Run ──interact in an Execution, same floor──► Execute: step up, blade raised (windup)
+                                                      └─ blow: enemy dies, reward ──► recovery ──► Idle / Run
+```
+
+1. The kneeling enemy carries an `Execution` (`components/interaction/execution.gd`), an `InteractionArea` with `press_interact` on. Its `Awareness` mark pops in and fades after `awareness_delay` so the player notices the chance.
+2. Pressing **interact** in it (on the ground, from Idle or Run, feet within `max_height_difference` of the enemy's) calls `Player.start_execution()`. `PlayerExecutions` keeps the target and enters **Execute**. The execution is blocked so it can't be used twice.
+3. Execute turns the player towards the target and steps them to `distance` from it (a wall stops the step). The player is planted and invincible from start to finish.
+4. After `windup` the blow lands: `Execution.strike()` emits `executed` (the enemy dies), then `PlayerExecutions.reward()` adds `spirit_reward` (lowered by [death marks](/systems/death-penalty) like any spirit gain), plays a hit-stop, shake and rumble, and emits `Events.enemy_executed`.
+5. After `recovery` the player goes back to Idle or Run, invincible for `PlayerParry.grace_time` more.
+
+The player doesn't have to execute: hitting the kneeling enemy after its safe time kills it normally, with no bonus.
+
+**Fake executions:** `levels/objects/fake_execution.tscn` is the same `Execution` scene with its own placeholder `Body` and `persistent` on, placed in a room. There is no enemy behind it: the finisher plays the same way and `executed` fires for whatever the room wires to it (a scripted kill, the end of a boss). Once done its body is gone, and that is saved. One kneels in the test barracks.
+
 ## Blocking
 
 A hurtbox can turn hits away with a **guard**: `Hurtbox.guard` is an optional `Callable` that gets the hitbox before it lands and returns true to block it. The shieldbearer's shield sets it (see [Enemies](/systems/enemies#shieldbearer)).
@@ -284,6 +305,10 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `actors/player/states/attacks/riposte.gd` | Lunging heavy slash after a parry |
 | `actors/player/abilities/guard_slide.gd` | `PlayerGuardSlide`: guard slide tuning, the slide resolved from the hit, feedback |
 | `actors/player/states/guard_slide.gd` | Sliding back after a heavy hit caught on the guard, dash cancel |
+| `components/interaction/execution.gd` | `Execution`: interact area for a finisher, awareness flash, `strike()`, `executed`, saved when `persistent` |
+| `actors/player/abilities/executions.gd` | `PlayerExecutions`: finisher tuning, the target, `reward()`, the kill counter |
+| `actors/player/states/execute.gd` | Execute: step up, wind-up, the blow, recovery, invincible |
+| `levels/objects/fake_execution.tscn` | A scripted finisher with no enemy behind it |
 | `actors/training_dummy/training_dummy.tscn` | Dummy scene |
 | `actors/training_dummy/training_dummy.gd` | Hit reaction, break and rebuild |
 
@@ -461,6 +486,34 @@ Set on the player's **`GuardSlide`** child node (`PlayerGuardSlide`).
 | Feedback | `rumble` | 0.7 | Gamepad rumble strength when the hit is caught |
 | Feedback | `rumble_time` | 0.2 | Rumble length (s) |
 
+### Executions
+
+Set on the player's **`Executions`** child node (`PlayerExecutions`).
+
+| Group | Value | Default | Effect |
+|---|---|---|---|
+| Finisher | `distance` | 18 | Distance from the target the player strikes from (px) |
+| Finisher | `windup` | 0.45 | Blade raised before the blow (s) |
+| Finisher | `recovery` | 0.4 | Time after the blow before the player can act (s) |
+| Kill counter | `min_kills` | 3 | Fewest kills before a lethal heavy hit can bring an enemy down |
+| Kill counter | `max_kills` | 6 | Most kills before a lethal heavy hit can bring an enemy down |
+| Reward | `spirit_reward` | 10 | Spirit for every execution, before the death mark penalty |
+| Feedback | `hit_stop` | 0.18 | Freeze on the blow (s) |
+| Feedback | `shake` | 0.5 | Camera trauma on the blow |
+| Feedback | `rumble` | 0.8 | Gamepad rumble strength on the blow |
+| Feedback | `rumble_time` | 0.25 | Rumble length (s) |
+
+Set on the `Execution` scene (`components/interaction/execution.tscn`):
+
+| Value | Default | Effect |
+|---|---|---|
+| `awareness_delay` | 0.2 | Time after it appears before the awareness mark flashes (s) |
+| `awareness_time` | 0.6 | How long the mark takes to pop in and fade (s) |
+| `max_height_difference` | 6 | How far the player's feet can be above or below it (px) |
+| `persistent` | Off | Saved and gone for good once used (fake executions) |
+
+The enemy's side (`execution_window`, `execution_safe_time`, `recover_health`) is tuned on `EnemyDamage`, see [Enemies](/systems/enemies#enemydamage).
+
 ### Training dummy
 
 | Value | Default | Effect |
@@ -495,4 +548,6 @@ Its health is set on its `Health` child node.
 - The guard slide has no slide animation, dust or impact effect: the guard bar flashes and the placeholder body moves. It only slides along flat ground; slopes don't exist yet.
 - No enemy reacts to a guard slide yet; `Hitbox.guard_slid` is there for attacks that should.
 - Placeholder rectangles for the slash and the dummy.
+- Executions have no finisher animation, camera move or sound: the enemy squashes down, a red mark flashes, the player raises a gold bar and a gold rectangle shows the cut. Every enemy shares the one finisher.
+- No item reacts to an execution yet; `Events.enemy_executed` is there for that.
 - A blocked hit has no recoil on the attacker and no block sound: only the shield flashes.

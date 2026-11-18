@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://actors/enemies/musketeer/states/musket_shot.gd" id="10_shot"]
 [ext_resource type="Script" path="res://actors/enemies/states/hurt.gd" id="11_hurt"]
 [ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="12_dead"]
+[ext_resource type="Script" path="res://actors/enemies/states/executable.gd" id="executable"]
 [ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="13_stunned"]
 [ext_resource type="PackedScene" path="res://actors/enemies/musketeer/musket_ball.tscn" id="14_ball"]
 
@@ -175,6 +176,9 @@ script = ExtResource("11_hurt")
 [node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("mark")]
 script = ExtResource("13_stunned")
 mark = NodePath("../../Visual/StunMark")
+
+[node name="Executable" type="Node" parent="StateMachine"]
+script = ExtResource("executable")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("12_dead")

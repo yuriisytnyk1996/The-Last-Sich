@@ -75,6 +75,7 @@ var _dash_cooldown_timer := 0.0
 @onready var flasks: PlayerFlasks = $Flasks
 @onready var parry: PlayerParry = $Parry
 @onready var guard_slide: PlayerGuardSlide = $GuardSlide
+@onready var executions: PlayerExecutions = $Executions
 @onready var wallet: PlayerWallet = $Wallet
 @onready var safe_ground: PlayerSafeGround = $SafeGround
 @onready var spirit: PlayerSpirit = $Spirit
@@ -203,6 +204,11 @@ func can_interact() -> bool:
 		and is_on_floor()
 		and (state == PlayerState.IDLE or state == PlayerState.RUN)
 	)
+
+
+## Called by an `Execution` the player pressed interact in.
+func start_execution(execution: Execution) -> void:
+	executions.start(execution)
 
 
 func set_camera_limits(bounds: Rect2i) -> void:

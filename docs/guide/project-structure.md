@@ -29,7 +29,9 @@ The-Last-Sich/
 │   ├── camera/
 │   │   └── camera_shake.gd       Trauma-based shake for a Camera2D
 │   ├── interaction/
-│   │   └── interaction_area.gd   Touch or interact area, base for exits and doors
+│   │   ├── interaction_area.gd   Touch or interact area, base for exits and doors
+│   │   ├── execution.gd      Execution: a finisher waiting for interact (enemy or fake)
+│   │   └── execution.tscn    Execution scene: area, awareness mark, prompt
 │   ├── save/
 │   │   ├── save_file.gd          JSON save slot with safe writes and a backup
 │   │   └── settings_file.gd      One section of user://settings.cfg per settings autoload
@@ -67,7 +69,8 @@ The-Last-Sich/
 │   │   │   ├── dumas.gd          Singing the worn duma: cost, start, time left
 │   │   │   ├── area_effects.gd   Combines the wind and mud zones the player is in
 │   │   │   ├── parry.gd          Parry and riposte tuning (windows from stats)
-│   │   │   └── guard_slide.gd    Guard slide tuning: sliding back from a heavy hit on the guard
+│   │   │   ├── guard_slide.gd    Guard slide tuning: sliding back from a heavy hit on the guard
+│   │   │   └── executions.gd     Execution tuning, target and reward
 │   │   ├── items/                Items the player carries
 │   │   │   ├── item.gd           Item resource: id, text, kind, price, effects, duma cost
 │   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect,
@@ -109,6 +112,7 @@ The-Last-Sich/
 │   │       ├── kneel.gd          Kneeling at a rest point before the travel prompt
 │   │       ├── parry.gd          Guard up, deflects parryable hits
 │   │       ├── guard_slide.gd    Slid back by a heavy hit caught on the guard
+│   │       ├── execute.gd        The finisher on an executable enemy
 │   │       ├── duma.gd           Singing a duma: planted cast with an aura
 │   │       ├── hurt.gd           Knockback after a hit
 │   │       ├── dead.gd           Health ran out, waits, then asks for a respawn
@@ -138,6 +142,7 @@ The-Last-Sich/
 │   │   │   ├── chase.gd
 │   │   │   ├── hurt.gd
 │   │   │   ├── stunned.gd        Helpless after a parried attack
+│   │   │   ├── executable.gd     On its knees at 1 health, waiting for a finisher
 │   │   │   ├── dead.gd
 │   │   │   └── enemy_attack_state.gd   Shared telegraphed attack timing
 │   │   ├── raider/
@@ -203,6 +208,7 @@ The-Last-Sich/
 │   │   ├── death_mark.tscn       Its scene
 │   │   ├── cleanse_point.gd      Pay to clear every death mark
 │   │   ├── cleanse_point.tscn    Cleanse point scene
+│   │   ├── fake_execution.tscn   A scripted finisher with no enemy behind it, saved once done
 │   │   ├── stat_upgrade.gd       Upgrade shrine: a permanent stat upgrade, free or paid, once
 │   │   ├── stat_upgrade.tscn     Its scene
 │   │   ├── skill_shrine.gd       Opens the skill menu with interact

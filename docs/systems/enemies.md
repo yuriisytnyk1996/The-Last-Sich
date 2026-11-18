@@ -17,6 +17,8 @@ Patrol ──sees player──► Chase ──in range, off cooldown, on floor�
 
 any state ──NORMAL / HEAVY hit (if staggerable)──► Hurt ──► Chase or Patrol
 Attack ──swing parried──► Stunned ──► Chase or Patrol
+Stunned / Attack wind-up ──lethal hit (see Execution)──► Executable ──finisher or hit──► Dead
+                                                             └──execution_window──► Chase or Patrol
 any state ──health 0──► Dead ──Enemy.reset()──► Patrol
 ```
 
@@ -94,6 +96,24 @@ An attack whose hitbox is `parryable` can be [parried](/systems/combat#parry-and
 Only the raider's `Slash` is parryable so far. Contact damage and projectiles never are.
 
 A player hit with `Hitbox.stuns` on (the Calm Sea [duma](/systems/dumas)) stuns the same way, through `EnemyDamage.stun_from(position)`, pushed away from the hit. Only enemies that flinch are stunned; bosses only take the damage.
+
+### Execution
+
+A lethal hit doesn't always kill: some leave the enemy on its knees at 1 health, open to a finisher (see [Executions](/systems/combat#executions) for the player's side). `EnemyDamage._becomes_executable()` checks the hit before its damage is applied (`Hurtbox` emits `hurt` first). The hit must:
+
+1. be lethal (`Health.damage_from(hitbox)` is at least the health left),
+2. land on an enemy on the floor whose scene has an **Executable** state node,
+3. and either land while the enemy is **Stunned** (a riposte after a parry), be a stunning hit (`Hitbox.stuns`), be a HEAVY hit that catches the enemy in its attack wind-up (while the wind-up can still be interrupted), or be a HEAVY hit from a hitbox with `Hitbox.executes` on (the player's [kill counter](/systems/combat#executions) ran out).
+
+Then `EnemyDamage` sets `Health.spare_next_lethal`, so the hit leaves 1 health, and enters **Executable**:
+
+- The body slumps (the placeholder `Visual` is squashed) and stops; contact damage is off.
+- An `Execution` (`components/interaction/execution.tscn`) is added over it. Its `Awareness` mark flashes after a moment, and its `Prompt` shows while the player stands in it.
+- For `execution_safe_time` the hurtbox ignores hits, so the rest of the combo that brought it down doesn't finish it at once. After that, any hit kills it the normal way.
+- When the finisher lands, `Execution.executed` kills the enemy through `Health.kill()`: it dies like any other kill (currency, `Events.enemy_killed`, stays dead).
+- Left alone for `execution_window` (the timer stops while the finisher plays), it gets up with `recover_health` of its maximum health and goes back to Chase or Patrol.
+
+The raider, musketeer, shieldbearer and boar have an Executable state. The crow flies, so it is never on the floor, and bosses don't flinch, so `_on_hurt()` returns before the check.
 
 ### Finding the player
 
@@ -214,7 +234,7 @@ Raider (CharacterBody2D, Enemy)  layer: enemies, mask: world, platforms
 ├── Damage (EnemyDamage)
 ├── HurtFeedback                 hit_stop 0.05, shake 0.3
 └── StateMachine
-    ├── Patrol, Chase, Hurt, Stunned, Dead   shared states
+    ├── Patrol, Chase, Hurt, Stunned, Executable, Dead   shared states
     └── Attack                      SaberSlash
 ```
 
@@ -254,6 +274,7 @@ The crow's origin is the middle of its body, not its feet. It has no `FloorProbe
 | `actors/enemies/states/chase.gd` | Run at the player, start attacks, give up when out of range or out of sight |
 | `actors/enemies/states/hurt.gd` | Knockback and stagger |
 | `actors/enemies/states/stunned.gd` | Pushed back and helpless after a parried attack |
+| `actors/enemies/states/executable.gd` | On its knees at 1 health with an `Execution` over it; dies to the finisher, gets up after `execution_window` |
 | `actors/enemies/states/dead.gd` | Combat off, darken and fade |
 | `actors/enemies/states/enemy_attack_state.gd` | `EnemyAttackState`: telegraphed startup, active, recovery, cooldown |
 | `actors/enemies/raider/raider.tscn` | Raider scene |
@@ -314,6 +335,9 @@ Set on the enemy's root node. Raider values are the defaults.
 | `poise_recovery` | 1.5 | Time without being hit before the stagger count resets (s) |
 | `stun_time` | 1.0 | How long the enemy stays stunned after a parried attack (s) |
 | `stun_knockback` | 100 | Push-back speed when parried (px/s) |
+| `execution_window` | 4.0 | How long an executable enemy waits for the finisher before getting up (s) |
+| `execution_safe_time` | 0.5 | Time after going down when hits don't land (s) |
+| `recover_health` | 0.5 | Part of max health it has when it gets up again |
 | `corpse_time` | 0.5 | How long the body stays before fading (s) |
 | `fade_time` | 0.4 | Fade-out length (s) |
 | `stays_dead` | On | Killed, it stays dead across room changes until the player rests or dies. Off: back every time its room loads |

@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://components/interaction/execution.tscn" id="1_execution"]
+
+[node name="FakeExecution" instance=ExtResource("1_execution")]
+persistent = true
+
+[node name="Body" type="Node2D" parent="." index="0"]
+
+[node name="Torso" type="ColorRect" parent="Body"]
+offset_left = -7.0
+offset_top = -18.0
+offset_right = 7.0
+mouse_filter = 2
+color = Color(0.4, 0.3, 0.42, 1)
+
+[node name="Head" type="ColorRect" parent="Body"]
+offset_left = 1.0
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = -17.0
+mouse_filter = 2
+color = Color(0.4, 0.3, 0.42, 1)

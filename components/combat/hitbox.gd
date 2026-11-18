@@ -69,6 +69,10 @@ const RESIST_STATS: Dictionary[Element, StringName] = {
 ## Stats of whoever deals this hit. Their `Stats.DAMAGE` scales `damage`.
 ## Optional: without it the base damage is dealt.
 var attacker_stats: Stats
+## A lethal HEAVY hit from this hitbox brings an enemy that can be
+## executed to its knees instead of killing it. Turned on and off by the
+## attacker (`PlayerExecutions` every few kills).
+var executes := false
 ## The hit being dealt is critical. Rolled by the Hurtbox for each hit it
 ## accepts (`roll_critical()`), before anything reads the damage.
 var critical := false

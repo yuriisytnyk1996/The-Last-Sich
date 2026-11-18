@@ -15,6 +15,9 @@ signal died
 @export var stats: Stats
 
 var current := 0
+## The next hit that would kill leaves 1 health instead, then this turns
+## off. Set by an enemy that gets brought to its knees (an execution).
+var spare_next_lethal := false
 
 
 func _ready() -> void:
@@ -27,14 +30,22 @@ func _ready() -> void:
 ## Damage from a hit, after this actor's resistance to its element.
 ## A resistance below 1 always lets at least 1 damage through.
 func take_hit(hitbox: Hitbox) -> void:
+	take_damage(damage_from(hitbox))
+
+
+## What `take_hit()` would take away for this hit, before `spare_next_lethal`.
+func damage_from(hitbox: Hitbox) -> int:
 	var amount := hitbox.get_damage()
 	if stats and amount > 0:
 		var resist := stats.get_value(Hitbox.RESIST_STATS[hitbox.element])
 		amount = 0 if resist >= 1.0 else maxi(roundi(amount * (1.0 - resist)), 1)
-	take_damage(amount)
+	return amount
 
 
 func take_damage(amount: int) -> void:
+	if spare_next_lethal and amount >= current:
+		spare_next_lethal = false
+		amount = current - 1
 	if amount <= 0 or is_dead():
 		return
 	current = maxi(current - amount, 0)
@@ -54,11 +65,13 @@ func heal(amount: int) -> void:
 func kill() -> void:
 	if is_dead():
 		return
+	spare_next_lethal = false
 	take_damage(current)
 
 
 ## Back to full health, also after dying.
 func reset() -> void:
+	spare_next_lethal = false
 	current = max_health
 	health_changed.emit(current, max_health)
 

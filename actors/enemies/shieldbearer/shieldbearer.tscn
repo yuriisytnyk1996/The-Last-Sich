@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://actors/enemies/states/hurt.gd" id="12_hurt"]
 [ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="13_stunned"]
 [ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="14_dead"]
+[ext_resource type="Script" path="res://actors/enemies/states/executable.gd" id="executable"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(14, 28)
@@ -201,6 +202,9 @@ script = ExtResource("12_hurt")
 [node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("mark")]
 script = ExtResource("13_stunned")
 mark = NodePath("../../Visual/StunMark")
+
+[node name="Executable" type="Node" parent="StateMachine"]
+script = ExtResource("executable")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("14_dead")

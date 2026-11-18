@@ -77,6 +77,10 @@ signal room_change_requested(room_path: String, exit_name: StringName)
 @warning_ignore("unused_signal")
 signal enemy_killed
 
+## The player executed an enemy (or a fake execution).
+@warning_ignore("unused_signal")
+signal enemy_executed
+
 ## The player got an item (a pickup, a shop). The HUD names it.
 @warning_ignore("unused_signal")
 signal item_obtained(item: Item)
