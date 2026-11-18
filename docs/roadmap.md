@@ -100,6 +100,10 @@
 
 - [x] Attack switches: a switch hit with any player attack (the ranged bolt too, for switches out of reach) drives gates like a lever: `TOGGLE`, `UNLOCK`, or `TIMED` (opens for a few seconds, owns its targets), optionally one-shot; fills no spirit, saved. A one-shot switch opens a new corridor gate in the test hideout
 
+- [x] Soft landing: the owl feather charm (`soft_landing` unlock, while worn) removes hard landings. In the test room
+- [x] Crumbling platforms: shake under the player, then give way, dropping (collapsing) or fading in place (vanishing), and come back after a while or only when the room reloads. Vanishing stairs and a collapsing bridge in the test shaft
+- [x] Ledge grab only grabs terrain tiles, never gates, crates, cracked walls or moving bodies
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -144,7 +148,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Coloured rectangles for the musketeer and its barrel, a thin line for its aim, a small rectangle for the musket ball
 - Coloured rectangles for the shieldbearer, its shield and the block flash, the boar and the crow, and for their thrust, gore and talon hitboxes
 - Brown boxes for crates, a grey block with a dark line for the cracked wall, no break debris
-- Flat rectangles for moving platforms, elevators and their levers
+- Flat rectangles for moving platforms, elevators and their levers, a cracked rectangle for crumbling platforms
 - Polygon spikes, a flame rectangle and small glowing warning rectangles for timed traps; grey boxes for turrets and red rectangles for their bolts
 - Drawn tints for zones and drifting line streaks for wind
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a post and a square for attack switches, a terrain-coloured rectangle for the secret wall; no wall cling animation

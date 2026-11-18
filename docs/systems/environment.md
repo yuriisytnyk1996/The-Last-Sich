@@ -1,6 +1,6 @@
 # Environment
 
-Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
+Level pieces that move, break, hurt or change how the player moves: breakable props, moving platforms, crumbling platforms, elevators, timed traps, turrets, and wind, mud and poison zones. Pieces that lock places behind items (climb walls, reveal platforms, levers, gates, chests, secret walls) are on the [Traversal](/systems/traversal) page. They are placed in rooms like ladders and spikes, and each one is a small script with its own tuning, so a level designer can drop them in without code.
 
 ## How it works
 
@@ -21,6 +21,17 @@ The hurtbox has `rewards_attacker` off, so hitting props fills no [spirit](/syst
 ### Moving platforms
 
 `MovingPlatform` (`levels/objects/platforms/moving_platform.gd`) is an `AnimatableBody2D` that travels from where it is placed to `travel` px away and back, easing in and out and waiting `pause_time` at each end. Godot moves bodies standing on it along with it, so the player and enemies ride it without extra code. It is one-way by default, on the `platforms` layer: jump up through it, drop through it with down + jump. With `one_way` off it is a solid block on the `world` layer. `phase` starts it partway through its trip, so platforms side by side can move out of step.
+
+### Crumbling platforms
+
+`CrumblePlatform` (`levels/objects/platforms/crumble_platform.gd`) gives way under the player. Once the player lands on top of it (it checks the player's last move for a floor contact with itself, so jumping up through a one-way one doesn't count), it shakes for `crumble_delay`, then gives way: its collision turns off and it fades over `vanish_time`. What it looks like decides what it is:
+
+| Setting | Piece |
+|---|---|
+| `falls` on (default) | **Collapsing platform**: drops `fall_distance` while it fades. A row of them side by side is a collapsing bridge the player has to keep running across |
+| `falls` off | **Vanishing platform**: fades in place |
+
+After `return_time` it fades back in and is solid again. It waits while the player's body is where it would come back, so a solid one never traps them. With `return_time` 0 it stays gone until the room loads again. Nothing is saved. Only the player sets it off, not enemies. Two crack lines tell it apart from a plain plank. One-way on the `platforms` layer by default, solid on `world` with `one_way` off. The origin is the top centre, like a moving platform. [Ledge grab](/systems/player#ledge-grab) never grabs it.
 
 ### Elevators
 
@@ -71,6 +82,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `levels/objects/breakables/breakable_wall.tscn` | Cracked wall that blocks the way, stays broken |
 | `levels/objects/breakables/secret_wall.tscn` | Secret wall drawn like the terrain, see [Traversal](/systems/traversal#secret-walls) |
 | `levels/objects/platforms/moving_platform.gd` | `MovingPlatform`: back-and-forth platform, one-way or solid |
+| `levels/objects/platforms/crumble_platform.gd` | `CrumblePlatform`: gives way under the player, comes back |
 | `levels/objects/platforms/elevator.gd` | `Elevator`: lift between two stops, starts when stood on |
 | `levels/objects/platforms/elevator_call.gd`, `.tscn` | `ElevatorCall`: lever that calls an elevator |
 | `levels/objects/traps/timed_trap.gd` | `TimedTrap`: off, warning, on cycle |
@@ -99,6 +111,14 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `pause_time` | `MovingPlatform` | 0.6 | Wait at each end (s) |
 | `phase` | `MovingPlatform` | 0 | Start point in the round trip (0 to 1) |
 | `one_way` | `MovingPlatform` | true | One-way on `platforms`, or solid on `world` |
+| `size` | `CrumblePlatform` | 32×8 | Platform size (px) |
+| `one_way` | `CrumblePlatform` | true | One-way on `platforms`, or solid on `world` |
+| `crumble_delay` | `CrumblePlatform` | 0.5 | Shaking under the player before it gives way (s) |
+| `falls` | `CrumblePlatform` | true | Drops while fading (collapsing); off fades in place (vanishing) |
+| `fall_distance` | `CrumblePlatform` | 24 | How far it drops (px) |
+| `vanish_time` | `CrumblePlatform` | 0.3 | Fade out, and fade back in (s) |
+| `return_time` | `CrumblePlatform` | 3 | Seconds until it comes back. 0: until the room loads again. Test shaft bridge: 0 |
+| `shake_amount` | `CrumblePlatform` | 1 | Sideways shake while crumbling (px) |
 | `size` | `Elevator` | 48×8 | Platform size (px) |
 | `travel` | `Elevator` | (0, 192) | Second stop, from the first (px) |
 | `speed` | `Elevator` | 80 | px/s |
@@ -133,3 +153,4 @@ Zones only affect the player. Enemies walk through them unchanged.
 - Wind only blows sideways; there are no updrafts.
 - A platform or elevator moving down onto a player standing on the ground under it pushes them into the floor. Leave room under their paths.
 - Elevator positions aren't saved.
+- Crumbling platforms only react to the player, and a collapsed bridge can't be crossed again until the room reloads, so don't make one the only way back.

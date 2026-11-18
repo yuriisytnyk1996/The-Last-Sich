@@ -224,7 +224,7 @@ The-Last-Sich/
 │   │   ├── mechanisms/           Levers, attack switches, pressure plates and the gates they open
 │   │   ├── traversal/            Climb walls, reveal platforms
 │   │   ├── breakables/           Breakable crate, cracked wall and secret wall (breakable.gd, crate.tscn, breakable_wall.tscn, secret_wall.tscn)
-│   │   ├── platforms/            Moving platform, elevator and its call lever
+│   │   ├── platforms/            Moving platform, crumbling platform, elevator and its call lever
 │   │   ├── traps/                Timed spike and fire traps, turret and its bolt
 │   │   └── zones/                Wind, mud and poison zones on the AreaEffect base
 │   ├── rooms/
