@@ -167,7 +167,7 @@ The **Fall** state measures how far the player drops while moving down. Landing 
 - The camera shakes once (`Events.camera_shake_requested`, trauma 0.5).
 - Once `hard_landing_dash_cancel` (half) of the time has passed, a dash gets the player out early.
 
-With the `soft_landing` [unlock](/systems/traversal#unlocks) (the owl feather charm, while worn) there are no hard landings: a long fall lands like a short one, straight into Idle or Run.
+With the `soft_landing` [unlock](/systems/traversal#unlocks) (the owl feather relic, while worn) there are no hard landings: a long fall lands like a short one, straight into Idle or Run.
 
 The distance is counted from where the Fall state starts: the top of a jump, walking off a ledge, letting go of a ladder. It carries through room transitions, so falling through a hole into the room below counts as one drop. Air attacks start a new count. Ordinary jumps (52 px) and the 2-tile platform rules never come close.
 

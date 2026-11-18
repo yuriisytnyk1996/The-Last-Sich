@@ -2,7 +2,8 @@ class_name PlayerInventory
 extends Node
 ## The items the player carries and the ones they wear.
 ##
-## Every item in the game is listed in `all`. `add()` gives one to the
+## Every item in the game must be listed in `all`: the inventory page
+## shows only those, and loading a save drops any other id. `add()` gives one to the
 ## player (pickups, shops) and announces it through `Events.item_obtained`.
 ## Charms and blades are worn in slots: as many charm slots as the
 ## `PlayerStats.CHARM_SLOTS` stat, one blade slot, `RELIC_SLOTS` relic
@@ -107,6 +108,8 @@ func has_free_slot(kind: Item.Kind) -> bool:
 func add(item: Item) -> bool:
 	if item == null or owns(item):
 		return false
+	if find(item.id) == null:
+		push_error("Item %s is missing from the player's Inventory.all list" % item.id)
 	_owned.append(item.id)
 	newest = item
 	changed.emit()

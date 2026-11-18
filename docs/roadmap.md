@@ -100,7 +100,7 @@
 
 - [x] Attack switches: a switch hit with any player attack (the ranged bolt too, for switches out of reach) drives gates like a lever: `TOGGLE`, `UNLOCK`, or `TIMED` (opens for a few seconds, owns its targets), optionally one-shot; fills no spirit, saved. A one-shot switch opens a new corridor gate in the test hideout
 
-- [x] Soft landing: the owl feather charm (`soft_landing` unlock, while worn) removes hard landings. In the test room
+- [x] Soft landing: the owl feather relic (`soft_landing` unlock, while worn) removes hard landings. In the test room
 - [x] Crumbling platforms: shake under the player, then give way, dropping (collapsing) or fading in place (vanishing), and come back after a while or only when the room reloads. Vanishing stairs and a collapsing bridge in the test shaft
 - [x] Ledge grab only grabs terrain tiles, never gates, crates, cracked walls or moving bodies
 

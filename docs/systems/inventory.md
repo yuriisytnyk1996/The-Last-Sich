@@ -89,7 +89,6 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 | Hare foot | Charm | 350 | Run speed +15% |
 | Quick bracer | Charm | 450 | Attack speed +20% |
 | Raven eye | Charm | 500 | Critical hit chance +0.15 |
-| Owl feather | Charm | 400 | No hard landing after long falls (`soft_landing` [unlock](/systems/traversal#unlocks)) |
 | Heavy edge | Blade | 600 | Damage +30%, dash cooldown +0.3 s |
 | Thirsting edge | Blade | 600 | 30% chance to heal 3 on a hit, damage -10% |
 | Guarding edge | Blade | 500 | Parry window +0.1 s, riposte window +0.25 s, max health -10 |
@@ -100,10 +99,11 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 | Icon lamp | Keepsake | 500 | Rest points fill [spirit](/systems/spirit); respawn with it full |
 | Living water (5: rapids, well, dew, spring, steppe) | Quest item | – | Taken by a flask healer for one [flask healing](/systems/upgrades#flask-upgrades) upgrade |
 | Seer's lantern | Relic | 1000 | Shows reveal platforms while worn |
+| Owl feather | Relic | 800 | No hard landing after long falls while worn (`soft_landing` [unlock](/systems/traversal#unlocks)) |
 
 The seven dumas are listed on the [Dumas](/systems/dumas#dumas) page.
 
-The test room holds the owl feather, hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. The rest are only reachable through the debug button for now.
+The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The owl feather lies on the test room's low step. The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. The rest are only reachable through the debug button for now.
 
 ### Saving
 
@@ -151,7 +151,7 @@ In debug builds the inventory page footer has a **Debug: get all** button (mouse
 
 ## Extending
 
-- **A new item:** create an `Item` `.tres` in the folder of its kind, give it a unique `id`, a `description` (what it does) and a `lore` (its story, no numbers), add effects, and add it to `Inventory.all` on the player scene (the inventory page lists items in that order). Never rename an `id` that has been saved.
+- **A new item:** create an `Item` `.tres` in the folder of its kind, give it a unique `id`, a `description` (what it does) and a `lore` (its story, no numbers), add effects, and add it to `Inventory.all` on the player scene (the inventory page lists items in that order). An item missing from `all` never shows on the inventory page and is dropped from saves; `add()` reports it as an error. Never rename an `id` that has been saved.
 - **A new effect type:** extend `ItemEffect` and override `start()` and `stop()`. `start()` gets the player and the effect's source.
 - **A new trigger:** add it to `ItemEffect.Trigger`, connect the event in `PlayerItemEffects._ready()` and call `_fire()` with it.
 - **Selling an item:** place a `ShopItem` stand, see [Shops](/systems/shops).

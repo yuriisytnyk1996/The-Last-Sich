@@ -13,7 +13,7 @@ Ways through the world and places locked behind something the player finds later
 | `reveal_platforms` | Seer's lantern (relic, while worn) | Reveal platforms become solid and visible |
 | `rest_travel` | Chumak's whip (keepsake, while carried) | Kneeling at a rest point offers [travel](/systems/travel) to any other found |
 | `rest_spirit` | Icon lamp (keepsake, while carried) | Resting fills [spirit](/systems/spirit), and respawning after death starts it full instead of empty |
-| `soft_landing` | Owl feather (charm, while worn) | No [hard landing](/systems/player#hard-landing) after long falls |
+| `soft_landing` | Owl feather (relic, while worn) | No [hard landing](/systems/player#hard-landing) after long falls |
 
 Unlocks come from items. An `UnlockEffect` (`actors/player/items/effects/unlock_effect.gd`) is an [item effect](/systems/inventory#effects) that grants its unlock when it starts and revokes it when it stops. With an `OWNED` trigger it works while the item is carried; with `EQUIPPED` only while it is worn. One unlock can come from several sources and stays on while any of them holds it.
 
