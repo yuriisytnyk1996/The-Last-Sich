@@ -191,6 +191,7 @@ func _load_room(room_path: String, exit_name: StringName) -> void:
 	player.safe_ground.enter_room(room.scene_file_path)
 	death_penalty.place_in(room)
 	world_map.enter_room(room)
+	Music.set_room_music(room.music)
 	# Placed by the room or an exit: a teleport, not movement.
 	player.reset_physics_interpolation()
 	player.camera.reset_smoothing.call_deferred()

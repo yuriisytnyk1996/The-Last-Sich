@@ -87,6 +87,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	var top := _stack.back() as MenuScreen
 	if event.is_action_pressed("ui_cancel"):
+		Audio.play(&"ui_back")
 		top.go_back()
 		get_viewport().set_input_as_handled()
 	elif _is_navigation(event) and get_viewport().gui_get_focus_owner() == null:

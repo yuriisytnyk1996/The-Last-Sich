@@ -141,6 +141,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("hitbox")
 damage = 15
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Swing1"]
 shape = SubResource("swing_shape")
@@ -161,6 +162,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("hitbox")
 damage = 15
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Swing2"]
 shape = SubResource("swing_shape")
@@ -184,6 +186,7 @@ damage = 25
 knockback_force = 180.0
 reaction = 2
 parryable = true
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Swing3"]
 shape = SubResource("heavy_swing_shape")
@@ -207,6 +210,7 @@ damage = 30
 knockback_force = 160.0
 knockback_direction = Vector2(1, -0.5)
 reaction = 2
+sound = &"land_hard"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Slam"]
 shape = SubResource("slam_shape")
@@ -229,6 +233,7 @@ script = ExtResource("hitbox")
 damage = 30
 knockback_force = 160.0
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Dash"]
 shape = SubResource("dash_shape")

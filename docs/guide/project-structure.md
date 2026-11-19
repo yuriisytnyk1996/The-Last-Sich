@@ -20,6 +20,10 @@ The-Last-Sich/
 │       └── text_parser.gd        Reads translatable properties from .tres and .tscn files
 ├── locale/                       Translation template (.pot) and one .po file per language
 ├── assets/
+│   ├── audio/
+│   │   ├── sound_bank.tres       Every sound cue by name (`SoundBank`), see Audio
+│   │   ├── sfx/                  Sound effects (placeholders, one WAV per cue)
+│   │   └── music/                Looping music tracks (placeholder Ogg files)
 │   └── sprites/
 │       └── items/
 │           ├── <charm id>.png    16×16 icon for each charm (12)
@@ -28,6 +32,8 @@ The-Last-Sich/
 │   ├── events.gd                 Global signal bus (autoload "Events")
 │   ├── display_settings.gd       Video options: window, scaling, VSync, textures, brightness, CRT (autoload "DisplaySettings")
 │   ├── audio_settings.gd         Bus volumes (autoload "AudioSettings")
+│   ├── audio.gd                  Plays sound cues in the world and on the screen (autoload "Audio")
+│   ├── music.gd                  Crossfaded room and boss music (autoload "Music")
 │   ├── accessibility_settings.gd Screen shake, rumble and tips toggles (autoload "AccessibilitySettings")
 │   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
 │   ├── language_settings.gd      Game language, saved choice (autoload "LanguageSettings")
@@ -37,6 +43,10 @@ The-Last-Sich/
 │   ├── pool.gd                   Reuses projectiles and blasts instead of freeing them (autoload "Pool")
 │   └── save_manager.gd           Save snapshot, load and save, room state (autoload "SaveManager")
 ├── components/
+│   ├── audio/
+│   │   ├── sound_bank.gd         SoundBank: cues by name
+│   │   ├── sound_cue.gd          SoundCue: takes, volume, pitch jitter, voice limit
+│   │   └── state_sounds.gd       StateSounds: cues on state changes, footsteps
 │   ├── state_machine/
 │   │   ├── state_machine.gd      Generic finite state machine
 │   │   └── state.gd              Base class for one state
@@ -403,6 +413,7 @@ The-Last-Sich/
 │           └── world/            room, kill, flag, counter, map, marks, tips, save, timescale
 ├── tools/
 │   ├── check_file_sizes.sh       Enforces file size limits
+│   ├── placeholder_audio.py      Generates the placeholder sounds and music
 │   ├── build_map_catalog.gd      Builds levels/map/map_catalog.tres from the room scenes
 │   ├── map_catalog.sh            Runs the builder with Godot; --check for the pre-commit hook
 │   ├── update_pot_files.gd       Fills the POT generation file list in project.godot
@@ -425,8 +436,8 @@ See [Code organization](/guide/code-organization) for the rules behind this layo
 | `actors/` | Anything that moves and acts: the player, enemies, bosses, NPCs. One folder per actor, with its scene, script and states. |
 | `levels/` | Rooms and level-specific scripts. |
 | `ui/` | Menus, HUD and debug overlays. |
-| `assets/` | Art and other imported files. Sprites go in `assets/sprites/<feature>/`. |
+| `assets/` | Art and other imported files. Sprites go in `assets/sprites/<feature>/`, sounds and music in `assets/audio/`. |
 | `tools/` | Developer scripts that are not part of the game. |
 | `docs/` | Documentation only. Ignored by Godot. |
 
-Planned folders as the game grows: `assets/audio/` and `assets/fonts/`, `resources/` (data `.tres` files such as enemy stats), `actors/bosses/`.
+Planned folders as the game grows: `assets/fonts/`, `resources/` (data `.tres` files such as enemy stats), `actors/bosses/`.

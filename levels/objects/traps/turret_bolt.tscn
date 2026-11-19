@@ -14,6 +14,7 @@ knockback_force = 120.0
 active_on_start = true
 speed = 160.0
 lifetime = 3.0
+sound = &"shot"
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("shape")

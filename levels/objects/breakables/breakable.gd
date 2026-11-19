@@ -36,6 +36,8 @@ enum Side { BOTH, LEFT, RIGHT }
 @export var map_hides := Rect2()
 ## Camera trauma when it breaks (0 to 1).
 @export var break_shake := 0.15
+## Sound cue when it breaks. Empty: silent.
+@export var break_sound := &"break"
 
 var broken := false
 var _hits_left := 0
@@ -79,6 +81,7 @@ func _on_hurt(_hitbox: Hitbox) -> void:
 	if _hits_left > 0:
 		return
 	_break(false)
+	Audio.play_at(break_sound, global_position)
 	broken_by_player.emit()
 	if currency > 0:
 		Events.currency_earned.emit(currency)

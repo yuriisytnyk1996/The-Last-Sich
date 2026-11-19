@@ -130,6 +130,7 @@
 [ext_resource type="Script" path="res://actors/player/abilities/scripted.gd" id="scripted"]
 [ext_resource type="Script" path="res://actors/player/states/scripted.gd" id="st_scripted"]
 [ext_resource type="Script" path="res://components/camera/camera_director.gd" id="camera_director"]
+[ext_resource type="Script" path="res://components/audio/state_sounds.gd" id="state_sounds"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 30)
@@ -265,6 +266,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
 knockback_direction = Vector2(1, 0)
+sound = &"swing"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Side"]
 shape = SubResource("side_attack_shape")
@@ -285,6 +287,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
 knockback_direction = Vector2(0, -1)
+sound = &"swing"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Up"]
 shape = SubResource("up_attack_shape")
@@ -305,6 +308,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("9_hitbox")
 knockback_direction = Vector2(1, 0)
+sound = &"swing"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Crouch"]
 shape = SubResource("crouch_attack_shape")
@@ -328,6 +332,7 @@ damage = 60
 knockback_force = 180.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Riposte"]
 shape = SubResource("riposte_shape")
@@ -351,6 +356,7 @@ damage = 40
 knockback_force = 170.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/ComboHeavy"]
 shape = SubResource("combo_heavy_shape")
@@ -374,6 +380,7 @@ damage = 60
 knockback_force = 220.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Finisher"]
 shape = SubResource("finisher_shape")
@@ -397,6 +404,7 @@ damage = 60
 knockback_force = 200.0
 knockback_direction = Vector2(0.4, -1)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/FinisherUp"]
 shape = SubResource("finisher_up_shape")
@@ -420,6 +428,7 @@ damage = 60
 knockback_force = 160.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/FinisherDown"]
 shape = SubResource("finisher_down_shape")
@@ -443,6 +452,7 @@ damage = 80
 knockback_force = 240.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/ChargedSlash"]
 shape = SubResource("charged_slash_shape")
@@ -466,6 +476,7 @@ damage = 40
 knockback_force = 180.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Lunge"]
 shape = SubResource("lunge_shape")
@@ -489,6 +500,7 @@ damage = 40
 knockback_force = 140.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
+sound = &"dash"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/DivePlunge"]
 shape = SubResource("dive_plunge_shape")
@@ -512,6 +524,7 @@ damage = 60
 knockback_force = 160.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
+sound = &"land_hard"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/DiveLanding"]
 shape = SubResource("dive_landing_shape")
@@ -535,6 +548,7 @@ damage = 60
 knockback_force = 180.0
 knockback_direction = Vector2(0, -1)
 reaction = 2
+sound = &"land_hard"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/DiveLandingWide"]
 shape = SubResource("dive_landing_wide_shape")
@@ -581,6 +595,7 @@ flash_target = NodePath("../Visual")
 hit_stop = 0.1
 shake = 0.6
 rumble = 0.8
+hurt_sound = &"player_hurt"
 
 [node name="DropThrough" type="Node" parent="."]
 script = ExtResource("20_drop")
@@ -815,3 +830,10 @@ all = Array[ExtResource("item_script")]([ExtResource("item_iron_cross"), ExtReso
 
 [node name="ItemEffects" type="Node" parent="."]
 script = ExtResource("item_effects")
+
+[node name="StateSounds" type="Node" parent="." node_paths=PackedStringArray("state_machine")]
+script = ExtResource("state_sounds")
+state_machine = NodePath("../StateMachine")
+sounds = Dictionary[String, StringName]({"Jump": &"jump", "WallJump": &"jump", "Dash": &"dash", "Fall>Idle": &"land", "Fall>Run": &"land", "HardLanding": &"land_hard", "Heal": &"heal", "Duma": &"duma", "Execute": &"execution", "Dead": &"player_death"})
+step_state = &"Run"
+step_sound = &"step"

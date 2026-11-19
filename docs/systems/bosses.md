@@ -132,6 +132,8 @@ Active is the time the blade is out. For `LeapSlam` it starts on landing, and fo
 | `item` | none | Given when the boss dies |
 | `death_shake` | 0.8 | Camera trauma when the boss dies |
 | `death_hit_stop` | 0.3 | Freeze on the killing blow (s) |
+| `phase_music` | empty | Music per boss phase; see [Audio](/systems/audio#music). Test arena: `boss_1`, `boss_2` |
+| `death_sound` | `boss_death` | Sound cue when the boss dies |
 
 ### BossBar
 

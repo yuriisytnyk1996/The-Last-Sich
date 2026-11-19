@@ -64,7 +64,7 @@ res://
 ├── ui/
 │   ├── (hud/, menus/)
 │   └── debug/
-├── assets/                   sprites/, (audio/, fonts/), mirroring the code folders
+├── assets/                   sprites/, audio/, (fonts/), mirroring the code folders
 ├── (resources/)              Data files (.tres): stats, item definitions
 └── tools/                    Developer scripts, not part of the game
 ```

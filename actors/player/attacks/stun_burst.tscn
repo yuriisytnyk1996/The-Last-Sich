@@ -16,6 +16,7 @@ reaction = 1
 stuns = true
 duration = 0.2
 shake = 0.5
+sound = &"block"
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -28.0)

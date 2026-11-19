@@ -13,6 +13,9 @@ extends Node2D
 
 ## The playable area. The camera never shows anything outside it.
 @export var bounds := Rect2i(0, 0, 1280, 360)
+## Music while the player is here (`Music.set_room_music()`). Empty keeps
+## the music that is playing, so rooms of one zone can set it once.
+@export var music: AudioStream
 
 @export_group("Map")
 ## Where the top left corner of `bounds` sits on the world map, in map

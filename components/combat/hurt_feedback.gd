@@ -22,16 +22,31 @@ extends Node
 @export var rumble := 0.0
 ## Rumble length (s) for a normal hit.
 @export var rumble_time := 0.15
+@export_group("Sounds")
+## Cues played at the hurtbox (`Audio.play_at()`). Empty: silent.
+@export var hurt_sound := &"hit"
+## Played on top of `hurt_sound` for a critical hit.
+@export var crit_sound := &"hit_critical"
+## Only a parrying or guarding hurtbox ever plays these.
+@export var parry_sound := &"parry"
+@export var block_sound := &"block"
+@export var guard_slide_sound := &"guard_slide"
 
 var _tween: Tween
 
 
 func _ready() -> void:
 	hurtbox.hurt.connect(_on_hurt)
+	hurtbox.parried.connect(_sound.bind(parry_sound).unbind(1))
+	hurtbox.blocked.connect(_sound.bind(block_sound).unbind(1))
+	hurtbox.guard_slid.connect(_sound.bind(guard_slide_sound).unbind(1))
 
 
 func _on_hurt(hitbox: Hitbox) -> void:
 	var scale := hitbox.feedback_scale()
+	_sound(hurt_sound)
+	if hitbox.critical:
+		_sound(crit_sound)
 	_flash(crit_flash_color if hitbox.critical else flash_color)
 	HitStop.freeze(hit_stop * scale)
 	if shake > 0.0:
@@ -47,3 +62,7 @@ func _flash(color: Color) -> void:
 	flash_target.modulate = color
 	_tween = create_tween()
 	_tween.tween_property(flash_target, "modulate", Color.WHITE, flash_time)
+
+
+func _sound(cue: StringName) -> void:
+	Audio.play_at(cue, hurtbox.global_position)

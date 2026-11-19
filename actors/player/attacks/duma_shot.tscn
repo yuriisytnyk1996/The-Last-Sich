@@ -17,6 +17,7 @@ knockback_direction = Vector2(1, 0)
 start_speed = 360.0
 max_speed = 420.0
 lifetime = 0.6
+sound = &"shot"
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("shape")

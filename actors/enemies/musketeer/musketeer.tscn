@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://actors/enemies/states/executable.gd" id="executable"]
 [ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="13_stunned"]
 [ext_resource type="PackedScene" path="res://actors/enemies/musketeer/musket_ball.tscn" id="14_ball"]
+[ext_resource type="Script" path="res://components/audio/state_sounds.gd" id="state_sounds"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(14, 28)
@@ -182,3 +183,8 @@ script = ExtResource("executable")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("12_dead")
+
+[node name="StateSounds" type="Node" parent="." node_paths=PackedStringArray("state_machine")]
+script = ExtResource("state_sounds")
+state_machine = NodePath("../StateMachine")
+sounds = Dictionary[String, StringName]({"Dead": &"enemy_death"})

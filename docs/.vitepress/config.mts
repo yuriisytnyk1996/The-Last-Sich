@@ -44,6 +44,7 @@ export default defineConfig({
           { text: 'Enemies', link: '/systems/enemies' },
           { text: 'Bosses', link: '/systems/bosses' },
           { text: 'Game feel', link: '/systems/game-feel' },
+          { text: 'Audio', link: '/systems/audio' },
           { text: 'HUD', link: '/systems/hud' },
           { text: 'Rooms', link: '/systems/rooms' },
           { text: 'Environment', link: '/systems/environment' },

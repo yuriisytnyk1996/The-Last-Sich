@@ -166,6 +166,7 @@ Zones only affect the player. Enemies walk through them unchanged.
 | `break_shake` | `Breakable` | 0.15 | Camera trauma on break. Cracked and secret wall: 0.4 |
 | `breakable_from` | `Breakable` | `BOTH` | Side the player has to stand on for hits to count. Secret wall: `LEFT` |
 | `fade_time` | `Breakable` | 0 | Seconds `Visual` fades when broken; 0 hides it at once. Secret wall: 0.6 |
+| `break_sound` | `Breakable` | `break` | [Sound cue](/systems/audio) when it breaks |
 | `map_hides` | `Breakable` | empty | A secret: area (px) kept off the [map](/systems/map#secrets) until it breaks. Secret wall: its cover |
 | `size` | `MovingPlatform` | 48×8 | Platform size (px) |
 | `travel` | `MovingPlatform` | (128, 0) | Far end, from the start (px) |

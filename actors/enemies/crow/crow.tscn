@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://actors/enemies/states/hurt.gd" id="12_hurt"]
 [ext_resource type="Script" path="res://actors/enemies/states/stunned.gd" id="13_stunned"]
 [ext_resource type="Script" path="res://actors/enemies/states/dead.gd" id="14_dead"]
+[ext_resource type="Script" path="res://components/audio/state_sounds.gd" id="state_sounds"]
 
 [sub_resource type="RectangleShape2D" id="body_shape"]
 size = Vector2(12, 10)
@@ -114,6 +115,7 @@ collision_mask = 0
 monitoring = false
 script = ExtResource("3_hitbox")
 parryable = true
+sound = &"swing"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Attacks/Talons"]
 shape = SubResource("attack_shape")
@@ -203,3 +205,8 @@ mark = NodePath("../../Visual/StunMark")
 
 [node name="Dead" type="Node" parent="StateMachine"]
 script = ExtResource("14_dead")
+
+[node name="StateSounds" type="Node" parent="." node_paths=PackedStringArray("state_machine")]
+script = ExtResource("state_sounds")
+state_machine = NodePath("../StateMachine")
+sounds = Dictionary[String, StringName]({"Dead": &"enemy_death"})

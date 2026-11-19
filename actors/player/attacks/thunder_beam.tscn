@@ -16,6 +16,7 @@ knockback_direction = Vector2(0, -1)
 reaction = 2
 duration = 0.3
 shake = 0.9
+sound = &"shot"
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -100.0)

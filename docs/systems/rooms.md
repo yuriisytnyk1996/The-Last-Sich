@@ -129,6 +129,7 @@ Rooms don't contain the player, the HUD or the debug labels: those live in `Worl
 | `bounds` | `Room` | `Rect2i(0, 0, 1280, 360)` | Playable area and camera limits (px) |
 | `map_cell` | `Room` | `Vector2i(0, 0)` | Where the room sits on the [world map](/systems/map), in map cells |
 | `map_zone` | `Room` | `"Steppe"` | Zone name on the map |
+| `music` | `Room` | none | Music while here; empty keeps what is playing. See [Audio](/systems/audio#music) |
 | `start_room` | `World` | `res://levels/rooms/test_room.tscn` | The room the game starts in |
 | `target_room` | `RoomExit` | empty | Room to load (an exit with no target does nothing) |
 | `target_exit` | `RoomExit` | empty | Name of the exit in `target_room` to arrive through |

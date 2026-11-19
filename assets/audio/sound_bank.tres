@@ -1,0 +1,252 @@
+[gd_resource type="Resource" script_class="SoundBank" format=3]
+
+[ext_resource type="Script" path="res://components/audio/sound_bank.gd" id="bank"]
+[ext_resource type="Script" path="res://components/audio/sound_cue.gd" id="cue"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/block.wav" id="s_block"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/boss_death.wav" id="s_boss_death"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/break.wav" id="s_break"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/coin.wav" id="s_coin"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/dash.wav" id="s_dash"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/denied.wav" id="s_denied"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/duma.wav" id="s_duma"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/enemy_death.wav" id="s_enemy_death"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/execution.wav" id="s_execution"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/guard_slide.wav" id="s_guard_slide"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/heal.wav" id="s_heal"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/hit.wav" id="s_hit"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/hit_critical.wav" id="s_hit_critical"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/hit_wood.wav" id="s_hit_wood"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/item.wav" id="s_item"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/jump.wav" id="s_jump"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/land.wav" id="s_land"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/land_hard.wav" id="s_land_hard"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/parry.wav" id="s_parry"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/player_death.wav" id="s_player_death"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/player_hurt.wav" id="s_player_hurt"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/rest.wav" id="s_rest"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/shot.wav" id="s_shot"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/step.wav" id="s_step"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/swing.wav" id="s_swing"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/swing_heavy.wav" id="s_swing_heavy"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui_accept.wav" id="s_ui_accept"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui_back.wav" id="s_ui_back"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ui_move.wav" id="s_ui_move"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/upgrade.wav" id="s_upgrade"]
+
+[sub_resource type="Resource" id="c_block"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_block")])
+
+[sub_resource type="Resource" id="c_boss_death"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_boss_death")])
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.5
+
+[sub_resource type="Resource" id="c_break"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_break")])
+
+[sub_resource type="Resource" id="c_coin"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_coin")])
+volume_db = -8.0
+max_voices = 3
+cooldown = 0.05
+
+[sub_resource type="Resource" id="c_dash"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_dash")])
+volume_db = -6.0
+pitch_jitter = 0.1
+max_voices = 2
+
+[sub_resource type="Resource" id="c_denied"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_denied")])
+volume_db = -6.0
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.2
+
+[sub_resource type="Resource" id="c_duma"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_duma")])
+volume_db = -4.0
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.1
+
+[sub_resource type="Resource" id="c_enemy_death"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_enemy_death")])
+
+[sub_resource type="Resource" id="c_execution"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_execution")])
+
+[sub_resource type="Resource" id="c_guard_slide"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_guard_slide")])
+
+[sub_resource type="Resource" id="c_heal"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_heal")])
+volume_db = -4.0
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.1
+
+[sub_resource type="Resource" id="c_hit"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_hit")])
+
+[sub_resource type="Resource" id="c_hit_critical"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_hit_critical")])
+
+[sub_resource type="Resource" id="c_hit_wood"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_hit_wood")])
+
+[sub_resource type="Resource" id="c_item"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_item")])
+volume_db = -4.0
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.1
+
+[sub_resource type="Resource" id="c_jump"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_jump")])
+volume_db = -10.0
+max_voices = 2
+
+[sub_resource type="Resource" id="c_land"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_land")])
+volume_db = -6.0
+pitch_jitter = 0.1
+max_voices = 2
+cooldown = 0.05
+
+[sub_resource type="Resource" id="c_land_hard"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_land_hard")])
+
+[sub_resource type="Resource" id="c_parry"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_parry")])
+
+[sub_resource type="Resource" id="c_player_death"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_player_death")])
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.5
+
+[sub_resource type="Resource" id="c_player_hurt"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_player_hurt")])
+
+[sub_resource type="Resource" id="c_rest"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_rest")])
+volume_db = -4.0
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.5
+
+[sub_resource type="Resource" id="c_shot"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_shot")])
+
+[sub_resource type="Resource" id="c_step"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_step")])
+volume_db = -12.0
+pitch_jitter = 0.15
+max_voices = 2
+cooldown = 0.05
+
+[sub_resource type="Resource" id="c_swing"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_swing")])
+volume_db = -6.0
+pitch_jitter = 0.12
+
+[sub_resource type="Resource" id="c_swing_heavy"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_swing_heavy")])
+volume_db = -4.0
+pitch_jitter = 0.08
+max_voices = 3
+
+[sub_resource type="Resource" id="c_ui_accept"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_ui_accept")])
+volume_db = -8.0
+pitch_jitter = 0.0
+max_voices = 2
+cooldown = 0.02
+
+[sub_resource type="Resource" id="c_ui_back"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_ui_back")])
+volume_db = -8.0
+pitch_jitter = 0.0
+max_voices = 2
+cooldown = 0.02
+
+[sub_resource type="Resource" id="c_ui_move"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_ui_move")])
+volume_db = -10.0
+pitch_jitter = 0.0
+max_voices = 2
+cooldown = 0.02
+
+[sub_resource type="Resource" id="c_upgrade"]
+script = ExtResource("cue")
+streams = Array[AudioStream]([ExtResource("s_upgrade")])
+volume_db = -2.0
+pitch_jitter = 0.0
+max_voices = 1
+cooldown = 0.2
+
+[resource]
+script = ExtResource("bank")
+cues = Dictionary[StringName, ExtResource("cue")]({
+&"block": SubResource("c_block"),
+&"boss_death": SubResource("c_boss_death"),
+&"break": SubResource("c_break"),
+&"coin": SubResource("c_coin"),
+&"dash": SubResource("c_dash"),
+&"denied": SubResource("c_denied"),
+&"duma": SubResource("c_duma"),
+&"enemy_death": SubResource("c_enemy_death"),
+&"execution": SubResource("c_execution"),
+&"guard_slide": SubResource("c_guard_slide"),
+&"heal": SubResource("c_heal"),
+&"hit": SubResource("c_hit"),
+&"hit_critical": SubResource("c_hit_critical"),
+&"hit_wood": SubResource("c_hit_wood"),
+&"item": SubResource("c_item"),
+&"jump": SubResource("c_jump"),
+&"land": SubResource("c_land"),
+&"land_hard": SubResource("c_land_hard"),
+&"parry": SubResource("c_parry"),
+&"player_death": SubResource("c_player_death"),
+&"player_hurt": SubResource("c_player_hurt"),
+&"rest": SubResource("c_rest"),
+&"shot": SubResource("c_shot"),
+&"step": SubResource("c_step"),
+&"swing": SubResource("c_swing"),
+&"swing_heavy": SubResource("c_swing_heavy"),
+&"ui_accept": SubResource("c_ui_accept"),
+&"ui_back": SubResource("c_ui_back"),
+&"ui_move": SubResource("c_ui_move"),
+&"upgrade": SubResource("c_upgrade")
+})

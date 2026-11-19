@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://components/cutscene/steps/shake_step.gd" id="shake_step"]
 [ext_resource type="Script" path="res://components/cutscene/steps/title_step.gd" id="title_step"]
 [ext_resource type="Script" path="res://components/cutscene/steps/wait_step.gd" id="wait_step"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/boss_1.ogg" id="boss_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/boss_2.ogg" id="boss_2"]
 
 [sub_resource type="RectangleShape2D" id="trigger_shape"]
 size = Vector2(720, 288)
@@ -76,6 +78,7 @@ position = Vector2(720, 260)
 [node name="BossArena" parent="." node_paths=PackedStringArray("boss", "intro") instance=ExtResource("3_arena")]
 boss = NodePath("../Enemies/Otaman")
 intro = NodePath("../Intro")
+phase_music = Array[AudioStream]([ExtResource("boss_1"), ExtResource("boss_2")])
 
 [node name="Shape" type="CollisionShape2D" parent="BossArena/Trigger"]
 position = Vector2(576, 176)

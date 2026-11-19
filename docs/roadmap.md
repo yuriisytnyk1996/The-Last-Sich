@@ -118,6 +118,7 @@
 - [x] Debug console: F1 in debug builds opens a command line over the paused game, with history, Tab completion of names and arguments, and commands for god mode, healing, currency, items, skills, upgrades, moving between rooms, killing the room's enemies, story flags and counters, revealing the map, clearing death marks, forgetting tips, saving and the game speed. See [Debug console](/systems/debug-console)
 
 - [x] Companions and summon dumas: `SummonEffect` helpers in `actors/player/companions/` (`Companion` base). The Duma of the Wagon Fort sets down a warding circle where no hit lands on the player (new `Hurtbox.set_ward()`, enemy shots stop on a ward); the Duma of the Sworn Brother summons a ghost that lunges with a HEAVY cut when the player swings and shields them when they parry; the Duma of the Falcons sends three falcons, one at a time, at the nearest visible enemy and ends when the last one flies. The wandering candle, a relic, summons a light that follows the player and leads to captives still caged in the room (cages join the `captives` group). Dumas in the test room, the candle in the test barracks. See [Dumas](/systems/dumas#companions)
+- [x] Audio: sound cues by name in one `SoundBank` (random takes, pitch jitter, voice limits, cooldown), played in the world (positional, paused with the game) or on the screen by the `Audio` autoload; generic hooks so content needs no code: `Hitbox.sound` when a blow comes out, `HurtFeedback` hit, critical, parry, block and guard-slide sounds, `StateSounds` for state changes and footsteps, `Breakable.break_sound`, global event sounds and automatic menu sounds. `Music` autoload: crossfaded tracks, `Room.music`, boss music per phase (`BossArena.phase_music`). Every sound and track is a synthesised placeholder from `tools/placeholder_audio.py` (stdlib Python, Ogg through ffmpeg); swapping one is a change in `sound_bank.tres`. Steppe music in the test rooms, an eerie drone in the test kurgan, two boss tracks in the test arena. See [Audio](/systems/audio)
 
 ## Next
 
@@ -127,8 +128,16 @@ Nothing picked yet. The next item comes from Later.
 
 - [ ] Pixel art sprites and animations for the player and the raider
 - [ ] Terrain tile art with autotiling
-- [ ] Audio
+- [ ] Real sounds and music to replace the placeholders; an ambience layer, reverb per zone, dialogue text sounds, enemy wind-up and boss roar sounds
+- [ ] Effects: dash ghost trail, dust, hit sparks, blood decals, distortion wave
 - [ ] Map: items that reveal a zone
+- [ ] The flask healer as a person (an NPC with dialogue) instead of a table
+- [ ] Real zones and levels (only test rooms today), more enemies, more bosses, more dumas and item effects
+- [ ] New Game+ with optional challenge modifiers
+- [ ] Boss rush mode
+- [ ] Achievements
+- [ ] Intro and quote screens, ending, credits
+- [ ] Optional extras beyond the core: a quest journal, portraits in dialogue
 - [ ] Hand-placed ledge markers, when real levels need them: an optional marker on a wall that turns automatic ledge detection off there, or forces a grab where detection wouldn't find one
 
 ## Last
@@ -152,7 +161,8 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Drawn rails and rungs for ladders
 - Post, crossbar and flame rectangles for rest points
 - Brown rectangle for doors, a triangle for the interact prompt
-- Default engine font and plain coloured rows for the menus, no menu art or sounds
+- Default engine font and plain coloured rows for the menus, no menu art
+- Synthesised placeholder sounds (bleeps, noise bursts, clangs) and plucked-string music loops for every cue and track
 - Coloured rectangles for the raider, a yellow rectangle for its attack telegraph and a translucent rectangle for its slash
 - Grey basin with a pale strip for the cleanse point
 - Coloured rectangles for NPCs (a polygon kobza for the kobzar, a mace for the elder), a grey box for the alms box, bars over a rectangle for captive cages, a bordered box with the default font for dialogue, no portraits or text sounds

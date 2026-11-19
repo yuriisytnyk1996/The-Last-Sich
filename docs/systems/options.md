@@ -60,7 +60,7 @@ The filter runs at the 640×360 base resolution, so grille and scanlines are one
 
 ## Audio
 
-`autoload/audio_settings.gd` (`AudioSettings`). Buses are defined in `default_bus_layout.tres`:
+`autoload/audio_settings.gd` (`AudioSettings`). Buses are defined in `default_bus_layout.tres`. What plays on them is described in [Audio](/systems/audio).
 
 | Bus | Feeds | Default | Used for |
 |---|---|---|---|

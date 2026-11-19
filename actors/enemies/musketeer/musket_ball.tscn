@@ -13,6 +13,7 @@ script = ExtResource("1_script")
 knockback_force = 120.0
 knockback_direction = Vector2(1, 0)
 active_on_start = true
+sound = &"shot"
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("shape")

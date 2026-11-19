@@ -65,6 +65,9 @@ const RESIST_STATS: Dictionary[Element, StringName] = {
 ## An enemy that flinches is stunned by this hit, as if parried
 ## (`EnemyDamage.stun_from()`). For the player's stunning duma.
 @export var stuns := false
+## Sound cue played each time it turns on (`Audio.play_at()`): a swing,
+## a shot leaving the barrel. Empty: silent.
+@export var sound := &""
 
 ## Stats of whoever deals this hit. Their `Stats.DAMAGE` scales `damage`.
 ## Optional: without it the base damage is dealt.
@@ -103,6 +106,9 @@ func set_active(value: bool) -> void:
 	visible = value
 	if value:
 		_has_hit = false
+		if sound != &"":
+			# Deferred: a pooled shot is placed after it is switched on.
+			_play_sound.call_deferred()
 	for child in get_children():
 		if child is CollisionShape2D or child is CollisionPolygon2D:
 			# Deferred: shapes can't change during a physics callback.
@@ -111,6 +117,11 @@ func set_active(value: bool) -> void:
 
 func is_active() -> bool:
 	return _active
+
+
+func _play_sound() -> void:
+	if _active and is_inside_tree():
+		Audio.play_at(sound, global_position)
 
 
 ## True if this activation has hit anything yet.

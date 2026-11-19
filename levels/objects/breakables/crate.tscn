@@ -44,3 +44,4 @@ script = ExtResource("3_feedback")
 hurtbox = NodePath("../Hurtbox")
 flash_target = NodePath("../Visual")
 hit_stop = 0.03
+hurt_sound = &"hit_wood"

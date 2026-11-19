@@ -331,6 +331,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `guard_slide` | false | A parrying hurtbox takes this hit as a [guard slide](#guard-slide) even if it isn't HEAVY |
 | `unblockable` | false | Never a guard slide, even when HEAVY: the hit lands through the guard |
 | `stuns` | false | An enemy that flinches is stunned by this hit, as if parried. For the Calm Sea [duma](/systems/dumas) |
+| `sound` | empty | [Sound cue](/systems/audio) played each time it turns on: a swing, a shot. Empty is silent |
 
 ### Hurtbox
 
@@ -355,6 +356,9 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `shake` | 0 | Camera trauma at NORMAL (0 to 1). Player 0.6, dummy 0.3 |
 | `rumble` | 0 | Gamepad rumble strength at NORMAL (0 to 1). Player 0.8, raider, musketeer and dummy 0.3 |
 | `rumble_time` | 0.15 | Rumble length (s) at NORMAL |
+| `hurt_sound` | `hit` | [Sound cue](/systems/audio) when hit. Player `player_hurt`, breakables `hit_wood` |
+| `crit_sound` | `hit_critical` | Played on top of `hurt_sound` for a critical hit |
+| `parry_sound`, `block_sound`, `guard_slide_sound` | `parry`, `block`, `guard_slide` | Played when this hurtbox parries, blocks (a shield or a ward) or guard-slides a hit |
 
 ### InvincibilityBlink
 

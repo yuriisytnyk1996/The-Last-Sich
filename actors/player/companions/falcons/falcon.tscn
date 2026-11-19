@@ -33,6 +33,7 @@ script = ExtResource("2_hitbox")
 damage = 40
 knockback_force = 90.0
 knockback_direction = Vector2(1, 0)
+sound = &"swing"
 
 [node name="Shape" type="CollisionShape2D" parent="Talons"]
 shape = SubResource("shape")

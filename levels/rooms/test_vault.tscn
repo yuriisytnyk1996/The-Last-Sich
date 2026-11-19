@@ -4,12 +4,14 @@
 [ext_resource type="PackedScene" path="res://levels/rooms/test_vault/deco.tscn" id="2_deco"]
 [ext_resource type="PackedScene" path="res://levels/rooms/test_vault/layout.tscn" id="3_layout"]
 [ext_resource type="PackedScene" path="res://levels/rooms/test_vault/logic.tscn" id="4_logic"]
+[ext_resource type="AudioStream" path="res://assets/audio/music/steppe.ogg" id="music"]
 
 [node name="TestVault" type="Node2D"]
 script = ExtResource("1_room")
 bounds = Rect2i(0, 0, 960, 720)
 map_cell = Vector2i(11, 0)
 map_zone = "Vault"
+music = ExtResource("music")
 
 [node name="Deco" parent="." instance=ExtResource("2_deco")]
 

@@ -27,6 +27,12 @@ const FIGHT_GROUP := &"boss_fights"
 @export var death_shake := 0.8
 ## Seconds the game freezes on the killing blow.
 @export var death_hit_stop := 0.3
+@export_group("Audio")
+## Music per boss phase (`Boss.phase`): the first plays as the fight
+## starts, the next when the boss reaches the next phase. A phase without
+## one keeps the last. The room's music comes back after the fight.
+@export var phase_music: Array[AudioStream] = []
+@export var death_sound := &"boss_death"
 
 var defeated := false
 var _fighting := false
@@ -42,6 +48,7 @@ func _ready() -> void:
 		gate.remove_from_group(SaveManager.PERSISTENT_GROUP)
 	trigger.body_entered.connect(_on_trigger_body_entered)
 	boss.health.died.connect(_on_boss_died)
+	boss.phase_changed.connect(_play_phase_music)
 	Events.player_died.connect(_on_player_died)
 
 
@@ -63,6 +70,7 @@ func _on_trigger_body_entered(body: Node2D) -> void:
 		_set_gates_open(false)
 		if intro and intro.can_play():
 			await intro.play()
+		_play_phase_music(0)
 		boss.awaken()
 		Events.boss_fight_started.emit(
 			boss.display_name, boss.health.current, boss.health.max_health
@@ -79,6 +87,8 @@ func _on_boss_died() -> void:
 	Events.boss_fight_ended.emit()
 	Events.camera_shake_requested.emit(death_shake)
 	HitStop.freeze(death_hit_stop)
+	Audio.play_at(death_sound, boss.global_position)
+	Music.play_room_music(3.0)
 	if item and is_instance_valid(_player):
 		_player.inventory.add(item)
 	_remove_boss(boss.damage.corpse_time + boss.damage.fade_time)
@@ -92,6 +102,12 @@ func _on_player_died() -> void:
 	remove_from_group(FIGHT_GROUP)
 	_set_gates_open(true)
 	Events.boss_fight_ended.emit()
+	Music.play_room_music()
+
+
+func _play_phase_music(phase: int) -> void:
+	if _fighting and phase < phase_music.size() and phase_music[phase]:
+		Music.play(phase_music[phase], 0.5)
 
 
 ## Out of the `enemies` group at once, so a rest can't bring it back,

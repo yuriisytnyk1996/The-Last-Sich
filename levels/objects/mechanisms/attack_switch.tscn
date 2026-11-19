@@ -45,3 +45,4 @@ hurtbox = NodePath("../Hurtbox")
 flash_target = NodePath("../Head")
 hit_stop = 0.04
 shake = 0.1
+hurt_sound = &"block"

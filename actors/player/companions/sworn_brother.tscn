@@ -38,6 +38,7 @@ damage = 40
 knockback_force = 160.0
 knockback_direction = Vector2(1, 0)
 reaction = 2
+sound = &"swing_heavy"
 
 [node name="Shape" type="CollisionShape2D" parent="Visual/Sabre"]
 position = Vector2(10, -14)
