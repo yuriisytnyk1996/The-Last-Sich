@@ -130,7 +130,6 @@ Nothing picked yet. The next item comes from Later.
 - [ ] Terrain tile art with autotiling
 - [ ] Real sounds and music to replace the placeholders; an ambience layer, reverb per zone, dialogue text sounds, enemy wind-up and boss roar sounds
 - [ ] Effects: dash ghost trail, dust, hit sparks, blood decals, distortion wave
-- [ ] Map: items that reveal a zone
 - [ ] The flask healer as a person (an NPC with dialogue) instead of a table
 - [ ] Real zones and levels (only test rooms today), more enemies, more bosses, more dumas and item effects
 - [ ] New Game+ with optional challenge modifiers

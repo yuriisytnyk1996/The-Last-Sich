@@ -141,7 +141,7 @@ The hideout is behind the vault's secret wall: the vault's east door gap stays c
 
 - Completion counts map cells only, not items, upgrades or secrets found.
 - The catalog builder only finds rooms directly in `levels/rooms/` whose root uses `room.gd` itself, not a script extending it. Its cell size is a copy of `WorldMap.cell_size`.
-- No items that reveal a whole zone yet. Travel works only from a rest point, not from the pause menu's map.
+- Travel works only from a rest point, not from the pause menu's map.
 - Player marks can't be placed on a cell with one of the map's own marks, and there is one per cell.
 - Cells, walls and marks are flat colours drawn in code, not art.
 - Rooms are rectangles on the map. An L-shaped room shows as its bounding rectangle.
