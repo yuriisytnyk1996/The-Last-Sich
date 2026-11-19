@@ -20,7 +20,7 @@ The travel map is the [map](/systems/map) page in travel mode (`MapScreen.new(ma
 - **Targets:** every revealed map cell with a rest point mark. A rest point only has to have been seen, not used.
 - **Start:** the cursor starts on the middle of the player's own cell, the rest point they kneel at.
 - **Moving:** there is no free panning. A push of move (past the `dead_zone`) looks for a target in that direction. It checks cones around the pushed direction, narrowest first (`cones`: 30°, 40°, 60° either side). The nearest target in the first cone with one wins. Pushing where there is nothing does nothing.
-- **Gliding:** the view glides to the chosen cell at `speed` screen px/s, easing in and out (quad). Meanwhile the cursor, a small square, swells to twice its size and shrinks back. New pushes are ignored until the glide ends. Holding a direction hops from rest point to rest point.
+- **Gliding:** the view glides to the chosen cell at `speed` screen px/s, easing in and out (quad). Meanwhile the cursor, a small square, swells to twice its size and shrinks back. New pushes are ignored until the glide ends. Holding a direction hops from rest point to rest point, waiting `hold_delay` on each one so a close neighbour isn't skipped past; a fresh push hops at once. A glide never takes less than `min_glide_time`. The view stops on the rest point's own mark, not the cell's middle, so the cursor frames it even when the cell has other marks beside it. The zone name switches to the target's zone as the glide starts (`MapTravel.destination`), not to each zone the view passes over.
 - **Travel possible:** when the cursor rests on a target that isn't the player's own cell. The cursor is bright, and the hint reads "Attack: travel". Elsewhere the cursor is dim and the hint leaves travel out.
 - **Zoom and marks are off** in travel mode. Jump doesn't zoom and attack doesn't place marks. The zone name, the legend, the map's marks, the player's marks and the death marks still show.
 - **Back** closes the whole menu, not just the map: the player rises. `map` closes it too.
@@ -58,6 +58,8 @@ The travel map is the [map](/systems/map) page in travel mode (`MapScreen.new(ma
 | `cones` | `[30, 40, 60]` | Half-angles (degrees) searched in turn around the pushed direction |
 | `dead_zone` | `0.2` | Stick push (0 to 1) needed to move |
 | `speed` | `400` | Glide speed of the view (screen px/s) |
+| `min_glide_time` | `0.15` | Shortest glide (s), so a hop to a close neighbour still reads |
+| `hold_delay` | `0.3` | While move stays held, wait on each rest point (s) before hopping on |
 | `cursor_size` | `8` | Side of the cursor square (px) at rest. It doubles mid-glide |
 
 The Kneel state (on the player's `StateMachine/Kneel` node) has its own values:

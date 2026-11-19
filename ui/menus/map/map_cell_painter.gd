@@ -29,13 +29,21 @@ static func draw_cell(
 ## `marks` (`MapRoom.Mark`s) as squares in a row across the middle of
 ## `rect`, smaller when zoomed out.
 static func draw_marks(canvas: CanvasItem, rect: Rect2, marks: Array) -> void:
+	for i in marks.size():
+		canvas.draw_rect(_mark_rect(rect, marks.size(), i), MapView.MARK_COLORS[marks[i]])
+
+
+## The middle of mark number `index` of `count` drawn in `rect`.
+static func mark_center(rect: Rect2, count: int, index: int) -> Vector2:
+	return _mark_rect(rect, count, index).get_center()
+
+
+static func _mark_rect(rect: Rect2, count: int, index: int) -> Rect2:
 	var side := 4.0 if rect.size.x >= 32.0 else 2.0
 	var start := (
-		rect.get_center() - Vector2(side * 1.5 * (marks.size() - 1) * 0.5 + side * 0.5, side * 0.5)
+		rect.get_center() - Vector2(side * 1.5 * (count - 1) * 0.5 + side * 0.5, side * 0.5)
 	)
-	for i in marks.size():
-		var spot := (start + Vector2(i * side * 1.5, 0)).floor()
-		canvas.draw_rect(Rect2(spot, Vector2(side, side)), MapView.MARK_COLORS[marks[i]])
+	return Rect2((start + Vector2(index * side * 1.5, 0)).floor(), Vector2(side, side))
 
 
 ## The wall along `side` of `rect`, `thickness` px thick.

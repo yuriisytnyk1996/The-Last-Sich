@@ -180,7 +180,7 @@ func _draw_cursor() -> void:
 
 
 func _update_zone() -> void:
-	var cell := Vector2i(center.floor())
+	var cell := travel.destination if travel else Vector2i(center.floor())
 	var zone := ""
 	if _map.revealed.has(cell) and _owners.has(cell):
 		zone = _owners[cell].zone
