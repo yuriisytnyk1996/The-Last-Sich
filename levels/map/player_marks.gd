@@ -7,16 +7,6 @@ extends RefCounted
 
 enum Kind { CHEST, QUESTION, ENEMY, PERSON, BLUE, GREEN, RED }
 
-const NAMES := {
-	Kind.CHEST: "Chest",
-	Kind.QUESTION: "Question",
-	Kind.ENEMY: "Enemy",
-	Kind.PERSON: "Person",
-	Kind.BLUE: "Blue pin",
-	Kind.GREEN: "Green pin",
-	Kind.RED: "Red pin",
-}
-
 ## Map cell -> `Kind`.
 var marks: Dictionary[Vector2i, int] = {}
 
@@ -48,3 +38,18 @@ func apply_data(data: Variant) -> void:
 		var kind := int(entry[2])
 		if kind >= 0 and kind < Kind.size():
 			marks[Vector2i(int(entry[0]), int(entry[1]))] = kind
+
+
+## The kind's name, translated. Static, so `TranslationServer.tr()`
+## stands in for `tr()`.
+static func kind_name(kind: Kind) -> String:
+	var names := {
+		Kind.CHEST: TranslationServer.tr("Chest"),
+		Kind.QUESTION: TranslationServer.tr("Question"),
+		Kind.ENEMY: TranslationServer.tr("Enemy"),
+		Kind.PERSON: TranslationServer.tr("Person"),
+		Kind.BLUE: TranslationServer.tr("Blue pin"),
+		Kind.GREEN: TranslationServer.tr("Green pin"),
+		Kind.RED: TranslationServer.tr("Red pin"),
+	}
+	return names[kind]

@@ -20,14 +20,14 @@ func _init(kind: PlayerUpgrades.Kind, price: int, player: Player, on_paid: Calla
 
 func _build() -> void:
 	add_title(PlayerUpgrades.kind_name(_kind))
-	add_text("Raises it by %d for good and fills it." % roundi(_player.upgrades.step(_kind)))
+	add_text(tr("Raises it by %d for good and fills it.") % roundi(_player.upgrades.step(_kind)))
 	add_gap()
-	add_text("Price: %d    You have: %d" % [_price, _player.wallet.amount])
+	add_text(tr("Price: %d    You have: %d") % [_price, _player.wallet.amount])
 	add_gap()
-	add_button("Leave", go_back)
-	var offer := add_button("Offer", _offer)
+	add_button(tr("Leave"), go_back)
+	var offer := add_button(tr("Offer"), _offer)
 	if _player.wallet.amount < _price:
-		offer.text = "Not enough currency"
+		offer.text = tr("Not enough currency")
 		offer.disabled = true
 
 

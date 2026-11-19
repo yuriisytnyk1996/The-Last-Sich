@@ -11,7 +11,7 @@ extends Resource
 ## Who speaks. Empty: the NPC's own name.
 @export var speaker := ""
 ## One entry per text box.
-@export_multiline var lines: PackedStringArray = []
+@export_multiline var lines := PackedStringArray()
 ## Answers offered on the last line. Empty: the conversation just ends.
 @export var choices: Array[DialogueChoice] = []
 ## Applied after the last line.

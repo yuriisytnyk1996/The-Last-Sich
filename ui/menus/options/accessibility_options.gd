@@ -5,17 +5,19 @@ extends MenuScreen
 
 func _build() -> void:
 	var settings := AccessibilitySettings
-	add_title("Accessibility")
+	add_title(tr("Accessibility"))
 	add_option(
-		"Screen shake",
-		ON_OFF,
+		tr("Screen shake"),
+		on_off(),
 		int(settings.screen_shake),
 		func(i: int) -> void: settings.set_screen_shake(i == 1)
 	)
-	add_option("Rumble", ON_OFF, int(settings.rumble), _on_rumble)
-	add_option("Tips", ON_OFF, int(settings.tips), func(i: int) -> void: settings.set_tips(i == 1))
+	add_option(tr("Rumble"), on_off(), int(settings.rumble), _on_rumble)
+	add_option(
+		tr("Tips"), on_off(), int(settings.tips), func(i: int) -> void: settings.set_tips(i == 1)
+	)
 	add_gap()
-	add_button("Back", go_back)
+	add_button(tr("Back"), go_back)
 
 
 func _on_rumble(index: int) -> void:

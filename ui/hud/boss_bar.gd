@@ -64,7 +64,7 @@ func _draw() -> void:
 func _on_fight_started(boss_name: String, current: int, maximum: int) -> void:
 	if _tween:
 		_tween.kill()
-	name_label.text = boss_name
+	name_label.text = tr(boss_name)
 	_fill = float(current) / float(maxi(maximum, 1))
 	_loss = _fill
 	show()

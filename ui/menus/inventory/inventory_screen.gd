@@ -32,9 +32,9 @@ var _tab := 0
 var _tabs: InventoryTabs
 var _title: Label
 var _grid: InventoryGrid
-var _details := ItemDetails.new()
-var _currency := Label.new()
-var _hints := Label.new()
+var _details: ItemDetails
+var _currency: Label
+var _hints: Label
 
 
 func _init(inventory: PlayerInventory) -> void:
@@ -44,9 +44,12 @@ func _init(inventory: PlayerInventory) -> void:
 func _build() -> void:
 	add_theme_constant_override(&"separation", 4)
 	_title = add_title("")
+	_details = ItemDetails.new()
+	_currency = Label.new()
+	_hints = Label.new()
 	var names := PackedStringArray()
 	for kind in KINDS:
-		names.append(Item.kind_name(kind) + "s")
+		names.append(Item.kind_plural(kind))
 	_tabs = InventoryTabs.new(names)
 	_tabs.tab_chosen.connect(_switch_tab)
 	add_child(_tabs)
@@ -68,7 +71,7 @@ func _build() -> void:
 		_last_cell = _grid.index_of(newest)
 	else:
 		_open_tab(_last_tab)
-	_currency.text = "Currency  %d" % _inventory.player.wallet.amount
+	_currency.text = tr("Currency  %d") % _inventory.player.wallet.amount
 
 
 func _draw() -> void:
@@ -108,7 +111,7 @@ func _switch_tab(index: int) -> void:
 func _open_tab(index: int) -> void:
 	_tab = index
 	_last_tab = index
-	_title.text = Item.kind_name(KINDS[index]) + "s"
+	_title.text = Item.kind_plural(KINDS[index])
 	_tabs.select(index)
 	_grid.show_kind(KINDS[index])
 	_details.show_item(null, false)
@@ -127,7 +130,7 @@ func _on_item_pressed(item: Item) -> void:
 	if _inventory.is_worn(item):
 		_inventory.take_off(item)
 	elif not _inventory.wear(item):
-		_hints.text = "No free slot. Take one off first."
+		_hints.text = tr("No free slot. Take one off first.")
 		return
 	_grid.refresh()
 	_on_item_focused(item)
@@ -137,16 +140,16 @@ func _update_hints(item: Item) -> void:
 	var action := ""
 	if item and item.is_equipable():
 		if _inventory.is_worn(item):
-			action = "Accept: Take off    "
+			action = tr("Accept: Take off") + "    "
 		elif (
 			not item.kind in PlayerInventory.SWAPPED_KINDS
 			and not _inventory.has_free_slot(item.kind)
 		):
-			action = "No free slot    "
+			action = tr("No free slot") + "    "
 		else:
-			action = "Accept: Wear    "
-	var lore := "Lore: Read    " if item and item.lore != "" else ""
-	_hints.text = action + lore + "Back: Close"
+			action = tr("Accept: Wear") + "    "
+	var lore := tr("Lore: Read") + "    " if item and item.lore != "" else ""
+	_hints.text = action + lore + tr("Back: Close")
 
 
 func _footer() -> HBoxContainer:
@@ -158,7 +161,7 @@ func _footer() -> HBoxContainer:
 	row.add_child(_currency)
 	if OS.is_debug_build():
 		var debug := Button.new()
-		debug.text = "Debug: get all"
+		debug.text = "Debug: get all"  # NO_TRANSLATE
 		debug.focus_mode = Control.FOCUS_NONE
 		debug.theme_type_variation = &"HeaderLabel"
 		debug.add_theme_font_size_override(&"font_size", 8)

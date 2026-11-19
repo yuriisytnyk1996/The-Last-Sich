@@ -133,8 +133,8 @@ The hideout is behind the vault's secret wall: the vault's east door gap stays c
 
 - **A new room:** put the scene in `levels/rooms/`, set `map_cell` so it touches the rooms its exits lead to, and `map_zone`, then run `pnpm map:catalog`. A room scene must set `bounds` and `map_cell` in its own `.tscn` or rely on the `Room` defaults; the builder copies those defaults, so change both together.
 - **A new zone:** give rooms the new `map_zone` name and add a colour for it to `MapView.ZONE_COLORS`.
-- **A new mark:** add it to the end of `MapRoom.Mark` (saves store marks as numbers), detect it in `MapRoom.scan()`, and give it a colour in `MapView.MARK_COLORS` and a legend entry in one of the `MapScreen.LEGEND` rows.
-- **A new player mark kind:** add it to the end of `PlayerMarks.Kind` with a name in `PlayerMarks.NAMES`, and an icon and colour in `MapMarkPainter.ICONS` and `COLORS`.
+- **A new mark:** add it to the end of `MapRoom.Mark` (saves store marks as numbers), detect it in `MapRoom.scan()`, and give it a colour in `MapView.MARK_COLORS` and a legend entry in one of the rows of `MapScreen._legend_rows()`.
+- **A new player mark kind:** add it to the end of `PlayerMarks.Kind` with a name in `PlayerMarks.kind_name()`, and an icon and colour in `MapMarkPainter.ICONS` and `COLORS`.
 - **A secret on the map:** give any `Breakable` a `map_hides` area over what it hides: the passage behind it, the exit to a hidden room, or whole cells (their middles must be inside).
 
 ## Known limitations

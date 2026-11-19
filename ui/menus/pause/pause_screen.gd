@@ -16,14 +16,14 @@ func _init(map: WorldMap, inventory: PlayerInventory, tip_log: TipLog) -> void:
 
 
 func _build() -> void:
-	add_title("Paused")
-	add_button("Resume", go_back)
-	add_button("Inventory", func() -> void: menu.push(InventoryScreen.new(_inventory)))
-	add_button("Map", func() -> void: menu.push(MapScreen.new(_map)))
+	add_title(tr("Paused"))
+	add_button(tr("Resume"), go_back)
+	add_button(tr("Inventory"), func() -> void: menu.push(InventoryScreen.new(_inventory)))
+	add_button(tr("Map"), func() -> void: menu.push(MapScreen.new(_map)))
 	if _tip_log and not _tip_log.seen_tips().is_empty():
-		add_button("Tips", _open_tips)
-	add_button("Options", func() -> void: menu.push(OptionsScreen.new()))
-	add_button("Quit to main menu", _confirm_quit)
+		add_button(tr("Tips"), _open_tips)
+	add_button(tr("Options"), func() -> void: menu.push(OptionsScreen.new()))
+	add_button(tr("Quit to main menu"), _confirm_quit)
 
 
 ## Seen tips, to read again. Only listed once there is one.
@@ -32,7 +32,7 @@ func _open_tips() -> void:
 
 
 func _confirm_quit() -> void:
-	var question := "Quit to the main menu? You will continue from the last rest point."
+	var question := tr("Quit to the main menu? You will continue from the last rest point.")
 	menu.push(ConfirmScreen.new(question, _quit))
 
 

@@ -22,10 +22,6 @@ const BUTTON_NAMES := {
 	JOY_BUTTON_RIGHT_STICK: "R3",
 	JOY_BUTTON_LEFT_SHOULDER: "LB",
 	JOY_BUTTON_RIGHT_SHOULDER: "RB",
-	JOY_BUTTON_DPAD_UP: "D-pad up",
-	JOY_BUTTON_DPAD_DOWN: "D-pad down",
-	JOY_BUTTON_DPAD_LEFT: "D-pad left",
-	JOY_BUTTON_DPAD_RIGHT: "D-pad right",
 	# InputSettings.LEFT_TRIGGER and RIGHT_TRIGGER (an autoload can't be
 	# read in a constant).
 	100: "LT",
@@ -50,7 +46,7 @@ func _ready() -> void:
 
 
 func _pressed() -> void:
-	text = "Press a key..." if device == Device.KEYBOARD else "Press a button..."
+	text = tr("Press a key...") if device == Device.KEYBOARD else tr("Press a button...")
 	# Start listening on the next frame, so the press that opened this
 	# doesn't bind itself.
 	await get_tree().process_frame
@@ -94,5 +90,17 @@ static func key_name(key: Key) -> String:
 	return OS.get_keycode_string(DisplayServer.keyboard_get_keycode_from_physical(key))
 
 
+## Static, so `TranslationServer.tr()` stands in for `tr()`.
 static func button_name(button: int) -> String:
-	return BUTTON_NAMES.get(button, "-" if button == JOY_BUTTON_INVALID else "Button %d" % button)
+	match button:
+		JOY_BUTTON_DPAD_UP:
+			return TranslationServer.tr("D-pad up")
+		JOY_BUTTON_DPAD_DOWN:
+			return TranslationServer.tr("D-pad down")
+		JOY_BUTTON_DPAD_LEFT:
+			return TranslationServer.tr("D-pad left")
+		JOY_BUTTON_DPAD_RIGHT:
+			return TranslationServer.tr("D-pad right")
+		JOY_BUTTON_INVALID:
+			return "-"
+	return BUTTON_NAMES.get(button, TranslationServer.tr("Button %d") % button)

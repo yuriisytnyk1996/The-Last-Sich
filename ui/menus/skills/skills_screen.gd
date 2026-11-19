@@ -19,7 +19,7 @@ func _init(skills: PlayerSkills) -> void:
 
 
 func _build() -> void:
-	add_title("Skills")
+	add_title(tr("Skills"))
 	_status = add_text("")
 	add_gap()
 	var grid := GridContainer.new()
@@ -38,14 +38,14 @@ func _build() -> void:
 	add_gap()
 	if OS.is_debug_build():
 		_add_debug_buttons()
-	add_button("Leave", go_back)
+	add_button(tr("Leave"), go_back)
 	_refresh()
 
 
 ## Debug builds only.
 func _add_debug_buttons() -> void:
-	add_button("Debug: unlock all", _debug.bind(_skills.unlock_all))
-	add_button("Debug: lock all", _debug.bind(_skills.lock_all))
+	add_button("Debug: unlock all", _debug.bind(_skills.unlock_all))  # NO_TRANSLATE
+	add_button("Debug: lock all", _debug.bind(_skills.lock_all))  # NO_TRANSLATE
 
 
 func _debug(action: Callable) -> void:
@@ -55,40 +55,43 @@ func _debug(action: Callable) -> void:
 
 
 func _refresh() -> void:
-	_status.text = "Currency: %d    Tier: %d" % [_skills.player.wallet.amount, _skills.max_tier]
+	_status.text = (
+		tr("Currency: %d    Tier: %d") % [_skills.player.wallet.amount, _skills.max_tier]
+	)
 	for skill in _cells:
 		_cells[skill].text = _cell_text(skill)
 
 
 func _cell_text(skill: PlayerSkill) -> String:
+	var title := tr(skill.title)
 	if _skills.has(skill.id):
-		return "%s - learned" % skill.title
+		return tr("%s - learned") % title
 	if _skills.is_learnable(skill):
-		return "%s - %d" % [skill.title, skill.cost]
+		return "%s - %d" % [title, skill.cost]
 	if skill.tier > _skills.max_tier:
-		return "%s - tier %d" % [skill.title, skill.tier]
-	return "%s - locked" % skill.title
+		return tr("%s - tier %d") % [title, skill.tier]
+	return tr("%s - locked") % title
 
 
 func _show_info(skill: PlayerSkill) -> void:
-	var text := skill.description
+	var text := tr(skill.description)
 	if not _skills.has(skill.id) and not _skills.is_learnable(skill):
 		text += "\n" + _lock_reason(skill)
 	elif _skills.is_learnable(skill) and not _skills.can_learn(skill):
-		text += "\nNot enough currency."
+		text += "\n" + tr("Not enough currency.")
 	_info.text = text
 
 
 func _lock_reason(skill: PlayerSkill) -> String:
 	if skill.tier > _skills.max_tier:
-		return "Needs tier %d. Find relics to raise your tier." % skill.tier
-	return "Learn %s first." % skill.parent.title
+		return tr("Needs tier %d. Find relics to raise your tier.") % skill.tier
+	return tr("Learn %s first.") % tr(skill.parent.title)
 
 
 func _on_cell_pressed(skill: PlayerSkill) -> void:
 	if not _skills.can_learn(skill):
 		return
-	var question := "Learn %s for %d?" % [skill.title, skill.cost]
+	var question := tr("Learn %s for %d?") % [tr(skill.title), skill.cost]
 	menu.push(ConfirmScreen.new(question, _learn.bind(skill)))
 
 

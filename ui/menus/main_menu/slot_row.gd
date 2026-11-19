@@ -28,16 +28,16 @@ func show_summary(new_summary: SlotSummary) -> void:
 	match summary.state:
 		SlotSummary.State.EMPTY:
 			text = "%d" % number
-			_details.text = "Empty"
+			_details.text = tr("Empty")
 		SlotSummary.State.OLD:
-			text = "%d  Old save" % number
-			_details.text = "Can't be loaded"
+			text = "%d  %s" % [number, tr("Old save")]
+			_details.text = tr("Can't be loaded")
 		SlotSummary.State.DAMAGED:
-			text = "%d  Damaged save" % number
-			_details.text = "Can't be loaded"
+			text = "%d  %s" % [number, tr("Damaged save")]
+			_details.text = tr("Can't be loaded")
 		_:
 			text = "%d  %s" % [number, summary.zone_name()]
+			var coins := tr_n("%d coin", "%d coins", summary.currency) % summary.currency
 			_details.text = (
-				"%s   %s   %d coins"
-				% [summary.play_time_text(), summary.explored_text(), summary.currency]
+				"%s   %s   %s" % [summary.play_time_text(), summary.explored_text(), coins]
 			)

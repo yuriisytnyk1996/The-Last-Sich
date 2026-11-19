@@ -97,6 +97,7 @@ signal story_changed(flag: StringName)
 
 ## Show a short line at the bottom of the screen, like a found item:
 ## "A captive is free", "Needs the vault key". The HUD's `ItemToast` shows it.
+## Already translated: the sender passes the text through `tr()`.
 @warning_ignore("unused_signal")
 signal message_shown(text: String)
 

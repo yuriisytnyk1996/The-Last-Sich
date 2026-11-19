@@ -66,6 +66,7 @@ export default defineConfig({
           { text: 'Input', link: '/systems/input' },
           { text: 'Menus', link: '/systems/menus' },
           { text: 'Options', link: '/systems/options' },
+          { text: 'Localization', link: '/systems/localization' },
           { text: 'Rendering & pixel art', link: '/systems/rendering' },
         ],
       },

@@ -20,26 +20,26 @@ func _init(healer: FlaskHealer, player: Player) -> void:
 func _build() -> void:
 	add_title(PlayerUpgrades.kind_name(PlayerUpgrades.Kind.FLASK_HEAL))
 	if _healer.is_done(_player):
-		add_text("Your flasks are as strong as living water can make them.")
+		add_text(tr("Your flasks are as strong as living water can make them."))
 		add_gap()
-		add_button("Leave", go_back)
+		add_button(tr("Leave"), go_back)
 		return
 	var flasks := _player.flasks
 	var step := roundi(_player.upgrades.step(PlayerUpgrades.Kind.FLASK_HEAL))
-	add_text("Each flask heals %d more (%d now)." % [step, flasks.heal_amount()])
-	add_text("Level %d of %d" % [_healer.level(_player) + 1, _healer.prices.size()])
+	add_text(tr("Each flask heals %d more (%d now).") % [step, flasks.heal_amount()])
+	add_text(tr("Level %d of %d") % [_healer.level(_player) + 1, _healer.prices.size()])
 	add_gap()
 	var vial := _healer.offering(_player)
-	var water := add_text("Living water: %s" % (vial.title if vial else "none"))
+	var water := add_text(tr("Living water: %s") % (tr(vial.title) if vial else tr("none")))
 	_mark_short(water, vial == null)
 	var price := _healer.next_price(_player)
-	var cost := add_text("Price: %d    You have: %d" % [price, _player.wallet.amount])
+	var cost := add_text(tr("Price: %d    You have: %d") % [price, _player.wallet.amount])
 	_mark_short(cost, _player.wallet.amount < price)
 	add_gap()
-	add_button("Leave", go_back)
-	var offer := add_button("Offer", _offer)
+	add_button(tr("Leave"), go_back)
+	var offer := add_button(tr("Offer"), _offer)
 	if vial == null or _player.wallet.amount < price:
-		offer.text = "Not enough to offer"
+		offer.text = tr("Not enough to offer")
 		offer.disabled = true
 
 

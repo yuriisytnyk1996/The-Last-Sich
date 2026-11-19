@@ -18,8 +18,8 @@ func can_pick(player: Player) -> bool:
 	return outcome == null or outcome.can_apply(player)
 
 
-## The button text, with the price when there is one.
+## The translated button text, with the price when there is one.
 func label() -> String:
 	if outcome and outcome.cost > 0:
-		return "%s (%d)" % [text, outcome.cost]
-	return text
+		return "%s (%d)" % [tr(text), outcome.cost]
+	return tr(text)

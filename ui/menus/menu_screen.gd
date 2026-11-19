@@ -1,21 +1,33 @@
 class_name MenuScreen
 extends VBoxContainer
 ## One page of a `Menu`: a title and a column of rows. Subclasses add
-## their rows in `_build()` with the `add_*` helpers.
-
-const ON_OFF: PackedStringArray = ["Off", "On"]
+## their rows in `_build()` with the `add_*` helpers, passing text through
+## `tr()`. When the language changes, every screen builds its rows again,
+## so `_build()` only touches its own rows: signals from outside (the
+## screen itself, autoloads) are connected in `_ready()`.
 
 var menu: Menu
 ## Off: the menu's tint stays hidden while this screen is on top, so the
 ## game shows through (a small prompt over the game).
 var backdrop := true
 var _last_focus: Control
+var _built_locale := ""
 
 
 func _ready() -> void:
 	alignment = BoxContainer.ALIGNMENT_CENTER
 	add_theme_constant_override("separation", 1)
+	_built_locale = TranslationServer.get_locale()
 	_build()
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED or not is_node_ready():
+		return
+	if TranslationServer.get_locale() != _built_locale:
+		_built_locale = TranslationServer.get_locale()
+		# Deferred: the row that changed the language is still sending.
+		_rebuild.call_deferred()
 
 
 ## Override to add the rows.
@@ -73,6 +85,11 @@ func add_gap(height := 6.0) -> void:
 	add_child(gap)
 
 
+## "Off" and "On", for toggles.
+func on_off() -> PackedStringArray:
+	return [tr("Off"), tr("On")]
+
+
 ## "0%", "10%" ... "100%" (or another range).
 static func percent_values(from: int, to: int, step: int) -> PackedStringArray:
 	var values := PackedStringArray()
@@ -100,6 +117,31 @@ func restore_focus() -> void:
 		_last_focus.grab_focus()
 	else:
 		focus_first()
+
+
+## Builds the rows again in the new language, keeping focus on the same row.
+func _rebuild() -> void:
+	var row := _focused_row()
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
+	_build()
+	if row < 0 or row >= get_child_count():
+		return
+	var control := get_child(row) as Control
+	if control and control.focus_mode == Control.FOCUS_NONE:
+		control = _first_focusable(control)
+	if control:
+		control.grab_focus()
+
+
+## Index of the row holding the focus, or -1.
+func _focused_row() -> int:
+	var focused := get_viewport().gui_get_focus_owner()
+	for child in get_children():
+		if focused and (child == focused or child.is_ancestor_of(focused)):
+			return child.get_index()
+	return -1
 
 
 func _first_focusable(node: Node) -> Control:

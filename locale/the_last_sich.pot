@@ -1,0 +1,2151 @@
+# LANGUAGE translation for The Last Sich for the following files:
+# res://actors/bosses/otaman/otaman.tscn
+# res://actors/bosses/otaman/pistol_ball.tscn
+# res://actors/bosses/otaman/shockwave.tscn
+# res://actors/enemies/boar/boar.tscn
+# res://actors/enemies/crow/crow.tscn
+# res://actors/enemies/musketeer/musket_ball.tscn
+# res://actors/enemies/musketeer/musketeer.tscn
+# res://actors/enemies/raider/raider.tscn
+# res://actors/enemies/shieldbearer/shieldbearer.tscn
+# res://actors/npcs/elder/dialogues/boss_news.tres
+# res://actors/npcs/elder/dialogues/captives_all.tres
+# res://actors/npcs/elder/dialogues/captives_first.tres
+# res://actors/npcs/elder/dialogues/idle.tres
+# res://actors/npcs/elder/dialogues/intro.tres
+# res://actors/npcs/elder/dialogues/letters.tres
+# res://actors/npcs/elder/dialogues/letters_done.tres
+# res://actors/npcs/elder/elder.tscn
+# res://actors/npcs/keeper/dialogues/arrival.tres
+# res://actors/npcs/keeper/dialogues/mound.tres
+# res://actors/npcs/keeper/dialogues/raider_shout.tres
+# res://actors/npcs/keeper/dialogues/road.tres
+# res://actors/npcs/keeper/dialogues/vigil_end.tres
+# res://actors/npcs/keeper/dialogues/warning.tres
+# res://actors/npcs/keeper/keeper.tscn
+# res://actors/npcs/kobzar/dialogues/done.tres
+# res://actors/npcs/kobzar/dialogues/hint.tres
+# res://actors/npcs/kobzar/dialogues/intro.tres
+# res://actors/npcs/kobzar/dialogues/reminder.tres
+# res://actors/npcs/kobzar/dialogues/return.tres
+# res://actors/npcs/kobzar/dialogues/thanks.tres
+# res://actors/npcs/kobzar/kobzar.tscn
+# res://actors/npcs/npc.tscn
+# res://actors/player/abilities/upgrades.gd
+# res://actors/player/attacks/bolt_burst.tscn
+# res://actors/player/attacks/charged_wave.tscn
+# res://actors/player/attacks/dive_shockwave.tscn
+# res://actors/player/attacks/duma_shot.tscn
+# res://actors/player/attacks/fire_pillar.tscn
+# res://actors/player/attacks/ranged_bolt.tscn
+# res://actors/player/attacks/sabre_ring.tscn
+# res://actors/player/attacks/stun_burst.tscn
+# res://actors/player/attacks/thunder_beam.tscn
+# res://actors/player/items/blades/guarding_edge.tres
+# res://actors/player/items/blades/heavy_edge.tres
+# res://actors/player/items/blades/thirsting_edge.tres
+# res://actors/player/items/charms/bitter_root.tres
+# res://actors/player/items/charms/brass_bell.tres
+# res://actors/player/items/charms/clay_amulet.tres
+# res://actors/player/items/charms/hare_foot.tres
+# res://actors/player/items/charms/healer_knot.tres
+# res://actors/player/items/charms/hunter_tally.tres
+# res://actors/player/items/charms/iron_cross.tres
+# res://actors/player/items/charms/quick_bracer.tres
+# res://actors/player/items/charms/raven_eye.tres
+# res://actors/player/items/charms/red_sash.tres
+# res://actors/player/items/charms/war_drum.tres
+# res://actors/player/items/charms/wolf_fang.tres
+# res://actors/player/items/dumas/black_sea_storm.tres
+# res://actors/player/items/dumas/burning_steppe.tres
+# res://actors/player/items/dumas/calm_sea.tres
+# res://actors/player/items/dumas/iron_hand.tres
+# res://actors/player/items/dumas/road_home.tres
+# res://actors/player/items/dumas/sabre_ring.tres
+# res://actors/player/items/dumas/three_brothers.tres
+# res://actors/player/items/dumas/thunderbolt.tres
+# res://actors/player/items/item.gd
+# res://actors/player/items/keepsakes/chumak_whip.tres
+# res://actors/player/items/keepsakes/icon_lamp.tres
+# res://actors/player/items/keepsakes/leather_pouch.tres
+# res://actors/player/items/keepsakes/spare_gourd.tres
+# res://actors/player/items/keepsakes/stitched_pouch.tres
+# res://actors/player/items/quest/kobza_string.tres
+# res://actors/player/items/quest/living_water_1.tres
+# res://actors/player/items/quest/living_water_2.tres
+# res://actors/player/items/quest/living_water_3.tres
+# res://actors/player/items/quest/living_water_4.tres
+# res://actors/player/items/quest/living_water_5.tres
+# res://actors/player/items/quest/sich_letter_1.tres
+# res://actors/player/items/quest/sich_letter_2.tres
+# res://actors/player/items/quest/sich_letter_3.tres
+# res://actors/player/items/relics/owl_feather.tres
+# res://actors/player/items/relics/seer_lantern.tres
+# res://actors/player/player.tscn
+# res://actors/player/skills/charged/charged_1.tres
+# res://actors/player/skills/charged/charged_2.tres
+# res://actors/player/skills/charged/charged_3.tres
+# res://actors/player/skills/combo/combo_1.tres
+# res://actors/player/skills/combo/combo_2.tres
+# res://actors/player/skills/combo/combo_3.tres
+# res://actors/player/skills/dive/dive_1.tres
+# res://actors/player/skills/dive/dive_2.tres
+# res://actors/player/skills/dive/dive_3.tres
+# res://actors/player/skills/lunge/lunge_1.tres
+# res://actors/player/skills/lunge/lunge_2.tres
+# res://actors/player/skills/lunge/lunge_3.tres
+# res://actors/player/skills/ranged/ranged_1.tres
+# res://actors/player/skills/ranged/ranged_2.tres
+# res://actors/player/skills/ranged/ranged_3.tres
+# res://actors/training_dummy/training_dummy.tscn
+# res://autoload/events.gd
+# res://components/interaction/execution.tscn
+# res://components/save/slot_summary.gd
+# res://components/story/dialogue_choice.gd
+# res://components/story/story_outcome.gd
+# res://components/tips/tip.gd
+# res://levels/map/player_marks.gd
+# res://levels/objects/boss_arena.tscn
+# res://levels/objects/breakables/breakable_wall.tscn
+# res://levels/objects/breakables/crate.tscn
+# res://levels/objects/breakables/secret_wall.tscn
+# res://levels/objects/cleanse_point.tscn
+# res://levels/objects/death_mark.tscn
+# res://levels/objects/door.tscn
+# res://levels/objects/fake_execution.tscn
+# res://levels/objects/flasks/empty_flask.tscn
+# res://levels/objects/flasks/flask_healer.tscn
+# res://levels/objects/items/chest.tscn
+# res://levels/objects/items/item_pickup.tscn
+# res://levels/objects/items/shop_item.tscn
+# res://levels/objects/mechanisms/attack_switch.tscn
+# res://levels/objects/mechanisms/gate.tscn
+# res://levels/objects/mechanisms/lever.gd
+# res://levels/objects/mechanisms/lever.tscn
+# res://levels/objects/mechanisms/pressure_plate.tscn
+# res://levels/objects/platforms/elevator_call.tscn
+# res://levels/objects/rest_point.tscn
+# res://levels/objects/skill_shrine.tscn
+# res://levels/objects/stat_upgrade.tscn
+# res://levels/objects/story/alms/blessing_1.tres
+# res://levels/objects/story/alms/blessing_2.tres
+# res://levels/objects/story/alms/box.tres
+# res://levels/objects/story/alms_box.tscn
+# res://levels/objects/story/captive_cage.tscn
+# res://levels/objects/tier_relic.tscn
+# res://levels/objects/traps/drip/drip_trap.tscn
+# res://levels/objects/traps/drip/liquid_drop.tscn
+# res://levels/objects/traps/fire_trap.tscn
+# res://levels/objects/traps/ghost/ghost_page.tscn
+# res://levels/objects/traps/ghost/ghost_trap.tscn
+# res://levels/objects/traps/spike_trap.tscn
+# res://levels/objects/traps/turret.tscn
+# res://levels/objects/traps/turret_bolt.tscn
+# res://levels/rooms/test_arena.tscn
+# res://levels/rooms/test_arena/deco.tscn
+# res://levels/rooms/test_arena/layout.tscn
+# res://levels/rooms/test_arena/logic.tscn
+# res://levels/rooms/test_barracks.tscn
+# res://levels/rooms/test_barracks/deco.tscn
+# res://levels/rooms/test_barracks/layout.tscn
+# res://levels/rooms/test_barracks/logic.tscn
+# res://levels/rooms/test_cave.tscn
+# res://levels/rooms/test_cave/deco.tscn
+# res://levels/rooms/test_cave/layout.tscn
+# res://levels/rooms/test_cave/logic.tscn
+# res://levels/rooms/test_crypt.tscn
+# res://levels/rooms/test_crypt/deco.tscn
+# res://levels/rooms/test_crypt/layout.tscn
+# res://levels/rooms/test_crypt/logic.tscn
+# res://levels/rooms/test_hideout.tscn
+# res://levels/rooms/test_hideout/deco.tscn
+# res://levels/rooms/test_hideout/layout.tscn
+# res://levels/rooms/test_hideout/logic.tscn
+# res://levels/rooms/test_house.tscn
+# res://levels/rooms/test_house/deco.tscn
+# res://levels/rooms/test_house/layout.tscn
+# res://levels/rooms/test_house/logic.tscn
+# res://levels/rooms/test_kurgan.tscn
+# res://levels/rooms/test_kurgan/deco.tscn
+# res://levels/rooms/test_kurgan/layout.tscn
+# res://levels/rooms/test_kurgan/logic.tscn
+# res://levels/rooms/test_room.tscn
+# res://levels/rooms/test_room/deco.tscn
+# res://levels/rooms/test_room/layout.tscn
+# res://levels/rooms/test_room/logic.tscn
+# res://levels/rooms/test_shaft.tscn
+# res://levels/rooms/test_shaft/deco.tscn
+# res://levels/rooms/test_shaft/layout.tscn
+# res://levels/rooms/test_shaft/logic.tscn
+# res://levels/rooms/test_vault.tscn
+# res://levels/rooms/test_vault/deco.tscn
+# res://levels/rooms/test_vault/layout.tscn
+# res://levels/rooms/test_vault/logic.tscn
+# res://levels/rooms/test_works.tscn
+# res://levels/rooms/test_works/deco.tscn
+# res://levels/rooms/test_works/layout.tscn
+# res://levels/rooms/test_works/logic.tscn
+# res://levels/test_room.tscn
+# res://levels/tips/blades.tres
+# res://levels/tips/captives.tres
+# res://levels/tips/charms.tres
+# res://levels/tips/death_mark.tres
+# res://levels/tips/death_marks_more.tres
+# res://levels/tips/dumas.tres
+# res://levels/tips/execution.tres
+# res://levels/tips/healing.tres
+# res://levels/tips/parry.tres
+# res://levels/tips/relics.tres
+# res://levels/world.tscn
+# res://ui/cutscene/quote_card.gd
+# res://ui/cutscene/skip_prompt.gd
+# res://ui/cutscene/title_card.gd
+# res://ui/hud/boss_bar.gd
+# res://ui/hud/hud.tscn
+# res://ui/hud/item_toast.gd
+# res://ui/menus/confirm_screen.gd
+# res://ui/menus/dialogue/dialogue_screen.gd
+# res://ui/menus/inventory/inventory_grid.gd
+# res://ui/menus/inventory/inventory_screen.gd
+# res://ui/menus/inventory/item_details.gd
+# res://ui/menus/inventory/lore_screen.gd
+# res://ui/menus/main_menu/main_menu.tscn
+# res://ui/menus/main_menu/slot_row.gd
+# res://ui/menus/main_menu/slot_screen.gd
+# res://ui/menus/main_menu/slots_screen.gd
+# res://ui/menus/main_menu/title_screen.gd
+# res://ui/menus/map/map_screen.gd
+# res://ui/menus/menu_screen.gd
+# res://ui/menus/options/accessibility_options.gd
+# res://ui/menus/options/audio_options.gd
+# res://ui/menus/options/binding_button.gd
+# res://ui/menus/options/controls_options.gd
+# res://ui/menus/options/options_screen.gd
+# res://ui/menus/options/video_options.gd
+# res://ui/menus/pause/pause_screen.gd
+# res://ui/menus/rest/kneel_screen.gd
+# res://ui/menus/shop/buy_screen.gd
+# res://ui/menus/shop/cleanse_screen.gd
+# res://ui/menus/shop/flask_healer_screen.gd
+# res://ui/menus/shop/upgrade_screen.gd
+# res://ui/menus/skills/skills_screen.gd
+# res://ui/menus/tips/tip_screen.gd
+# res://ui/screen_effects/crt_presets/amber_terminal.tres
+# res://ui/screen_effects/crt_presets/arcade.tres
+# res://ui/screen_effects/crt_presets/broken_black_and_white.tres
+# res://ui/screen_effects/crt_presets/colour_tv.tres
+# res://ui/screen_effects/crt_presets/green_terminal.tres
+# res://ui/screen_effects/crt_presets/living_room_tv.tres
+# res://ui/screen_effects/crt_presets/old_tv.tres
+# res://ui/screen_effects/crt_presets/sharp_monitor.tres
+# res://ui/screen_effects/crt_presets/small_crt.tres
+# res://ui/screen_effects/crt_presets/soft_crt.tres
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: The Last Sich\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#. TRANSLATORS: display_name
+#: actors/bosses/otaman/otaman.tscn
+msgid "The Otaman"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/boss_news.tres
+msgid "The renegade Otaman is dead? By your hand?"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/boss_news.tres
+msgid "Then the Sich owes you more than words. Take this, and drink to the ones he killed."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/captives_all.tres
+msgid "All three are home. The drummer among them asked me to give you this. He says it beats truer for a free man."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/captives_first.tres
+msgid "One of our captives walked in this morning, thin as a reed, and said a Cossack broke his cage."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/captives_first.tres
+msgid "There are two more. Here, for your trouble."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/idle.tres
+msgid "Three of ours sit in cages: one in the cave, one in the crypt, one in the barracks. Break the bars."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/idle.tres
+msgid "Three letters lie where their riders fell: in the hideout, the barracks and the works."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/idle.tres
+msgid "And if your purse is heavy, the church in the crypt keeps an alms box."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/intro.tres
+msgid "You walk like a man with nowhere to be. Good. I have work."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/intro.tres
+msgid "Captives in cages, letters in the mud, a church with an empty box. Ask me again and I'll tell you where."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/letters.tres
+msgid "Is that the Sich's seal I see in your belt?"
+msgstr ""
+
+#. TRANSLATORS: text
+#: actors/npcs/elder/dialogues/letters.tres
+msgid "Hand over the letters"
+msgstr ""
+
+#. TRANSLATORS: text
+#: actors/npcs/elder/dialogues/letters.tres
+#: actors/npcs/kobzar/dialogues/return.tres
+msgid "Not yet"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/letters_done.tres
+msgid "Every letter is home. The Kosh will know where the boats are, and the powder, and the riders."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/elder/dialogues/letters_done.tres
+msgid "This edge was a scout's. It turned many blows; let it turn yours."
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: actors/npcs/elder/elder.tscn
+msgid "Elder"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/arrival.tres
+msgid "Another one walking the graves at dusk. The steppe doesn't see many visitors who mean to leave again."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/arrival.tres
+msgid "See the stone on the hill? An old otaman lies under it, with his sabre and his oath."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/mound.tres
+msgid "Quiet up there now. Quiet is good."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/mound.tres
+msgid "Rest when you need to. The fire by the door burns for anyone the steppe hasn't claimed."
+msgstr ""
+
+#. TRANSLATORS: speaker
+#: actors/npcs/keeper/dialogues/raider_shout.tres
+msgid "Raider"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/raider_shout.tres
+msgid "The keeper's guest! Open the gate, lads, we'll have his boots as well!"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/road.tres
+msgid "The kurgan stood here before the Sich did. It will stand after."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/road.tres
+msgid "Go up to the stone once the raiders are dealt with. Kneel, and listen."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/vigil_end.tres
+msgid "You went up, and you came back down. He let you go, then."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/vigil_end.tres
+msgid "I'll keep watch at the foot of the hill from now on. He sleeps easier with someone near."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/warning.tres
+msgid "There. He has heard you."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/keeper/dialogues/warning.tres
+msgid "Raiders camp past the palisade, digging for his silver. Mind them, and go up to the stone when they're gone."
+msgstr ""
+
+#. TRANSLATORS: display_name
+#. speaker
+#: actors/npcs/keeper/keeper.tscn
+#: levels/rooms/test_kurgan/logic.tscn
+msgid "Grave keeper"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/done.tres
+msgid "Sit a while, son. A song is shorter than the road, but it goes with you."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/hint.tres
+msgid "You smell of the crypt, but your hands are empty."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/hint.tres
+msgid "Strings roll far. Try the far west end, past the restless pages."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/intro.tres
+msgid "Who walks there? A heavy step. A Cossack's step."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/intro.tres
+msgid "I am blind, son, but not deaf. And my kobza is deaf now: a string broke, and the spare rolled away in the old crypt, west of the house."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/intro.tres
+msgid "These fingers can't find it in the dark. Yours could."
+msgstr ""
+
+#. TRANSLATORS: text
+#: actors/npcs/kobzar/dialogues/intro.tres
+msgid "I'll look for it"
+msgstr ""
+
+#. TRANSLATORS: text
+#: actors/npcs/kobzar/dialogues/intro.tres
+msgid "Find it yourself"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/reminder.tres
+msgid "No string yet? The crypt is west of the house. Mind the dripping stones."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/return.tres
+msgid "That smell... wax and gut. You found my string!"
+msgstr ""
+
+#. TRANSLATORS: text
+#: actors/npcs/kobzar/dialogues/return.tres
+msgid "Give him the string"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/thanks.tres
+msgid "There. Hear it? Now the songs have their voice back."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: actors/npcs/kobzar/dialogues/thanks.tres
+msgid "Take this. It is what the songs earned me this month, and you earned it more."
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: actors/npcs/kobzar/kobzar.tscn
+msgid "Old kobzar"
+msgstr ""
+
+#: actors/player/abilities/upgrades.gd:90
+msgid "Max health"
+msgstr ""
+
+#: actors/player/abilities/upgrades.gd:91
+msgid "Max spirit"
+msgstr ""
+
+#: actors/player/abilities/upgrades.gd:92
+msgid "Flasks"
+msgstr ""
+
+#: actors/player/abilities/upgrades.gd:93
+msgid "Flask healing"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/blades/guarding_edge.tres
+msgid "Guarding edge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/blades/guarding_edge.tres
+msgid "A wide guard made for parrying. Parry window +0.1 s and riposte window +0.25 s, but maximum health -10."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/blades/guarding_edge.tres
+msgid "Forged for a hetman's guard, who were never meant to strike first. They waited, turned the blow aside and answered once. The edge is notched only near the hilt."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/blades/heavy_edge.tres
+msgid "Heavy edge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/blades/heavy_edge.tres
+msgid "A thicker, heavier edge. Damage +30%, but the dash recovers 0.3 s slower."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/blades/heavy_edge.tres
+msgid "A smith in the borderlands made it from a ploughshare when the village had nothing left to plough. It cuts like a man who has lost his field."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/blades/thirsting_edge.tres
+msgid "Thirsting edge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/blades/thirsting_edge.tres
+msgid "A blade that drinks. Hits have a 30% chance to heal 3, but damage -10%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/blades/thirsting_edge.tres
+msgid "Taken from a raider who would not die. The steel stays warm after a fight, and the scabbard is always dry, no matter the rain."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/bitter_root.tres
+msgid "Bitter root"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/bitter_root.tres
+msgid "Chewed against marsh fever. Poison damage taken -50%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/bitter_root.tres
+msgid "The marsh villages chew it at dawn and spit at dusk. It tastes of earth and regret, and the fever passes them by."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/brass_bell.tres
+msgid "Brass bell"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/brass_bell.tres
+msgid "Its ring stirs the spirit. Each hit gives 1 more spirit."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/brass_bell.tres
+msgid "Once it hung from a church eave and called the faithful home. Now it calls something else, with every blow struck."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/clay_amulet.tres
+msgid "Clay amulet"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/clay_amulet.tres
+msgid "Fired clay that has seen worse flames. Fire damage taken -50%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/clay_amulet.tres
+msgid "Shaped by a potter whose kiln burned down twice. The third time, he wore it into the fire to fetch his tools and walked out again."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/hare_foot.tres
+msgid "Hare foot"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/hare_foot.tres
+msgid "A charm for those who would rather not be caught. Run speed +15%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/hare_foot.tres
+msgid "Steppe children carry one to outrun bad luck. Grown men carry one and do not say why."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/healer_knot.tres
+msgid "Healer's knot"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/healer_knot.tres
+msgid "A knot of red thread tied by a village healer. Each flask heals 15 more."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/healer_knot.tres
+msgid "Each turn of the red thread is a prayer the healer would not say aloud. She tied it for her son, who never came back for it."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/hunter_tally.tres
+msgid "Hunter's tally"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/hunter_tally.tres
+msgid "A stick with a notch for every kill. Each kill heals 5."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/hunter_tally.tres
+msgid "Every notch was cut with the same knife, by the same hand. The last notches are shallow, as if the hand had grown tired."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/iron_cross.tres
+msgid "Iron cross"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/iron_cross.tres
+msgid "A plain iron cross on a leather cord. Maximum health +15."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/iron_cross.tres
+msgid "Plain iron, hammered by a novice monk who left the monastery for the Sich. He kept the cross and gave away the rest."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/quick_bracer.tres
+msgid "Quick bracer"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/quick_bracer.tres
+msgid "A tight leather bracer that frees the wrist. Swings wind up and recover 20% faster."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/quick_bracer.tres
+msgid "Laced so tight it leaves marks. The fencing masters of the Sich wear them until the wrist forgets it was ever slow."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/raven_eye.tres
+msgid "Raven eye"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/raven_eye.tres
+msgid "A black bead that finds the weak spot. Critical hit chance +15%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/raven_eye.tres
+msgid "Ravens follow armies across the steppe and always find the soft places first. This bead is said to have been one of their eyes."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/red_sash.tres
+msgid "Red sash"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/red_sash.tres
+msgid "Worn by those who fight on when they should fall. Damage +25% while health is below 30%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/red_sash.tres
+msgid "The sash is red so the blood does not show. Its owners were known for standing up one more time than they should have."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/war_drum.tres
+msgid "War drum"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/war_drum.tres
+msgid "A small drum that beats after every kill. Damage +20% for 5 seconds after a kill."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/war_drum.tres
+msgid "Small enough for a boy to carry into battle. He beat it for every fallen enemy, and the company fought harder to hear it again."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/charms/wolf_fang.tres
+msgid "Wolf fang"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/charms/wolf_fang.tres
+msgid "A fang from a steppe wolf, bound in wire. Damage +10%."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/charms/wolf_fang.tres
+msgid "The wolf took three sheep and a dog before a shepherd's boy took its fang. The wire was his mother's, from a broken loom."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/black_sea_storm.tres
+msgid "Duma of the Black Sea Storm"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/black_sea_storm.tres
+msgid "Sing it for 15 spirit: pillars of fire rise on both sides at once."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/black_sea_storm.tres
+msgid "A storm split the Cossack fleet in two, and each half was sure the other had drowned. The duma ends with both halves landing on the same shore."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/burning_steppe.tres
+msgid "Duma of the Burning Steppe"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/burning_steppe.tres
+msgid "Sing it for 15 spirit: eight pillars of fire march forward along the ground."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/burning_steppe.tres
+msgid "The kobzar sang of the summer the Tatars set the grass alight, and of the riders who turned the fire back on them. Old men say the steppe still remembers the tune."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/calm_sea.tres
+msgid "Duma of the Calm Sea"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/calm_sea.tres
+msgid "Sing it for 15 spirit: everything close around the singer is stunned for a moment."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/calm_sea.tres
+msgid "After the storm the sea went so still that the gulls forgot to cry. Enemies near the singer forget, for a breath, what they were doing."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/iron_hand.tres
+msgid "Duma of the Iron Hand"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/iron_hand.tres
+msgid "Sing it for 20 spirit: for 20 seconds every swing hits heavy and deals 25% more damage."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/iron_hand.tres
+msgid "Sung before a charge, fist on the saddle. The hand that strikes after it is said to weigh as much as the horse beneath it."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/road_home.tres
+msgid "Duma of the Road Home"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/road_home.tres
+msgid "Sing it for 30 spirit: the road folds, and the singer stands again at the last fire they rested by. Wounds stay as they are. It falls silent while a great foe bars the way."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/road_home.tres
+msgid "Mothers taught it to sons riding out to the Wild Field, so they could find the way back. Most sons forgot it. The ones who remembered came home old."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/sabre_ring.tres
+msgid "Duma of the Sabre Ring"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/sabre_ring.tres
+msgid "Sing it for 20 spirit: three sabres circle the singer for 15 seconds, cutting enemies and stopping shots."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/sabre_ring.tres
+msgid "A song for the last of a company, back to back in the reeds. It names every sabre that fell, and while it is sung they are said to stay close."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/three_brothers.tres
+msgid "Duma of the Three Brothers"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/three_brothers.tres
+msgid "Sing it for 10 spirit: three shots fly forward, one after another."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/three_brothers.tres
+msgid "Three brothers fled Azov on foot, and only the youngest came home. The duma gives each of them one shot, and the listeners never agree on which one missed."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/thunderbolt.tres
+msgid "Duma of the Thunderbolt"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/thunderbolt.tres
+msgid "Sing it for 20 spirit: a bolt of thunder falls on the singer, striking hard everything around them."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/thunderbolt.tres
+msgid "Sung only under an open sky. A blind kobzar sang it once in a church and was never asked back, though the roof was mended by spring."
+msgstr ""
+
+#: actors/player/items/item.gd:49
+msgid "Charm"
+msgstr ""
+
+#: actors/player/items/item.gd:50
+msgid "Blade"
+msgstr ""
+
+#: actors/player/items/item.gd:51
+msgid "Keepsake"
+msgstr ""
+
+#: actors/player/items/item.gd:52
+msgid "Relic"
+msgstr ""
+
+#: actors/player/items/item.gd:53
+#: ui/menus/options/controls_options.gd:35
+msgid "Duma"
+msgstr ""
+
+#: actors/player/items/item.gd:54
+msgid "Quest item"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/item.gd:62
+#: levels/tips/charms.tres
+msgid "Charms"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/item.gd:63
+#: levels/tips/blades.tres
+msgid "Blades"
+msgstr ""
+
+#: actors/player/items/item.gd:64
+msgid "Keepsakes"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/item.gd:65
+#: levels/tips/relics.tres
+msgid "Relics"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/item.gd:66
+#: levels/tips/dumas.tres
+msgid "Dumas"
+msgstr ""
+
+#: actors/player/items/item.gd:67
+msgid "Quest items"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/keepsakes/chumak_whip.tres
+msgid "Chumak's whip"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/keepsakes/chumak_whip.tres
+msgid "A salt trader's whip, worn smooth by a thousand roads. Kneel at a rest point to travel to any other you have found."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/keepsakes/chumak_whip.tres
+msgid "Chumaks drove their ox carts to the salt lakes and back, a road of months. The whip knows every way home, even the ones no map shows."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/keepsakes/icon_lamp.tres
+msgid "Icon lamp"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/keepsakes/icon_lamp.tres
+msgid "A small lamp that once burned before a church icon. Rest points fill your spirit, and you rise from death with it full."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/keepsakes/icon_lamp.tres
+msgid "It burned before an icon of the Protectress through two sieges. The church fell; the flame did not. Rest beside it and something is given back."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/keepsakes/leather_pouch.tres
+msgid "Leather pouch"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/keepsakes/leather_pouch.tres
+#: actors/player/items/keepsakes/stitched_pouch.tres
+msgid "Room for one more charm. Charm slots +1."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/keepsakes/leather_pouch.tres
+msgid "Cut from an old saddle. It still smells of the horse, who is remembered more fondly than the rider."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/keepsakes/spare_gourd.tres
+msgid "Spare gourd"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/keepsakes/spare_gourd.tres
+msgid "One more flask to fill at every rest. Flasks +1."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/keepsakes/spare_gourd.tres
+msgid "Hollowed and dried by a grandmother who sent it with every grandson who rode south. Most of the gourds came back."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/keepsakes/stitched_pouch.tres
+msgid "Stitched pouch"
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/keepsakes/stitched_pouch.tres
+msgid "Patched so many times that none of the first leather is left. Its owner swore it was still the same pouch."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/kobza_string.tres
+msgid "Kobza string"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/kobza_string.tres
+msgid "A coil of waxed gut string. The old kobzar in the cave lost it."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/kobza_string.tres
+msgid "Gut from a ram, twisted wet and dried in the shade, then waxed. A kobzar's strings are his bread: without them his songs are only words."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/living_water_1.tres
+msgid "Living water of the rapids"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/living_water_1.tres
+msgid "A vial of living water drawn below the Dnipro rapids. A flask healer can mix it into your flasks."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/living_water_1.tres
+msgid "Drawn where the river breaks on the stones and no boat lands twice. The old men said the water there remembers every Cossack who crossed it."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/living_water_2.tres
+msgid "Living water of the well"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/living_water_2.tres
+msgid "A vial of living water from a well in a burned village. A flask healer can mix it into your flasks."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/living_water_2.tres
+msgid "The village burned, but nobody would touch the well. Its water stayed cold through the whole fire."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/living_water_3.tres
+msgid "Living water of the dew"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/living_water_3.tres
+msgid "A vial of living water gathered as dew on the night of Kupala. A flask healer can mix it into your flasks."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/living_water_3.tres
+msgid "Gathered barefoot before sunrise, from grass no one had walked on. Girls washed their faces in it; this vial was kept for wounds instead."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/living_water_4.tres
+msgid "Living water of the spring"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/living_water_4.tres
+msgid "A vial of living water from a spring under an oak. A flask healer can mix it into your flasks."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/living_water_4.tres
+msgid "The oak was older than the Sich. Pilgrims left ribbons on its branches, and the spring under its roots never froze."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/living_water_5.tres
+msgid "Living water of the steppe"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/living_water_5.tres
+msgid "A vial of living water from rain caught on the open steppe. A flask healer can mix it into your flasks."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/living_water_5.tres
+msgid "Caught in a helmet during the only storm of a dry summer. The rider who caught it shared it with his horse first."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/sich_letter_1.tres
+msgid "Sich letter (1 of 3)"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/sich_letter_1.tres
+msgid "A letter sealed with the Kosh seal. It names the boats ready below the rapids. The elder in the test room collects them."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/quest/sich_letter_1.tres
+#: actors/player/items/quest/sich_letter_2.tres
+#: actors/player/items/quest/sich_letter_3.tres
+msgid "Riders carried the Sich's letters across the steppe, and when a rider fell, the letter lay where he fell. Whoever brings one home is owed a cup and a place at the fire."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/sich_letter_2.tres
+msgid "Sich letter (2 of 3)"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/sich_letter_2.tres
+msgid "A letter in a hurried hand, rain-stained. It counts the powder kegs at the winter camp. The elder in the test room collects them."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/quest/sich_letter_3.tres
+msgid "Sich letter (3 of 3)"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/quest/sich_letter_3.tres
+msgid "A letter folded small and sewn into cloth. It warns of riders crossing the steppe. The elder in the test room collects them."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/relics/owl_feather.tres
+msgid "Owl feather"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/relics/owl_feather.tres
+msgid "Long falls land as softly as short ones while it is worn: no hard landing."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/relics/owl_feather.tres
+msgid "Owls drop on their prey without a sound. The old women sew a feather into the hats of boys who climb too high, and say it is for luck."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/relics/seer_lantern.tres
+msgid "Seer's lantern"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/relics/seer_lantern.tres
+msgid "Its pale light shows platforms no one else can see while it is worn."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/relics/seer_lantern.tres
+msgid "A blind seer carried it through the old ruins and never stumbled. Those who borrow it see what she saw: paths that were always there."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/charged/charged_1.tres
+msgid "Charged slash"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/charged/charged_1.tres
+msgid "Keep holding attack after a ground slash to charge, then let go for a heavy slash."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/charged/charged_2.tres
+msgid "Swift charge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/charged/charged_2.tres
+msgid "The charged slash charges twice as fast."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/charged/charged_3.tres
+msgid "Charged wave"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/charged/charged_3.tres
+msgid "The charged slash also sends a wave along the ground."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/combo/combo_1.tres
+msgid "Finishing blow"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/combo/combo_1.tres
+msgid "Press attack after the heavy combo swing to end the combo with a forward finisher."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/combo/combo_2.tres
+msgid "Rising blow"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/combo/combo_2.tres
+msgid "Hold up when pressing attack after the heavy combo swing to leap into a rising finisher."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/combo/combo_3.tres
+msgid "Crushing blow"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/combo/combo_3.tres
+msgid "Hold down when pressing attack after the heavy combo swing to slam the ground on both sides."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/dive/dive_1.tres
+msgid "Dive strike"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/dive/dive_1.tres
+msgid "In the air, hold down and attack to dive into the ground and hit everything you land on."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/dive/dive_2.tres
+msgid "Wide dive"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/dive/dive_2.tres
+msgid "The dive's landing hits a wider area."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/dive/dive_3.tres
+msgid "Shockwave dive"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/dive/dive_3.tres
+msgid "Diving from high up ends in a huge shockwave."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/lunge/lunge_1.tres
+msgid "Lunge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/lunge/lunge_1.tres
+msgid "Press attack during a dash to lunge forward through enemies with a piercing thrust."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/lunge/lunge_2.tres
+msgid "Long lunge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/lunge/lunge_2.tres
+msgid "The lunge goes faster and further."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/lunge/lunge_3.tres
+msgid "Piercing lunge"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/lunge/lunge_3.tres
+msgid "The lunge goes further still and hits much harder."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/ranged/ranged_1.tres
+msgid "Spirit bolt"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/ranged/ranged_1.tres
+msgid "Press ranged to throw a bolt of spirit. Costs spirit."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/ranged/ranged_2.tres
+msgid "Returning bolt"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/ranged/ranged_2.tres
+msgid "The bolt flies back to you, hitting again on the way."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/skills/ranged/ranged_3.tres
+msgid "Bursting bolt"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/skills/ranged/ranged_3.tres
+msgid "The bolt bursts where it turns around."
+msgstr ""
+
+#: components/save/slot_summary.gd:44
+msgid "Unknown"
+msgstr ""
+
+#: components/save/slot_summary.gd:56
+msgid "%dm"
+msgstr ""
+
+#: components/save/slot_summary.gd:57
+msgid "%dh %02dm"
+msgstr ""
+
+#: levels/map/player_marks.gd:47
+msgid "Chest"
+msgstr ""
+
+#: levels/map/player_marks.gd:48
+msgid "Question"
+msgstr ""
+
+#: levels/map/player_marks.gd:49
+msgid "Enemy"
+msgstr ""
+
+#: levels/map/player_marks.gd:50
+msgid "Person"
+msgstr ""
+
+#: levels/map/player_marks.gd:51
+msgid "Blue pin"
+msgstr ""
+
+#: levels/map/player_marks.gd:52
+msgid "Green pin"
+msgstr ""
+
+#: levels/map/player_marks.gd:53
+msgid "Red pin"
+msgstr ""
+
+#: levels/objects/mechanisms/lever.gd:48
+msgid "Needs %s"
+msgstr ""
+
+#. TRANSLATORS: speaker
+#: levels/objects/story/alms/blessing_1.tres
+#: levels/objects/story/alms/blessing_2.tres
+msgid "A voice behind the wall"
+msgstr ""
+
+#. TRANSLATORS: lines
+#: levels/objects/story/alms/blessing_1.tres
+msgid "Someone feeds the box. Bless you, Cossack. Here, our old bell: ring it and the dead remember they are dead."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: levels/objects/story/alms/blessing_2.tres
+msgid "So much, for a church of rats and candle ends? Then take this knot. The sisters tied it for the sick, and you will need it more than they do."
+msgstr ""
+
+#. TRANSLATORS: lines
+#: levels/objects/story/alms/box.tres
+msgid "An iron box for the church, chained to the wall. Coins rattle somewhere deep inside."
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/objects/story/alms/box.tres
+msgid "Give 200"
+msgstr ""
+
+#. TRANSLATORS: message
+#: levels/objects/story/alms/box.tres
+msgid "Given to the church: 200"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/objects/story/alms/box.tres
+msgid "Give 500"
+msgstr ""
+
+#. TRANSLATORS: message
+#: levels/objects/story/alms/box.tres
+msgid "Given to the church: 500"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/objects/story/alms/box.tres
+#: ui/menus/shop/buy_screen.gd:29
+#: ui/menus/shop/cleanse_screen.gd:27
+#: ui/menus/shop/cleanse_screen.gd:32
+#: ui/menus/shop/flask_healer_screen.gd:25
+#: ui/menus/shop/flask_healer_screen.gd:39
+#: ui/menus/shop/upgrade_screen.gd:27
+#: ui/menus/skills/skills_screen.gd:41
+msgid "Leave"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: levels/objects/story/alms_box.tscn
+msgid "Alms box"
+msgstr ""
+
+#. TRANSLATORS: message
+#: levels/objects/story/captive_cage.tscn
+msgid "A captive is free"
+msgstr ""
+
+#. TRANSLATORS: map_zone
+#: levels/rooms/test_arena.tscn
+msgid "Arena"
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/rooms/test_arena/logic.tscn
+msgid "Otaman"
+msgstr ""
+
+#. TRANSLATORS: subtitle
+#: levels/rooms/test_arena/logic.tscn
+msgid "Master of the burned Sich"
+msgstr ""
+
+#. TRANSLATORS: map_zone
+#: levels/rooms/test_cave.tscn
+#: levels/rooms/test_shaft.tscn
+msgid "Caves"
+msgstr ""
+
+#. TRANSLATORS: map_zone
+#: levels/rooms/test_crypt.tscn
+msgid "Crypt"
+msgstr ""
+
+#. TRANSLATORS: map_zone
+#: levels/rooms/test_hideout.tscn
+#: levels/rooms/test_vault.tscn
+msgid "Vault"
+msgstr ""
+
+#. TRANSLATORS: map_zone
+#: levels/rooms/test_kurgan.tscn
+msgid "Kurgan"
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/rooms/test_kurgan/logic.tscn
+msgid "The Old Kurgan"
+msgstr ""
+
+#. TRANSLATORS: subtitle
+#: levels/rooms/test_kurgan/logic.tscn
+msgid "Graves of the steppe"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/rooms/test_kurgan/logic.tscn
+msgid "A Cossack's oath is kept by the steppe long after the living forget it."
+msgstr ""
+
+#. TRANSLATORS: author
+#: levels/rooms/test_kurgan/logic.tscn
+msgid "Words cut into the kurgan stone"
+msgstr ""
+
+#. TRANSLATORS: message
+#: levels/rooms/test_kurgan/logic.tscn
+msgid "The kurgan remembers you"
+msgstr ""
+
+#. TRANSLATORS: map_zone
+#: levels/rooms/test_works.tscn
+msgid "Works"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/blades.tres
+msgid ""
+"You found a new blade. Open the inventory with {inventory} to take it up.\n"
+"\n"
+"You carry one blade at a time. Wearing another puts the old one away."
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/tips/captives.tres
+msgid "Captives"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/captives.tres
+msgid ""
+"You freed a captive. More are locked in cages across the land: strike a cage until it breaks to set them free.\n"
+"\n"
+"Someone may want to hear of every one you save."
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/charms.tres
+msgid ""
+"You found a charm. Open the inventory with {inventory} to wear it.\n"
+"\n"
+"Charms change your strength, speed and more. You can only wear as many as you have charm slots."
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/tips/death_mark.tres
+msgid "Death marks"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/death_mark.tres
+msgid ""
+"Death left a mark where you last stood on safe ground. Every mark weakens you: less spirit, and less spirit and coin from your foes.\n"
+"\n"
+"Go back to the mark and press {interact} to take it back. It also heals you."
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/tips/death_marks_more.tres
+msgid "Clearing marks"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/death_marks_more.tres
+msgid ""
+"Marks add up, and each one weakens you more. Up to five can wait for you at once.\n"
+"\n"
+"A cleanse point clears every mark at once, for a price."
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/dumas.tres
+msgid ""
+"You took up a duma. Press {duma} to sing it.\n"
+"\n"
+"Singing costs spirit, shown under your health. Landing hits fills it back up."
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/tips/execution.tres
+msgid "Finishers"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/execution.tres
+msgid ""
+"A beaten enemy has dropped to its knees. Stand next to it and press {interact} to finish it.\n"
+"\n"
+"You can't be hurt during a finisher, and it fills your spirit."
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/tips/healing.tres
+msgid "Healing flasks"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/healing.tres
+msgid ""
+"Press {heal} to drink a healing flask. Drinking takes a moment, so find a safe one.\n"
+"\n"
+"Flasks fill up again whenever you rest at a rest point."
+msgstr ""
+
+#. TRANSLATORS: title
+#: levels/tips/parry.tres
+#: ui/menus/options/controls_options.gd:30
+msgid "Parry"
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/parry.tres
+msgid ""
+"Press {parry} just before a blow lands to turn it aside. Not every attack can be parried: heavy ones push you back through your guard.\n"
+"\n"
+"Right after a parry, press {attack} to strike back with a riposte."
+msgstr ""
+
+#. TRANSLATORS: text
+#: levels/tips/relics.tres
+msgid ""
+"You found a relic. Relics are old tools that change how you get around.\n"
+"\n"
+"Open the inventory with {inventory} and wear it in a relic slot to use it."
+msgstr ""
+
+#: ui/cutscene/skip_prompt.gd:25
+msgid "%s Skip"
+msgstr ""
+
+#: ui/hud/item_toast.gd:24
+msgid "Found: %s"
+msgstr ""
+
+#: ui/hud/item_toast.gd:28
+msgid "%s up"
+msgstr ""
+
+#: ui/menus/confirm_screen.gd:18
+msgid "No"
+msgstr ""
+
+#: ui/menus/confirm_screen.gd:19
+msgid "Yes"
+msgstr ""
+
+#: ui/menus/dialogue/dialogue_screen.gd:121
+msgid "Next"
+msgstr ""
+
+#: ui/menus/inventory/inventory_grid.gd:20
+#: ui/menus/inventory/item_details.gd:56
+msgid "Worn"
+msgstr ""
+
+#: ui/menus/inventory/inventory_grid.gd:34
+msgid "Carried"
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:74
+msgid "Currency  %d"
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:133
+msgid "No free slot. Take one off first."
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:143
+msgid "Accept: Take off"
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:148
+msgid "No free slot"
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:150
+msgid "Accept: Wear"
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:151
+msgid "Lore: Read"
+msgstr ""
+
+#: ui/menus/inventory/inventory_screen.gd:152
+msgid "Back: Close"
+msgstr ""
+
+#: ui/menus/inventory/item_details.gd:50
+msgid " "
+msgstr ""
+
+#: ui/menus/inventory/item_details.gd:54
+msgid "Spirit %d"
+msgstr ""
+
+#: ui/menus/inventory/lore_screen.gd:28
+msgid "Lore / Back: Return"
+msgstr ""
+
+#: ui/menus/main_menu/slot_row.gd:31
+msgid "Empty"
+msgstr ""
+
+#: ui/menus/main_menu/slot_row.gd:33
+msgid "Old save"
+msgstr ""
+
+#: ui/menus/main_menu/slot_row.gd:34
+#: ui/menus/main_menu/slot_row.gd:37
+msgid "Can't be loaded"
+msgstr ""
+
+#: ui/menus/main_menu/slot_row.gd:36
+msgid "Damaged save"
+msgstr ""
+
+#: ui/menus/main_menu/slot_row.gd:40
+msgid "%d coin"
+msgid_plural "%d coins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ui/menus/main_menu/slot_screen.gd:14
+msgid "Slot %d"
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:16
+msgid "%s, %s played"
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:18
+#: ui/menus/main_menu/title_screen.gd:13
+msgid "Continue"
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:20
+msgid "This save can't be loaded."
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:22
+msgid "New game here"
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:23
+msgid "Delete"
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:24
+#: ui/menus/options/accessibility_options.gd:20
+#: ui/menus/options/audio_options.gd:19
+#: ui/menus/options/controls_options.gd:19
+#: ui/menus/options/options_screen.gd:21
+#: ui/menus/options/video_options.gd:41
+#: ui/menus/tips/tip_screen.gd:55
+msgid "Back"
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:33
+msgid "Start a new game in slot %d? The old save will be lost."
+msgstr ""
+
+#: ui/menus/main_menu/slot_screen.gd:40
+msgid "Delete slot %d? This can't be undone."
+msgstr ""
+
+#: ui/menus/main_menu/slots_screen.gd:14
+msgid "Choose a slot"
+msgstr ""
+
+#: ui/menus/main_menu/title_screen.gd:14
+msgid "Play"
+msgstr ""
+
+#: ui/menus/main_menu/title_screen.gd:15
+#: ui/menus/options/options_screen.gd:8
+#: ui/menus/pause/pause_screen.gd:25
+msgid "Options"
+msgstr ""
+
+#: ui/menus/main_menu/title_screen.gd:17
+msgid "Quit"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:28
+msgid "Travel"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:28
+#: ui/menus/options/controls_options.gd:36
+#: ui/menus/pause/pause_screen.gd:22
+msgid "Map"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:47
+msgid "Move: choose   Attack: travel   Back: rise"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:49
+msgid "Move: choose   Back: rise"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:70
+msgid "You"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:71
+msgid "Rest point"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:72
+msgid "Shrine"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:73
+msgid "Shop"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:74
+#: ui/menus/shop/cleanse_screen.gd:20
+#: ui/menus/shop/cleanse_screen.gd:33
+msgid "Cleanse"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:77
+msgid "Upgrade"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:78
+msgid "Door"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:79
+msgid "Death mark"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:85
+msgid "Move: look around   Jump: zoom   Attack: mark   Back: close"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:105
+msgid "Move: choose   Attack: place   Back: cancel"
+msgstr ""
+
+#: ui/menus/map/map_screen.gd:109
+msgid "%d%% explored"
+msgstr ""
+
+#: ui/menus/menu_screen.gd:90
+#: ui/menus/options/video_options.gd:92
+msgid "Off"
+msgstr ""
+
+#: ui/menus/menu_screen.gd:90
+msgid "On"
+msgstr ""
+
+#: ui/menus/options/accessibility_options.gd:8
+#: ui/menus/options/options_screen.gd:11
+msgid "Accessibility"
+msgstr ""
+
+#: ui/menus/options/accessibility_options.gd:10
+msgid "Screen shake"
+msgstr ""
+
+#: ui/menus/options/accessibility_options.gd:15
+msgid "Rumble"
+msgstr ""
+
+#: ui/menus/options/accessibility_options.gd:17
+#: ui/menus/pause/pause_screen.gd:24
+msgid "Tips"
+msgstr ""
+
+#: ui/menus/options/audio_options.gd:7
+#: ui/menus/options/options_screen.gd:10
+msgid "Audio"
+msgstr ""
+
+#: ui/menus/options/audio_options.gd:9
+msgid "Master volume"
+msgstr ""
+
+#: ui/menus/options/audio_options.gd:10
+msgid "Music"
+msgstr ""
+
+#: ui/menus/options/audio_options.gd:11
+msgid "Effects"
+msgstr ""
+
+#: ui/menus/options/audio_options.gd:12
+msgid "Voice"
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:49
+msgid "Press a key..."
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:49
+msgid "Press a button..."
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:97
+msgid "D-pad up"
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:99
+msgid "D-pad down"
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:101
+msgid "D-pad left"
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:103
+msgid "D-pad right"
+msgstr ""
+
+#: ui/menus/options/binding_button.gd:106
+msgid "Button %d"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:10
+#: ui/menus/options/options_screen.gd:12
+msgid "Controls"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:11
+msgid "Keyboard"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:11
+msgid "Gamepad"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:18
+msgid "Reset to defaults"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:24
+msgid "Move left"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:25
+msgid "Move right"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:26
+msgid "Up / climb"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:27
+msgid "Down / crouch"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:28
+msgid "Jump"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:29
+msgid "Attack"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:31
+msgid "Dash"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:32
+msgid "Heal"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:33
+msgid "Interact"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:34
+msgid "Ranged"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:37
+#: ui/menus/pause/pause_screen.gd:21
+msgid "Inventory"
+msgstr ""
+
+#: ui/menus/options/controls_options.gd:45
+msgid "Reset all controls to the defaults?"
+msgstr ""
+
+#: ui/menus/options/options_screen.gd:9
+#: ui/menus/options/video_options.gd:19
+msgid "Video"
+msgstr ""
+
+#: ui/menus/options/options_screen.gd:15
+msgid "Language"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:20
+msgid "Fullscreen"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:21
+msgid "Resolution"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:22
+msgid "Pixel perfect"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:22
+msgid "Fill screen"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:23
+msgid "Scaling"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:25
+msgid "VSync"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:28
+msgid "Textures"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:29
+msgid "Sharp"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:29
+msgid "Smooth"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:33
+msgid "Brightness"
+msgstr ""
+
+#: ui/menus/options/video_options.gd:35
+msgid "CRT filter"
+msgstr ""
+
+#: ui/menus/pause/pause_screen.gd:19
+msgid "Paused"
+msgstr ""
+
+#: ui/menus/pause/pause_screen.gd:20
+msgid "Resume"
+msgstr ""
+
+#: ui/menus/pause/pause_screen.gd:26
+msgid "Quit to main menu"
+msgstr ""
+
+#: ui/menus/pause/pause_screen.gd:35
+msgid "Quit to the main menu? You will continue from the last rest point."
+msgstr ""
+
+#: ui/menus/rest/kneel_screen.gd:62
+msgid "%s: travel    %s: rise"
+msgstr ""
+
+#: ui/menus/shop/buy_screen.gd:27
+#: ui/menus/shop/cleanse_screen.gd:30
+#: ui/menus/shop/flask_healer_screen.gd:36
+#: ui/menus/shop/upgrade_screen.gd:25
+msgid "Price: %d    You have: %d"
+msgstr ""
+
+#: ui/menus/shop/buy_screen.gd:30
+msgid "Buy"
+msgstr ""
+
+#: ui/menus/shop/buy_screen.gd:32
+#: ui/menus/shop/cleanse_screen.gd:35
+#: ui/menus/shop/upgrade_screen.gd:30
+msgid "Not enough currency"
+msgstr ""
+
+#: ui/menus/shop/cleanse_screen.gd:21
+msgid "Clears every death mark at once, wherever it was left."
+msgstr ""
+
+#: ui/menus/shop/cleanse_screen.gd:25
+msgid "You carry no death marks."
+msgstr ""
+
+#: ui/menus/shop/cleanse_screen.gd:29
+msgid "Death marks: %d"
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:23
+msgid "Your flasks are as strong as living water can make them."
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:29
+msgid "Each flask heals %d more (%d now)."
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:30
+msgid "Level %d of %d"
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:33
+msgid "Living water: %s"
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:33
+msgid "none"
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:40
+#: ui/menus/shop/upgrade_screen.gd:28
+msgid "Offer"
+msgstr ""
+
+#: ui/menus/shop/flask_healer_screen.gd:42
+msgid "Not enough to offer"
+msgstr ""
+
+#: ui/menus/shop/upgrade_screen.gd:23
+msgid "Raises it by %d for good and fills it."
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:22
+msgid "Skills"
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:59
+msgid "Currency: %d    Tier: %d"
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:68
+msgid "%s - learned"
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:72
+msgid "%s - tier %d"
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:73
+msgid "%s - locked"
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:81
+msgid "Not enough currency."
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:87
+msgid "Needs tier %d. Find relics to raise your tier."
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:88
+msgid "Learn %s first."
+msgstr ""
+
+#: ui/menus/skills/skills_screen.gd:94
+msgid "Learn %s for %d?"
+msgstr ""
+
+#: ui/menus/tips/tip_screen.gd:54
+msgid "Tip"
+msgstr ""
+
+#: ui/menus/tips/tip_screen.gd:57
+msgid "Got it"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/amber_terminal.tres
+msgid "Amber terminal"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/arcade.tres
+msgid "Arcade"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/broken_black_and_white.tres
+msgid "Broken black & white"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/colour_tv.tres
+msgid "Colour TV"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/green_terminal.tres
+msgid "Green terminal"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/living_room_tv.tres
+msgid "Living room TV"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/old_tv.tres
+msgid "Old TV"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/sharp_monitor.tres
+msgid "Sharp monitor"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/small_crt.tres
+msgid "Small CRT"
+msgstr ""
+
+#. TRANSLATORS: display_name
+#: ui/screen_effects/crt_presets/soft_crt.tres
+msgid "Soft CRT"
+msgstr ""
+
+msgid "The Last Sich"
+msgstr ""

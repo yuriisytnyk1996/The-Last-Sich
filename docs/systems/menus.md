@@ -37,7 +37,7 @@ world.tscn
 - `Menu` (`ui/menus/menu.gd`) is a `CanvasLayer` with a tinted background and a stack of screens. `push()` opens a page, `pop()` goes back, `close()` pops everything and sends `closed`. It runs with `PROCESS_MODE_ALWAYS`, so it works while the game is paused.
 - Back (`ui_cancel`: Escape / B) calls the top screen's `go_back()`. The title screen overrides it to do nothing. The pause screen keeps the default, so back on its first page resumes.
 - Each page remembers which row had focus when another page opened over it, and gets it back on return. If the mouse clicks empty space and focus is lost, the next arrow press focuses the first row again.
-- `MenuScreen` (`ui/menus/menu_screen.gd`) is a column. Subclasses add rows in `_build()` with `add_title`, `add_text`, `add_button`, `add_option` and `add_gap`.
+- `MenuScreen` (`ui/menus/menu_screen.gd`) is a column. Subclasses add rows in `_build()` with `add_title`, `add_text`, `add_button`, `add_option` and `add_gap`, passing text through `tr()`. When the language changes, every screen in the tree builds its rows again and keeps focus on the same row, so `_build()` only touches its own rows; signals of the screen itself or of autoloads are connected in `_ready()`. See [Localization](/systems/localization).
 - A screen with `backdrop` off hides the menu's tint while it is on top, so the game shows through. The [travel](/systems/travel) kneel prompt uses this.
 - `OptionRow` (`ui/menus/option_row.gd`) is a button with a name on the left and `< value >` on the right. Left and right step through the values, and accept steps forward. Clicking the left half of the value (the `<` arrow) steps back, clicking anywhere else steps forward. Mouse presses are handled in `_gui_input()` rather than through `pressed`, which can't tell where the click landed and drops fast repeat clicks. On/off and lists wrap around. Ranges such as volume stop at the ends.
 - `ConfirmScreen` (`ui/menus/confirm_screen.gd`) asks a yes/no question. **No** is focused first.
@@ -85,10 +85,10 @@ extends MenuScreen
 
 
 func _build() -> void:
-	add_title("Extras")
-	add_option("Speedrun timer", ON_OFF, 0, func(i: int) -> void: print(i == 1))
+	add_title(tr("Extras"))
+	add_option(tr("Speedrun timer"), on_off(), 0, func(i: int) -> void: print(i == 1))
 	add_gap()
-	add_button("Back", go_back)
+	add_button(tr("Back"), go_back)
 ```
 
 Open it from another page with `menu.push(ExtrasScreen.new())`.

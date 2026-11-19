@@ -22,6 +22,6 @@ func _build() -> void:
 
 
 func _on_offered(binding: String, time: float) -> void:
-	_label.text = "%s Skip" % binding
+	_label.text = tr("%s Skip") % binding
 	# Gone by the time a press no longer skips.
 	show_for(maxf(time - fade, 0.0), fade, 0.0)

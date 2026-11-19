@@ -60,13 +60,13 @@ func go_back() -> void:
 func _start(dialogue: Dialogue) -> void:
 	_dialogue = dialogue
 	_line = 0
-	_speaker.text = dialogue.speaker if dialogue.speaker != "" else _default_speaker
+	_speaker.text = tr(dialogue.speaker if dialogue.speaker != "" else _default_speaker)
 	_show_line()
 
 
 func _show_line() -> void:
 	var lines := _dialogue.lines
-	_text.text = lines[_line] if _line < lines.size() else ""
+	_text.text = tr(lines[_line]) if _line < lines.size() else ""
 	_text.visible_ratio = 0.0
 	_set_buttons([_make_next(_finish_typing)])
 	if _tween:
@@ -118,7 +118,7 @@ func _pick(choice: DialogueChoice) -> void:
 
 func _make_next(on_pressed: Callable) -> Button:
 	_next = Button.new()
-	_next.text = "Next"
+	_next.text = tr("Next")
 	_next.pressed.connect(on_pressed)
 	return _next
 

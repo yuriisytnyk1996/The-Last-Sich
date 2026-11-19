@@ -11,7 +11,7 @@ var _rows: Array[SlotRow] = []
 
 
 func _build() -> void:
-	add_title("Choose a slot")
+	add_title(tr("Choose a slot"))
 	add_gap()
 	for which in SaveManager.SLOT_COUNT:
 		var row := SlotRow.new()
@@ -19,6 +19,10 @@ func _build() -> void:
 		add_child(row)
 		_rows.append(row)
 	_refresh()
+
+
+func _ready() -> void:
+	super()
 	visibility_changed.connect(_on_visibility_changed)
 
 

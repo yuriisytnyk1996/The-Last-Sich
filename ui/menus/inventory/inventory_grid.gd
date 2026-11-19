@@ -17,7 +17,7 @@ const GAP := 3
 
 var _inventory: PlayerInventory
 var _kind := Item.Kind.CHARM
-var _slots_title := _header("Worn")
+var _slots_title := _header(tr("Worn"))
 var _slots := HBoxContainer.new()
 var _grid := GridContainer.new()
 
@@ -31,7 +31,7 @@ func _init(inventory: PlayerInventory) -> void:
 	_grid.add_theme_constant_override(&"v_separation", GAP)
 	add_child(_slots_title)
 	add_child(_slots)
-	add_child(_header("Carried"))
+	add_child(_header(tr("Carried")))
 	add_child(_grid)
 
 

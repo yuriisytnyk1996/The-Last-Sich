@@ -3,42 +3,46 @@ extends MenuScreen
 ## Rebinding: one row per action in `InputSettings.ACTIONS`, with a key
 ## column and a gamepad column.
 
-const LABELS := {
-	&"move_left": "Move left",
-	&"move_right": "Move right",
-	&"move_up": "Up / climb",
-	&"move_down": "Down / crouch",
-	&"jump": "Jump",
-	&"attack": "Attack",
-	&"parry": "Parry",
-	&"dash": "Dash",
-	&"heal": "Heal",
-	&"interact": "Interact",
-	&"ranged": "Ranged",
-	&"duma": "Duma",
-	&"map": "Map",
-	&"inventory": "Inventory",
-}
 const NAME_WIDTH := 88.0
 
 
 func _build() -> void:
-	add_title("Controls")
-	add_child(_row("", _header("Keyboard"), _header("Gamepad")))
+	add_title(tr("Controls"))
+	add_child(_row("", _header(tr("Keyboard")), _header(tr("Gamepad"))))
+	var labels := _labels()
 	for action in InputSettings.ACTIONS:
 		var key := BindingButton.new(action, BindingButton.Device.KEYBOARD)
 		var pad := BindingButton.new(action, BindingButton.Device.GAMEPAD)
-		add_child(_row(LABELS.get(action, String(action)), key, pad))
+		add_child(_row(labels.get(action, String(action)), key, pad))
 	add_gap()
-	add_button("Reset to defaults", _confirm_reset)
-	add_button("Back", go_back)
+	add_button(tr("Reset to defaults"), _confirm_reset)
+	add_button(tr("Back"), go_back)
+
+
+func _labels() -> Dictionary:
+	return {
+		&"move_left": tr("Move left"),
+		&"move_right": tr("Move right"),
+		&"move_up": tr("Up / climb"),
+		&"move_down": tr("Down / crouch"),
+		&"jump": tr("Jump"),
+		&"attack": tr("Attack"),
+		&"parry": tr("Parry"),
+		&"dash": tr("Dash"),
+		&"heal": tr("Heal"),
+		&"interact": tr("Interact"),
+		&"ranged": tr("Ranged"),
+		&"duma": tr("Duma"),
+		&"map": tr("Map"),
+		&"inventory": tr("Inventory"),
+	}
 
 
 func _confirm_reset() -> void:
 	var reset := func() -> void:
 		InputSettings.reset_to_defaults()
 		menu.pop()
-	menu.push(ConfirmScreen.new("Reset all controls to the defaults?", reset))
+	menu.push(ConfirmScreen.new(tr("Reset all controls to the defaults?"), reset))
 
 
 func _row(title: String, key: Control, pad: Control) -> HBoxContainer:

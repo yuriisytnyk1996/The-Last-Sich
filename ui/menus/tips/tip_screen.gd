@@ -51,10 +51,10 @@ func _build() -> void:
 	add_child(box)
 	add_gap()
 	if _browsing:
-		add_option("Tip", _page_names(), _index, _show)
-		add_button("Back", go_back)
+		add_option(tr("Tip"), _page_names(), _index, _show)
+		add_button(tr("Back"), go_back)
 	else:
-		add_button("Got it", go_back)
+		add_button(tr("Got it"), go_back)
 		_fade(0.0, PLAY_ALPHA, FADE_IN_TIME)
 	_show(_index)
 
@@ -78,7 +78,7 @@ func _input(event: InputEvent) -> void:
 func _show(index: int) -> void:
 	_index = index
 	var tip := _tips[index]
-	_title.text = tip.title
+	_title.text = tr(tip.title)
 	_image.texture = tip.image
 	_image.visible = tip.image != null
 	_text.text = tip.formatted_text(_gamepad)

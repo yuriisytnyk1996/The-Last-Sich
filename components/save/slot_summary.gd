@@ -39,8 +39,9 @@ func is_empty() -> bool:
 
 
 ## The zone saved in, or "Unknown" for saves made before zones were kept.
+## Translated: the save keeps the English name.
 func zone_name() -> String:
-	return zone if zone != "" else "Unknown"
+	return tr(zone) if zone != "" else tr("Unknown")
 
 
 ## "42%", rounded down like the map page.
@@ -52,8 +53,8 @@ func explored_text() -> String:
 func play_time_text() -> String:
 	var minutes := int(play_time) / 60
 	if minutes < 60:
-		return "%dm" % minutes
-	return "%dh %02dm" % [minutes / 60, minutes % 60]
+		return tr("%dm") % minutes
+	return tr("%dh %02dm") % [minutes / 60, minutes % 60]
 
 
 func _fill(global: Variant) -> void:

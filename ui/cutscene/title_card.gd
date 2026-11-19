@@ -31,7 +31,7 @@ func _build() -> void:
 
 
 func _on_shown(title: String, subtitle: String, hold: float, fade: float) -> void:
-	_title.text = title
-	_subtitle.text = subtitle
+	_title.text = tr(title)
+	_subtitle.text = tr(subtitle)
 	_subtitle.visible = subtitle != ""
 	show_for(hold, fade)

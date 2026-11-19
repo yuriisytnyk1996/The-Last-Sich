@@ -44,13 +44,13 @@ func _init() -> void:
 
 func show_item(item: Item, worn: bool) -> void:
 	_icon.item = item
-	_name.text = item.title if item else " "
-	_description.text = item.description if item else " "
+	_name.text = tr(item.title) if item else " "
+	_description.text = tr(item.description) if item else " "
 	if item == null:
 		_state.text = " "
 	else:
 		_state.text = Item.kind_name(item.kind)
 		if item.kind == Item.Kind.DUMA:
-			_state.text += "  ·  Spirit %d" % roundi(item.spirit_cost)
+			_state.text += "  ·  " + tr("Spirit %d") % roundi(item.spirit_cost)
 		if worn:
-			_state.text += "  ·  Worn"
+			_state.text += "  ·  " + tr("Worn")

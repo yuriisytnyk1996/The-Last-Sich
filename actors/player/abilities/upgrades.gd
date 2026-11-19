@@ -28,12 +28,6 @@ const STATS := {
 	Kind.FLASKS: PlayerStats.FLASK_COUNT,
 	Kind.FLASK_HEAL: PlayerStats.FLASK_HEAL,
 }
-const NAMES := {
-	Kind.HEALTH: "Max health",
-	Kind.SPIRIT: "Max spirit",
-	Kind.FLASKS: "Flasks",
-	Kind.FLASK_HEAL: "Flask healing",
-}
 ## Save data key per kind.
 const KEYS := {
 	Kind.HEALTH: "health",
@@ -89,8 +83,16 @@ func step(kind: Kind) -> float:
 	return flask_heal_step
 
 
+## The kind's name, translated. Static, so `TranslationServer.tr()`
+## stands in for `tr()`.
 static func kind_name(kind: Kind) -> String:
-	return NAMES[kind]
+	var names := {
+		Kind.HEALTH: TranslationServer.tr("Max health"),
+		Kind.SPIRIT: TranslationServer.tr("Max spirit"),
+		Kind.FLASKS: TranslationServer.tr("Flasks"),
+		Kind.FLASK_HEAL: TranslationServer.tr("Flask healing"),
+	}
+	return names[kind]
 
 
 func get_save_data() -> Dictionary:

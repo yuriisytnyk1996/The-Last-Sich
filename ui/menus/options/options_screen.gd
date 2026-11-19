@@ -5,10 +5,17 @@ extends MenuScreen
 
 
 func _build() -> void:
-	add_title("Options")
-	add_button("Video", func() -> void: menu.push(VideoOptions.new()))
-	add_button("Audio", func() -> void: menu.push(AudioOptions.new()))
-	add_button("Accessibility", func() -> void: menu.push(AccessibilityOptions.new()))
-	add_button("Controls", func() -> void: menu.push(ControlsOptions.new()))
+	add_title(tr("Options"))
+	add_button(tr("Video"), func() -> void: menu.push(VideoOptions.new()))
+	add_button(tr("Audio"), func() -> void: menu.push(AudioOptions.new()))
+	add_button(tr("Accessibility"), func() -> void: menu.push(AccessibilityOptions.new()))
+	add_button(tr("Controls"), func() -> void: menu.push(ControlsOptions.new()))
+	var languages := LanguageSettings.LOCALES
+	add_option(
+		tr("Language"),
+		LanguageSettings.NAMES,
+		languages.find(LanguageSettings.locale),
+		func(i: int) -> void: LanguageSettings.set_locale(languages[i])
+	)
 	add_gap()
-	add_button("Back", go_back)
+	add_button(tr("Back"), go_back)

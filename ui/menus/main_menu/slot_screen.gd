@@ -11,17 +11,17 @@ func _init(summary: SlotSummary) -> void:
 
 
 func _build() -> void:
-	add_title("Slot %d" % (_summary.slot + 1))
+	add_title(tr("Slot %d") % (_summary.slot + 1))
 	if _summary.state == SlotSummary.State.READY:
-		add_text("%s, %s played" % [_summary.zone_name(), _summary.play_time_text()])
+		add_text(tr("%s, %s played") % [_summary.zone_name(), _summary.play_time_text()])
 		add_gap()
-		add_button("Continue", _continue)
+		add_button(tr("Continue"), _continue)
 	else:
-		add_text("This save can't be loaded.")
+		add_text(tr("This save can't be loaded."))
 		add_gap()
-		add_button("New game here", _confirm_new_game)
-	add_button("Delete", _confirm_delete)
-	add_button("Back", go_back)
+		add_button(tr("New game here"), _confirm_new_game)
+	add_button(tr("Delete"), _confirm_delete)
+	add_button(tr("Back"), go_back)
 
 
 func _continue() -> void:
@@ -29,13 +29,15 @@ func _continue() -> void:
 
 
 func _confirm_new_game() -> void:
-	var question := "Start a new game in slot %d? The old save will be lost." % (_summary.slot + 1)
+	var question := (
+		tr("Start a new game in slot %d? The old save will be lost.") % (_summary.slot + 1)
+	)
 	var start := func() -> void: SlotsScreen.play(get_tree(), _summary.slot, true)
 	menu.push(ConfirmScreen.new(question, start))
 
 
 func _confirm_delete() -> void:
-	var question := "Delete slot %d? This can't be undone." % (_summary.slot + 1)
+	var question := tr("Delete slot %d? This can't be undone.") % (_summary.slot + 1)
 	menu.push(ConfirmScreen.new(question, _delete))
 
 

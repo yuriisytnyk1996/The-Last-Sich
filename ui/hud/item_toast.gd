@@ -21,11 +21,11 @@ func _ready() -> void:
 
 
 func _on_item_obtained(item: Item) -> void:
-	_show("Found: %s" % item.title)
+	_show(tr("Found: %s") % tr(item.title))
 
 
 func _on_player_upgraded(what: String) -> void:
-	_show("%s up" % what)
+	_show(tr("%s up") % what)
 
 
 func _show(message: String) -> void:

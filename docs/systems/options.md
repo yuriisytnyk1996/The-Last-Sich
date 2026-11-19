@@ -1,6 +1,6 @@
 # Options
 
-Player options for video, audio, accessibility and controls. Each group is owned by its own autoload, which applies changes at once and saves them in its own section of `user://settings.cfg`. The pages in `ui/menus/options/` only read and call those autoloads.
+Player options for video, audio, accessibility, controls and language. Each group is owned by its own autoload, which applies changes at once and saves them in its own section of `user://settings.cfg`. The pages in `ui/menus/options/` only read and call those autoloads.
 
 ## How it works
 
@@ -9,6 +9,8 @@ Player options for video, audio, accessibility and controls. Each group is owned
 3. Pages that can go out of step listen to `changed`. The video page refreshes when F11 toggles fullscreen.
 
 There is no "apply" or "cancel" step. Every change is visible straight away, which is easier to judge, and nothing is lost if the game closes.
+
+The options hub also has a **Language** row, owned by `LanguageSettings`: see [Localization](/systems/localization).
 
 `settings.cfg` is kept apart from the save slots, so **New game** and the debug save reset (F8) never touch options.
 
@@ -105,6 +107,7 @@ Keys are stored as **physical** keycodes, like the defaults. The page shows each
 | `autoload/accessibility_settings.gd` | `AccessibilitySettings`: screen shake, rumble, tips |
 | `autoload/rumble.gd` | `Rumble`: gamepad vibration |
 | `autoload/input_settings.gd` | `InputSettings`: key, button and trigger bindings |
+| `autoload/language_settings.gd` | `LanguageSettings`: the game's language, see [Localization](/systems/localization) |
 | `default_bus_layout.tres` | Master, Music, Effects and Voice buses |
 | `ui/screen_effects/` | `ScreenEffects`, its shader, `CrtPreset` and the presets |
 | `ui/menus/options/` | The options pages, `BindingButton` |
@@ -115,16 +118,17 @@ Keys are stored as **physical** keycodes, like the defaults. The page shows each
 
 1. Add the value, a setter and save/load lines to the autoload that owns that area (or a new `*_settings.gd` autoload with its own section).
 2. Make the setter apply the value, save, and emit `changed`.
-3. Add a row in the matching page with `add_option()`.
+3. Add a row in the matching page with `add_option()`, its text through `tr()` (see [Localization](/systems/localization)).
+   A page that listens to `changed` connects in `_ready()`, not `_build()`, because `_build()` runs again when the language changes.
 4. Add it to the tables above.
 
 **A new CRT preset:** duplicate a `.tres` in `ui/screen_effects/crt_presets/`, tune it in the Inspector, and add it to `ScreenEffects.CRT_PRESETS`. Saved settings store the preset's index, so add new presets at the end.
 
-**A new rebindable action:** add it to `InputSettings.ACTIONS` and give it a label in `ControlsOptions.LABELS`. It needs exactly one key and one gamepad button in `project.godot`.
+**A new rebindable action:** add it to `InputSettings.ACTIONS` and give it a label in `ControlsOptions._labels()`. It needs exactly one key and one gamepad button in `project.godot`.
 
 ## Known limitations
 
-- No text or audio language options yet: the game has no translations or voice lines.
+- No audio language option: the game has no voice lines.
 - The CRT filter works at game resolution, not screen resolution, so it can't draw sub-pixel scanlines or a fine RGB mask.
 - The window can't go above the screen's usable area, so the largest windowed size may be a little smaller than the screen.
 - Gamepad buttons are named by their Xbox layout (A, B, X, Y, LB, RB, LT, RT).

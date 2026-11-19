@@ -49,7 +49,8 @@ File size limits and folder layout are covered in [Code organization](/guide/cod
 2. **Tuning values are `@export` variables**, grouped with `@export_group`, so they can be adjusted in the Inspector without editing code.
 3. **Systems communicate through signals.** Global events go through [`Events`](/architecture/events). Avoid `get_node("../../Something")` across systems.
 4. **Never move physics bodies inside a physics callback.** Use `call_deferred` (see `Room._on_kill_zone_body_entered`).
-5. **No placeholders left behind silently.** Placeholder art and debug tools are fine, but list them on the [Roadmap](/roadmap).
+5. **Player-facing text goes through `tr()`**, written in English. See [Localization](/systems/localization#writing-translatable-code).
+6. **No placeholders left behind silently.** Placeholder art and debug tools are fine, but list them on the [Roadmap](/roadmap).
 
 ## Physics layers
 

@@ -66,7 +66,7 @@ func _draw() -> void:
 		if i == choice:
 			draw_rect(slot, FRAME_COLOR, false, 1.0)
 	var font := get_theme_default_font()
-	var name_text: String = PlayerMarks.NAMES[choice]
+	var name_text := PlayerMarks.kind_name(choice as PlayerMarks.Kind)
 	var width := font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE).x
 	var spot := Vector2(floorf((size.x - width) * 0.5), row.position.y - 4.0)
 	draw_string(font, spot, name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE, TEXT_COLOR)

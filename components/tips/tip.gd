@@ -22,12 +22,13 @@ const STICK_DEADZONE := 0.5
 @export var known_from_start := false
 
 
-## The text with every "{action}" replaced by its binding on the keyboard,
-## or on the gamepad when `gamepad` is set.
+## The translated text with every "{action}" replaced by its binding on
+## the keyboard, or on the gamepad when `gamepad` is set. Translations keep
+## the "{action}" names in English.
 func formatted_text(gamepad: bool) -> String:
 	var regex := RegEx.create_from_string(ACTION_PATTERN)
-	var result := text
-	for found in regex.search_all(text):
+	var result := tr(text)
+	for found in regex.search_all(result):
 		var action := StringName(found.get_string(1))
 		if InputMap.has_action(action):
 			result = result.replace(found.get_string(), "[%s]" % binding(action, gamepad))

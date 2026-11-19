@@ -13,6 +13,12 @@ The-Last-Sich/
 ├── pnpm-workspace.yaml           pnpm settings (allowed install scripts)
 ├── .versionrc.json               Release and changelog settings
 ├── default_bus_layout.tres       Audio buses: Master, Music, Effects, Voice
+├── addons/
+│   └── text_extractor/           Editor plugin: adds resource and node text to POT generation
+│       ├── plugin.cfg
+│       ├── plugin.gd             Registers the parser with the editor
+│       └── text_parser.gd        Reads translatable properties from .tres and .tscn files
+├── locale/                       Translation template (.pot) and one .po file per language
 ├── assets/
 │   └── sprites/
 │       └── items/
@@ -24,6 +30,7 @@ The-Last-Sich/
 │   ├── audio_settings.gd         Bus volumes (autoload "AudioSettings")
 │   ├── accessibility_settings.gd Screen shake, rumble and tips toggles (autoload "AccessibilitySettings")
 │   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
+│   ├── language_settings.gd      Game language, saved choice (autoload "LanguageSettings")
 │   ├── rumble.gd                 Gamepad vibration (autoload "Rumble")
 │   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
 │   ├── pool.gd                   Reuses projectiles and blasts instead of freeing them (autoload "Pool")
@@ -380,6 +387,8 @@ The-Last-Sich/
 │   ├── check_file_sizes.sh       Enforces file size limits
 │   ├── build_map_catalog.gd      Builds levels/map/map_catalog.tres from the room scenes
 │   ├── map_catalog.sh            Runs the builder with Godot; --check for the pre-commit hook
+│   ├── update_pot_files.gd       Fills the POT generation file list in project.godot
+│   ├── pot_files.sh              Runs it in the editor (pnpm i18n:files); --check compares only
 │   └── release/
 │       └── godot-version-updater.ts   Bumps the version in project.godot
 └── docs/                         This site (VitePress)
@@ -391,6 +400,8 @@ See [Code organization](/guide/code-organization) for the rules behind this layo
 
 | Folder | What goes in it |
 |---|---|
+| `addons/` | Editor plugins. Only tools for the editor, nothing the game runs. |
+| `locale/` | The translation template and the `.po` files, see [Localization](/systems/localization). |
 | `autoload/` | Global singletons registered in **Project Settings → Globals → Autoload**. Keep them few and small. |
 | `components/` | Reusable building blocks with no knowledge of specific actors (state machine, hitboxes, hurtboxes, health, stats). |
 | `actors/` | Anything that moves and acts: the player, enemies, bosses, NPCs. One folder per actor, with its scene, script and states. |

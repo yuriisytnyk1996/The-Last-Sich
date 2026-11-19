@@ -45,6 +45,7 @@ mouse_filter = 2
 script = ExtResource("2_flasks")
 
 [node name="CurrencyCounter" type="Label" parent="."]
+auto_translate_mode = 2
 offset_left = 8.0
 offset_top = 35.0
 offset_right = 60.0

@@ -58,7 +58,7 @@ func apply(player: Player) -> bool:
 			turned_in += 1
 	player.story.add_counter(counter, counter_add + turned_in)
 	if message != "":
-		Events.message_shown.emit(message)
+		Events.message_shown.emit(tr(message))
 	if tip:
 		Events.tip_requested.emit(tip)
 	for flag in clear_flags:

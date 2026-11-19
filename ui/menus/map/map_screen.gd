@@ -11,26 +11,6 @@ extends MenuScreen
 ## whole menu, so the player rises.
 
 const VIEW_SIZE := Vector2(480, 216)
-## Two rows, so the legend fits the screen width.
-const LEGEND := [
-	[
-		["You", MapView.PLAYER_COLOR],
-		["Rest point", MapView.MARK_COLORS[MapRoom.Mark.REST_POINT]],
-		["Shrine", MapView.MARK_COLORS[MapRoom.Mark.SHRINE]],
-		["Shop", MapView.MARK_COLORS[MapRoom.Mark.SHOP]],
-		["Cleanse", MapView.MARK_COLORS[MapRoom.Mark.CLEANSE]],
-	],
-	[
-		["Upgrade", MapView.MARK_COLORS[MapRoom.Mark.UPGRADE]],
-		["Door", MapView.MARK_COLORS[MapRoom.Mark.DOOR]],
-		["Death mark", MapView.MARK_COLORS[MapRoom.Mark.DEATH_MARK]],
-	],
-]
-
-const HINT := "Move: look around   Jump: zoom   Attack: mark   Back: close"
-const PICK_HINT := "Move: choose   Attack: place   Back: cancel"
-const TRAVEL_HINT := "Move: choose   Attack: travel   Back: rise"
-const NO_TRAVEL_HINT := "Move: choose   Back: rise"
 
 var _map: WorldMap
 var _zone: Label
@@ -45,7 +25,7 @@ func _init(map: WorldMap, travel_mode := false) -> void:
 
 
 func _build() -> void:
-	add_title("Travel" if _travel_mode else "Map")
+	add_title(tr("Travel") if _travel_mode else tr("Map"))
 	_zone = add_text("")
 	_view.custom_minimum_size = VIEW_SIZE
 	_map.refresh()
@@ -54,16 +34,19 @@ func _build() -> void:
 	_view.travel_chosen.connect(_on_travel_chosen)
 	add_child(_view)
 	add_gap(2)
-	for entries: Array in LEGEND:
+	for entries: Array in _legend_rows():
 		add_child(_legend(entries))
-	_hint = add_text(HINT)
+	_hint = add_text(_look_hint())
 	_view.picking_changed.connect(_on_picking_changed)
 	_on_zone_changed("")
 
 
 func _process(_delta: float) -> void:
 	if _view.travel:
-		_hint.text = TRAVEL_HINT if _view.travel.can_travel() else NO_TRAVEL_HINT
+		if _view.travel.can_travel():
+			_hint.text = tr("Move: choose   Attack: travel   Back: rise")
+		else:
+			_hint.text = tr("Move: choose   Back: rise")
 
 
 func go_back() -> void:
@@ -77,6 +60,29 @@ func _on_travel_chosen(cell: Vector2i) -> void:
 	var map_room := _map.room_at(cell)
 	if map_room:
 		Events.travel_requested.emit(map_room.path, cell)
+
+
+## Two rows, so the legend fits the screen width.
+func _legend_rows() -> Array:
+	var marks := MapView.MARK_COLORS
+	return [
+		[
+			[tr("You"), MapView.PLAYER_COLOR],
+			[tr("Rest point"), marks[MapRoom.Mark.REST_POINT]],
+			[tr("Shrine"), marks[MapRoom.Mark.SHRINE]],
+			[tr("Shop"), marks[MapRoom.Mark.SHOP]],
+			[tr("Cleanse"), marks[MapRoom.Mark.CLEANSE]],
+		],
+		[
+			[tr("Upgrade"), marks[MapRoom.Mark.UPGRADE]],
+			[tr("Door"), marks[MapRoom.Mark.DOOR]],
+			[tr("Death mark"), marks[MapRoom.Mark.DEATH_MARK]],
+		],
+	]
+
+
+func _look_hint() -> String:
+	return tr("Move: look around   Jump: zoom   Attack: mark   Back: close")
 
 
 func _legend(entries: Array) -> HBoxContainer:
@@ -96,9 +102,9 @@ func _legend(entries: Array) -> HBoxContainer:
 
 
 func _on_picking_changed(picking: bool) -> void:
-	_hint.text = PICK_HINT if picking else HINT
+	_hint.text = tr("Move: choose   Attack: place   Back: cancel") if picking else _look_hint()
 
 
 func _on_zone_changed(zone: String) -> void:
-	var explored := "%d%% explored" % floori(_map.completion() * 100.0)
-	_zone.text = "%s   %s" % [zone, explored] if zone != "" else explored
+	var explored := tr("%d%% explored") % floori(_map.completion() * 100.0)
+	_zone.text = "%s   %s" % [tr(zone), explored] if zone != "" else explored

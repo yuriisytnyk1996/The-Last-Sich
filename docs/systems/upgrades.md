@@ -93,7 +93,7 @@ In the test rooms: a free health shrine in the test vault's hidden alcove, a spi
 
 - **A new shrine:** drop `stat_upgrade.tscn` into a room's Logic scene, set `kind` and `price`.
 - **More flasks or vials:** drop `empty_flask.tscn` into a room's Logic scene, or an `ItemPickup` with a living water. A new vial needs a `.tres` in `items/quest/`, a place in `Inventory.all` and in each healer's `accepted`, and one more entry in `prices`.
-- **A new kind of upgrade** (damage): add it to the end of `PlayerUpgrades.Kind`, then to `STATS`, `NAMES`, `KEYS`, `step()` and the gem colours in `StatUpgrade.GEM_COLORS`.
+- **A new kind of upgrade** (damage): add it to the end of `PlayerUpgrades.Kind`, then to `STATS`, `kind_name()`, `KEYS`, `step()` and the gem colours in `StatUpgrade.GEM_COLORS`.
 - **Rising prices:** set each paid shrine's `price` by hand, higher further into the game.
 
 ## Known limitations

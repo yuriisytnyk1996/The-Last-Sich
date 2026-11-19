@@ -42,5 +42,28 @@ func is_equipable() -> bool:
 	return kind != Kind.KEEPSAKE and kind != Kind.QUEST
 
 
+## The kind's name, translated. Static, so `TranslationServer.tr()`
+## stands in for `tr()`.
 static func kind_name(of: Kind) -> String:
-	return ["Charm", "Blade", "Keepsake", "Relic", "Duma", "Quest item"][of]
+	var names: PackedStringArray = [
+		TranslationServer.tr("Charm"),
+		TranslationServer.tr("Blade"),
+		TranslationServer.tr("Keepsake"),
+		TranslationServer.tr("Relic"),
+		TranslationServer.tr("Duma"),
+		TranslationServer.tr("Quest item"),
+	]
+	return names[of]
+
+
+## The kind's name for many, translated (inventory tabs).
+static func kind_plural(of: Kind) -> String:
+	var names: PackedStringArray = [
+		TranslationServer.tr("Charms"),
+		TranslationServer.tr("Blades"),
+		TranslationServer.tr("Keepsakes"),
+		TranslationServer.tr("Relics"),
+		TranslationServer.tr("Dumas"),
+		TranslationServer.tr("Quest items"),
+	]
+	return names[of]

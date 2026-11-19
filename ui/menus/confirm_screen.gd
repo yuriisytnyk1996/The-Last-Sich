@@ -15,5 +15,5 @@ func _init(question: String, on_yes: Callable) -> void:
 func _build() -> void:
 	add_text(_question)
 	add_gap()
-	add_button("No", go_back)
-	add_button("Yes", _on_yes)
+	add_button(tr("No"), go_back)
+	add_button(tr("Yes"), _on_yes)

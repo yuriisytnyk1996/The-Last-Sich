@@ -17,22 +17,22 @@ func _init(penalty: DeathPenalty, price: int, player: Player) -> void:
 
 
 func _build() -> void:
-	add_title("Cleanse")
-	add_text("Clears every death mark at once, wherever it was left.")
+	add_title(tr("Cleanse"))
+	add_text(tr("Clears every death mark at once, wherever it was left."))
 	add_gap()
 	var marks := _penalty.count()
 	if marks == 0:
-		add_text("You carry no death marks.")
+		add_text(tr("You carry no death marks."))
 		add_gap()
-		add_button("Leave", go_back)
+		add_button(tr("Leave"), go_back)
 		return
-	add_text("Death marks: %d" % marks)
-	add_text("Price: %d    You have: %d" % [_price, _player.wallet.amount])
+	add_text(tr("Death marks: %d") % marks)
+	add_text(tr("Price: %d    You have: %d") % [_price, _player.wallet.amount])
 	add_gap()
-	add_button("Leave", go_back)
-	var cleanse := add_button("Cleanse", _cleanse)
+	add_button(tr("Leave"), go_back)
+	var cleanse := add_button(tr("Cleanse"), _cleanse)
 	if _player.wallet.amount < _price:
-		cleanse.text = "Not enough currency"
+		cleanse.text = tr("Not enough currency")
 		cleanse.disabled = true
 
 

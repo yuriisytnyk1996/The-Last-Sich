@@ -10,12 +10,16 @@ var _continue: Button
 func _build() -> void:
 	add_title("The Last Sich")
 	add_gap(12)
-	_continue = add_button("Continue", _on_continue)
-	add_button("Play", func() -> void: menu.push(SlotsScreen.new()))
-	add_button("Options", func() -> void: menu.push(OptionsScreen.new()))
+	_continue = add_button(tr("Continue"), _on_continue)
+	add_button(tr("Play"), func() -> void: menu.push(SlotsScreen.new()))
+	add_button(tr("Options"), func() -> void: menu.push(OptionsScreen.new()))
 	if not OS.has_feature("mobile") and not OS.has_feature("web"):
-		add_button("Quit", get_tree().quit)
+		add_button(tr("Quit"), get_tree().quit)
 	_refresh()
+
+
+func _ready() -> void:
+	super()
 	# A slot may have been deleted on the slot pages.
 	visibility_changed.connect(_refresh)
 

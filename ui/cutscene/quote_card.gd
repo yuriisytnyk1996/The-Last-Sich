@@ -27,7 +27,7 @@ func _build() -> void:
 
 
 func _on_shown(text: String, author: String, hold: float, fade: float) -> void:
-	_text.text = text
-	_author.text = "- %s" % author
+	_text.text = tr(text)
+	_author.text = "- %s" % tr(author)
 	_author.visible = author != ""
 	show_for(hold, fade)

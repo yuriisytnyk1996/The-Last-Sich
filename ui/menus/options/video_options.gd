@@ -6,8 +6,6 @@ extends MenuScreen
 ## mode, and the scaling row only shows when the picture is not an exact
 ## multiple of 640×360, because otherwise both modes look the same.
 
-const SCALING: PackedStringArray = ["Pixel perfect", "Fill screen"]
-const TEXTURES: PackedStringArray = ["Sharp", "Smooth"]
 const BRIGHTNESS_STEP := 10
 
 var _resolutions: Array[Vector2i] = []
@@ -18,31 +16,36 @@ var _scaling: OptionRow
 
 func _build() -> void:
 	var settings := DisplaySettings
-	add_title("Video")
-	_fullscreen = add_option("Fullscreen", ON_OFF, int(settings.fullscreen), _on_fullscreen)
-	_resolution = add_option("Resolution", [], 0, _on_resolution)
-	_scaling = add_option("Scaling", SCALING, settings.scaling_mode, settings.set_scaling_mode)
+	add_title(tr("Video"))
+	_fullscreen = add_option(tr("Fullscreen"), on_off(), int(settings.fullscreen), _on_fullscreen)
+	_resolution = add_option(tr("Resolution"), [], 0, _on_resolution)
+	var scaling: PackedStringArray = [tr("Pixel perfect"), tr("Fill screen")]
+	_scaling = add_option(tr("Scaling"), scaling, settings.scaling_mode, settings.set_scaling_mode)
 	add_option(
-		"VSync", ON_OFF, int(settings.vsync), func(i: int) -> void: settings.set_vsync(i == 1)
+		tr("VSync"), on_off(), int(settings.vsync), func(i: int) -> void: settings.set_vsync(i == 1)
 	)
 	add_option(
-		"Textures",
-		TEXTURES,
+		tr("Textures"),
+		[tr("Sharp"), tr("Smooth")],
 		int(settings.smooth_textures),
 		func(i: int) -> void: settings.set_smooth_textures(i == 1)
 	)
-	add_option("Brightness", _brightness_values(), _brightness_index(), _on_brightness, false)
+	add_option(tr("Brightness"), _brightness_values(), _brightness_index(), _on_brightness, false)
 	add_option(
-		"CRT filter",
+		tr("CRT filter"),
 		_crt_names(),
 		settings.crt_preset + 1,
 		func(i: int) -> void: settings.set_crt_preset(i - 1)
 	)
 	add_gap()
-	add_button("Back", go_back)
+	add_button(tr("Back"), go_back)
 	_fullscreen.visible = not OS.has_feature("mobile")
-	settings.changed.connect(_sync)
 	_sync()
+
+
+func _ready() -> void:
+	super()
+	DisplaySettings.changed.connect(_sync)
 
 
 ## Keeps the rows in step with the settings, e.g. after F11.
@@ -86,7 +89,7 @@ func _brightness_index() -> int:
 
 
 func _crt_names() -> PackedStringArray:
-	var names: PackedStringArray = ["Off"]
+	var names: PackedStringArray = [tr("Off")]
 	for preset in ScreenEffects.CRT_PRESETS:
-		names.append(preset.display_name)
+		names.append(tr(preset.display_name))
 	return names

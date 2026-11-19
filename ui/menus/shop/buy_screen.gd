@@ -19,17 +19,17 @@ func _init(item: Item, price: int, player: Player, on_bought: Callable) -> void:
 
 
 func _build() -> void:
-	add_title(_item.title)
+	add_title(tr(_item.title))
 	add_text(Item.kind_name(_item.kind))
 	add_gap(2)
-	add_text(_item.description)
+	add_text(tr(_item.description))
 	add_gap()
-	add_text("Price: %d    You have: %d" % [_price, _player.wallet.amount])
+	add_text(tr("Price: %d    You have: %d") % [_price, _player.wallet.amount])
 	add_gap()
-	add_button("Leave", go_back)
-	var buy := add_button("Buy", _buy)
+	add_button(tr("Leave"), go_back)
+	var buy := add_button(tr("Buy"), _buy)
 	if _player.wallet.amount < _price:
-		buy.text = "Not enough currency"
+		buy.text = tr("Not enough currency")
 		buy.disabled = true
 
 

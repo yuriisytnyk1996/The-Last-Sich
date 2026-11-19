@@ -29,6 +29,7 @@ export default {
         'story',
         'cutscenes',
         'tips',
+        'localization',
         'spirit',
         'death-penalty',
         'map',

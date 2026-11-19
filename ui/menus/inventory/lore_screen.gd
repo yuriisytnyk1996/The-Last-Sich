@@ -6,7 +6,6 @@ extends MenuScreen
 
 const ICON_SIZE := Vector2(48, 48)
 const TEXT_WIDTH := 320.0
-const HINT := "Lore / Back: Return"
 
 var _item: Item
 
@@ -22,11 +21,11 @@ func _build() -> void:
 	icon.custom_minimum_size = ICON_SIZE
 	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	add_child(icon)
-	add_title(_item.title)
-	var text := add_text(_item.lore)
+	add_title(tr(_item.title))
+	var text := add_text(tr(_item.lore))
 	text.custom_minimum_size.x = TEXT_WIDTH
 	add_gap(4)
-	add_text(HINT).theme_type_variation = &"HeaderLabel"
+	add_text(tr("Lore / Back: Return")).theme_type_variation = &"HeaderLabel"
 
 
 func _unhandled_input(event: InputEvent) -> void:

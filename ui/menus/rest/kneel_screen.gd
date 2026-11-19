@@ -10,7 +10,6 @@ extends MenuScreen
 ## The prompt names the real keys: the bound `map` key and Escape, or the
 ## bound `map` button and B, for whichever device was used last.
 
-const PROMPT := "%s: travel    %s: rise"
 const PANEL_COLOR := Color(0.1, 0.09, 0.13, 0.9)
 const BORDER_COLOR := Color(0.45, 0.4, 0.3)
 ## Space kept below the panel (px).
@@ -53,10 +52,14 @@ func _input(event: InputEvent) -> void:
 func _show_keys(gamepad: bool) -> void:
 	if gamepad:
 		var map_button := BindingButton.button_name(InputSettings.get_button(&"map"))
-		_label.text = PROMPT % [map_button, BindingButton.button_name(JOY_BUTTON_B)]
+		_label.text = _prompt() % [map_button, BindingButton.button_name(JOY_BUTTON_B)]
 	else:
 		var map_key := BindingButton.key_name(InputSettings.get_key(&"map"))
-		_label.text = PROMPT % [map_key, BindingButton.key_name(KEY_ESCAPE)]
+		_label.text = _prompt() % [map_key, BindingButton.key_name(KEY_ESCAPE)]
+
+
+func _prompt() -> String:
+	return tr("%s: travel    %s: rise")
 
 
 func _unhandled_input(event: InputEvent) -> void:

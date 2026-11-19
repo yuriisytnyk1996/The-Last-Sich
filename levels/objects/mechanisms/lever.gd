@@ -45,7 +45,7 @@ func _activate(body: Node2D) -> void:
 	var inventory := (body as Player).inventory
 	if key and not key_used:
 		if not inventory.owns(key):
-			Events.message_shown.emit("Needs %s" % key.title)
+			Events.message_shown.emit(tr("Needs %s") % tr(key.title))
 			return
 		if takes_key:
 			inventory.remove(key)
