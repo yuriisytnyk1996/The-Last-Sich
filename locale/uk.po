@@ -258,12 +258,12 @@ msgstr ""
 #. TRANSLATORS: display_name
 #: actors/bosses/otaman/otaman.tscn
 msgid "The Otaman"
-msgstr ""
+msgstr "Отаман"
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/boss_news.tres
 msgid "The renegade Otaman is dead? By your hand?"
-msgstr ""
+msgstr "Отаман-відступник мертвий? Від твоєї руки?"
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/boss_news.tres
@@ -271,6 +271,8 @@ msgid ""
 "Then the Sich owes you more than words. Take this, and drink to the ones he "
 "killed."
 msgstr ""
+"Тоді Січ винна тобі більше, ніж слова. Візьми це й випий за тих, кого він "
+"убив."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/captives_all.tres
@@ -278,6 +280,8 @@ msgid ""
 "All three are home. The drummer among them asked me to give you this. He "
 "says it beats truer for a free man."
 msgstr ""
+"Усі троє вдома. Барабанщик серед них попросив передати тобі це. Каже, у "
+"вільних руках воно б'є вірніше."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/captives_first.tres
@@ -285,11 +289,13 @@ msgid ""
 "One of our captives walked in this morning, thin as a reed, and said a "
 "Cossack broke his cage."
 msgstr ""
+"Один із наших бранців прийшов сьогодні вранці, худий, як очеретина, і "
+"сказав, що козак розбив його клітку."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/captives_first.tres
 msgid "There are two more. Here, for your trouble."
-msgstr ""
+msgstr "Лишилося ще двоє. Ось, за клопіт."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/idle.tres
@@ -297,6 +303,8 @@ msgid ""
 "Three of ours sit in cages: one in the cave, one in the crypt, one in the "
 "barracks. Break the bars."
 msgstr ""
+"Троє наших сидять у клітках: один у печері, один у склепі, один у казармі. "
+"Зламай грати."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/idle.tres
@@ -304,16 +312,18 @@ msgid ""
 "Three letters lie where their riders fell: in the hideout, the barracks and "
 "the works."
 msgstr ""
+"Три листи лежать там, де впали їхні гінці: у схованці, у казармі та в "
+"майстернях."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/idle.tres
 msgid "And if your purse is heavy, the church in the crypt keeps an alms box."
-msgstr ""
+msgstr "А як гаманець важкий, то церква в склепі має скриньку для милостині."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/intro.tres
 msgid "You walk like a man with nowhere to be. Good. I have work."
-msgstr ""
+msgstr "Ходиш, як чоловік, якому нікуди поспішати. Добре. Маю для тебе роботу."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/intro.tres
@@ -321,39 +331,43 @@ msgid ""
 "Captives in cages, letters in the mud, a church with an empty box. Ask me "
 "again and I'll tell you where."
 msgstr ""
+"Бранці в клітках, листи в багнюці, церква з порожньою скринькою. Спитай мене "
+"ще раз, і я скажу, де що."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/letters.tres
 msgid "Is that the Sich's seal I see in your belt?"
-msgstr ""
+msgstr "Чи то печатка Січі в тебе за поясом?"
 
 #. TRANSLATORS: text
 #: actors/npcs/elder/dialogues/letters.tres
 msgid "Hand over the letters"
-msgstr ""
+msgstr "Віддати листи"
 
 #. TRANSLATORS: text
 #: actors/npcs/elder/dialogues/letters.tres
 #: actors/npcs/kobzar/dialogues/return.tres
 msgid "Not yet"
-msgstr ""
+msgstr "Ще ні"
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/letters_done.tres
 msgid ""
 "Every letter is home. The Kosh will know where the boats are, and the "
 "powder, and the riders."
-msgstr ""
+msgstr "Усі листи вдома. Кіш знатиме, де човни, де порох і де вершники."
 
 #. TRANSLATORS: lines
 #: actors/npcs/elder/dialogues/letters_done.tres
 msgid "This edge was a scout's. It turned many blows; let it turn yours."
 msgstr ""
+"Цей клинок належав розвідникові. Він відбив чимало ударів; нехай відбиває й "
+"твої."
 
 #. TRANSLATORS: display_name
 #: actors/npcs/elder/elder.tscn
 msgid "Elder"
-msgstr ""
+msgstr "Старійшина"
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/arrival.tres
@@ -361,6 +375,8 @@ msgid ""
 "Another one walking the graves at dusk. The steppe doesn't see many visitors "
 "who mean to leave again."
 msgstr ""
+"Ще один бродить могилами в сутінках. Степ нечасто бачить гостей, які "
+"збираються піти звідси."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/arrival.tres
@@ -368,11 +384,13 @@ msgid ""
 "See the stone on the hill? An old otaman lies under it, with his sabre and "
 "his oath."
 msgstr ""
+"Бачиш камінь на пагорбі? Під ним лежить старий отаман, зі своєю шаблею і "
+"своєю клятвою."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/mound.tres
 msgid "Quiet up there now. Quiet is good."
-msgstr ""
+msgstr "Тепер там нагорі тихо. Тиша — це добре."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/mound.tres
@@ -380,31 +398,34 @@ msgid ""
 "Rest when you need to. The fire by the door burns for anyone the steppe "
 "hasn't claimed."
 msgstr ""
+"Відпочивай, коли треба. Вогонь біля дверей горить для кожного, кого степ ще "
+"не забрав."
 
 #. TRANSLATORS: speaker
 #: actors/npcs/keeper/dialogues/raider_shout.tres
 msgid "Raider"
-msgstr ""
+msgstr "Розбійник"
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/raider_shout.tres
 msgid "The keeper's guest! Open the gate, lads, we'll have his boots as well!"
-msgstr ""
+msgstr "Гість сторожа! Відчиняйте ворота, хлопці, заберемо і його чоботи!"
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/road.tres
 msgid "The kurgan stood here before the Sich did. It will stand after."
-msgstr ""
+msgstr "Курган стояв тут ще до Січі. Стоятиме й після."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/road.tres
 msgid "Go up to the stone once the raiders are dealt with. Kneel, and listen."
 msgstr ""
+"Підіймися до каменя, коли впораєшся з розбійниками. Стань на коліна й слухай."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/vigil_end.tres
 msgid "You went up, and you came back down. He let you go, then."
-msgstr ""
+msgstr "Ти піднявся і спустився назад. Значить, він тебе відпустив."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/vigil_end.tres
@@ -412,11 +433,13 @@ msgid ""
 "I'll keep watch at the foot of the hill from now on. He sleeps easier with "
 "someone near."
 msgstr ""
+"Відтепер я стерегтиму біля підніжжя пагорба. Йому спокійніше спиться, коли "
+"хтось поруч."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/warning.tres
 msgid "There. He has heard you."
-msgstr ""
+msgstr "Ось. Він тебе почув."
 
 #. TRANSLATORS: lines
 #: actors/npcs/keeper/dialogues/warning.tres
@@ -424,33 +447,37 @@ msgid ""
 "Raiders camp past the palisade, digging for his silver. Mind them, and go up "
 "to the stone when they're gone."
 msgstr ""
+"За частоколом стали табором розбійники, шукають його срібло. Стережися їх і "
+"підіймися до каменя, коли їх не стане."
 
 #. TRANSLATORS: display_name
 #. speaker
 #: actors/npcs/keeper/keeper.tscn levels/rooms/test_kurgan/logic.tscn
 msgid "Grave keeper"
-msgstr ""
+msgstr "Сторож могил"
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/done.tres
 msgid ""
 "Sit a while, son. A song is shorter than the road, but it goes with you."
-msgstr ""
+msgstr "Посидь трохи, синку. Пісня коротша за дорогу, але йде разом із тобою."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/hint.tres
 msgid "You smell of the crypt, but your hands are empty."
-msgstr ""
+msgstr "Від тебе тхне склепом, а руки порожні."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/hint.tres
 msgid "Strings roll far. Try the far west end, past the restless pages."
 msgstr ""
+"Струни котяться далеко. Пошукай у самому західному кінці, за неспокійними "
+"сторінками."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/intro.tres
 msgid "Who walks there? A heavy step. A Cossack's step."
-msgstr ""
+msgstr "Хто там іде? Важкий крок. Козацький крок."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/intro.tres
@@ -458,74 +485,78 @@ msgid ""
 "I am blind, son, but not deaf. And my kobza is deaf now: a string broke, and "
 "the spare rolled away in the old crypt, west of the house."
 msgstr ""
+"Я сліпий, синку, але не глухий. А от кобза моя тепер оглухла: струна "
+"луснула, а запасна закотилася в старий склеп, на захід від хати."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/intro.tres
 msgid "These fingers can't find it in the dark. Yours could."
-msgstr ""
+msgstr "Ці пальці не знайдуть її в темряві. Твої зможуть."
 
 #. TRANSLATORS: text
 #: actors/npcs/kobzar/dialogues/intro.tres
 msgid "I'll look for it"
-msgstr ""
+msgstr "Я пошукаю"
 
 #. TRANSLATORS: text
 #: actors/npcs/kobzar/dialogues/intro.tres
 msgid "Find it yourself"
-msgstr ""
+msgstr "Шукай сам"
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/reminder.tres
 msgid ""
 "No string yet? The crypt is west of the house. Mind the dripping stones."
 msgstr ""
+"Ще без струни? Склеп на захід від хати. Стережися каміння, з якого капає."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/return.tres
 msgid "That smell... wax and gut. You found my string!"
-msgstr ""
+msgstr "Цей запах... віск і жила. Ти знайшов мою струну!"
 
 #. TRANSLATORS: text
 #: actors/npcs/kobzar/dialogues/return.tres
 msgid "Give him the string"
-msgstr ""
+msgstr "Віддати струну"
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/thanks.tres
 msgid "There. Hear it? Now the songs have their voice back."
-msgstr ""
+msgstr "Ось. Чуєш? Тепер пісні знову мають голос."
 
 #. TRANSLATORS: lines
 #: actors/npcs/kobzar/dialogues/thanks.tres
 msgid ""
 "Take this. It is what the songs earned me this month, and you earned it more."
 msgstr ""
+"Візьми це. Стільки пісні заробили мені цього місяця, а ти заробив більше."
 
 #. TRANSLATORS: display_name
 #: actors/npcs/kobzar/kobzar.tscn
 msgid "Old kobzar"
-msgstr ""
+msgstr "Старий кобзар"
 
 #: actors/player/abilities/upgrades.gd:90
 msgid "Max health"
-msgstr ""
+msgstr "Макс. здоров'я"
 
 #: actors/player/abilities/upgrades.gd:91
 msgid "Max spirit"
-msgstr ""
+msgstr "Макс. дух"
 
 #: actors/player/abilities/upgrades.gd:92
 msgid "Flasks"
-msgstr ""
+msgstr "Фляги"
 
 #: actors/player/abilities/upgrades.gd:93
 msgid "Flask healing"
-msgstr ""
+msgstr "Лікування флягами"
 
 #. TRANSLATORS: title
 #: actors/player/items/blades/guarding_edge.tres
 msgid "Guarding edge"
-msgstr ""
+msgstr "Захисний клинок"
 
 #. TRANSLATORS: description
 #: actors/player/items/blades/guarding_edge.tres
@@ -533,6 +564,8 @@ msgid ""
 "A wide guard made for parrying. Parry window +0.1 s and riposte window +0.25 "
 "s, but maximum health -10."
 msgstr ""
+"Широка гарда для парирування. Вікно парирування +0,1 с і вікно контратаки "
+"+0,25 с, але максимальне здоров'я -10."
 
 #. TRANSLATORS: lore
 #: actors/player/items/blades/guarding_edge.tres
@@ -541,17 +574,21 @@ msgid ""
 "waited, turned the blow aside and answered once. The edge is notched only "
 "near the hilt."
 msgstr ""
+"Викуваний для гетьманської варти, якій ніколи не годилося бити першою. Вони "
+"чекали, відводили удар і відповідали лише раз. Лезо пощерблене тільки біля "
+"руків'я."
 
 #. TRANSLATORS: title
 #: actors/player/items/blades/heavy_edge.tres
 msgid "Heavy edge"
-msgstr ""
+msgstr "Важкий клинок"
 
 #. TRANSLATORS: description
 #: actors/player/items/blades/heavy_edge.tres
 msgid ""
 "A thicker, heavier edge. Damage +30%, but the dash recovers 0.3 s slower."
 msgstr ""
+"Товще й важче лезо. Шкода +30%, але ривок відновлюється на 0,3 с повільніше."
 
 #. TRANSLATORS: lore
 #: actors/player/items/blades/heavy_edge.tres
@@ -559,16 +596,18 @@ msgid ""
 "A smith in the borderlands made it from a ploughshare when the village had "
 "nothing left to plough. It cuts like a man who has lost his field."
 msgstr ""
+"Коваль із прикордоння зробив його з лемеша, коли селу вже не було чого "
+"орати. Він рубає, як чоловік, що втратив своє поле."
 
 #. TRANSLATORS: title
 #: actors/player/items/blades/thirsting_edge.tres
 msgid "Thirsting edge"
-msgstr ""
+msgstr "Спраглий клинок"
 
 #. TRANSLATORS: description
 #: actors/player/items/blades/thirsting_edge.tres
 msgid "A blade that drinks. Hits have a 30% chance to heal 3, but damage -10%."
-msgstr ""
+msgstr "Клинок, що п'є. Удари з імовірністю 30% лікують 3, але шкода -10%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/blades/thirsting_edge.tres
@@ -576,16 +615,18 @@ msgid ""
 "Taken from a raider who would not die. The steel stays warm after a fight, "
 "and the scabbard is always dry, no matter the rain."
 msgstr ""
+"Забраний у розбійника, який ніяк не хотів умирати. Сталь лишається теплою "
+"після бою, а піхви завжди сухі, хоч би який був дощ."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/bitter_root.tres
 msgid "Bitter root"
-msgstr ""
+msgstr "Гіркий корінь"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/bitter_root.tres
 msgid "Chewed against marsh fever. Poison damage taken -50%."
-msgstr ""
+msgstr "Його жують від болотяної пропасниці. Шкода від отрути -50%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/bitter_root.tres
@@ -593,16 +634,18 @@ msgid ""
 "The marsh villages chew it at dawn and spit at dusk. It tastes of earth and "
 "regret, and the fever passes them by."
 msgstr ""
+"Болотяні села жують його на світанку й випльовують у сутінках. На смак він "
+"як земля й жаль, і пропасниця минає їх."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/brass_bell.tres
 msgid "Brass bell"
-msgstr ""
+msgstr "Мідний дзвіночок"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/brass_bell.tres
 msgid "Its ring stirs the spirit. Each hit gives 1 more spirit."
-msgstr ""
+msgstr "Його дзвін бентежить дух. Кожен удар дає на 1 дух більше."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/brass_bell.tres
@@ -610,16 +653,18 @@ msgid ""
 "Once it hung from a church eave and called the faithful home. Now it calls "
 "something else, with every blow struck."
 msgstr ""
+"Колись він висів під церковною стріхою й скликав вірних додому. Тепер він "
+"кличе щось інше, з кожним завданим ударом."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/clay_amulet.tres
 msgid "Clay amulet"
-msgstr ""
+msgstr "Глиняний оберіг"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/clay_amulet.tres
 msgid "Fired clay that has seen worse flames. Fire damage taken -50%."
-msgstr ""
+msgstr "Випалена глина, що бачила й гірше полум'я. Шкода від вогню -50%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/clay_amulet.tres
@@ -627,16 +672,18 @@ msgid ""
 "Shaped by a potter whose kiln burned down twice. The third time, he wore it "
 "into the fire to fetch his tools and walked out again."
 msgstr ""
+"Виліплений гончарем, у якого двічі згоріла піч. Утретє він пішов із ним на "
+"шиї у вогонь по свої знаряддя і вийшов назад."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/hare_foot.tres
 msgid "Hare foot"
-msgstr ""
+msgstr "Заяча лапка"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/hare_foot.tres
 msgid "A charm for those who would rather not be caught. Run speed +15%."
-msgstr ""
+msgstr "Оберіг для тих, хто воліє не потрапляти до рук. Швидкість бігу +15%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/hare_foot.tres
@@ -644,17 +691,21 @@ msgid ""
 "Steppe children carry one to outrun bad luck. Grown men carry one and do not "
 "say why."
 msgstr ""
+"Степові діти носять її, щоб утекти від лихої долі. Дорослі чоловіки теж "
+"носять і не кажуть чому."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/healer_knot.tres
 msgid "Healer's knot"
-msgstr ""
+msgstr "Знахарчин вузол"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/healer_knot.tres
 msgid ""
 "A knot of red thread tied by a village healer. Each flask heals 15 more."
 msgstr ""
+"Вузол червоної нитки, зав'язаний сільською знахаркою. Кожна фляга лікує на "
+"15 більше."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/healer_knot.tres
@@ -662,16 +713,18 @@ msgid ""
 "Each turn of the red thread is a prayer the healer would not say aloud. She "
 "tied it for her son, who never came back for it."
 msgstr ""
+"Кожен оберт червоної нитки — молитва, яку знахарка не сказала б уголос. Вона "
+"зав'язала його для сина, що так і не повернувся по нього."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/hunter_tally.tres
 msgid "Hunter's tally"
-msgstr ""
+msgstr "Мисливська бирка"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/hunter_tally.tres
 msgid "A stick with a notch for every kill. Each kill heals 5."
-msgstr ""
+msgstr "Паличка з карбом за кожне вбивство. Кожне вбивство лікує 5."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/hunter_tally.tres
@@ -679,16 +732,18 @@ msgid ""
 "Every notch was cut with the same knife, by the same hand. The last notches "
 "are shallow, as if the hand had grown tired."
 msgstr ""
+"Кожен карб вирізано тим самим ножем, тією самою рукою. Останні карби мілкі, "
+"ніби рука втомилася."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/iron_cross.tres
 msgid "Iron cross"
-msgstr ""
+msgstr "Залізний хрест"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/iron_cross.tres
 msgid "A plain iron cross on a leather cord. Maximum health +15."
-msgstr ""
+msgstr "Простий залізний хрест на шкіряному шнурку. Максимальне здоров'я +15."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/iron_cross.tres
@@ -696,11 +751,13 @@ msgid ""
 "Plain iron, hammered by a novice monk who left the monastery for the Sich. "
 "He kept the cross and gave away the rest."
 msgstr ""
+"Просте залізо, викуване послушником, що покинув монастир заради Січі. Хреста "
+"він залишив собі, а решту роздав."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/quick_bracer.tres
 msgid "Quick bracer"
-msgstr ""
+msgstr "Спритний наруч"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/quick_bracer.tres
@@ -708,6 +765,8 @@ msgid ""
 "A tight leather bracer that frees the wrist. Swings wind up and recover 20% "
 "faster."
 msgstr ""
+"Тугий шкіряний наруч, що звільняє зап'ясток. Замах і відновлення після удару "
+"на 20% швидші."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/quick_bracer.tres
@@ -715,16 +774,19 @@ msgid ""
 "Laced so tight it leaves marks. The fencing masters of the Sich wear them "
 "until the wrist forgets it was ever slow."
 msgstr ""
+"Зашнурований так туго, що лишає сліди. Січові майстри фехтування носять "
+"такі, доки зап'ясток не забуде, що колись був повільним."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/raven_eye.tres
 msgid "Raven eye"
-msgstr ""
+msgstr "Вороняче око"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/raven_eye.tres
 msgid "A black bead that finds the weak spot. Critical hit chance +15%."
 msgstr ""
+"Чорна намистина, що знаходить слабке місце. Шанс критичного удару +15%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/raven_eye.tres
@@ -732,11 +794,13 @@ msgid ""
 "Ravens follow armies across the steppe and always find the soft places "
 "first. This bead is said to have been one of their eyes."
 msgstr ""
+"Ворони летять за військами через степ і завжди першими знаходять м'які "
+"місця. Кажуть, ця намистина колись була одним із їхніх очей."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/red_sash.tres
 msgid "Red sash"
-msgstr ""
+msgstr "Червоний пояс"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/red_sash.tres
@@ -744,6 +808,8 @@ msgid ""
 "Worn by those who fight on when they should fall. Damage +25% while health "
 "is below 30%."
 msgstr ""
+"Його носять ті, хто б'ється далі, коли мав би впасти. Шкода +25%, поки "
+"здоров'я нижче 30%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/red_sash.tres
@@ -751,11 +817,13 @@ msgid ""
 "The sash is red so the blood does not show. Its owners were known for "
 "standing up one more time than they should have."
 msgstr ""
+"Пояс червоний, щоб не було видно крові. Його власники славилися тим, що "
+"підводилися на раз більше, ніж годилося."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/war_drum.tres
 msgid "War drum"
-msgstr ""
+msgstr "Бойовий барабан"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/war_drum.tres
@@ -763,6 +831,8 @@ msgid ""
 "A small drum that beats after every kill. Damage +20% for 5 seconds after a "
 "kill."
 msgstr ""
+"Маленький барабан, що б'є після кожного вбивства. Шкода +20% на 5 секунд "
+"після вбивства."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/war_drum.tres
@@ -770,16 +840,18 @@ msgid ""
 "Small enough for a boy to carry into battle. He beat it for every fallen "
 "enemy, and the company fought harder to hear it again."
 msgstr ""
+"Такий маленький, що хлопчик міг нести його в бій. Він бив у нього за кожного "
+"полеглого ворога, а сотня билася завзятіше, щоб почути його знову."
 
 #. TRANSLATORS: title
 #: actors/player/items/charms/wolf_fang.tres
 msgid "Wolf fang"
-msgstr ""
+msgstr "Вовче ікло"
 
 #. TRANSLATORS: description
 #: actors/player/items/charms/wolf_fang.tres
 msgid "A fang from a steppe wolf, bound in wire. Damage +10%."
-msgstr ""
+msgstr "Ікло степового вовка, обмотане дротом. Шкода +10%."
 
 #. TRANSLATORS: lore
 #: actors/player/items/charms/wolf_fang.tres
@@ -787,16 +859,19 @@ msgid ""
 "The wolf took three sheep and a dog before a shepherd's boy took its fang. "
 "The wire was his mother's, from a broken loom."
 msgstr ""
+"Вовк забрав трьох овець і собаку, перш ніж пастушок забрав його ікло. Дріт "
+"був материн, від зламаного ткацького верстата."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/black_sea_storm.tres
 msgid "Duma of the Black Sea Storm"
-msgstr ""
+msgstr "Дума про бурю на Чорному морі"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/black_sea_storm.tres
 msgid "Sing it for 15 spirit: pillars of fire rise on both sides at once."
 msgstr ""
+"Заспівай її за 15 духу: стовпи вогню здіймаються з обох боків водночас."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/black_sea_storm.tres
@@ -804,17 +879,20 @@ msgid ""
 "A storm split the Cossack fleet in two, and each half was sure the other had "
 "drowned. The duma ends with both halves landing on the same shore."
 msgstr ""
+"Буря розколола козацький флот надвоє, і кожна половина була певна, що інша "
+"потонула. Дума закінчується тим, що обидві половини пристають до одного "
+"берега."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/burning_steppe.tres
 msgid "Duma of the Burning Steppe"
-msgstr ""
+msgstr "Дума про палаючий степ"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/burning_steppe.tres
 msgid ""
 "Sing it for 15 spirit: eight pillars of fire march forward along the ground."
-msgstr ""
+msgstr "Заспівай її за 15 духу: вісім стовпів вогню йдуть уперед по землі."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/burning_steppe.tres
@@ -823,18 +901,20 @@ msgid ""
 "riders who turned the fire back on them. Old men say the steppe still "
 "remembers the tune."
 msgstr ""
+"Кобзар співав про літо, коли татари підпалили траву, і про вершників, які "
+"повернули вогонь на них. Старі кажуть, степ досі пам'ятає мотив."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/calm_sea.tres
 msgid "Duma of the Calm Sea"
-msgstr ""
+msgstr "Дума про тихе море"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/calm_sea.tres
 msgid ""
 "Sing it for 15 spirit: everything close around the singer is stunned for a "
 "moment."
-msgstr ""
+msgstr "Заспівай її за 15 духу: усе довкола співця на мить приголомшене."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/calm_sea.tres
@@ -842,11 +922,13 @@ msgid ""
 "After the storm the sea went so still that the gulls forgot to cry. Enemies "
 "near the singer forget, for a breath, what they were doing."
 msgstr ""
+"Після бурі море так стихло, що чайки забули кричати. Вороги біля співця на "
+"мить забувають, що робили."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/iron_hand.tres
 msgid "Duma of the Iron Hand"
-msgstr ""
+msgstr "Дума про залізну руку"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/iron_hand.tres
@@ -854,6 +936,8 @@ msgid ""
 "Sing it for 20 spirit: for 20 seconds every swing hits heavy and deals 25% "
 "more damage."
 msgstr ""
+"Заспівай її за 20 духу: протягом 20 секунд кожен замах б'є важко й завдає на "
+"25% більше шкоди."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/iron_hand.tres
@@ -861,11 +945,13 @@ msgid ""
 "Sung before a charge, fist on the saddle. The hand that strikes after it is "
 "said to weigh as much as the horse beneath it."
 msgstr ""
+"Її співали перед атакою, кулак на сідлі. Кажуть, рука, що б'є після неї, "
+"важить стільки, як кінь під вершником."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/road_home.tres
 msgid "Duma of the Road Home"
-msgstr ""
+msgstr "Дума про дорогу додому"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/road_home.tres
@@ -874,6 +960,9 @@ msgid ""
 "last fire they rested by. Wounds stay as they are. It falls silent while a "
 "great foe bars the way."
 msgstr ""
+"Заспівай її за 30 духу: дорога складається, і співець знову стоїть біля "
+"останнього вогню, де відпочивав. Рани лишаються як були. Дума замовкає, коли "
+"шлях заступає великий ворог."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/road_home.tres
@@ -881,11 +970,13 @@ msgid ""
 "Mothers taught it to sons riding out to the Wild Field, so they could find "
 "the way back. Most sons forgot it. The ones who remembered came home old."
 msgstr ""
+"Матері вчили її синів, що вирушали в Дике Поле, щоб ті знайшли дорогу назад. "
+"Більшість синів її забули. Ті, хто пам'ятав, повернулися додому старими."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/sabre_ring.tres
 msgid "Duma of the Sabre Ring"
-msgstr ""
+msgstr "Дума про шабельне коло"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/sabre_ring.tres
@@ -893,6 +984,8 @@ msgid ""
 "Sing it for 20 spirit: three sabres circle the singer for 15 seconds, "
 "cutting enemies and stopping shots."
 msgstr ""
+"Заспівай її за 20 духу: три шаблі кружляють довкола співця 15 секунд, "
+"рубаючи ворогів і зупиняючи постріли."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/sabre_ring.tres
@@ -900,16 +993,19 @@ msgid ""
 "A song for the last of a company, back to back in the reeds. It names every "
 "sabre that fell, and while it is sung they are said to stay close."
 msgstr ""
+"Пісня для останніх із сотні, що стоять спина до спини в очереті. Вона "
+"називає кожну шаблю, що впала, і кажуть, поки її співають, вони тримаються "
+"поруч."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/three_brothers.tres
 msgid "Duma of the Three Brothers"
-msgstr ""
+msgstr "Дума про трьох братів"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/three_brothers.tres
 msgid "Sing it for 10 spirit: three shots fly forward, one after another."
-msgstr ""
+msgstr "Заспівай її за 10 духу: три постріли летять уперед один за одним."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/three_brothers.tres
@@ -918,11 +1014,14 @@ msgid ""
 "gives each of them one shot, and the listeners never agree on which one "
 "missed."
 msgstr ""
+"Троє братів утекли з Азова пішки, і додому повернувся лише наймолодший. Дума "
+"дає кожному з них по пострілу, а слухачі ніколи не можуть погодитися, хто з "
+"них схибив."
 
 #. TRANSLATORS: title
 #: actors/player/items/dumas/thunderbolt.tres
 msgid "Duma of the Thunderbolt"
-msgstr ""
+msgstr "Дума про грім"
 
 #. TRANSLATORS: description
 #: actors/player/items/dumas/thunderbolt.tres
@@ -930,6 +1029,7 @@ msgid ""
 "Sing it for 20 spirit: a bolt of thunder falls on the singer, striking hard "
 "everything around them."
 msgstr ""
+"Заспівай її за 20 духу: на співця падає грім і сильно вражає все довкола."
 
 #. TRANSLATORS: lore
 #: actors/player/items/dumas/thunderbolt.tres
@@ -937,63 +1037,65 @@ msgid ""
 "Sung only under an open sky. A blind kobzar sang it once in a church and was "
 "never asked back, though the roof was mended by spring."
 msgstr ""
+"Її співають лише під відкритим небом. Якось сліпий кобзар заспівав її в "
+"церкві, і його більше не кликали, хоч дах полатали до весни."
 
 #: actors/player/items/item.gd:49
 msgid "Charm"
-msgstr ""
+msgstr "Оберіг"
 
 #: actors/player/items/item.gd:50
 msgid "Blade"
-msgstr ""
+msgstr "Клинок"
 
 #: actors/player/items/item.gd:51
 msgid "Keepsake"
-msgstr ""
+msgstr "Пам'ятка"
 
 #: actors/player/items/item.gd:52
 msgid "Relic"
-msgstr ""
+msgstr "Реліквія"
 
 #: actors/player/items/item.gd:53 ui/menus/options/controls_options.gd:35
 msgid "Duma"
-msgstr ""
+msgstr "Дума"
 
 #: actors/player/items/item.gd:54
 msgid "Quest item"
-msgstr ""
+msgstr "Предмет завдання"
 
 #. TRANSLATORS: title
 #: actors/player/items/item.gd:62 levels/tips/charms.tres
 msgid "Charms"
-msgstr ""
+msgstr "Обереги"
 
 #. TRANSLATORS: title
 #: actors/player/items/item.gd:63 levels/tips/blades.tres
 msgid "Blades"
-msgstr ""
+msgstr "Клинки"
 
 #: actors/player/items/item.gd:64
 msgid "Keepsakes"
-msgstr ""
+msgstr "Пам'ятки"
 
 #. TRANSLATORS: title
 #: actors/player/items/item.gd:65 levels/tips/relics.tres
 msgid "Relics"
-msgstr ""
+msgstr "Реліквії"
 
 #. TRANSLATORS: title
 #: actors/player/items/item.gd:66 levels/tips/dumas.tres
 msgid "Dumas"
-msgstr ""
+msgstr "Думи"
 
 #: actors/player/items/item.gd:67
 msgid "Quest items"
-msgstr ""
+msgstr "Предмети завдань"
 
 #. TRANSLATORS: title
 #: actors/player/items/keepsakes/chumak_whip.tres
 msgid "Chumak's whip"
-msgstr ""
+msgstr "Чумацький батіг"
 
 #. TRANSLATORS: description
 #: actors/player/items/keepsakes/chumak_whip.tres
@@ -1001,6 +1103,8 @@ msgid ""
 "A salt trader's whip, worn smooth by a thousand roads. Kneel at a rest point "
 "to travel to any other you have found."
 msgstr ""
+"Батіг соляного торговця, витертий тисячею доріг. Стань на коліна біля місця "
+"відпочинку, щоб перенестися до будь-якого іншого, яке ти знайшов."
 
 #. TRANSLATORS: lore
 #: actors/player/items/keepsakes/chumak_whip.tres
@@ -1008,11 +1112,13 @@ msgid ""
 "Chumaks drove their ox carts to the salt lakes and back, a road of months. "
 "The whip knows every way home, even the ones no map shows."
 msgstr ""
+"Чумаки гнали свої вози з волами до соляних озер і назад, дорогою в кілька "
+"місяців. Батіг знає кожен шлях додому, навіть ті, яких немає на жодній мапі."
 
 #. TRANSLATORS: title
 #: actors/player/items/keepsakes/icon_lamp.tres
 msgid "Icon lamp"
-msgstr ""
+msgstr "Лампадка"
 
 #. TRANSLATORS: description
 #: actors/player/items/keepsakes/icon_lamp.tres
@@ -1020,6 +1126,8 @@ msgid ""
 "A small lamp that once burned before a church icon. Rest points fill your "
 "spirit, and you rise from death with it full."
 msgstr ""
+"Невелика лампадка, що колись горіла перед церковною іконою. Місця відпочинку "
+"наповнюють твій дух, і після смерті ти встаєш із повним духом."
 
 #. TRANSLATORS: lore
 #: actors/player/items/keepsakes/icon_lamp.tres
@@ -1027,17 +1135,19 @@ msgid ""
 "It burned before an icon of the Protectress through two sieges. The church "
 "fell; the flame did not. Rest beside it and something is given back."
 msgstr ""
+"Вона горіла перед іконою Покрови крізь дві облоги. Церква впала; вогник — "
+"ні. Відпочинь біля неї, і щось повернеться до тебе."
 
 #. TRANSLATORS: title
 #: actors/player/items/keepsakes/leather_pouch.tres
 msgid "Leather pouch"
-msgstr ""
+msgstr "Шкіряна калитка"
 
 #. TRANSLATORS: description
 #: actors/player/items/keepsakes/leather_pouch.tres
 #: actors/player/items/keepsakes/stitched_pouch.tres
 msgid "Room for one more charm. Charm slots +1."
-msgstr ""
+msgstr "Місце ще для одного оберега. Слоти оберегів +1."
 
 #. TRANSLATORS: lore
 #: actors/player/items/keepsakes/leather_pouch.tres
@@ -1045,16 +1155,18 @@ msgid ""
 "Cut from an old saddle. It still smells of the horse, who is remembered more "
 "fondly than the rider."
 msgstr ""
+"Вирізана зі старого сідла. Досі пахне конем, якого згадують тепліше, ніж "
+"вершника."
 
 #. TRANSLATORS: title
 #: actors/player/items/keepsakes/spare_gourd.tres
 msgid "Spare gourd"
-msgstr ""
+msgstr "Запасна тиква"
 
 #. TRANSLATORS: description
 #: actors/player/items/keepsakes/spare_gourd.tres
 msgid "One more flask to fill at every rest. Flasks +1."
-msgstr ""
+msgstr "Ще одна фляга, яку можна наповнити на кожному привалі. Фляги +1."
 
 #. TRANSLATORS: lore
 #: actors/player/items/keepsakes/spare_gourd.tres
@@ -1062,11 +1174,13 @@ msgid ""
 "Hollowed and dried by a grandmother who sent it with every grandson who rode "
 "south. Most of the gourds came back."
 msgstr ""
+"Видовбана й висушена бабусею, яка давала таку кожному онукові, що їхав на "
+"південь. Більшість тикв повернулася."
 
 #. TRANSLATORS: title
 #: actors/player/items/keepsakes/stitched_pouch.tres
 msgid "Stitched pouch"
-msgstr ""
+msgstr "Латана калитка"
 
 #. TRANSLATORS: lore
 #: actors/player/items/keepsakes/stitched_pouch.tres
@@ -1074,16 +1188,18 @@ msgid ""
 "Patched so many times that none of the first leather is left. Its owner "
 "swore it was still the same pouch."
 msgstr ""
+"Латана стільки разів, що від першої шкіри нічого не лишилося. Власник "
+"клявся, що це та сама калитка."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/kobza_string.tres
 msgid "Kobza string"
-msgstr ""
+msgstr "Струна кобзи"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/kobza_string.tres
 msgid "A coil of waxed gut string. The old kobzar in the cave lost it."
-msgstr ""
+msgstr "Моток навощеної жильної струни. Її загубив старий кобзар із печери."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/kobza_string.tres
@@ -1091,11 +1207,13 @@ msgid ""
 "Gut from a ram, twisted wet and dried in the shade, then waxed. A kobzar's "
 "strings are his bread: without them his songs are only words."
 msgstr ""
+"Баранячі жили, скручені мокрими, висушені в тіні й навощені. Струни для "
+"кобзаря — то хліб: без них його пісні — лише слова."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/living_water_1.tres
 msgid "Living water of the rapids"
-msgstr ""
+msgstr "Жива вода з порогів"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/living_water_1.tres
@@ -1103,6 +1221,8 @@ msgid ""
 "A vial of living water drawn below the Dnipro rapids. A flask healer can mix "
 "it into your flasks."
 msgstr ""
+"Флакон живої води, набраної нижче дніпровських порогів. Цілитель фляг може "
+"змішати її з твоїми флягами."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/living_water_1.tres
@@ -1110,11 +1230,13 @@ msgid ""
 "Drawn where the river breaks on the stones and no boat lands twice. The old "
 "men said the water there remembers every Cossack who crossed it."
 msgstr ""
+"Набрана там, де ріка б'ється об каміння і жоден човен не пристає двічі. "
+"Старі казали, що вода там пам'ятає кожного козака, який її перетнув."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/living_water_2.tres
 msgid "Living water of the well"
-msgstr ""
+msgstr "Жива вода з криниці"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/living_water_2.tres
@@ -1122,6 +1244,8 @@ msgid ""
 "A vial of living water from a well in a burned village. A flask healer can "
 "mix it into your flasks."
 msgstr ""
+"Флакон живої води з криниці в спаленому селі. Цілитель фляг може змішати її "
+"з твоїми флягами."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/living_water_2.tres
@@ -1129,11 +1253,13 @@ msgid ""
 "The village burned, but nobody would touch the well. Its water stayed cold "
 "through the whole fire."
 msgstr ""
+"Село згоріло, але криниці ніхто не торкнувся. Її вода лишалася холодною всю "
+"пожежу."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/living_water_3.tres
 msgid "Living water of the dew"
-msgstr ""
+msgstr "Жива вода з роси"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/living_water_3.tres
@@ -1141,6 +1267,8 @@ msgid ""
 "A vial of living water gathered as dew on the night of Kupala. A flask "
 "healer can mix it into your flasks."
 msgstr ""
+"Флакон живої води, зібраної росою в ніч на Купала. Цілитель фляг може "
+"змішати її з твоїми флягами."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/living_water_3.tres
@@ -1148,11 +1276,13 @@ msgid ""
 "Gathered barefoot before sunrise, from grass no one had walked on. Girls "
 "washed their faces in it; this vial was kept for wounds instead."
 msgstr ""
+"Зібрана босоніж до сходу сонця, з трави, якою ніхто не ходив. Дівчата "
+"вмивали нею обличчя; цей флакон зберегли натомість для ран."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/living_water_4.tres
 msgid "Living water of the spring"
-msgstr ""
+msgstr "Жива вода з джерела"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/living_water_4.tres
@@ -1160,6 +1290,8 @@ msgid ""
 "A vial of living water from a spring under an oak. A flask healer can mix it "
 "into your flasks."
 msgstr ""
+"Флакон живої води з джерела під дубом. Цілитель фляг може змішати її з "
+"твоїми флягами."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/living_water_4.tres
@@ -1167,11 +1299,13 @@ msgid ""
 "The oak was older than the Sich. Pilgrims left ribbons on its branches, and "
 "the spring under its roots never froze."
 msgstr ""
+"Дуб був старший за Січ. Прочани лишали стрічки на його гіллі, а джерело під "
+"його корінням ніколи не замерзало."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/living_water_5.tres
 msgid "Living water of the steppe"
-msgstr ""
+msgstr "Жива вода зі степу"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/living_water_5.tres
@@ -1179,6 +1313,8 @@ msgid ""
 "A vial of living water from rain caught on the open steppe. A flask healer "
 "can mix it into your flasks."
 msgstr ""
+"Флакон живої води з дощу, зловленого посеред відкритого степу. Цілитель фляг "
+"може змішати її з твоїми флягами."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/living_water_5.tres
@@ -1186,11 +1322,13 @@ msgid ""
 "Caught in a helmet during the only storm of a dry summer. The rider who "
 "caught it shared it with his horse first."
 msgstr ""
+"Зловлена в шолом під час єдиної грози посушливого літа. Вершник, що зловив "
+"її, спершу поділився з конем."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/sich_letter_1.tres
 msgid "Sich letter (1 of 3)"
-msgstr ""
+msgstr "Січовий лист (1 з 3)"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/sich_letter_1.tres
@@ -1198,6 +1336,8 @@ msgid ""
 "A letter sealed with the Kosh seal. It names the boats ready below the "
 "rapids. The elder in the test room collects them."
 msgstr ""
+"Лист із печаткою Коша. У ньому названо човни, готові нижче порогів. Листи "
+"збирає старійшина в тестовій кімнаті."
 
 #. TRANSLATORS: lore
 #: actors/player/items/quest/sich_letter_1.tres
@@ -1208,11 +1348,14 @@ msgid ""
 "the letter lay where he fell. Whoever brings one home is owed a cup and a "
 "place at the fire."
 msgstr ""
+"Гінці возили січові листи через степ, і коли гінець падав, лист лежав там, "
+"де він упав. Хто принесе такий лист додому, тому належить чарка й місце біля "
+"вогню."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/sich_letter_2.tres
 msgid "Sich letter (2 of 3)"
-msgstr ""
+msgstr "Січовий лист (2 з 3)"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/sich_letter_2.tres
@@ -1220,11 +1363,13 @@ msgid ""
 "A letter in a hurried hand, rain-stained. It counts the powder kegs at the "
 "winter camp. The elder in the test room collects them."
 msgstr ""
+"Лист, написаний квапливою рукою, заплямований дощем. У ньому пораховано "
+"барила пороху на зимівнику. Листи збирає старійшина в тестовій кімнаті."
 
 #. TRANSLATORS: title
 #: actors/player/items/quest/sich_letter_3.tres
 msgid "Sich letter (3 of 3)"
-msgstr ""
+msgstr "Січовий лист (3 з 3)"
 
 #. TRANSLATORS: description
 #: actors/player/items/quest/sich_letter_3.tres
@@ -1232,17 +1377,21 @@ msgid ""
 "A letter folded small and sewn into cloth. It warns of riders crossing the "
 "steppe. The elder in the test room collects them."
 msgstr ""
+"Лист, складений дрібно й зашитий у полотно. Він попереджає про вершників, що "
+"перетинають степ. Листи збирає старійшина в тестовій кімнаті."
 
 #. TRANSLATORS: title
 #: actors/player/items/relics/owl_feather.tres
 msgid "Owl feather"
-msgstr ""
+msgstr "Совине перо"
 
 #. TRANSLATORS: description
 #: actors/player/items/relics/owl_feather.tres
 msgid ""
 "Long falls land as softly as short ones while it is worn: no hard landing."
 msgstr ""
+"Поки воно вдягнене, довгі падіння закінчуються так само м'яко, як короткі: "
+"жодного важкого приземлення."
 
 #. TRANSLATORS: lore
 #: actors/player/items/relics/owl_feather.tres
@@ -1250,16 +1399,20 @@ msgid ""
 "Owls drop on their prey without a sound. The old women sew a feather into "
 "the hats of boys who climb too high, and say it is for luck."
 msgstr ""
+"Сови падають на здобич без жодного звуку. Старі жінки пришивають перо до "
+"шапок хлопців, що лазять зависоко, і кажуть, що це на щастя."
 
 #. TRANSLATORS: title
 #: actors/player/items/relics/seer_lantern.tres
 msgid "Seer's lantern"
-msgstr ""
+msgstr "Ліхтар провидиці"
 
 #. TRANSLATORS: description
 #: actors/player/items/relics/seer_lantern.tres
 msgid "Its pale light shows platforms no one else can see while it is worn."
 msgstr ""
+"Поки він вдягнений, його бліде світло показує платформи, яких більше ніхто "
+"не бачить."
 
 #. TRANSLATORS: lore
 #: actors/player/items/relics/seer_lantern.tres
@@ -1267,11 +1420,13 @@ msgid ""
 "A blind seer carried it through the old ruins and never stumbled. Those who "
 "borrow it see what she saw: paths that were always there."
 msgstr ""
+"Сліпа провидиця носила його старими руїнами й ніколи не спотикалася. Хто "
+"позичає його, бачить те, що бачила вона: стежки, які були там завжди."
 
 #. TRANSLATORS: title
 #: actors/player/skills/charged/charged_1.tres
 msgid "Charged slash"
-msgstr ""
+msgstr "Заряджений удар"
 
 #. TRANSLATORS: description
 #: actors/player/skills/charged/charged_1.tres
@@ -1279,31 +1434,33 @@ msgid ""
 "Keep holding attack after a ground slash to charge, then let go for a heavy "
 "slash."
 msgstr ""
+"Після удару на землі тримай атаку, щоб зарядити, а потім відпусти для "
+"важкого удару."
 
 #. TRANSLATORS: title
 #: actors/player/skills/charged/charged_2.tres
 msgid "Swift charge"
-msgstr ""
+msgstr "Швидкий заряд"
 
 #. TRANSLATORS: description
 #: actors/player/skills/charged/charged_2.tres
 msgid "The charged slash charges twice as fast."
-msgstr ""
+msgstr "Заряджений удар заряджається вдвічі швидше."
 
 #. TRANSLATORS: title
 #: actors/player/skills/charged/charged_3.tres
 msgid "Charged wave"
-msgstr ""
+msgstr "Заряджена хвиля"
 
 #. TRANSLATORS: description
 #: actors/player/skills/charged/charged_3.tres
 msgid "The charged slash also sends a wave along the ground."
-msgstr ""
+msgstr "Заряджений удар також посилає хвилю по землі."
 
 #. TRANSLATORS: title
 #: actors/player/skills/combo/combo_1.tres
 msgid "Finishing blow"
-msgstr ""
+msgstr "Завершальний удар"
 
 #. TRANSLATORS: description
 #: actors/player/skills/combo/combo_1.tres
@@ -1311,11 +1468,12 @@ msgid ""
 "Press attack after the heavy combo swing to end the combo with a forward "
 "finisher."
 msgstr ""
+"Натисни атаку після важкого удару комбо, щоб завершити комбо ударом уперед."
 
 #. TRANSLATORS: title
 #: actors/player/skills/combo/combo_2.tres
 msgid "Rising blow"
-msgstr ""
+msgstr "Висхідний удар"
 
 #. TRANSLATORS: description
 #: actors/player/skills/combo/combo_2.tres
@@ -1323,11 +1481,13 @@ msgid ""
 "Hold up when pressing attack after the heavy combo swing to leap into a "
 "rising finisher."
 msgstr ""
+"Тримай угору, натискаючи атаку після важкого удару комбо, щоб злетіти у "
+"висхідному завершальному ударі."
 
 #. TRANSLATORS: title
 #: actors/player/skills/combo/combo_3.tres
 msgid "Crushing blow"
-msgstr ""
+msgstr "Нищівний удар"
 
 #. TRANSLATORS: description
 #: actors/player/skills/combo/combo_3.tres
@@ -1335,11 +1495,13 @@ msgid ""
 "Hold down when pressing attack after the heavy combo swing to slam the "
 "ground on both sides."
 msgstr ""
+"Тримай униз, натискаючи атаку після важкого удару комбо, щоб ударити об "
+"землю з обох боків."
 
 #. TRANSLATORS: title
 #: actors/player/skills/dive/dive_1.tres
 msgid "Dive strike"
-msgstr ""
+msgstr "Удар у пірнанні"
 
 #. TRANSLATORS: description
 #: actors/player/skills/dive/dive_1.tres
@@ -1347,31 +1509,33 @@ msgid ""
 "In the air, hold down and attack to dive into the ground and hit everything "
 "you land on."
 msgstr ""
+"У повітрі тримай униз і атакуй, щоб пірнути до землі й уразити все, на що "
+"приземлишся."
 
 #. TRANSLATORS: title
 #: actors/player/skills/dive/dive_2.tres
 msgid "Wide dive"
-msgstr ""
+msgstr "Широке пірнання"
 
 #. TRANSLATORS: description
 #: actors/player/skills/dive/dive_2.tres
 msgid "The dive's landing hits a wider area."
-msgstr ""
+msgstr "Приземлення після пірнання вражає ширшу область."
 
 #. TRANSLATORS: title
 #: actors/player/skills/dive/dive_3.tres
 msgid "Shockwave dive"
-msgstr ""
+msgstr "Пірнання з ударною хвилею"
 
 #. TRANSLATORS: description
 #: actors/player/skills/dive/dive_3.tres
 msgid "Diving from high up ends in a huge shockwave."
-msgstr ""
+msgstr "Пірнання з висоти закінчується величезною ударною хвилею."
 
 #. TRANSLATORS: title
 #: actors/player/skills/lunge/lunge_1.tres
 msgid "Lunge"
-msgstr ""
+msgstr "Випад"
 
 #. TRANSLATORS: description
 #: actors/player/skills/lunge/lunge_1.tres
@@ -1379,106 +1543,108 @@ msgid ""
 "Press attack during a dash to lunge forward through enemies with a piercing "
 "thrust."
 msgstr ""
+"Натисни атаку під час ривка, щоб зробити випад уперед крізь ворогів "
+"проникним уколом."
 
 #. TRANSLATORS: title
 #: actors/player/skills/lunge/lunge_2.tres
 msgid "Long lunge"
-msgstr ""
+msgstr "Довгий випад"
 
 #. TRANSLATORS: description
 #: actors/player/skills/lunge/lunge_2.tres
 msgid "The lunge goes faster and further."
-msgstr ""
+msgstr "Випад стає швидшим і дальшим."
 
 #. TRANSLATORS: title
 #: actors/player/skills/lunge/lunge_3.tres
 msgid "Piercing lunge"
-msgstr ""
+msgstr "Пронизливий випад"
 
 #. TRANSLATORS: description
 #: actors/player/skills/lunge/lunge_3.tres
 msgid "The lunge goes further still and hits much harder."
-msgstr ""
+msgstr "Випад сягає ще далі й б'є значно сильніше."
 
 #. TRANSLATORS: title
 #: actors/player/skills/ranged/ranged_1.tres
 msgid "Spirit bolt"
-msgstr ""
+msgstr "Стріла духу"
 
 #. TRANSLATORS: description
 #: actors/player/skills/ranged/ranged_1.tres
 msgid "Press ranged to throw a bolt of spirit. Costs spirit."
-msgstr ""
+msgstr "Натисни дальню атаку, щоб метнути стрілу духу. Коштує дух."
 
 #. TRANSLATORS: title
 #: actors/player/skills/ranged/ranged_2.tres
 msgid "Returning bolt"
-msgstr ""
+msgstr "Стріла, що повертається"
 
 #. TRANSLATORS: description
 #: actors/player/skills/ranged/ranged_2.tres
 msgid "The bolt flies back to you, hitting again on the way."
-msgstr ""
+msgstr "Стріла летить назад до тебе й дорогою знову вражає."
 
 #. TRANSLATORS: title
 #: actors/player/skills/ranged/ranged_3.tres
 msgid "Bursting bolt"
-msgstr ""
+msgstr "Вибухова стріла"
 
 #. TRANSLATORS: description
 #: actors/player/skills/ranged/ranged_3.tres
 msgid "The bolt bursts where it turns around."
-msgstr ""
+msgstr "Стріла вибухає там, де розвертається."
 
 #: components/save/slot_summary.gd:44
 msgid "Unknown"
-msgstr ""
+msgstr "Невідомо"
 
 #: components/save/slot_summary.gd:56
 msgid "%dm"
-msgstr ""
+msgstr "%d хв"
 
 #: components/save/slot_summary.gd:57
 msgid "%dh %02dm"
-msgstr ""
+msgstr "%d год %02d хв"
 
 #: levels/map/player_marks.gd:47
 msgid "Chest"
-msgstr ""
+msgstr "Скриня"
 
 #: levels/map/player_marks.gd:48
 msgid "Question"
-msgstr ""
+msgstr "Питання"
 
 #: levels/map/player_marks.gd:49
 msgid "Enemy"
-msgstr ""
+msgstr "Ворог"
 
 #: levels/map/player_marks.gd:50
 msgid "Person"
-msgstr ""
+msgstr "Людина"
 
 #: levels/map/player_marks.gd:51
 msgid "Blue pin"
-msgstr ""
+msgstr "Синя мітка"
 
 #: levels/map/player_marks.gd:52
 msgid "Green pin"
-msgstr ""
+msgstr "Зелена мітка"
 
 #: levels/map/player_marks.gd:53
 msgid "Red pin"
-msgstr ""
+msgstr "Червона мітка"
 
 #: levels/objects/mechanisms/lever.gd:48
 msgid "Needs %s"
-msgstr ""
+msgstr "Потрібно: %s"
 
 #. TRANSLATORS: speaker
 #: levels/objects/story/alms/blessing_1.tres
 #: levels/objects/story/alms/blessing_2.tres
 msgid "A voice behind the wall"
-msgstr ""
+msgstr "Голос за стіною"
 
 #. TRANSLATORS: lines
 #: levels/objects/story/alms/blessing_1.tres
@@ -1486,6 +1652,8 @@ msgid ""
 "Someone feeds the box. Bless you, Cossack. Here, our old bell: ring it and "
 "the dead remember they are dead."
 msgstr ""
+"Хтось годує скриньку. Благослови тебе Боже, козаче. Ось, наш старий "
+"дзвіночок: подзвони, і мертві згадають, що вони мертві."
 
 #. TRANSLATORS: lines
 #: levels/objects/story/alms/blessing_2.tres
@@ -1493,6 +1661,8 @@ msgid ""
 "So much, for a church of rats and candle ends? Then take this knot. The "
 "sisters tied it for the sick, and you will need it more than they do."
 msgstr ""
+"Стільки, для церкви щурів і недогарків? Тоді візьми цей вузол. Сестри "
+"в'язали його для хворих, а тобі він потрібніший, ніж їм."
 
 #. TRANSLATORS: lines
 #: levels/objects/story/alms/box.tres
@@ -1500,26 +1670,28 @@ msgid ""
 "An iron box for the church, chained to the wall. Coins rattle somewhere deep "
 "inside."
 msgstr ""
+"Залізна скринька для церкви, прикута до стіни. Десь глибоко всередині "
+"брязкають монети."
 
 #. TRANSLATORS: text
 #: levels/objects/story/alms/box.tres
 msgid "Give 200"
-msgstr ""
+msgstr "Дати 200"
 
 #. TRANSLATORS: message
 #: levels/objects/story/alms/box.tres
 msgid "Given to the church: 200"
-msgstr ""
+msgstr "Пожертвувано церкві: 200"
 
 #. TRANSLATORS: text
 #: levels/objects/story/alms/box.tres
 msgid "Give 500"
-msgstr ""
+msgstr "Дати 500"
 
 #. TRANSLATORS: message
 #: levels/objects/story/alms/box.tres
 msgid "Given to the church: 500"
-msgstr ""
+msgstr "Пожертвувано церкві: 500"
 
 #. TRANSLATORS: text
 #: levels/objects/story/alms/box.tres ui/menus/shop/buy_screen.gd:29
@@ -1528,82 +1700,82 @@ msgstr ""
 #: ui/menus/shop/flask_healer_screen.gd:39 ui/menus/shop/upgrade_screen.gd:27
 #: ui/menus/skills/skills_screen.gd:41
 msgid "Leave"
-msgstr ""
+msgstr "Піти"
 
 #. TRANSLATORS: display_name
 #: levels/objects/story/alms_box.tscn
 msgid "Alms box"
-msgstr ""
+msgstr "Скринька для милостині"
 
 #. TRANSLATORS: message
 #: levels/objects/story/captive_cage.tscn
 msgid "A captive is free"
-msgstr ""
+msgstr "Бранця звільнено"
 
 #. TRANSLATORS: map_zone
 #: levels/rooms/test_arena.tscn
 msgid "Arena"
-msgstr ""
+msgstr "Арена"
 
 #. TRANSLATORS: title
 #: levels/rooms/test_arena/logic.tscn
 msgid "Otaman"
-msgstr ""
+msgstr "Отаман"
 
 #. TRANSLATORS: subtitle
 #: levels/rooms/test_arena/logic.tscn
 msgid "Master of the burned Sich"
-msgstr ""
+msgstr "Володар спаленої Січі"
 
 #. TRANSLATORS: map_zone
 #: levels/rooms/test_cave.tscn levels/rooms/test_shaft.tscn
 msgid "Caves"
-msgstr ""
+msgstr "Печери"
 
 #. TRANSLATORS: map_zone
 #: levels/rooms/test_crypt.tscn
 msgid "Crypt"
-msgstr ""
+msgstr "Склеп"
 
 #. TRANSLATORS: map_zone
 #: levels/rooms/test_hideout.tscn levels/rooms/test_vault.tscn
 msgid "Vault"
-msgstr ""
+msgstr "Сховище"
 
 #. TRANSLATORS: map_zone
 #: levels/rooms/test_kurgan.tscn
 msgid "Kurgan"
-msgstr ""
+msgstr "Курган"
 
 #. TRANSLATORS: title
 #: levels/rooms/test_kurgan/logic.tscn
 msgid "The Old Kurgan"
-msgstr ""
+msgstr "Старий курган"
 
 #. TRANSLATORS: subtitle
 #: levels/rooms/test_kurgan/logic.tscn
 msgid "Graves of the steppe"
-msgstr ""
+msgstr "Степові могили"
 
 #. TRANSLATORS: text
 #: levels/rooms/test_kurgan/logic.tscn
 msgid "A Cossack's oath is kept by the steppe long after the living forget it."
-msgstr ""
+msgstr "Козацьку клятву степ береже ще довго після того, як живі її забудуть."
 
 #. TRANSLATORS: author
 #: levels/rooms/test_kurgan/logic.tscn
 msgid "Words cut into the kurgan stone"
-msgstr ""
+msgstr "Слова, вирізьблені на камені кургану"
 
 #. TRANSLATORS: message
 #: levels/rooms/test_kurgan/logic.tscn
 msgid "The kurgan remembers you"
-msgstr ""
+msgstr "Курган пам'ятає тебе"
 
 #. TRANSLATORS: map_zone
 #: levels/rooms/test_works.tscn
 msgid "Works"
-msgstr ""
+msgstr "Майстерні"
 
 #. TRANSLATORS: text
 #: levels/tips/blades.tres
@@ -1612,11 +1784,15 @@ msgid ""
 "\n"
 "You carry one blade at a time. Wearing another puts the old one away."
 msgstr ""
+"Ти знайшов новий клинок. Відкрий інвентар кнопкою {inventory}, щоб узяти "
+"його.\n"
+"\n"
+"Клинок можна мати лише один. Якщо взяти інший, старий відкладається."
 
 #. TRANSLATORS: title
 #: levels/tips/captives.tres
 msgid "Captives"
-msgstr ""
+msgstr "Бранці"
 
 #. TRANSLATORS: text
 #: levels/tips/captives.tres
@@ -1626,6 +1802,10 @@ msgid ""
 "\n"
 "Someone may want to hear of every one you save."
 msgstr ""
+"Ти звільнив бранця. Інші замкнені в клітках по всьому краю: бий клітку, доки "
+"вона не зламається, щоб їх звільнити.\n"
+"\n"
+"Хтось, можливо, захоче почути про кожного, кого ти врятуєш."
 
 #. TRANSLATORS: text
 #: levels/tips/charms.tres
@@ -1635,11 +1815,15 @@ msgid ""
 "Charms change your strength, speed and more. You can only wear as many as "
 "you have charm slots."
 msgstr ""
+"Ти знайшов оберіг. Відкрий інвентар кнопкою {inventory}, щоб його вдягнути.\n"
+"\n"
+"Обереги змінюють твою силу, швидкість і не тільки. Вдягнути можна стільки, "
+"скільки маєш слотів для оберегів."
 
 #. TRANSLATORS: title
 #: levels/tips/death_mark.tres
 msgid "Death marks"
-msgstr ""
+msgstr "Мітки смерті"
 
 #. TRANSLATORS: text
 #: levels/tips/death_mark.tres
@@ -1649,11 +1833,15 @@ msgid ""
 "\n"
 "Go back to the mark and press {interact} to take it back. It also heals you."
 msgstr ""
+"Смерть лишила мітку там, де ти востаннє стояв на безпечній землі. Кожна "
+"мітка послаблює тебе: менше духу, і менше духу та монет від ворогів.\n"
+"\n"
+"Повернися до мітки й натисни {interact}, щоб забрати її. Це також тебе лікує."
 
 #. TRANSLATORS: title
 #: levels/tips/death_marks_more.tres
 msgid "Clearing marks"
-msgstr ""
+msgstr "Очищення міток"
 
 #. TRANSLATORS: text
 #: levels/tips/death_marks_more.tres
@@ -1663,6 +1851,10 @@ msgid ""
 "\n"
 "A cleanse point clears every mark at once, for a price."
 msgstr ""
+"Мітки накопичуються, і кожна послаблює тебе дедалі більше. Одночасно на тебе "
+"можуть чекати до п'яти.\n"
+"\n"
+"Місце очищення стирає всі мітки разом, за плату."
 
 #. TRANSLATORS: text
 #: levels/tips/dumas.tres
@@ -1671,11 +1863,15 @@ msgid ""
 "\n"
 "Singing costs spirit, shown under your health. Landing hits fills it back up."
 msgstr ""
+"Ти взяв думу. Натисни {duma}, щоб її заспівати.\n"
+"\n"
+"Спів коштує духу, шкала якого під твоїм здоров'ям. Влучні удари знову його "
+"наповнюють."
 
 #. TRANSLATORS: title
 #: levels/tips/execution.tres
 msgid "Finishers"
-msgstr ""
+msgstr "Добивання"
 
 #. TRANSLATORS: text
 #: levels/tips/execution.tres
@@ -1685,11 +1881,15 @@ msgid ""
 "\n"
 "You can't be hurt during a finisher, and it fills your spirit."
 msgstr ""
+"Переможений ворог упав на коліна. Стань поруч і натисни {interact}, щоб його "
+"добити.\n"
+"\n"
+"Під час добивання тебе не можна поранити, і воно наповнює твій дух."
 
 #. TRANSLATORS: title
 #: levels/tips/healing.tres
 msgid "Healing flasks"
-msgstr ""
+msgstr "Цілющі фляги"
 
 #. TRANSLATORS: text
 #: levels/tips/healing.tres
@@ -1699,11 +1899,15 @@ msgid ""
 "\n"
 "Flasks fill up again whenever you rest at a rest point."
 msgstr ""
+"Натисни {heal}, щоб випити цілющу флягу. Пиття триває мить, тож вибери "
+"безпечну.\n"
+"\n"
+"Фляги знову наповнюються щоразу, коли ти відпочиваєш на місці відпочинку."
 
 #. TRANSLATORS: title
 #: levels/tips/parry.tres ui/menus/options/controls_options.gd:30
 msgid "Parry"
-msgstr ""
+msgstr "Парирування"
 
 #. TRANSLATORS: text
 #: levels/tips/parry.tres
@@ -1713,6 +1917,10 @@ msgid ""
 "\n"
 "Right after a parry, press {attack} to strike back with a riposte."
 msgstr ""
+"Натисни {parry} перед самим ударом, щоб відвести його. Не кожну атаку можна "
+"парирувати: важкі проламують захист і відкидають тебе.\n"
+"\n"
+"Одразу після парирування натисни {attack}, щоб відповісти контратакою."
 
 #. TRANSLATORS: text
 #: levels/tips/relics.tres
@@ -1721,67 +1929,72 @@ msgid ""
 "\n"
 "Open the inventory with {inventory} and wear it in a relic slot to use it."
 msgstr ""
+"Ти знайшов реліквію. Реліквії — старі знаряддя, що змінюють те, як ти "
+"пересуваєшся.\n"
+"\n"
+"Відкрий інвентар кнопкою {inventory} і вдягни її в слот реліквії, щоб "
+"користуватися."
 
 #: ui/cutscene/skip_prompt.gd:25
 msgid "%s Skip"
-msgstr ""
+msgstr "%s Пропустити"
 
 #: ui/hud/item_toast.gd:24
 msgid "Found: %s"
-msgstr ""
+msgstr "Знайдено: %s"
 
 #: ui/hud/item_toast.gd:28
 msgid "%s up"
-msgstr ""
+msgstr "%s: підвищено"
 
 #: ui/menus/confirm_screen.gd:18
 msgid "No"
-msgstr ""
+msgstr "Ні"
 
 #: ui/menus/confirm_screen.gd:19
 msgid "Yes"
-msgstr ""
+msgstr "Так"
 
 #: ui/menus/dialogue/dialogue_screen.gd:121
 msgid "Next"
-msgstr ""
+msgstr "Далі"
 
 #: ui/menus/inventory/inventory_grid.gd:20
 #: ui/menus/inventory/item_details.gd:56
 msgid "Worn"
-msgstr ""
+msgstr "Вдягнене"
 
 #: ui/menus/inventory/inventory_grid.gd:34
 msgid "Carried"
-msgstr ""
+msgstr "При собі"
 
 #: ui/menus/inventory/inventory_screen.gd:74
 msgid "Currency  %d"
-msgstr ""
+msgstr "Монети  %d"
 
 #: ui/menus/inventory/inventory_screen.gd:133
 msgid "No free slot. Take one off first."
-msgstr ""
+msgstr "Немає вільного слота. Спершу зніми щось."
 
 #: ui/menus/inventory/inventory_screen.gd:143
 msgid "Accept: Take off"
-msgstr ""
+msgstr "Підтвердити: зняти"
 
 #: ui/menus/inventory/inventory_screen.gd:148
 msgid "No free slot"
-msgstr ""
+msgstr "Немає вільного слота"
 
 #: ui/menus/inventory/inventory_screen.gd:150
 msgid "Accept: Wear"
-msgstr ""
+msgstr "Підтвердити: вдягнути"
 
 #: ui/menus/inventory/inventory_screen.gd:151
 msgid "Lore: Read"
-msgstr ""
+msgstr "Історія: читати"
 
 #: ui/menus/inventory/inventory_screen.gd:152
 msgid "Back: Close"
-msgstr ""
+msgstr "Назад: закрити"
 
 #: ui/menus/inventory/item_details.gd:50
 msgid " "
@@ -1789,58 +2002,58 @@ msgstr ""
 
 #: ui/menus/inventory/item_details.gd:54
 msgid "Spirit %d"
-msgstr ""
+msgstr "Дух %d"
 
 #: ui/menus/inventory/lore_screen.gd:28
 msgid "Lore / Back: Return"
-msgstr ""
+msgstr "Історія / Назад: повернутися"
 
 #: ui/menus/main_menu/slot_row.gd:31
 msgid "Empty"
-msgstr ""
+msgstr "Порожньо"
 
 #: ui/menus/main_menu/slot_row.gd:33
 msgid "Old save"
-msgstr ""
+msgstr "Старе збереження"
 
 #: ui/menus/main_menu/slot_row.gd:34 ui/menus/main_menu/slot_row.gd:37
 msgid "Can't be loaded"
-msgstr ""
+msgstr "Не вдається завантажити"
 
 #: ui/menus/main_menu/slot_row.gd:36
 msgid "Damaged save"
-msgstr ""
+msgstr "Пошкоджене збереження"
 
 #: ui/menus/main_menu/slot_row.gd:40
 msgid "%d coin"
 msgid_plural "%d coins"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d монета"
+msgstr[1] "%d монети"
+msgstr[2] "%d монет"
 
 #: ui/menus/main_menu/slot_screen.gd:14
 msgid "Slot %d"
-msgstr ""
+msgstr "Слот %d"
 
 #: ui/menus/main_menu/slot_screen.gd:16
 msgid "%s, %s played"
-msgstr ""
+msgstr "%s, зіграно %s"
 
 #: ui/menus/main_menu/slot_screen.gd:18 ui/menus/main_menu/title_screen.gd:13
 msgid "Continue"
-msgstr ""
+msgstr "Продовжити"
 
 #: ui/menus/main_menu/slot_screen.gd:20
 msgid "This save can't be loaded."
-msgstr ""
+msgstr "Це збереження не вдається завантажити."
 
 #: ui/menus/main_menu/slot_screen.gd:22
 msgid "New game here"
-msgstr ""
+msgstr "Нова гра тут"
 
 #: ui/menus/main_menu/slot_screen.gd:23
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: ui/menus/main_menu/slot_screen.gd:24
 #: ui/menus/options/accessibility_options.gd:20
@@ -1848,457 +2061,457 @@ msgstr ""
 #: ui/menus/options/options_screen.gd:21 ui/menus/options/video_options.gd:41
 #: ui/menus/tips/tip_screen.gd:55
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: ui/menus/main_menu/slot_screen.gd:33
 msgid "Start a new game in slot %d? The old save will be lost."
-msgstr ""
+msgstr "Почати нову гру в слоті %d? Старе збереження буде втрачено."
 
 #: ui/menus/main_menu/slot_screen.gd:40
 msgid "Delete slot %d? This can't be undone."
-msgstr ""
+msgstr "Видалити слот %d? Цю дію не можна скасувати."
 
 #: ui/menus/main_menu/slots_screen.gd:14
 msgid "Choose a slot"
-msgstr ""
+msgstr "Обери слот"
 
 #: ui/menus/main_menu/title_screen.gd:14
 msgid "Play"
-msgstr ""
+msgstr "Грати"
 
 #: ui/menus/main_menu/title_screen.gd:15 ui/menus/options/options_screen.gd:8
 #: ui/menus/pause/pause_screen.gd:25
 msgid "Options"
-msgstr ""
+msgstr "Налаштування"
 
 #: ui/menus/main_menu/title_screen.gd:17
 msgid "Quit"
-msgstr ""
+msgstr "Вийти"
 
 #: ui/menus/map/map_screen.gd:28
 msgid "Travel"
-msgstr ""
+msgstr "Подорож"
 
 #: ui/menus/map/map_screen.gd:28 ui/menus/options/controls_options.gd:36
 #: ui/menus/pause/pause_screen.gd:22
 msgid "Map"
-msgstr ""
+msgstr "Мапа"
 
 #: ui/menus/map/map_screen.gd:47
 msgid "Move: choose   Attack: travel   Back: rise"
-msgstr ""
+msgstr "Рух: вибір   Атака: вирушити   Назад: підвестися"
 
 #: ui/menus/map/map_screen.gd:49
 msgid "Move: choose   Back: rise"
-msgstr ""
+msgstr "Рух: вибір   Назад: підвестися"
 
 #: ui/menus/map/map_screen.gd:70
 msgid "You"
-msgstr ""
+msgstr "Ти"
 
 #: ui/menus/map/map_screen.gd:71
 msgid "Rest point"
-msgstr ""
+msgstr "Місце відпочинку"
 
 #: ui/menus/map/map_screen.gd:72
 msgid "Shrine"
-msgstr ""
+msgstr "Святиня"
 
 #: ui/menus/map/map_screen.gd:73
 msgid "Shop"
-msgstr ""
+msgstr "Крамниця"
 
 #: ui/menus/map/map_screen.gd:74 ui/menus/shop/cleanse_screen.gd:20
 #: ui/menus/shop/cleanse_screen.gd:33
 msgid "Cleanse"
-msgstr ""
+msgstr "Очищення"
 
 #: ui/menus/map/map_screen.gd:77
 msgid "Upgrade"
-msgstr ""
+msgstr "Посилення"
 
 #: ui/menus/map/map_screen.gd:78
 msgid "Door"
-msgstr ""
+msgstr "Двері"
 
 #: ui/menus/map/map_screen.gd:79
 msgid "Death mark"
-msgstr ""
+msgstr "Мітка смерті"
 
 #: ui/menus/map/map_screen.gd:85
 msgid "Move: look around   Jump: zoom   Attack: mark   Back: close"
-msgstr ""
+msgstr "Рух: огляд   Стрибок: масштаб   Атака: мітка   Назад: закрити"
 
 #: ui/menus/map/map_screen.gd:105
 msgid "Move: choose   Attack: place   Back: cancel"
-msgstr ""
+msgstr "Рух: вибір   Атака: поставити   Назад: скасувати"
 
 #: ui/menus/map/map_screen.gd:109
 msgid "%d%% explored"
-msgstr ""
+msgstr "Досліджено: %d%%"
 
 #: ui/menus/menu_screen.gd:90 ui/menus/options/video_options.gd:92
 msgid "Off"
-msgstr ""
+msgstr "Вимк."
 
 #: ui/menus/menu_screen.gd:90
 msgid "On"
-msgstr ""
+msgstr "Увімк."
 
 #: ui/menus/options/accessibility_options.gd:8
 #: ui/menus/options/options_screen.gd:11
 msgid "Accessibility"
-msgstr ""
+msgstr "Доступність"
 
 #: ui/menus/options/accessibility_options.gd:10
 msgid "Screen shake"
-msgstr ""
+msgstr "Трусіння екрана"
 
 #: ui/menus/options/accessibility_options.gd:15
 msgid "Rumble"
-msgstr ""
+msgstr "Вібрація"
 
 #: ui/menus/options/accessibility_options.gd:17
 #: ui/menus/pause/pause_screen.gd:24
 msgid "Tips"
-msgstr ""
+msgstr "Підказки"
 
 #: ui/menus/options/audio_options.gd:7 ui/menus/options/options_screen.gd:10
 msgid "Audio"
-msgstr ""
+msgstr "Звук"
 
 #: ui/menus/options/audio_options.gd:9
 msgid "Master volume"
-msgstr ""
+msgstr "Загальна гучність"
 
 #: ui/menus/options/audio_options.gd:10
 msgid "Music"
-msgstr ""
+msgstr "Музика"
 
 #: ui/menus/options/audio_options.gd:11
 msgid "Effects"
-msgstr ""
+msgstr "Ефекти"
 
 #: ui/menus/options/audio_options.gd:12
 msgid "Voice"
-msgstr ""
+msgstr "Голос"
 
 #: ui/menus/options/binding_button.gd:49
 msgid "Press a key..."
-msgstr ""
+msgstr "Натисни клавішу..."
 
 #: ui/menus/options/binding_button.gd:49
 msgid "Press a button..."
-msgstr ""
+msgstr "Натисни кнопку..."
 
 #: ui/menus/options/binding_button.gd:97
 msgid "D-pad up"
-msgstr ""
+msgstr "Хрестовина вгору"
 
 #: ui/menus/options/binding_button.gd:99
 msgid "D-pad down"
-msgstr ""
+msgstr "Хрестовина вниз"
 
 #: ui/menus/options/binding_button.gd:101
 msgid "D-pad left"
-msgstr ""
+msgstr "Хрестовина вліво"
 
 #: ui/menus/options/binding_button.gd:103
 msgid "D-pad right"
-msgstr ""
+msgstr "Хрестовина вправо"
 
 #: ui/menus/options/binding_button.gd:106
 msgid "Button %d"
-msgstr ""
+msgstr "Кнопка %d"
 
 #: ui/menus/options/controls_options.gd:10
 #: ui/menus/options/options_screen.gd:12
 msgid "Controls"
-msgstr ""
+msgstr "Керування"
 
 #: ui/menus/options/controls_options.gd:11
 msgid "Keyboard"
-msgstr ""
+msgstr "Клавіатура"
 
 #: ui/menus/options/controls_options.gd:11
 msgid "Gamepad"
-msgstr ""
+msgstr "Геймпад"
 
 #: ui/menus/options/controls_options.gd:18
 msgid "Reset to defaults"
-msgstr ""
+msgstr "Скинути до типових"
 
 #: ui/menus/options/controls_options.gd:24
 msgid "Move left"
-msgstr ""
+msgstr "Ліворуч"
 
 #: ui/menus/options/controls_options.gd:25
 msgid "Move right"
-msgstr ""
+msgstr "Праворуч"
 
 #: ui/menus/options/controls_options.gd:26
 msgid "Up / climb"
-msgstr ""
+msgstr "Угору / лізти"
 
 #: ui/menus/options/controls_options.gd:27
 msgid "Down / crouch"
-msgstr ""
+msgstr "Униз / присісти"
 
 #: ui/menus/options/controls_options.gd:28
 msgid "Jump"
-msgstr ""
+msgstr "Стрибок"
 
 #: ui/menus/options/controls_options.gd:29
 msgid "Attack"
-msgstr ""
+msgstr "Атака"
 
 #: ui/menus/options/controls_options.gd:31
 msgid "Dash"
-msgstr ""
+msgstr "Ривок"
 
 #: ui/menus/options/controls_options.gd:32
 msgid "Heal"
-msgstr ""
+msgstr "Лікування"
 
 #: ui/menus/options/controls_options.gd:33
 msgid "Interact"
-msgstr ""
+msgstr "Взаємодія"
 
 #: ui/menus/options/controls_options.gd:34
 msgid "Ranged"
-msgstr ""
+msgstr "Дальня атака"
 
 #: ui/menus/options/controls_options.gd:37 ui/menus/pause/pause_screen.gd:21
 msgid "Inventory"
-msgstr ""
+msgstr "Інвентар"
 
 #: ui/menus/options/controls_options.gd:45
 msgid "Reset all controls to the defaults?"
-msgstr ""
+msgstr "Скинути все керування до типового?"
 
 #: ui/menus/options/options_screen.gd:9 ui/menus/options/video_options.gd:19
 msgid "Video"
-msgstr ""
+msgstr "Відео"
 
 #: ui/menus/options/options_screen.gd:15
 msgid "Language"
-msgstr ""
+msgstr "Мова"
 
 #: ui/menus/options/video_options.gd:20
 msgid "Fullscreen"
-msgstr ""
+msgstr "Повний екран"
 
 #: ui/menus/options/video_options.gd:21
 msgid "Resolution"
-msgstr ""
+msgstr "Роздільність"
 
 #: ui/menus/options/video_options.gd:22
 msgid "Pixel perfect"
-msgstr ""
+msgstr "Піксель у піксель"
 
 #: ui/menus/options/video_options.gd:22
 msgid "Fill screen"
-msgstr ""
+msgstr "На весь екран"
 
 #: ui/menus/options/video_options.gd:23
 msgid "Scaling"
-msgstr ""
+msgstr "Масштабування"
 
 #: ui/menus/options/video_options.gd:25
 msgid "VSync"
-msgstr ""
+msgstr "VSync"
 
 #: ui/menus/options/video_options.gd:28
 msgid "Textures"
-msgstr ""
+msgstr "Текстури"
 
 #: ui/menus/options/video_options.gd:29
 msgid "Sharp"
-msgstr ""
+msgstr "Чіткі"
 
 #: ui/menus/options/video_options.gd:29
 msgid "Smooth"
-msgstr ""
+msgstr "Згладжені"
 
 #: ui/menus/options/video_options.gd:33
 msgid "Brightness"
-msgstr ""
+msgstr "Яскравість"
 
 #: ui/menus/options/video_options.gd:35
 msgid "CRT filter"
-msgstr ""
+msgstr "CRT-фільтр"
 
 #: ui/menus/pause/pause_screen.gd:19
 msgid "Paused"
-msgstr ""
+msgstr "Пауза"
 
 #: ui/menus/pause/pause_screen.gd:20
 msgid "Resume"
-msgstr ""
+msgstr "Продовжити"
 
 #: ui/menus/pause/pause_screen.gd:26
 msgid "Quit to main menu"
-msgstr ""
+msgstr "Вийти в головне меню"
 
 #: ui/menus/pause/pause_screen.gd:35
 msgid "Quit to the main menu? You will continue from the last rest point."
-msgstr ""
+msgstr "Вийти в головне меню? Ти продовжиш від останнього місця відпочинку."
 
 #: ui/menus/rest/kneel_screen.gd:62
 msgid "%s: travel    %s: rise"
-msgstr ""
+msgstr "%s: вирушити    %s: підвестися"
 
 #: ui/menus/shop/buy_screen.gd:27 ui/menus/shop/cleanse_screen.gd:30
 #: ui/menus/shop/flask_healer_screen.gd:36 ui/menus/shop/upgrade_screen.gd:25
 msgid "Price: %d    You have: %d"
-msgstr ""
+msgstr "Ціна: %d    У тебе: %d"
 
 #: ui/menus/shop/buy_screen.gd:30
 msgid "Buy"
-msgstr ""
+msgstr "Купити"
 
 #: ui/menus/shop/buy_screen.gd:32 ui/menus/shop/cleanse_screen.gd:35
 #: ui/menus/shop/upgrade_screen.gd:30
 msgid "Not enough currency"
-msgstr ""
+msgstr "Бракує монет"
 
 #: ui/menus/shop/cleanse_screen.gd:21
 msgid "Clears every death mark at once, wherever it was left."
-msgstr ""
+msgstr "Стирає всі мітки смерті одразу, хоч би де їх було залишено."
 
 #: ui/menus/shop/cleanse_screen.gd:25
 msgid "You carry no death marks."
-msgstr ""
+msgstr "На тобі немає міток смерті."
 
 #: ui/menus/shop/cleanse_screen.gd:29
 msgid "Death marks: %d"
-msgstr ""
+msgstr "Мітки смерті: %d"
 
 #: ui/menus/shop/flask_healer_screen.gd:23
 msgid "Your flasks are as strong as living water can make them."
-msgstr ""
+msgstr "Твої фляги вже такі сильні, якими їх може зробити жива вода."
 
 #: ui/menus/shop/flask_healer_screen.gd:29
 msgid "Each flask heals %d more (%d now)."
-msgstr ""
+msgstr "Кожна фляга лікує на %d більше (зараз %d)."
 
 #: ui/menus/shop/flask_healer_screen.gd:30
 msgid "Level %d of %d"
-msgstr ""
+msgstr "Рівень %d з %d"
 
 #: ui/menus/shop/flask_healer_screen.gd:33
 msgid "Living water: %s"
-msgstr ""
+msgstr "Жива вода: %s"
 
 #: ui/menus/shop/flask_healer_screen.gd:33
 msgid "none"
-msgstr ""
+msgstr "немає"
 
 #: ui/menus/shop/flask_healer_screen.gd:40 ui/menus/shop/upgrade_screen.gd:28
 msgid "Offer"
-msgstr ""
+msgstr "Віддати"
 
 #: ui/menus/shop/flask_healer_screen.gd:42
 msgid "Not enough to offer"
-msgstr ""
+msgstr "Нема чого віддати"
 
 #: ui/menus/shop/upgrade_screen.gd:23
 msgid "Raises it by %d for good and fills it."
-msgstr ""
+msgstr "Назавжди підвищує на %d і заповнює."
 
 #: ui/menus/skills/skills_screen.gd:22
 msgid "Skills"
-msgstr ""
+msgstr "Уміння"
 
 #: ui/menus/skills/skills_screen.gd:59
 msgid "Currency: %d    Tier: %d"
-msgstr ""
+msgstr "Монети: %d    Ступінь: %d"
 
 #: ui/menus/skills/skills_screen.gd:68
 msgid "%s - learned"
-msgstr ""
+msgstr "%s — вивчено"
 
 #: ui/menus/skills/skills_screen.gd:72
 msgid "%s - tier %d"
-msgstr ""
+msgstr "%s — ступінь %d"
 
 #: ui/menus/skills/skills_screen.gd:73
 msgid "%s - locked"
-msgstr ""
+msgstr "%s — закрито"
 
 #: ui/menus/skills/skills_screen.gd:81
 msgid "Not enough currency."
-msgstr ""
+msgstr "Бракує монет."
 
 #: ui/menus/skills/skills_screen.gd:87
 msgid "Needs tier %d. Find relics to raise your tier."
-msgstr ""
+msgstr "Потрібен ступінь %d. Знайди реліквії, щоб його підвищити."
 
 #: ui/menus/skills/skills_screen.gd:88
 msgid "Learn %s first."
-msgstr ""
+msgstr "Спершу вивчи «%s»."
 
 #: ui/menus/skills/skills_screen.gd:94
 msgid "Learn %s for %d?"
-msgstr ""
+msgstr "Вивчити «%s» за %d?"
 
 #: ui/menus/tips/tip_screen.gd:54
 msgid "Tip"
-msgstr ""
+msgstr "Підказка"
 
 #: ui/menus/tips/tip_screen.gd:57
 msgid "Got it"
-msgstr ""
+msgstr "Зрозуміло"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/amber_terminal.tres
 msgid "Amber terminal"
-msgstr ""
+msgstr "Бурштиновий термінал"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/arcade.tres
 msgid "Arcade"
-msgstr ""
+msgstr "Аркада"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/broken_black_and_white.tres
 msgid "Broken black & white"
-msgstr ""
+msgstr "Зламаний чорно-білий"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/colour_tv.tres
 msgid "Colour TV"
-msgstr ""
+msgstr "Кольоровий телевізор"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/green_terminal.tres
 msgid "Green terminal"
-msgstr ""
+msgstr "Зелений термінал"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/living_room_tv.tres
 msgid "Living room TV"
-msgstr ""
+msgstr "Телевізор у вітальні"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/old_tv.tres
 msgid "Old TV"
-msgstr ""
+msgstr "Старий телевізор"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/sharp_monitor.tres
 msgid "Sharp monitor"
-msgstr ""
+msgstr "Чіткий монітор"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/small_crt.tres
 msgid "Small CRT"
-msgstr ""
+msgstr "Маленький кінескоп"
 
 #. TRANSLATORS: display_name
 #: ui/screen_effects/crt_presets/soft_crt.tres
 msgid "Soft CRT"
-msgstr ""
+msgstr "М'який кінескоп"
 
 msgid "The Last Sich"
-msgstr ""
+msgstr "Остання Січ"

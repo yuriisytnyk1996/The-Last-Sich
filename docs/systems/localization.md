@@ -93,6 +93,5 @@ Control nodes in scenes add `text`, every `*_text` property and `title`, unless 
 ## Known limitations
 
 - Godot generates the template only from the editor (there is no command-line option), so step 2 of the workflow is a click.
-- `locale/uk.po` is set up but not translated yet, so Ukrainian still shows English.
-- Gamepad buttons keep their Xbox names (A, B, LB…) in every language; key names come from the system.
+- The Ukrainian translation is a first draft. Longer Ukrainian text has only been checked against the menu rows, not every screen (HUD toasts, the inventory hints, the map legend).- Gamepad buttons keep their Xbox names (A, B, LB…) in every language; key names come from the system.
 - Text outside the menus that is already on screen does not change until it is shown again.
