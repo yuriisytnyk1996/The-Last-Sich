@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.24](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.23...v0.0.24) (2026-11-19)
+
+### Features
+
+* **debug:** add a debug console ([5981f7d](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/5981f7d46e804293671e3c98fd4dd9dd354d91aa))
+* **localization:** add the Ukrainian translation ([9391902](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/939190264b5640466cb3ba06d4456dc634f429b5))
+* **localization:** add translations and a language option ([cdf16c9](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/cdf16c9d1d3011d8d650abacc225d0263bcbcd0e))
+
+### Bug Fixes
+
+* **bosses:** hide boss bar at once when the player dies ([31db0e6](https://github.com/yuriisytnyk1996/The-Last-Sich/commit/31db0e634682a777ae21434737e24f0ccb38cd07))
+
 ## [0.0.23](https://github.com/yuriisytnyk1996/The-Last-Sich/compare/v0.0.22...v0.0.23) (2026-11-18)
 
 ### Bug Fixes
