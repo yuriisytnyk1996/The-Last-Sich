@@ -1,10 +1,13 @@
 class_name SummonEffect
 extends ItemEffect
 ## Summons a scene next to the player for as long as the effect runs: a
-## ring of sabres around them. For dumas, with a `duration`.
+## ring of sabres, a warding circle, a ghostly ally, falcons for a duma
+## (with a `duration`), or a light that follows the wearer of a relic
+## (EQUIPPED, while worn).
 ##
 ## The scene's root needs `follow(player)`, called before it is added, and
-## `dismiss()`, called when the effect stops.
+## `dismiss()`, called when the effect stops. It is added under the
+## player's parent (the `World`), so it goes along into other rooms.
 
 @export var scene: PackedScene
 
@@ -18,7 +21,7 @@ func start(player: Player, source: StringName) -> void:
 	stop(player, source)
 	var node := scene.instantiate()
 	node.follow(player)
-	player.get_parent().add_child(node)
+	_add(player.get_parent(), node)
 	_summoned[source] = node
 
 
@@ -29,3 +32,15 @@ func stop(_player: Player, source: StringName) -> void:
 	_summoned.erase(source)
 	if is_instance_valid(node):
 		node.dismiss()
+
+
+## A worn relic starts its effect while the game loads, before the
+## `World` is ready to take children: then it is added once it is.
+func _add(parent: Node, node: Node) -> void:
+	if parent.is_node_ready():
+		parent.add_child(node)
+		return
+	var add_later := func() -> void:
+		if is_instance_valid(node) and not node.is_queued_for_deletion():
+			parent.add_child(node)
+	parent.ready.connect(add_later, CONNECT_ONE_SHOT)

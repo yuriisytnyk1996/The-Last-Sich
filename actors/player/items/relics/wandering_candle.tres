@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/summon_effect.gd" id="summon"]
+[ext_resource type="PackedScene" path="res://actors/player/companions/wandering_light.tscn" id="scene"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("summon")
+trigger = 1
+duration = 0.0
+scene = ExtResource("scene")
+
+[resource]
+script = ExtResource("item")
+id = &"wandering_candle"
+title = "Wandering candle"
+description = "Its flame leaves the wick while it is worn and drifts after the wearer, stopping over anyone still held captive in the room."
+lore = "Candles lit for the lost are said to look for them. This one was lit for a son taken by raiders and never put out; its flame still wanders off to every cage it finds."
+kind = 3
+price = 600
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])

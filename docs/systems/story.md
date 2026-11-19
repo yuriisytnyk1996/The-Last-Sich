@@ -65,7 +65,7 @@ The kobza string lies in the test crypt (x 104). A `VisitedArea` near the crypt'
 4. `letters_done`: `letters_delivered` at 3, the guarding edge once.
 5. `letters`: while carrying any Sich letter, "Hand over the letters" takes every one carried, adds them to `letters_delivered` and pays 100.
 
-The **captive cages** (`levels/objects/story/captive_cage.tscn`, a `Breakable` with 2 hits that stays broken) are in the test cave (x 420, `freed_captive_01`), the test crypt (x 300, `freed_captive_02`) and the test barracks (x 680, `freed_captive_03`). Each sets its flag through its `StoryTrigger`'s `flag` and shows "A captive is free". The **Sich letters** (`actors/player/items/quest/sich_letter_1..3.tres`) lie in the test hideout (x 120), the test barracks (x 236) and the test works (x 232).
+The **captive cages** (`levels/objects/story/captive_cage.tscn`, a `Breakable` with 2 hits that stays broken, in the `captives` group so the [wandering candle](/systems/dumas#companions)'s light can find it) are in the test cave (x 420, `freed_captive_01`), the test crypt (x 300, `freed_captive_02`) and the test barracks (x 680, `freed_captive_03`). Each sets its flag through its `StoryTrigger`'s `flag` and shows "A captive is free". The **Sich letters** (`actors/player/items/quest/sich_letter_1..3.tres`) lie in the test hideout (x 120), the test barracks (x 236) and the test works (x 232).
 
 **The alms box** (`levels/objects/story/alms_box.tscn`, an `Npc`, test crypt x 200) takes 200 or 500 at a time into `alms_given`. At 600 it gives the brass bell (`blessing_1`), at 1500 the healer's knot (`blessing_2`), each once.
 

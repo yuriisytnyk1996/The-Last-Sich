@@ -169,6 +169,7 @@ func _transition(change: Callable) -> void:
 	get_tree().paused = true
 	await fade.fade_out()
 	change.call()
+	Events.player_arrived.emit()
 	get_tree().paused = false
 	await fade.fade_in()
 	_changing = false

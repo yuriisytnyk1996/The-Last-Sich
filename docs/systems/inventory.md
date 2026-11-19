@@ -1,6 +1,6 @@
 # Inventory
 
-Items the player carries: charms worn in slots for passive bonuses, a [duma](/systems/dumas) sung for spirit, a blade that trades one strength for another, relics (traversal tools such as the seer's lantern) that work while worn, keepsakes that work just by being carried, and quest items that are handed over to someone. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt, on use). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the inventory page, and saved.
+Items the player carries: charms worn in slots for passive bonuses, a [duma](/systems/dumas) sung for spirit, a blade that trades one strength for another, relics (traversal tools such as the seer's lantern, or the wandering candle's guiding light) that work while worn, keepsakes that work just by being carried, and quest items that are handed over to someone. What an item does is a list of effects, each with a trigger (carried, worn, on a hit, on a kill, on being hurt, on use). Most effects add [stat](/systems/stats) modifiers. Items are found in rooms or bought at [shops](/systems/shops), listed on the inventory page, and saved.
 
 ## How it works
 
@@ -50,7 +50,7 @@ Until items have art, `ItemIcon` draws a placeholder: a gold gem for charms, a s
 | `CHARM` | `PlayerStats.CHARM_SLOTS` (3, up to 8) | A charm needs a free slot. Pouches raise the stat |
 | `DUMA` | 1 (`PlayerInventory.DUMA_SLOTS`) | Wearing a duma replaces the one worn. Sung with the `duma` button, see [Dumas](/systems/dumas) |
 | `BLADE` | 1 (`PlayerInventory.BLADE_SLOTS`) | Wearing a blade replaces the one worn |
-| `RELIC` | 3 (`PlayerInventory.RELIC_SLOTS`) | Traversal tools. Their `EQUIPPED` effects run only while worn, so the player chooses which to use |
+| `RELIC` | 3 (`PlayerInventory.RELIC_SLOTS`) | Tools: traversal, or a companion such as the wandering candle's light. Their `EQUIPPED` effects run only while worn, so the player chooses which to use |
 | `KEEPSAKE` | none | Never worn. Its `OWNED` effects run while it is carried |
 | `QUEST` | none | Never worn, no effects. Someone takes it from the player (`PlayerInventory.remove()`), like living water at a [flask healer](/systems/upgrades#flask-upgrades) |
 
@@ -102,10 +102,11 @@ Three general effects exist (dumas add four of their own, see [Dumas](/systems/d
 | Sich letter (3) | Quest item | – | Turned in to the elder, see [NPCs, dialogue and quests](/systems/story) |
 | Seer's lantern | Relic | 1000 | Shows reveal platforms while worn |
 | Owl feather | Relic | 800 | No hard landing after long falls while worn (`soft_landing` [unlock](/systems/traversal#unlocks)) |
+| Wandering candle | Relic | 600 | While worn its light follows the player and leads to captives still caged in the room (a `SummonEffect`, see [Companions](/systems/dumas#companions)) |
 
 The seven dumas are listed on the [Dumas](/systems/dumas#dumas) page.
 
-The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The owl feather lies on the test room's low step. The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The dumas are in the test room, past the pit. Quest rewards give the brass bell and the healer's knot (the alms box), the war drum and the guarding edge (the elder), see [NPCs, dialogue and quests](/systems/story#test-content). The rest are only reachable through the debug button for now.
+The test room holds the hare foot, quick bracer and raven eye, past the training dummy. The test works room holds the wolf fang (near the start) and the leather pouch (behind the cracked wall). The iron cross, hunter's tally, red sash, heavy edge, spare gourd, Chumak's whip and icon lamp are sold at the test house [shop](/systems/shops). The owl feather lies on the test room's low step. The seer's lantern is in a chest in the [test vault](/systems/traversal#test-vault-layout). The wandering candle lies in the test barracks (x 300). The dumas are in the test room, past the pit. Quest rewards give the brass bell and the healer's knot (the alms box), the war drum and the guarding edge (the elder), see [NPCs, dialogue and quests](/systems/story#test-content). The rest are only reachable through the debug button for now.
 
 ### Saving
 

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/summon_effect.gd" id="summon"]
+[ext_resource type="PackedScene" path="res://actors/player/companions/falcons/falcon_flock.tscn" id="scene"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("summon")
+trigger = 5
+duration = 20.0
+scene = ExtResource("scene")
+
+[resource]
+script = ExtResource("item")
+id = &"falcons"
+title = "Duma of the Falcons"
+description = "Sing it for 20 spirit: three falcons circle the singer for 20 seconds. Each one stoops on the nearest enemy in sight and strikes once."
+lore = "A captive on a galley sang to the falcons over the sea and asked them to fly home with word of him. The song is sung now to send them the other way, at the singer's enemies."
+kind = 4
+price = 800
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 20.0

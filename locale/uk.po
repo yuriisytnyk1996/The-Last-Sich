@@ -2515,3 +2515,103 @@ msgstr "М'який кінескоп"
 
 msgid "The Last Sich"
 msgstr "Остання Січ"
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/wagon_fort.tres
+msgid "Duma of the Wagon Fort"
+msgstr "Дума про табір"
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/wagon_fort.tres
+msgid ""
+"Sing it for 25 spirit: a warding circle rises where it is sung. For 10 "
+"seconds no blow lands on the singer while they stay inside."
+msgstr ""
+"Заспівай її за 25 духу: там, де її заспівано, постає захисне коло. 10 секунд "
+"жоден удар не влучає в співця, поки він у колі."
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/wagon_fort.tres
+msgid ""
+"When the steppe filled with riders, the wagons were chained wheel to wheel "
+"and the company sang inside the ring. The old men say the song held better "
+"than the chains."
+msgstr ""
+"Коли степ повнився вершниками, вози сковували колесо до колеса, а сотня "
+"співала всередині кола. Старі кажуть, що пісня тримала краще за ланцюги."
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/sworn_brother.tres
+msgid "Duma of the Sworn Brother"
+msgstr "Дума про побратима"
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/sworn_brother.tres
+msgid ""
+"Sing it for 25 spirit: a sworn brother's ghost fights at the singer's side "
+"for 30 seconds, cutting when they cut and shielding them when they guard."
+msgstr ""
+"Заспівай її за 25 духу: дух побратима 30 секунд б'ється пліч-о-пліч зі "
+"співцем, рубає, коли рубає співець, і затуляє його щитом, коли той ставить "
+"захист."
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/sworn_brother.tres
+msgid ""
+"Two Cossacks who swap crosses become brothers until death, and some say past "
+"it. The song calls the one who went first, and he comes back to stand at the "
+"other's shoulder."
+msgstr ""
+"Два козаки, що обмінялися хрестами, стають братами до смерті, а дехто каже, "
+"що й після неї. Пісня кличе того, хто пішов першим, і він повертається стати "
+"за плечем у другого."
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/falcons.tres
+msgid "Duma of the Falcons"
+msgstr "Дума про соколів"
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/falcons.tres
+msgid ""
+"Sing it for 20 spirit: three falcons circle the singer for 20 seconds. Each "
+"one stoops on the nearest enemy in sight and strikes once."
+msgstr ""
+"Заспівай її за 20 духу: три соколи кружляють над співцем 20 секунд. Кожен "
+"падає на найближчого ворога, якого видно, і б'є один раз."
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/falcons.tres
+msgid ""
+"A captive on a galley sang to the falcons over the sea and asked them to fly "
+"home with word of him. The song is sung now to send them the other way, at "
+"the singer's enemies."
+msgstr ""
+"Бранець на галері співав соколам над морем і просив полетіти додому з "
+"вісткою про нього. Тепер цю пісню співають, щоб послати їх в інший бік, на "
+"ворогів співця."
+
+#. TRANSLATORS: title
+#: actors/player/items/relics/wandering_candle.tres
+msgid "Wandering candle"
+msgstr "Блукаюча свічка"
+
+#. TRANSLATORS: description
+#: actors/player/items/relics/wandering_candle.tres
+msgid ""
+"Its flame leaves the wick while it is worn and drifts after the wearer, "
+"stopping over anyone still held captive in the room."
+msgstr ""
+"Поки її носиш, полум'я сходить із ґнота й пливе за власником, зупиняючись "
+"над кожним, хто ще сидить у неволі в цій кімнаті."
+
+#. TRANSLATORS: lore
+#: actors/player/items/relics/wandering_candle.tres
+msgid ""
+"Candles lit for the lost are said to look for them. This one was lit for a "
+"son taken by raiders and never put out; its flame still wanders off to every "
+"cage it finds."
+msgstr ""
+"Кажуть, що свічки, запалені за пропалими, шукають їх. Цю запалили за сина, "
+"якого забрали наїзники, і так і не загасили; її полум'я досі блукає до "
+"кожної клітки, яку знайде."

@@ -78,6 +78,12 @@ signal return_requested
 @warning_ignore("unused_signal")
 signal room_change_requested(room_path: String, exit_name: StringName)
 
+## The world put the player somewhere new behind the black screen (a room
+## exit, travel, the Road Home, a respawn), before fading back in. Things
+## left on the spot that should come along (a warding circle) move here.
+@warning_ignore("unused_signal")
+signal player_arrived
+
 ## An enemy died. Item effects that react to kills listen to this.
 @warning_ignore("unused_signal")
 signal enemy_killed

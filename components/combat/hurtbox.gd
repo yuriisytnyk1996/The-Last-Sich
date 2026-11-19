@@ -44,6 +44,9 @@ var immune := false
 var guard := Callable()
 
 var _invincible_left := 0.0
+## Sources warding this hurtbox (`set_ward()`), such as a duma's warding
+## circle. While any is set every hit is blocked.
+var _wards: Dictionary[StringName, bool] = {}
 
 
 func _ready() -> void:
@@ -74,6 +77,24 @@ func clear_invincibility() -> void:
 	_invincible_left = 0.0
 
 
+## Turns a ward from `source` on or off. While any ward is on, every hit
+## that isn't parried or guard-slid is blocked (`blocked`), invincible or
+## not. Pits and spikes still kill: they don't go through hitboxes. When
+## the last ward ends, contact damage still overlapping hits again.
+func set_ward(source: StringName, on: bool) -> void:
+	var was := is_warded()
+	if on:
+		_wards[source] = true
+	else:
+		_wards.erase(source)
+	if was and not is_warded() and not is_invincible():
+		_recheck_continuous_hitboxes.call_deferred()
+
+
+func is_warded() -> bool:
+	return not _wards.is_empty()
+
+
 ## A continuous hitbox (spikes) we are still standing in hits again.
 func _recheck_continuous_hitboxes() -> void:
 	for area in get_overlapping_areas():
@@ -97,7 +118,7 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if is_invincible() or (ignore_continuous and hitbox.continuous):
 		return
-	if guard.is_valid() and guard.call(hitbox):
+	if is_warded() or (guard.is_valid() and guard.call(hitbox)):
 		blocked.emit(hitbox)
 		hitbox.register_block(self)
 		return

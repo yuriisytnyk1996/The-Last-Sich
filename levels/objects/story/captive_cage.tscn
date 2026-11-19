@@ -15,7 +15,7 @@ script = ExtResource("5_outcome")
 message = "A captive is free"
 tip = ExtResource("6_tip")
 
-[node name="CaptiveCage" type="Node2D"]
+[node name="CaptiveCage" type="Node2D" groups=["captives"]]
 script = ExtResource("1_breakable")
 hits = 2
 stays_broken = true

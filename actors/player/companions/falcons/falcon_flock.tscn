@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://actors/player/companions/falcons/falcon_flock.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://actors/player/companions/falcons/falcon.tscn" id="2_falcon"]
+
+[node name="FalconFlock" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Falcon1" parent="." instance=ExtResource("2_falcon")]
+
+[node name="Falcon2" parent="." instance=ExtResource("2_falcon")]
+
+[node name="Falcon3" parent="." instance=ExtResource("2_falcon")]

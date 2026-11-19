@@ -108,7 +108,7 @@ The-Last-Sich/
 │   │   │   ├── item.gd           Item resource: id, text, kind, price, effects, duma cost
 │   │   │   ├── effects/          ItemEffect base, StatEffect, RestoreEffect, UnlockEffect,
 │   │   │   │                     and the duma effects: BlastRowEffect, VolleyEffect,
-│   │   │   │                     SummonEffect, HeavyStrikesEffect, ReturnEffect
+│   │   │   │                     SummonEffect (also companions), HeavyStrikesEffect, ReturnEffect
 │   │   │   ├── charms/           One .tres per charm
 │   │   │   ├── dumas/            One .tres per duma
 │   │   │   ├── blades/           One .tres per blade
@@ -128,6 +128,12 @@ The-Last-Sich/
 │   │   │   ├── sabre_ring.gd     Sabres circling the player (a duma)
 │   │   │   └── *.tscn            ranged_bolt, charged_wave, bolt_burst, dive_shockwave,
 │   │   │                         fire_pillar, thunder_beam, stun_burst, duma_shot, sabre_ring
+│   │   ├── companions/           Helpers summoned by items (SummonEffect), .gd + .tscn each
+│   │   │   ├── companion.gd      Base: follows, fades out when dismissed, jumps to a new room
+│   │   │   ├── wagon_fort.gd     Warding circle where a duma is sung
+│   │   │   ├── sworn_brother.gd  Ghost that strikes and guards with the player
+│   │   │   ├── wandering_light.gd   The wandering candle's light, leads to captives
+│   │   │   └── falcons/          falcon_flock.gd (the flock, picks targets), falcon.gd (one strike)
 │   │   └── states/               One script per player state
 │   │       ├── player_state.gd   Base class for player states
 │   │       ├── idle.gd

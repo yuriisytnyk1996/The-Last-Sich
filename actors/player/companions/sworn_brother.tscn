@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://actors/player/companions/sworn_brother.gd" id="1_script"]
+[ext_resource type="Script" path="res://components/combat/hitbox.gd" id="2_hitbox"]
+
+[sub_resource type="RectangleShape2D" id="shape_sabre"]
+size = Vector2(28, 22)
+
+[sub_resource type="RectangleShape2D" id="shape_shield"]
+size = Vector2(8, 28)
+
+[node name="SwornBrother" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="Visual"]
+offset_left = -5.0
+offset_top = -24.0
+offset_right = 5.0
+mouse_filter = 2
+color = Color(0.7, 0.85, 1, 0.5)
+
+[node name="Head" type="ColorRect" parent="Visual"]
+offset_left = -3.0
+offset_top = -30.0
+offset_right = 3.0
+offset_bottom = -24.0
+mouse_filter = 2
+color = Color(0.75, 0.9, 1, 0.6)
+
+[node name="Sabre" type="Area2D" parent="Visual"]
+collision_layer = 8
+collision_mask = 16
+monitoring = false
+script = ExtResource("2_hitbox")
+damage = 40
+knockback_force = 160.0
+knockback_direction = Vector2(1, 0)
+reaction = 2
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Sabre"]
+position = Vector2(10, -14)
+shape = SubResource("shape_sabre")
+disabled = true
+
+[node name="Visual" type="ColorRect" parent="Visual/Sabre"]
+offset_left = -4.0
+offset_top = -25.0
+offset_right = 24.0
+offset_bottom = -3.0
+mouse_filter = 2
+color = Color(0.8, 0.92, 1, 0.35)
+
+[node name="Shield" type="Area2D" parent="Visual"]
+collision_layer = 0
+collision_mask = 16
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="Visual/Shield"]
+position = Vector2(9, -14)
+shape = SubResource("shape_shield")
+
+[node name="Visual" type="ColorRect" parent="Visual/Shield"]
+offset_left = 5.0
+offset_top = -28.0
+offset_right = 13.0
+mouse_filter = 2
+color = Color(0.75, 0.9, 1, 0.7)

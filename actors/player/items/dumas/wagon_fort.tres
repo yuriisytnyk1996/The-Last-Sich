@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/summon_effect.gd" id="summon"]
+[ext_resource type="PackedScene" path="res://actors/player/companions/wagon_fort.tscn" id="scene"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("summon")
+trigger = 5
+duration = 10.0
+scene = ExtResource("scene")
+
+[resource]
+script = ExtResource("item")
+id = &"wagon_fort"
+title = "Duma of the Wagon Fort"
+description = "Sing it for 25 spirit: a warding circle rises where it is sung. For 10 seconds no blow lands on the singer while they stay inside."
+lore = "When the steppe filled with riders, the wagons were chained wheel to wheel and the company sang inside the ring. The old men say the song held better than the chains."
+kind = 4
+price = 700
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 25.0

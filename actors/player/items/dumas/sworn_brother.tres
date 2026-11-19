@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" format=3]
+
+[ext_resource type="Script" path="res://actors/player/items/item.gd" id="item"]
+[ext_resource type="Script" path="res://actors/player/items/effects/item_effect.gd" id="effect"]
+[ext_resource type="Script" path="res://actors/player/items/effects/summon_effect.gd" id="summon"]
+[ext_resource type="PackedScene" path="res://actors/player/companions/sworn_brother.tscn" id="scene"]
+
+[sub_resource type="Resource" id="effect_1"]
+script = ExtResource("summon")
+trigger = 5
+duration = 30.0
+scene = ExtResource("scene")
+
+[resource]
+script = ExtResource("item")
+id = &"sworn_brother"
+title = "Duma of the Sworn Brother"
+description = "Sing it for 25 spirit: a sworn brother's ghost fights at the singer's side for 30 seconds, cutting when they cut and shielding them when they guard."
+lore = "Two Cossacks who swap crosses become brothers until death, and some say past it. The song calls the one who went first, and he comes back to stand at the other's shoulder."
+kind = 4
+price = 900
+effects = Array[ExtResource("effect")]([SubResource("effect_1")])
+spirit_cost = 25.0

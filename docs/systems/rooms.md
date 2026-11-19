@@ -20,7 +20,7 @@ A `RoomExit` (`levels/objects/room_exit.gd`) is an `InteractionArea` (see [Inter
 1. The player touches an edge exit, or presses interact in front of a door. It emits `Events.room_change_requested(target_room, target_exit)`.
 2. `World` pauses the game and `ScreenFade` (`ui/screen_fade.gd`) fades to black. Nothing can hit the player while the screen is dark.
 3. `World` frees the old room, loads the new one and calls `Room.enter()`, which calls `RoomExit.receive()` on the target exit: the player is placed at its `Landing` marker and turned to `arrival_facing` (unless it is `Keep`). The camera snaps there without smoothing.
-4. The game unpauses and the screen fades back in. Further requests are ignored until the fade finishes.
+4. `Events.player_arrived` is sent (a running Wagon Fort circle moves to the player), the game unpauses and the screen fades back in. Further requests are ignored until the fade finishes.
 
 The player is never recreated, so health, velocity and the current state carry over: walking into an exit, you walk out of the other one. Rooms are loaded when needed and freed when left. Coming back, enemies you killed there stay dead until you rest or die, and the ones left alive start fresh. See [Enemies](/systems/enemies#respawning).
 

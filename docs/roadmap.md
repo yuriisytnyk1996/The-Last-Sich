@@ -117,6 +117,8 @@
 
 - [x] Debug console: F1 in debug builds opens a command line over the paused game, with history, Tab completion of names and arguments, and commands for god mode, healing, currency, items, skills, upgrades, moving between rooms, killing the room's enemies, story flags and counters, revealing the map, clearing death marks, forgetting tips, saving and the game speed. See [Debug console](/systems/debug-console)
 
+- [x] Companions and summon dumas: `SummonEffect` helpers in `actors/player/companions/` (`Companion` base). The Duma of the Wagon Fort sets down a warding circle where no hit lands on the player (new `Hurtbox.set_ward()`, enemy shots stop on a ward); the Duma of the Sworn Brother summons a ghost that lunges with a HEAVY cut when the player swings and shields them when they parry; the Duma of the Falcons sends three falcons, one at a time, at the nearest visible enemy and ends when the last one flies. The wandering candle, a relic, summons a light that follows the player and leads to captives still caged in the room (cages join the `captives` group). Dumas in the test room, the candle in the test barracks. See [Dumas](/systems/dumas#companions)
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.
@@ -167,6 +169,7 @@ The game is built and tuned on desktop first. Mobile comes at the end.
 - Drawn tints for zones and drifting line streaks for wind
 - Notches for climb walls, blue bars for reveal platforms, coloured rectangles for levers, pressure plates, gates and chests, a post and a square for attack switches, a terrain-coloured rectangle for the secret wall; no wall cling animation
 - Coloured rectangles for the Otaman, its swings, slam, dash, shockwaves and pistol balls, a red bar over its head for the roar; plain bar and default-font name for the boss bar
+- Translucent rectangles for the Sworn Brother, his cut and his shield, small brown rectangles for falcons, a pale gold half-disc for the Wagon Fort, a two-rectangle flame for the wandering light
 - Blue glow for the duma aura, coloured rectangles for the fire pillars, thunder beam, stun burst, duma shots and the sabres, a thin line under the spirit bar for a running duma, a scroll shape for duma icons
 - A brown spout and an orange bead for drip traps, a dark rectangle for the drop; small pale rectangles for ghost pages and a faint violet tint for ghost traps; an orange tint that flickers and flashes for shockwave areas
 - Black rectangles for the letterbox bars, the default font for title cards, quotes and the skip prompt; no walking animation for the scripted walk, a gliding NPC for `MoveStep`; a coloured rectangle with a hood and a spade for the Grave keeper, a grey polygon with two orange pixels for the kurgan's stone idol, polygon grave crosses and hills for the kurgan backdrop

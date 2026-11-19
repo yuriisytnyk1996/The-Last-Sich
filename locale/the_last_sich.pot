@@ -62,6 +62,10 @@
 # res://actors/player/items/dumas/iron_hand.tres
 # res://actors/player/items/dumas/road_home.tres
 # res://actors/player/items/dumas/sabre_ring.tres
+# res://actors/player/items/relics/wandering_candle.tres
+# res://actors/player/items/dumas/falcons.tres
+# res://actors/player/items/dumas/sworn_brother.tres
+# res://actors/player/items/dumas/wagon_fort.tres
 # res://actors/player/items/dumas/three_brothers.tres
 # res://actors/player/items/dumas/thunderbolt.tres
 # res://actors/player/items/item.gd
@@ -2148,4 +2152,64 @@ msgid "Soft CRT"
 msgstr ""
 
 msgid "The Last Sich"
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/wagon_fort.tres
+msgid "Duma of the Wagon Fort"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/wagon_fort.tres
+msgid "Sing it for 25 spirit: a warding circle rises where it is sung. For 10 seconds no blow lands on the singer while they stay inside."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/wagon_fort.tres
+msgid "When the steppe filled with riders, the wagons were chained wheel to wheel and the company sang inside the ring. The old men say the song held better than the chains."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/sworn_brother.tres
+msgid "Duma of the Sworn Brother"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/sworn_brother.tres
+msgid "Sing it for 25 spirit: a sworn brother's ghost fights at the singer's side for 30 seconds, cutting when they cut and shielding them when they guard."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/sworn_brother.tres
+msgid "Two Cossacks who swap crosses become brothers until death, and some say past it. The song calls the one who went first, and he comes back to stand at the other's shoulder."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/dumas/falcons.tres
+msgid "Duma of the Falcons"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/dumas/falcons.tres
+msgid "Sing it for 20 spirit: three falcons circle the singer for 20 seconds. Each one stoops on the nearest enemy in sight and strikes once."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/dumas/falcons.tres
+msgid "A captive on a galley sang to the falcons over the sea and asked them to fly home with word of him. The song is sung now to send them the other way, at the singer's enemies."
+msgstr ""
+
+#. TRANSLATORS: title
+#: actors/player/items/relics/wandering_candle.tres
+msgid "Wandering candle"
+msgstr ""
+
+#. TRANSLATORS: description
+#: actors/player/items/relics/wandering_candle.tres
+msgid "Its flame leaves the wick while it is worn and drifts after the wearer, stopping over anyone still held captive in the room."
+msgstr ""
+
+#. TRANSLATORS: lore
+#: actors/player/items/relics/wandering_candle.tres
+msgid "Candles lit for the lost are said to look for them. This one was lit for a son taken by raiders and never put out; its flame still wanders off to every cage it finds."
 msgstr ""

@@ -19,6 +19,9 @@
 [ext_resource type="Resource" path="res://actors/player/items/dumas/calm_sea.tres" id="duma_calm_sea"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/sabre_ring.tres" id="duma_sabre_ring"]
 [ext_resource type="Resource" path="res://actors/player/items/dumas/iron_hand.tres" id="duma_iron_hand"]
+[ext_resource type="Resource" path="res://actors/player/items/dumas/wagon_fort.tres" id="duma_wagon_fort"]
+[ext_resource type="Resource" path="res://actors/player/items/dumas/sworn_brother.tres" id="duma_sworn_brother"]
+[ext_resource type="Resource" path="res://actors/player/items/dumas/falcons.tres" id="duma_falcons"]
 [ext_resource type="PackedScene" path="res://actors/npcs/elder/elder.tscn" id="story_elder"]
 [ext_resource type="Script" path="res://levels/objects/tips/tip_area.gd" id="tip_area"]
 [ext_resource type="Resource" path="res://levels/tips/parry.tres" id="tip_parry"]
@@ -129,6 +132,18 @@ item = ExtResource("duma_sabre_ring")
 [node name="IronHand" parent="Items" instance=ExtResource("20_pickup")]
 position = Vector2(912, 288)
 item = ExtResource("duma_iron_hand")
+
+[node name="WagonFort" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(968, 320)
+item = ExtResource("duma_wagon_fort")
+
+[node name="SwornBrother" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(992, 320)
+item = ExtResource("duma_sworn_brother")
+
+[node name="Falcons" parent="Items" instance=ExtResource("20_pickup")]
+position = Vector2(1016, 320)
+item = ExtResource("duma_falcons")
 
 [node name="Elder" parent="." instance=ExtResource("story_elder")]
 position = Vector2(496, 320)

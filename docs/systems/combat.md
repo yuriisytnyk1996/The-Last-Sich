@@ -205,9 +205,11 @@ The player doesn't have to execute: hitting the kneeling enemy after its safe ti
 
 A hurtbox can turn hits away with a **guard**: `Hurtbox.guard` is an optional `Callable` that gets the hitbox before it lands and returns true to block it. The shieldbearer's shield sets it (see [Enemies](/systems/enemies#shieldbearer)).
 
-A blocked hit deals no damage and doesn't emit `hurt`. The hurtbox emits `blocked(hitbox)` and calls `hitbox.register_block()`, which emits the hitbox's own `blocked(hurtbox)`. The hit doesn't count as landed (`has_hit()` stays false), so it fills no spirit, sets off no on-hit item effects and doesn't chain a combo. A `PlayerProjectile` that is blocked vanishes.
+A hurtbox can also be **warded**: `Hurtbox.set_ward(source, on)` turns a ward from a named source on or off, and while any ward is on (`is_warded()`) every hit is blocked as if by a guard. The player's [dumas](/systems/dumas#companions) use it: the Wagon Fort's circle and the Sworn Brother's shield. When the last ward ends, contact damage still overlapping hits again (as when invincibility ends). Pits and spikes still kill, since they don't use hitboxes.
 
-The guard runs after the parry and invincibility checks.
+A blocked hit deals no damage and doesn't emit `hurt`. The hurtbox emits `blocked(hitbox)` and calls `hitbox.register_block()`, which emits the hitbox's own `blocked(hurtbox)`. The hit doesn't count as landed (`has_hit()` stays false), so it fills no spirit, sets off no on-hit item effects and doesn't chain a combo. A `PlayerProjectile` or an `EnemyProjectile` that is blocked vanishes.
+
+Wards and the guard run after the parry and invincibility checks, so a warded player can still parry.
 
 The parry check runs before the invincibility check, so a guard raised while still blinking from an earlier hit can still parry.
 
@@ -338,7 +340,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `PlayerDamage.invincibility_time` |
 | `rewards_attacker` | true | Off for props: hits on it fill no spirit |
 
-`guard` (a `Callable`, not exported) is set from code. See [Blocking](#blocking). `immune` (not exported) ignores every hit, parryable or not; it is the [debug console](/systems/debug-console)'s god mode. Pits still kill, since they don't use hitboxes.
+`guard` (a `Callable`, not exported) and wards (`set_ward()`) are set from code. See [Blocking](#blocking). `immune` (not exported) ignores every hit, parryable or not; it is the [debug console](/systems/debug-console)'s god mode. Pits still kill, since they don't use hitboxes.
 
 ### HurtFeedback
 

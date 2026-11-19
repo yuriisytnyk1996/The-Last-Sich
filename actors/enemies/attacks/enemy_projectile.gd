@@ -22,6 +22,8 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	hit_landed.connect(_on_hit_landed)
 	guard_slid.connect(_on_hit_landed)
+	# A ward on the player (a duma) stops it like a hit.
+	blocked.connect(_on_hit_landed)
 	Events.room_change_requested.connect(_on_room_change_requested)
 
 
