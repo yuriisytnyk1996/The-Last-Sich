@@ -338,7 +338,7 @@ It has no behaviour of its own, so unlike other actors it has no `states/` folde
 | `invincibility_time` | 0 | Immunity after a hit (s). 0 means every new hit counts. The player sets its own from `PlayerDamage.invincibility_time` |
 | `rewards_attacker` | true | Off for props: hits on it fill no spirit |
 
-`guard` (a `Callable`, not exported) is set from code. See [Blocking](#blocking).
+`guard` (a `Callable`, not exported) is set from code. See [Blocking](#blocking). `immune` (not exported) ignores every hit, parryable or not; it is the [debug console](/systems/debug-console)'s god mode. Pits still kill, since they don't use hitboxes.
 
 ### HurtFeedback
 

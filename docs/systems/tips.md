@@ -66,4 +66,4 @@ A death tip shows once the player is back on their feet: the respawn transition 
 
 - No card has a picture yet: `image` is ready, the art isn't. No card is `known_from_start` either.
 - The gamepad names are generic (A, B, X, Y, LB...), not the layout of a particular pad.
-- There is no debug command to list or force a tip; a new slot (F8) shows them all again.
+- There is no debug command to list or force a tip. The [debug console](/systems/debug-console)'s `tips reset` forgets the seen ones, and a new slot (F8) shows them all again.

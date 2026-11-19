@@ -115,6 +115,8 @@
 - [x] Even frame pacing: without VSync the frame rate is capped at the screen's refresh rate, and VSync is off by default on macOS, where the engine's VSync missed about one refresh in eight on 120 Hz screens. See [Frame pacing](/systems/rendering#frame-pacing)
 - [x] Localization: gettext translations with English text as the key. Every menu, HUD, card and dialogue string goes through `tr()`; the Text Extractor editor plugin adds the game's own resources and node properties (dialogue, tips, items, skills, NPC and boss names, zones, cutscene cards) to POT generation; `pnpm i18n:files` keeps the template's file list complete. Options > Language (English, Ukrainian) is saved in `settings.cfg`, starts from the system language, and redraws open menus at once. See [Localization](/systems/localization)
 
+- [x] Debug console: F1 in debug builds opens a command line over the paused game, with history, Tab completion of names and arguments, and commands for god mode, healing, currency, items, skills, upgrades, moving between rooms, killing the room's enemies, story flags and counters, revealing the map, clearing death marks, forgetting tips, saving and the game speed. See [Debug console](/systems/debug-console)
+
 ## Next
 
 Nothing picked yet. The next item comes from Later.

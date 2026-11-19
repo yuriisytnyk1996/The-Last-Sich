@@ -31,6 +31,7 @@ The-Last-Sich/
 │   ├── accessibility_settings.gd Screen shake, rumble and tips toggles (autoload "AccessibilitySettings")
 │   ├── input_settings.gd         Key and button rebinding (autoload "InputSettings")
 │   ├── language_settings.gd      Game language, saved choice (autoload "LanguageSettings")
+│   ├── debug_console.gd          F1 command line for testing, debug builds only (autoload "DebugConsole")
 │   ├── rumble.gd                 Gamepad vibration (autoload "Rumble")
 │   ├── hit_stop.gd               Short game freeze on hits (autoload "HitStop")
 │   ├── pool.gd                   Reuses projectiles and blasts instead of freeing them (autoload "Pool")
@@ -382,7 +383,17 @@ The-Last-Sich/
 │   │   ├── item_toast.gd         Names a newly obtained item
 │   │   └── boss_bar.gd           Boss name and health during a boss fight
 │   └── debug/
-│       └── debug_label.gd        On-screen state readout
+│       ├── debug_label.gd        On-screen state readout
+│       └── console/              The debug console (see Systems > Debug console)
+│           ├── console_shell.gd  ConsoleShell: command list, finding and running commands, Tab completion
+│           ├── console_command.gd ConsoleCommand: base of every command
+│           ├── console_view.gd   ConsoleView: the panel, output and command line
+│           ├── console_input.gd  ConsoleInput: the command line, history, Tab
+│           ├── console_hints.gd  ConsoleHints: the hint list for the typed text
+│           ├── console_backdrop.gd ConsoleBackdrop: still picture of the game, native resolution while open
+│           ├── help_command.gd, clear_command.gd
+│           ├── player/           god, heal, money, item, skill, upgrade
+│           └── world/            room, kill, flag, counter, map, marks, tips, save, timescale
 ├── tools/
 │   ├── check_file_sizes.sh       Enforces file size limits
 │   ├── build_map_catalog.gd      Builds levels/map/map_catalog.tres from the room scenes

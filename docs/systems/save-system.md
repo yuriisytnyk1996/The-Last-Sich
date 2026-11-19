@@ -64,7 +64,7 @@ The rows come from `SlotSummary.read(slot)`, which reads the file with `SaveFile
 
 ### Debug
 
-In debug builds, **F8** deletes the current slot's save and restarts the game from `start_room`.
+In debug builds, **F8** deletes the current slot's save and restarts the game from `start_room`. The [debug console](/systems/debug-console)'s `save` writes the slot at any moment.
 
 ## Files
 

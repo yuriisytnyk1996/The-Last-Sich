@@ -39,6 +39,7 @@ export default {
         'pool',
         'docs',
         'tooling',
+        'debug',
         'release',
       ],
     ],

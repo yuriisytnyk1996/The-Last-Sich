@@ -10,7 +10,7 @@ Two global effects that make hits feel heavy: a short **hit-stop** (the game fre
 
 1. `HitStop.freeze(duration)` sets `Engine.time_scale` to 0. Physics, animations, tweens and timers all stop.
 2. The autoload runs with `PROCESS_MODE_ALWAYS` and checks the real clock (`Time.get_ticks_msec()`) every frame.
-3. Once `duration` real seconds have passed, `time_scale` goes back to 1.
+3. Once `duration` real seconds have passed, `time_scale` goes back to `normal_scale` (1, unless the [debug console](/systems/debug-console)'s `timescale` changed it).
 
 It checks the real clock because a `SceneTreeTimer`, even with `ignore_time_scale`, never fired while the time scale was 0.
 
@@ -38,7 +38,7 @@ Players can turn screen shake off in **Options → Accessibility**. `CameraShake
 
 | File | Role |
 |---|---|
-| `autoload/hit_stop.gd` | `HitStop` autoload: `freeze(duration)` |
+| `autoload/hit_stop.gd` | `HitStop` autoload: `freeze(duration)`, `normal_scale` |
 | `components/camera/camera_shake.gd` | `CameraShake`: trauma-based offset shake for its parent camera |
 | `autoload/rumble.gd` | `Rumble` autoload: `play(strength, duration)`, `stop()` |
 | `components/combat/hurt_feedback.gd` | Asks for both on every hit, see [Combat](/systems/combat#hit-feedback) |

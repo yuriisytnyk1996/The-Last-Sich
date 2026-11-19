@@ -64,6 +64,7 @@ export default defineConfig({
           { text: 'Upgrades', link: '/systems/upgrades' },
           { text: 'Save system', link: '/systems/save-system' },
           { text: 'Input', link: '/systems/input' },
+          { text: 'Debug console', link: '/systems/debug-console' },
           { text: 'Menus', link: '/systems/menus' },
           { text: 'Options', link: '/systems/options' },
           { text: 'Localization', link: '/systems/localization' },

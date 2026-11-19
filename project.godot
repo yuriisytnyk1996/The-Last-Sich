@@ -28,6 +28,7 @@ Rumble="*res://autoload/rumble.gd"
 InputSettings="*res://autoload/input_settings.gd"
 Pool="*res://autoload/pool.gd"
 LanguageSettings="*res://autoload/language_settings.gd"
+DebugConsole="*res://autoload/debug_console.gd"
 
 [display]
 

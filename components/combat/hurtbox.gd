@@ -36,6 +36,9 @@ var ignore_continuous := false:
 		if was and not value and not is_invincible():
 			_recheck_continuous_hitboxes.call_deferred()
 
+## Debug: while on, every hit is ignored, parryable or not (the console's
+## `god` command). Pits still kill, they don't go through hitboxes.
+var immune := false
 ## Optional check run before a hit lands: called with the Hitbox, returns
 ## true to block it. Set by the owner, for example a raised shield.
 var guard := Callable()
@@ -82,7 +85,7 @@ func _recheck_continuous_hitboxes() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	var hitbox := area as Hitbox
-	if hitbox == null or (health and health.is_dead()):
+	if hitbox == null or immune or (health and health.is_dead()):
 		return
 	if parrying and hitbox.parryable:
 		parried.emit(hitbox)

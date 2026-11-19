@@ -32,8 +32,8 @@ const ACTIONS: Array[StringName] = [
 	&"inventory",
 ]
 ## Keys that keep their job: back / pause, fullscreen and the debug keys
-## (save reset, unlock all skills).
-const RESERVED_KEYS: Array[Key] = [KEY_ESCAPE, KEY_F11, KEY_F8, KEY_F9]
+## (debug console, save reset, unlock all skills).
+const RESERVED_KEYS: Array[Key] = [KEY_ESCAPE, KEY_F11, KEY_F1, KEY_F8, KEY_F9]
 ## Start always pauses.
 const RESERVED_BUTTONS: Array[int] = [JOY_BUTTON_START]
 ## Gamepad codes for the triggers, used where a button index would be.
