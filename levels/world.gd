@@ -169,10 +169,24 @@ func _transition(change: Callable) -> void:
 	get_tree().paused = true
 	await fade.fade_out()
 	change.call()
+	_sync_player_physics()
 	Events.player_arrived.emit()
 	get_tree().paused = false
 	await fade.fade_in()
 	_changing = false
+
+
+## Puts the player's body where they now are in the physics server at
+## once. A moved kinematic body only reaches the server on the next step,
+## so the new room's areas (a boss trigger) would first see the player
+## where they were before, such as the spot where they died.
+func _sync_player_physics() -> void:
+	var rid := player.get_rid()
+	PhysicsServer2D.body_set_mode(rid, PhysicsServer2D.BODY_MODE_STATIC)
+	PhysicsServer2D.body_set_state(
+		rid, PhysicsServer2D.BODY_STATE_TRANSFORM, player.global_transform
+	)
+	PhysicsServer2D.body_set_mode(rid, PhysicsServer2D.BODY_MODE_KINEMATIC)
 
 
 func _load_room(room_path: String, exit_name: StringName) -> void:
