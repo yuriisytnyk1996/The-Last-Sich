@@ -21,14 +21,12 @@ const MIN_FONT_SIZE := 12
 const FONTS: PackedStringArray = ["Menlo", "Consolas", "DejaVu Sans Mono", "monospace"]
 const BACKGROUND := Color(0.02, 0.02, 0.03, 0.88)
 const ECHO_COLOR := Color(0.95, 0.78, 0.45)
-const HINT_COLOR := Color(0.7, 0.72, 0.78)
 
 var input := ConsoleInput.new()
 var _output := RichTextLabel.new()
 var _margin := MarginContainer.new()
 var _font := SystemFont.new()
-var _hints := Label.new()
-var _hint_box := PanelContainer.new()
+var _hint_box := ConsoleHintBox.new()
 
 
 func _init() -> void:
@@ -57,8 +55,10 @@ func _init() -> void:
 	# Nothing else may take the keys while the console is open.
 	input.focus_exited.connect(_keep_focus)
 	input.text_changed.connect(line_changed.emit)
+	input.hint_box = _hint_box
+	input.hint_accepted.connect(_on_hint_accepted)
 	column.add_child(input)
-	_build_hint_box()
+	add_child(_hint_box)
 
 
 ## Keys the command line leaves alone stop here, so none reaches the
@@ -74,7 +74,7 @@ func open(window_height: int) -> void:
 	var font_size := maxi(window_height / LINES_PER_SCREEN, MIN_FONT_SIZE)
 	_output.add_theme_font_size_override("normal_font_size", font_size)
 	input.add_theme_font_size_override("font_size", font_size)
-	_hints.add_theme_font_size_override("font_size", font_size)
+	_hint_box.set_font(_font, font_size)
 	var margin := font_size / 2
 	for side: String in ["left", "top", "right", "bottom"]:
 		_margin.add_theme_constant_override("margin_" + side, margin)
@@ -93,10 +93,14 @@ func close() -> void:
 	input.release_focus()
 
 
-## Shows `lines` under the command line; none hides the list.
-func show_hints(lines: PackedStringArray) -> void:
-	_hints.text = "\n".join(lines)
-	_hint_box.visible = not lines.is_empty()
+## Lists `entries` under the command line; none hides the list.
+func show_hints(entries: Array[Dictionary]) -> void:
+	_hint_box.show_entries(entries)
+
+
+## Esc hides the hint list first. False when there was none to hide.
+func dismiss_hints() -> bool:
+	return _hint_box.dismiss()
 
 
 func write(text: String, color := ConsoleShell.TEXT_COLOR) -> void:
@@ -110,23 +114,6 @@ func write(text: String, color := ConsoleShell.TEXT_COLOR) -> void:
 
 func clear() -> void:
 	_output.clear()
-
-
-## Hangs below the panel's bottom edge, as wide as the panel, as tall as
-## its lines.
-func _build_hint_box() -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = BACKGROUND
-	style.set_content_margin_all(6)
-	_hint_box.add_theme_stylebox_override("panel", style)
-	_hint_box.set_anchors_preset(PRESET_BOTTOM_WIDE)
-	_hint_box.grow_vertical = GROW_DIRECTION_END
-	_hint_box.mouse_filter = MOUSE_FILTER_IGNORE
-	_hint_box.hide()
-	_hints.add_theme_font_override("font", _font)
-	_hints.add_theme_color_override("font_color", HINT_COLOR)
-	_hint_box.add_child(_hints)
-	add_child(_hint_box)
 
 
 func _keep_focus() -> void:
@@ -146,11 +133,15 @@ func _to_bottom() -> void:
 	bar.value = bar.max_value
 
 
+func _on_hint_accepted(pick: String) -> void:
+	input.set_line(ConsoleShell.with_last_word(input.text, pick))
+
+
 func _on_text_submitted(line: String) -> void:
 	input.clear()
 	show_hints([])
 	if line.strip_edges().is_empty():
 		return
-	input.remember(line)
+	input.remember(line.strip_edges())
 	write("> " + line, ECHO_COLOR)
 	submitted.emit(line)

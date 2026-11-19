@@ -78,7 +78,9 @@ func _input(event: InputEvent) -> void:
 				open()
 			get_viewport().set_input_as_handled()
 		elif is_open() and key.keycode == KEY_ESCAPE:
-			close()
+			# The hint list goes first, the console on the next press.
+			if not _view.dismiss_hints():
+				close()
 			get_viewport().set_input_as_handled()
 	elif is_open() and (event is InputEventJoypadButton or event is InputEventJoypadMotion):
 		get_viewport().set_input_as_handled()

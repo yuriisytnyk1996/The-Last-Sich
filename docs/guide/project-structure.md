@@ -389,7 +389,8 @@ The-Last-Sich/
 │           ├── console_command.gd ConsoleCommand: base of every command
 │           ├── console_view.gd   ConsoleView: the panel, output and command line
 │           ├── console_input.gd  ConsoleInput: the command line, history, Tab
-│           ├── console_hints.gd  ConsoleHints: the hint list for the typed text
+│           ├── console_hints.gd  ConsoleHints: what the hint list shows for the typed text
+│           ├── console_hint_box.gd ConsoleHintBox: the hint list and its keyboard highlight
 │           ├── console_backdrop.gd ConsoleBackdrop: still picture of the game, native resolution while open
 │           ├── help_command.gd, clear_command.gd
 │           ├── player/           god, heal, money, item, skill, upgrade

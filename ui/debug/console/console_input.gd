@@ -4,14 +4,23 @@ extends LineEdit
 ## run before, kept in `HISTORY_FILE` across runs. Tab asks for
 ## completion and PageUp / PageDown scroll the output. It keeps editing
 ## after Enter, so the next command can be typed at once.
+##
+## While `hint_box` lists something to pick, up and down move its
+## highlight instead, and Tab or Enter take the highlighted word. A line
+## recalled from history hides the list, so up and down keep walking the
+## history until something is typed.
 
 signal completion_requested
 ## -1 for PageUp, 1 for PageDown.
 signal scroll_requested(direction: int)
+## Tab or Enter on a highlighted hint: put `pick` in the line.
+signal hint_accepted(pick: String)
 
 const HISTORY_FILE := "user://console_history.txt"
 const HISTORY_SIZE := 100
 
+## Set by the view.
+var hint_box: ConsoleHintBox
 var _history: PackedStringArray = []
 ## Where up and down are in `_history`; its size means a fresh line.
 var _index := 0
@@ -29,11 +38,19 @@ func _gui_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key == null or not key.pressed:
 		return
+	var pick := hint_box.selected_pick() if hint_box else ""
+	var picking := hint_box != null and hint_box.has_picks()
 	match key.keycode:
+		KEY_UP when picking:
+			hint_box.move(-1)
+		KEY_DOWN when picking:
+			hint_box.move(1)
 		KEY_UP:
 			_step(-1)
 		KEY_DOWN:
 			_step(1)
+		KEY_TAB, KEY_ENTER, KEY_KP_ENTER when pick != "":
+			hint_accepted.emit(pick)
 		KEY_TAB:
 			completion_requested.emit()
 		KEY_PAGEUP:
@@ -73,4 +90,7 @@ func _step(direction: int) -> void:
 	if _history.is_empty():
 		return
 	_index = clampi(_index + direction, 0, _history.size())
-	set_line("" if _index == _history.size() else _history[_index])
+	text = "" if _index == _history.size() else _history[_index]
+	caret_column = text.length()
+	if hint_box:
+		hint_box.dismiss()

@@ -139,6 +139,16 @@ func command_named(word: String) -> ConsoleCommand:
 	return null
 
 
+## `line` with its last word (the one being typed, after the last space or
+## `;`) replaced by `word` and a space, ready for the next one.
+static func with_last_word(line: String, word: String) -> String:
+	var cut := maxi(line.rfind(" "), line.rfind(";"))
+	var head := line.left(cut + 1)
+	if head.ends_with(";"):
+		head += " "
+	return head + word + " "
+
+
 ## The words of `words` that start with `start`.
 static func starting_with(words: PackedStringArray, start: String) -> PackedStringArray:
 	var found := PackedStringArray()
