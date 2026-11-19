@@ -53,7 +53,7 @@ The arena's gates are taken out of the `persistent` group: the arena alone decid
 
 ### Boss bar
 
-`BossBar` (`ui/hud/boss_bar.gd`) sits at the bottom centre of the HUD: the boss's `display_name` and a fixed-width bar. It works like the player's [health bar](/systems/hud): damage drops the fill at once and a pale loss segment drains after it. It shows on `Events.boss_fight_started`, follows `Events.boss_health_changed` (sent by `Boss` while awake) and hides `hide_delay` after `Events.boss_fight_ended`.
+`BossBar` (`ui/hud/boss_bar.gd`) sits at the bottom centre of the HUD: the boss's `display_name` and a fixed-width bar. It works like the player's [health bar](/systems/hud): damage drops the fill at once and a pale loss segment drains after it. It shows on `Events.boss_fight_started`, follows `Events.boss_health_changed` (sent by `Boss` while awake) and hides `hide_delay` after `Events.boss_fight_ended`. If the player dies it hides at once: the death transition and any tip card pause the game, which would freeze the delay and leave the bar on screen.
 
 ## The Otaman
 

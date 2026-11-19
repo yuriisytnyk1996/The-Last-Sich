@@ -4,7 +4,9 @@ extends Control
 ## fight. Same feel as the player's bar: damage drops the fill at once and
 ## a pale loss segment drains after it. Fixed width, whatever the boss's
 ## health. Driven by `Events.boss_fight_started`, `boss_health_changed`
-## and `boss_fight_ended`.
+## and `boss_fight_ended`. Hidden at once when the player dies: the
+## death transition and tip cards pause the game, which would freeze the
+## hide delay.
 
 @export var bar_width := 240
 @export var bar_height := 4
@@ -37,6 +39,7 @@ func _ready() -> void:
 	Events.boss_fight_started.connect(_on_fight_started)
 	Events.boss_health_changed.connect(_on_health_changed)
 	Events.boss_fight_ended.connect(_on_fight_ended)
+	Events.player_died.connect(_on_player_died)
 	hide()
 	set_process(false)
 
@@ -87,3 +90,10 @@ func _on_fight_ended() -> void:
 	_tween = create_tween()
 	_tween.tween_interval(hide_delay)
 	_tween.tween_callback(hide)
+
+
+func _on_player_died() -> void:
+	if _tween:
+		_tween.kill()
+	set_process(false)
+	hide()
