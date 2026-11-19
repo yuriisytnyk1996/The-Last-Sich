@@ -45,12 +45,26 @@ Tracks loop. An Ogg imported with **Loop** on loops by itself; any other stream 
 
 Each cue picks its bus (`Effects` by default, `Voice` for speech later). Music uses `Music`. The volume options drive the buses; see [Options](/systems/options).
 
+`default_bus_layout.tres` also holds the mix: a gentle compressor on Effects (threshold -14 dB, ratio 3, 4 ms attack, 140 ms release) so stacked hits and blasts sit together, and a hard limiter on Master (ceiling -0.5 dB) so nothing ever clips.
+
 ## Placeholder sounds
 
-Every sound and track in `assets/audio/` is a placeholder made by `tools/placeholder_audio.py`: synthesised bleeps, noise bursts, metallic clangs and plucked-string loops. The script uses the Python standard library only. Music is encoded to Ogg Vorbis with ffmpeg when it is installed.
+Every sound and track in `assets/audio/` is a placeholder synthesised by `tools/placeholder_audio/` (Python standard library only, nothing downloaded or sampled):
+
+- **Sound effects** are mono 44.1 kHz WAV, layered like recorded effects: a short transient, a body and a tail. They use band-limited oscillators, resonant filters, FM synthesis for struck metal (parries, blocks, coins, bells) and two vocal formants for grunts. Some have a short room reverb baked in. Sounds heard over and over have several takes (`step_1.wav` … `step_4.wav`, three hits, three swings) that the cue picks between.
+- **Music** is stereo and arranged: Karplus-Strong bandura plucks, a sopilka (wooden flute) with breath and vibrato, detuned string pads, bass, frame drums and a formant choir. Every track runs through a feedback-delay reverb and is mastered to an even loudness with a look-ahead limiter. Notes and reverb wrap around the loop, so it has no seam. Music is encoded to Ogg Vorbis (q8) with ffmpeg when it is installed.
+
+| Track | Feel |
+|---|---|
+| `steppe` | 84 bpm, D minor: bandura arpeggios, a sopilka tune, strings, bass, wind |
+| `kurgan` | 60 bpm: a low drone, a dark choir moving between D minor and E flat, distant bells, wind |
+| `boss_1` | 120 bpm, D harmonic minor: kick and frame drums, bass, a bandura riff, string stabs |
+| `boss_2` | 140 bpm: the same driven harder, with hats, a choir and a sopilka lead |
 
 ```sh
-python3 -I tools/placeholder_audio.py
+python3 -I tools/placeholder_audio              # everything (about a minute)
+python3 -I tools/placeholder_audio sfx          # sound effects only
+python3 -I tools/placeholder_audio steppe hit   # just these
 ```
 
 To use a real sound, add the file (WAV or Ogg) anywhere under `assets/audio/`. Then point the cue's `streams` at it in `sound_bank.tres` (in the inspector), and add more takes to the same cue if you have them. Don't overwrite the placeholder file: re-running the script would overwrite it again. For a music file, turn **Loop** on in the Import dock.
@@ -66,7 +80,7 @@ To use a real sound, add the file (WAV or Ogg) anywhere under `assets/audio/`. T
 | `components/audio/state_sounds.gd` | `StateSounds`: cues on state changes and footsteps |
 | `assets/audio/sound_bank.tres` | The game's cues |
 | `assets/audio/sfx/`, `assets/audio/music/` | Sound files (placeholders) |
-| `tools/placeholder_audio.py` | Generates the placeholder files |
+| `tools/placeholder_audio/` | Generates the placeholder files: `dsp.py` (oscillators, filters, reverb, limiter), `sfx.py` (effect recipes, takes), `music.py` (instruments, arranging), `tracks.py` (the four tracks) |
 
 ## Tuning
 
@@ -101,7 +115,7 @@ Constants: `Audio.WORLD_VOICES` 24, `Audio.SCREEN_VOICES` 8, `Audio.HEARING_DIST
 
 ## Known limitations
 
-- Every sound and track is a synthesised placeholder.
+- Every sound and track is a synthesised placeholder. They are meant to make the game readable by ear, not to be final: real recordings and a composed score are still needed.
 - No ambience layer (wind, water, crowds) yet, and no reverb per zone.
 - No dialogue text blips or voices yet (the Voice bus is unused).
 - Enemy wind-ups (telegraphs) and the boss's roar are silent.
