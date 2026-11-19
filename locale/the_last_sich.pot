@@ -1397,6 +1397,13 @@ msgid "Master of the burned Sich"
 msgstr ""
 
 #. TRANSLATORS: map_zone
+#: levels/rooms/test_barracks.tscn
+#: levels/rooms/test_house.tscn
+#: levels/rooms/test_room.tscn
+msgid "Steppe"
+msgstr ""
+
+#. TRANSLATORS: map_zone
 #: levels/rooms/test_cave.tscn
 #: levels/rooms/test_shaft.tscn
 msgid "Caves"

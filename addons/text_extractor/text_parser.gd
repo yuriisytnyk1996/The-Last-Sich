@@ -45,16 +45,30 @@ func _parse_file(path: String) -> Array[PackedStringArray]:
 
 func _parse_scene(state: SceneState, found: Array[PackedStringArray]) -> void:
 	for node in state.get_node_count():
-		var wanted := _properties_of(_node_script(state, node))
+		var script := _node_script(state, node)
+		var wanted := _properties_of(script)
 		var control := ClassDB.is_parent_class(_node_type(state, node), &"Control")
 		control = control and not _translation_off(state, node)
+		var stored: Array[StringName] = []
 		for i in state.get_node_property_count(node):
 			var property := state.get_node_property_name(node, i)
 			var value: Variant = state.get_node_property_value(node, i)
+			stored.append(property)
 			if property in wanted or (control and _is_control_text(property)):
 				_add(value, property, found)
 			for embedded in _embedded(value):
 				_parse_resource(embedded, found)
+		_add_defaults(script, wanted, stored, found)
+
+
+## A scene doesn't store a property left at its default, so the script's
+## default text (a room's default zone) is read here.
+func _add_defaults(
+	script: Script, wanted: Array, stored: Array[StringName], found: Array[PackedStringArray]
+) -> void:
+	for property: String in wanted:
+		if not StringName(property) in stored:
+			_add(script.get_property_default_value(property), property, found)
 
 
 func _parse_resource(resource: Resource, found: Array[PackedStringArray]) -> void:
