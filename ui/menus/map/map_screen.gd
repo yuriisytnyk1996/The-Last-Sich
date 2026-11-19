@@ -1,9 +1,9 @@
 class_name MapScreen
 extends MenuScreen
-## The pause menu's map page: the zone under the cursor and how much of
-## the world is explored (`WorldMap.completion()`), the `MapView` and a
-## legend. Opened from the pause screen or straight from the
-## `map` action (M / Back).
+## The pause menu's map page: a header with the zone under the cursor on
+## the left and how much of the whole world is explored on the right
+## (`WorldMap.completion()`), the `MapView` and a legend. Opened from the
+## pause screen or straight from the `map` action (M / Back).
 ##
 ## In travel mode (opened by kneeling at a rest point, see `KneelScreen`)
 ## the cursor hops between rest points (`MapTravel`). Attack on one asks
@@ -14,6 +14,7 @@ const VIEW_SIZE := Vector2(480, 216)
 
 var _map: WorldMap
 var _zone: Label
+var _explored: Label
 var _hint: Label
 var _view := MapView.new()
 var _travel_mode := false
@@ -26,7 +27,7 @@ func _init(map: WorldMap, travel_mode := false) -> void:
 
 func _build() -> void:
 	add_title(tr("Travel") if _travel_mode else tr("Map"))
-	_zone = add_text("")
+	add_child(_header())
 	_view.custom_minimum_size = VIEW_SIZE
 	_map.refresh()
 	_view.setup(_map, _travel_mode)
@@ -105,6 +106,20 @@ func _on_picking_changed(picking: bool) -> void:
 	_hint.text = tr("Move: choose   Attack: place   Back: cancel") if picking else _look_hint()
 
 
+## The zone name and the world's explored share, apart, so the share
+## doesn't read as the zone's own.
+func _header() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.custom_minimum_size.x = VIEW_SIZE.x
+	row.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_zone = Label.new()
+	_zone.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_explored = Label.new()
+	_explored.text = tr("World %d%%") % floori(_map.completion() * 100.0)
+	row.add_child(_zone)
+	row.add_child(_explored)
+	return row
+
+
 func _on_zone_changed(zone: String) -> void:
-	var explored := tr("%d%% explored") % floori(_map.completion() * 100.0)
-	_zone.text = "%s   %s" % [tr(zone), explored] if zone != "" else explored
+	_zone.text = tr(zone) if zone != "" else ""

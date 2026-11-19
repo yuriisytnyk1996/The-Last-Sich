@@ -37,7 +37,7 @@ When the secret breaks, the next scan has all of it: the hidden cells show once 
 
 ### Completion
 
-The map page shows how much of the world is explored, for example `Caves   55% explored`. `WorldMap.completion()` is the revealed cells divided by every cell of every room in the game, rounded down, so it reads 100 % only when every cell is revealed. Cells behind secrets count too, and a cell shared by two rooms counts once. The value is also written to the save as `explored`, for the [slot list](/systems/save-system#save-slots); it is never read back in game.
+The map page's header shows the zone under the cursor on the left and how much of the whole world is explored on the right, for example `World 55%`. The share is never per zone, so it sits apart from the zone name. `WorldMap.completion()` is the revealed cells divided by every cell of every room in the game, rounded down, so it reads 100 % only when every cell is revealed. Cells behind secrets count too, and a cell shared by two rooms counts once. The value is also written to the save as `explored`, for the [slot list](/systems/save-system#save-slots); it is never read back in game.
 
 Only one room is loaded at a time, so the total comes from a **map catalog**: `levels/map/map_catalog.tres`, a `MapCatalog` (`levels/map/map_catalog.gd`) that holds every room scene path and its rectangle of map cells. It is generated, never edited by hand:
 
@@ -54,7 +54,7 @@ Two checks keep the catalog current:
 
 ### Drawing
 
-`MapScreen` (`ui/menus/map/map_screen.gd`) is a page of the pause menu: the zone name with the explored percentage, a `MapView`, a legend of the map's own marks in two rows, and a line of controls that changes while a mark is being placed. `MapView` draws, for each revealed cell:
+`MapScreen` (`ui/menus/map/map_screen.gd`) is a page of the pause menu: a header with the zone name on the left and the world's explored percentage on the right, a `MapView`, a legend of the map's own marks in two rows, and a line of controls that changes while a mark is being placed. `MapView` draws, for each revealed cell:
 
 - The fill: the zone colour, or a bright colour for the player's cell.
 - A wall on every side that isn't shared with another cell of the same room, with the middle third left open for a door (`MapCellPainter`). Cells of one room join with no line between them, so a room reads as one shape. A side next to an unrevealed cell of the same room has no wall: there is more to find there.

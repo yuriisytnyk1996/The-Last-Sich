@@ -1777,7 +1777,7 @@ msgid "Move: choose   Attack: place   Back: cancel"
 msgstr ""
 
 #: ui/menus/map/map_screen.gd:109
-msgid "%d%% explored"
+msgid "World %d%%"
 msgstr ""
 
 #: ui/menus/menu_screen.gd:90

@@ -2147,8 +2147,8 @@ msgid "Move: choose   Attack: place   Back: cancel"
 msgstr "Рух: вибір   Атака: поставити   Назад: скасувати"
 
 #: ui/menus/map/map_screen.gd:109
-msgid "%d%% explored"
-msgstr "Досліджено: %d%%"
+msgid "World %d%%"
+msgstr "Світ: %d%%"
 
 #: ui/menus/menu_screen.gd:90 ui/menus/options/video_options.gd:92
 msgid "Off"
