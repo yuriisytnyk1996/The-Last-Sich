@@ -151,7 +151,7 @@ Idle / Run ──parry──► Parry: GUARD (parry_window)
 
 1. The **Parry** state turns on `Hurtbox.parrying` for `parry_window`. The player is planted and shows a placeholder `Guard` bar.
 2. A hitbox with **`parryable`** on that reaches a parrying hurtbox is deflected: the hurtbox emits `parried(hitbox)` and calls `hitbox.register_parry()`, which emits the hitbox's own `parried(hurtbox)`. No damage, no `hurt`, no invincibility check.
-3. The player turns to the attacker, becomes invincible, and gets a hit-stop, camera shake and rumble (`PlayerParry.play_feedback()`).
+3. The player turns to the attacker (against the hit's push, `Hitbox.push_direction()`, not towards the hitbox centre, which can be behind the player when the attacker stands close), becomes invincible, and gets a hit-stop, camera shake and rumble (`PlayerParry.play_feedback()`).
 4. The attacker's `EnemyAttackState` hears `parried` and calls `EnemyDamage.stun()`: the enemy is pushed back and goes **Stunned** for `stun_time`. See [Enemies](/systems/enemies#stun).
 5. Pressing attack within `riposte_window` starts the **Riposte**: a short lunge into a heavy slash (60 damage, HEAVY reaction), invincible from start to finish. Without the press the player returns to Idle or Run.
 6. After a parry or riposte ends, invincibility lasts `grace_time` more.

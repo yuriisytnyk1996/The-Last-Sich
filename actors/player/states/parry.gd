@@ -2,8 +2,9 @@ extends PlayerState
 ## Guard up, planted on the ground. Tuning lives in `PlayerParry`.
 ##
 ## GUARD: the hurtbox is parrying for `parry_window()`. A parryable hit
-## switches to SUCCESS: the player turns to the attacker, is invincible and
-## can press attack for a Riposte within `riposte_window()`. A guard that
+## switches to SUCCESS: the player turns to face the hit (against its
+## push), is invincible and can press attack for a Riposte within
+## `riposte_window()`. A guard that
 ## caught nothing ends in FAILED, stuck in place for `fail_recovery`.
 ## A heavy hit that isn't parryable (`Hitbox.can_guard_slide()`) is taken
 ## as a GuardSlide instead. Other unparryable hits (contact, hazards)
@@ -75,9 +76,12 @@ func _on_parried(hitbox: Hitbox) -> void:
 	player.hurtbox.parrying = false
 	player.hurtbox.set_invincible_for(INF)
 	player.consume_attack()
-	var direction := signf(hitbox.global_position.x - player.global_position.x)
+	# Face against the push, not towards the hitbox centre: an attacker
+	# pressed up close swings a hitbox that reaches past the player, and
+	# its centre would turn them away from the attacker.
+	var direction := hitbox.push_direction(player.global_position)
 	if direction != 0.0:
-		player.set_facing(direction)
+		player.set_facing(-direction)
 	player.parry.play_feedback()
 	_flash_guard()
 
